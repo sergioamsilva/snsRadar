@@ -14,6 +14,7 @@ import {
   descreverPeriodo,
   formatar,
   formatarData,
+  formatarMes,
   type Indicador as TIndicador,
 } from "../lib/dados";
 
@@ -45,6 +46,11 @@ const forma: "taxa" | "contagem" | "saldo" =
 const janelaDe = dados.periodo.includes("..") ? dados.periodo.split("..")[0] : null;
 
 const cmp = comparar(dados.valor, mediana, dados.polaridade, dados.unidade);
+
+/* Meses que a fonte publicou a zero sem os ter apurado. Quando levam a janela
+   toda, o cartão fica sem valor — e é a nota que explica porquê, em vez de um
+   «0 meses até maio» que não diz nada a ninguém. */
+const lacuna = dados.nao_apurado ?? null;
 
 /* Escala: posiciona o valor e a mediana num eixo comum. Os limites vêm da
    própria série, para que a régua reflita a dispersão real do indicador. */
@@ -104,7 +110,11 @@ const dataFonte = dados.fonte.atualizado
 >
   <header class="ind__topo">
     <h3 class="ind__titulo">{dados.titulo}</h3>
-    <p class="ind__periodo num">{descreverPeriodo(dados.periodo, dados.meses_usados)}</p>
+    <p class="ind__periodo num">
+      {dados.valor === null && lacuna
+        ? `sem apuramento desde ${formatarMes(lacuna.de)}`
+        : descreverPeriodo(dados.periodo, dados.meses_usados)}
+    </p>
   </header>
 
   <div class="ind__leitura">
@@ -208,6 +218,21 @@ const dataFonte = dados.fonte.atualizado
     faixa={faixa}
     janelaDe={janelaDe}
   />
+
+  {
+    lacuna && (
+      <p class="ind__lacuna">
+        <strong>
+          A fonte não apurou {lacuna.meses}{" "}
+          {lacuna.meses === 1 ? "mês" : "meses"}
+        </strong>{" "}
+        ({formatarMes(lacuna.de)} a {formatarMes(lacuna.ate)}). Publicou 0,0 %
+        onde não tem apuramento, depois de a instituição vir a reportar valores
+        — e um zero desses leria-se aqui como o melhor resultado do país. Esses
+        meses ficam de fora do valor, do gráfico e da mediana nacional.
+      </p>
+    )
+  }
 
   {
     dados.cautela && (
@@ -326,6 +351,12 @@ const dataFonte = dados.fonte.atualizado
   .ind__cautela {
     font-size: var(--t-xs); color: var(--ink-2);
     border-left: 2px solid var(--warn); padding: 2px 0 2px 12px; margin: 14px 0 0;
+  }
+  /* Filete vermelho, e não âmbar: a cautela qualifica um número que existe,
+     esta nota diz que o número não existe. São avisos de peso diferente. */
+  .ind__lacuna {
+    font-size: var(--t-xs); color: var(--ink-2);
+    border-left: 2px solid var(--neg); padding: 2px 0 2px 12px; margin: 14px 0 0;
   }
   .ind__ref { font-size: var(--t-2xs); color: var(--muted); margin: 10px 0 0; }
   .ind__ref cite { font-style: normal; }

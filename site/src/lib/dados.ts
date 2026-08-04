@@ -25,6 +25,8 @@ export type Indicador = {
   denominador: number | null;
   periodo: string;
   meses_usados: number;
+  /** Meses em que o 0,0 da fonte era lacuna. Ver `_zeros_nao_apurados`. */
+  nao_apurado?: { meses: number; de: string; ate: string };
   serie: Ponto[];
   fonte: {
     dataset: string;
