@@ -7734,12 +7734,17 @@
       "maximo_plausivel": null
     },
     "mortalidade-avc-isquemico": {
-      "valor": 0.0,
-      "numerador": 0.0,
+      "valor": 20.0,
+      "numerador": 20.0,
       "denominador": null,
-      "periodo": "2025-06..2026-05",
-      "meses_usados": 12,
+      "periodo": "2026-04..2026-05",
+      "meses_usados": 2,
       "sintese_temporal": "mediana dos meses",
+      "nao_apurado": {
+        "meses": 15,
+        "de": "2025-01",
+        "ate": "2026-03"
+      },
       "fonte": {
         "dataset": "taxa-de-mortalidade-por-avc-isquemico-e-hemorragico",
         "titulo": "Mortalidade por AVC Isquémico e Hemorrágico",
@@ -8613,96 +8618,6 @@
           "denominador": null
         },
         {
-          "mes": "2025-01",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-02",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-03",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-04",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-05",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-06",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-07",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-08",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-09",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-10",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-11",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-12",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-01",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-02",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-03",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
           "mes": "2026-04",
           "valor": 20.0,
           "numerador": 20.0,
@@ -8726,12 +8641,17 @@
       "maximo_plausivel": null
     },
     "mortalidade-avc-hemorragico": {
-      "valor": 0.0,
+      "valor": null,
       "numerador": 0.0,
       "denominador": null,
       "periodo": "2025-06..2026-05",
-      "meses_usados": 12,
+      "meses_usados": 0,
       "sintese_temporal": "mediana dos meses",
+      "nao_apurado": {
+        "meses": 16,
+        "de": "2025-02",
+        "ate": "2026-05"
+      },
       "fonte": {
         "dataset": "taxa-de-mortalidade-por-avc-isquemico-e-hemorragico",
         "titulo": "Mortalidade por AVC Isquémico e Hemorrágico",
@@ -9602,102 +9522,6 @@
           "mes": "2024-12",
           "valor": 10.26,
           "numerador": 10.26,
-          "denominador": null
-        },
-        {
-          "mes": "2025-02",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-03",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-04",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-05",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-06",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-07",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-08",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-09",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-10",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-11",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-12",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-01",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-02",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-03",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-04",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2026-05",
-          "valor": 0.0,
-          "numerador": 0.0,
           "denominador": null
         }
       ],
@@ -18309,8 +18133,8 @@
         },
         {
           "mes": "2020-02",
-          "valor": 103649723.32000001,
-          "numerador": 103649723.32000001,
+          "valor": 103649723.32,
+          "numerador": 103649723.32,
           "denominador": null
         },
         {
@@ -18327,14 +18151,14 @@
         },
         {
           "mes": "2020-05",
-          "valor": 95012648.80000001,
-          "numerador": 95012648.80000001,
+          "valor": 95012648.8,
+          "numerador": 95012648.8,
           "denominador": null
         },
         {
           "mes": "2020-06",
-          "valor": 103110462.38,
-          "numerador": 103110462.38,
+          "valor": 103110462.38000001,
+          "numerador": 103110462.38000001,
           "denominador": null
         },
         {
@@ -18351,14 +18175,14 @@
         },
         {
           "mes": "2020-09",
-          "valor": 111544017.18,
-          "numerador": 111544017.18,
+          "valor": 111544017.17999999,
+          "numerador": 111544017.17999999,
           "denominador": null
         },
         {
           "mes": "2020-10",
-          "valor": 107321251.11999999,
-          "numerador": 107321251.11999999,
+          "valor": 107321251.12,
+          "numerador": 107321251.12,
           "denominador": null
         },
         {
@@ -18375,8 +18199,8 @@
         },
         {
           "mes": "2021-01",
-          "valor": 101744380.83999999,
-          "numerador": 101744380.83999999,
+          "valor": 101744380.84,
+          "numerador": 101744380.84,
           "denominador": null
         },
         {
@@ -18399,14 +18223,14 @@
         },
         {
           "mes": "2021-05",
-          "valor": 117181159.00000001,
-          "numerador": 117181159.00000001,
+          "valor": 117181159.0,
+          "numerador": 117181159.0,
           "denominador": null
         },
         {
           "mes": "2021-06",
-          "valor": 124349419.67,
-          "numerador": 124349419.67,
+          "valor": 124349419.66999999,
+          "numerador": 124349419.66999999,
           "denominador": null
         },
         {
@@ -18459,8 +18283,8 @@
         },
         {
           "mes": "2022-03",
-          "valor": 91614320.77999999,
-          "numerador": 91614320.77999999,
+          "valor": 91614320.78,
+          "numerador": 91614320.78,
           "denominador": null
         },
         {
@@ -18477,8 +18301,8 @@
         },
         {
           "mes": "2022-06",
-          "valor": 111376031.38000001,
-          "numerador": 111376031.38000001,
+          "valor": 111376031.38,
+          "numerador": 111376031.38,
           "denominador": null
         },
         {
@@ -18489,14 +18313,14 @@
         },
         {
           "mes": "2022-08",
-          "valor": 83596986.30000001,
-          "numerador": 83596986.30000001,
+          "valor": 83596986.3,
+          "numerador": 83596986.3,
           "denominador": null
         },
         {
           "mes": "2022-09",
-          "valor": 85621074.88,
-          "numerador": 85621074.88,
+          "valor": 85621074.88000001,
+          "numerador": 85621074.88000001,
           "denominador": null
         },
         {
@@ -18531,14 +18355,14 @@
         },
         {
           "mes": "2023-03",
-          "valor": 100813541.14999999,
-          "numerador": 100813541.14999999,
+          "valor": 100813541.15,
+          "numerador": 100813541.15,
           "denominador": null
         },
         {
           "mes": "2023-04",
-          "valor": 107118807.71999998,
-          "numerador": 107118807.71999998,
+          "valor": 107118807.72,
+          "numerador": 107118807.72,
           "denominador": null
         },
         {
@@ -18549,8 +18373,8 @@
         },
         {
           "mes": "2023-06",
-          "valor": 116356399.41999999,
-          "numerador": 116356399.41999999,
+          "valor": 116356399.42,
+          "numerador": 116356399.42,
           "denominador": null
         },
         {

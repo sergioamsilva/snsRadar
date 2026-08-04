@@ -8729,12 +8729,17 @@
       "maximo_plausivel": null
     },
     "mortalidade-avc-hemorragico": {
-      "valor": 0.0,
-      "numerador": 0.0,
+      "valor": 16.67,
+      "numerador": 16.67,
       "denominador": null,
-      "periodo": "2025-06..2025-12",
-      "meses_usados": 7,
+      "periodo": "2025-11..2025-12",
+      "meses_usados": 2,
       "sintese_temporal": "mediana dos meses",
+      "nao_apurado": {
+        "meses": 10,
+        "de": "2025-01",
+        "ate": "2025-10"
+      },
       "fonte": {
         "dataset": "taxa-de-mortalidade-por-avc-isquemico-e-hemorragico",
         "titulo": "Mortalidade por AVC Isquémico e Hemorrágico",
@@ -9605,66 +9610,6 @@
           "mes": "2024-12",
           "valor": 41.3,
           "numerador": 41.3,
-          "denominador": null
-        },
-        {
-          "mes": "2025-01",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-02",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-03",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-04",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-05",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-06",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-07",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-08",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-09",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-10",
-          "valor": 0.0,
-          "numerador": 0.0,
           "denominador": null
         },
         {

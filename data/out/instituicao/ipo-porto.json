@@ -5579,12 +5579,17 @@
       "maximo_plausivel": null
     },
     "mortalidade-avc-hemorragico": {
-      "valor": 0.0,
-      "numerador": 0.0,
+      "valor": 20.0,
+      "numerador": 20.0,
       "denominador": null,
-      "periodo": "2025-06..2026-05",
-      "meses_usados": 11,
+      "periodo": "2025-11..2026-05",
+      "meses_usados": 6,
       "sintese_temporal": "mediana dos meses",
+      "nao_apurado": {
+        "meses": 7,
+        "de": "2025-04",
+        "ate": "2025-10"
+      },
       "fonte": {
         "dataset": "taxa-de-mortalidade-por-avc-isquemico-e-hemorragico",
         "titulo": "Mortalidade por AVC Isquémico e Hemorrágico",
@@ -6245,48 +6250,6 @@
           "mes": "2024-12",
           "valor": 40.0,
           "numerador": 40.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-04",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-05",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-06",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-07",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-08",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-09",
-          "valor": 0.0,
-          "numerador": 0.0,
-          "denominador": null
-        },
-        {
-          "mes": "2025-10",
-          "valor": 0.0,
-          "numerador": 0.0,
           "denominador": null
         },
         {

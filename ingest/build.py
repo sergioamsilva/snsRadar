@@ -17,6 +17,7 @@ Regras impostas aqui, não apenas documentadas:
 from __future__ import annotations
 
 import json
+import statistics
 import sys
 from collections import defaultdict
 
@@ -33,6 +34,12 @@ LIMIAR_DENOMINADOR = 20
 
 # Um ano móvel: janela de referência das fichas.
 MESES_JANELA = 12
+
+# Quantos zeros exatos seguidos bastam para deixar de os ler como resultado.
+# Ver `_zeros_nao_apurados`. Seis meses: menos do que isso ainda cabe no acaso
+# de uma unidade pequena; a partir daí, e vindo de uma série que reportava
+# valores, o que mudou foi o reporte, não a mortalidade.
+MESES_ZERO_SUSPEITO = 6
 
 
 def _rel(dataset_id: str) -> str:
@@ -312,6 +319,59 @@ def _valor(ind: dict, num: float, den: float | None) -> float | None:
     return v
 
 
+def _zeros_nao_apurados(ind: dict, meses: dict, janela: list[str]) -> list[str]:
+    """Os meses em que o 0,0 da fonte é lacuna, não resultado.
+
+    Nos indicadores em que a fonte publica só a taxa — sem numerador nem
+    denominador que permitam desmentir o número — um mês não apurado sai como
+    `0.0`, indistinguível de um mês sem mortes. A ULS de São José reportou
+    entre 8 % e 18 % de mortalidade por AVC durante 144 meses e, a partir de
+    2025, dezasseis zeros exatos seguidos: não foi a mortalidade que caiu a
+    pique, foi o reporte que parou na transição para ULS. Publicado como está,
+    o zero aparece na ficha como o melhor resultado do país.
+
+    A assinatura de uma falha de reporte é um degrau: uma corrida longa de
+    zeros exatos logo a seguir a meses que vinham a reportar valores. Três
+    condições, todas necessárias:
+
+    - a corrida tem pelo menos MESES_ZERO_SUSPEITO meses — abaixo disso ainda
+      cabe no acaso de uma unidade com poucos casos;
+    - os meses imediatamente anteriores reportavam (mediana acima de zero) —
+      quem nunca reportou outra coisa pode estar mesmo a zero;
+    - a corrida toca a janela em publicação — a lacuna que ainda dura é a que
+      falseia um número exposto. Zeros antigos ficam como a fonte os escreveu:
+      não se reescreve história que já não se consegue arbitrar.
+
+    Devolve os meses a tratar como não apurados, para que o resto do módulo os
+    veja como lacuna, que é a regra da casa: meses em falta são lacunas, não
+    zeros.
+    """
+    if not ind.get("ja_e_taxa") or not janela:
+        return []
+
+    ordem = sorted(meses)
+    fora: list[str] = []
+    i = 0
+    while i < len(ordem):
+        if meses[ordem[i]]["num"] != 0:
+            i += 1
+            continue
+        fim = i
+        while fim + 1 < len(ordem) and meses[ordem[fim + 1]]["num"] == 0:
+            fim += 1
+        corrida = ordem[i:fim + 1]
+        antes = [meses[m]["num"] for m in ordem[max(0, i - MESES_JANELA):i]]
+        if (
+            len(corrida) >= MESES_ZERO_SUSPEITO
+            and antes
+            and statistics.median(antes) > 0
+            and corrida[-1] >= janela[0]
+        ):
+            fora.extend(corrida)
+        i = fim + 1
+    return fora
+
+
 def _agregar(ind: dict, meses: dict, janela: list[str]) -> dict | None:
     """Agrega os meses da janela num único valor, segundo o tipo do indicador."""
     presentes = [m for m in janela if m in meses]
@@ -408,11 +468,30 @@ def _faixa_nacional(ind: dict, series_ind: dict, meses: list[str]) -> list[dict]
 def construir(con, cw, indicadores, catalogo):
     series, nomes_fonte = extrair_series(con, cw, indicadores, catalogo)
 
-    # Janela: os últimos MESES_JANELA meses com dados, por indicador.
+    # Janela: os últimos MESES_JANELA meses com dados, por indicador. Calculada
+    # antes da limpeza dos zeros, e não depois: a janela é o calendário da
+    # fonte, e uma instituição que deixou de reportar não deve encolhê-lo para
+    # as outras.
     janelas = {}
     for ind in indicadores:
         todos = sorted({m for inst in series[ind["id"]].values() for m in inst})
         janelas[ind["id"]] = todos[-MESES_JANELA:] if todos else []
+
+    # Os zeros que são lacunas saem aqui, antes de tudo o resto: assim a série,
+    # a mediana nacional e a faixa de percentis veem uma lacuna e não um zero,
+    # sem que cada uma delas tenha de repetir a regra.
+    retirados: dict[tuple[str, str], list[str]] = {}
+    for ind in indicadores:
+        for inst_id, meses in series[ind["id"]].items():
+            fora = _zeros_nao_apurados(ind, meses, janelas[ind["id"]])
+            if not fora:
+                continue
+            retirados[(ind["id"], inst_id)] = fora
+            for m in fora:
+                del meses[m]
+    for (iid_z, inst_z), fora in sorted(retirados.items()):
+        print(f"  zeros não apurados: {inst_z} · {iid_z} · "
+              f"{len(fora)} meses ({min(fora)} a {max(fora)})")
 
     por_indicador = {i["id"]: i for i in indicadores}
     fichas: dict[str, dict] = {}
@@ -425,8 +504,28 @@ def construir(con, cw, indicadores, catalogo):
 
         for inst_id, meses in series[iid].items():
             agg = _agregar(ind, meses, janela)
-            if agg is None:
+            fora = retirados.get((iid, inst_id), [])
+            if agg is None and not fora:
                 continue
+            if agg is None:
+                # A janela inteira era feita de zeros não apurados. O cartão
+                # fica, sem valor e com a nota: desaparecer em silêncio
+                # esconderia que a fonte parou de reportar, que é a única
+                # coisa que aqui se sabe.
+                agg = {
+                    "valor": None,
+                    "numerador": 0.0,
+                    "denominador": None,
+                    "periodo": f"{janela[0]}..{janela[-1]}" if janela else None,
+                    "meses_usados": 0,
+                    "sintese_temporal": "mediana dos meses",
+                }
+            if fora:
+                agg["nao_apurado"] = {
+                    "meses": len(fora),
+                    "de": min(fora),
+                    "ate": max(fora),
+                }
             agg["fonte"] = {
                 "dataset": ind["dataset"],
                 "titulo": catalogo.get(ind["dataset"], {}).get("titulo"),
