@@ -1,0 +1,418 @@
+---
+/**
+ * Série mensal de um indicador, desenhada em SVG no servidor.
+ *
+ * A forma segue o dado, e não o contrário. Antes, taxas, contagens e saldos
+ * partilhavam a mesma linha azul — 22 gráficos indistinguíveis numa página, em
+ * que a forma nada dizia sobre a natureza do que mostrava.
+ *
+ *   taxa      linha sobre a faixa interquartil do país. Sozinha, a série de um
+ *             hospital é uma ondulação sem referência; contra a faixa onde vive
+ *             metade das unidades, responde a «isto é normal?».
+ *   contagem  colunas. Um volume mensal é uma quantidade discreta, não um
+ *             contínuo — e as colunas separam-no visualmente das taxas.
+ *   saldo     área em degraus. Um efetivo ou uma dívida mantém-se até mudar;
+ *             interpolá-lo com uma reta sugere uma transição que não houve.
+ *
+ * Sem biblioteca de gráficos por opção: o conteúdo tem de ser legível sem
+ * JavaScript, e um <svg> com `aria-label` descritivo é mais acessível do que um
+ * canvas construído no cliente.
+ */
+import type { Ponto } from "../lib/dados";
+import { formatar, formatarMes } from "../lib/dados";
+
+interface Props {
+  serie: Ponto[];
+  unidade: string;
+  titulo: string;
+  referencia?: number | null;
+  rotuloReferencia?: string;
+  descontinuidade?: string | null;
+  altura?: number;
+  podeExceder100?: boolean;
+  /** taxa | contagem | saldo — determina a forma do desenho. */
+  forma?: "taxa" | "contagem" | "saldo";
+  /** Percentis nacionais por mês, para a faixa de fundo. */
+  faixa?: { mes: string; p25: number; p50: number; p75: number }[];
+  /** Primeiro mês da janela que produziu o valor grande do cartão. */
+  janelaDe?: string | null;
+}
+const {
+  serie,
+  unidade,
+  titulo,
+  referencia = null,
+  rotuloReferencia = "",
+  descontinuidade = null,
+  altura = 150,
+  podeExceder100 = false,
+  forma = "taxa",
+  faixa = [],
+  janelaDe = null,
+} = Astro.props;
+
+const pontos = serie.filter((p) => p.valor !== null) as (Ponto & { valor: number })[];
+
+const L = 100;
+const A = 40;
+const margem = { esq: 1, dir: 2.5, topo: 3, base: 8 };
+
+let g: any = null;
+if (pontos.length >= 2) {
+  const meses = pontos.map((p) => p.mes);
+  const porMes = new Map(faixa.map((f) => [f.mes, f]));
+  const daFaixa = meses.map((m) => porMes.get(m)).filter(Boolean) as typeof faixa;
+
+  const candidatos = [
+    ...pontos.map((p) => p.valor),
+    ...(referencia !== null ? [referencia] : []),
+    ...daFaixa.flatMap((f) => [f.p25, f.p75]),
+  ];
+  let min = Math.min(...candidatos);
+  let max = Math.max(...candidatos);
+  if (max === min) max = min + 1;
+  const folga = (max - min) * 0.12;
+  min -= folga;
+  max += folga;
+  if (unidade === "percentagem") {
+    min = Math.max(0, min);
+    if (!podeExceder100) max = Math.min(100, max);
+  }
+  // Contagens e saldos leem-se a partir do zero: uma coluna cortada na base
+  // exagera diferenças que não existem.
+  if (forma !== "taxa" && min > 0) min = 0;
+
+  const x = (i: number) => margem.esq + (i / (pontos.length - 1)) * (L - margem.esq - margem.dir);
+  const y = (v: number) => margem.topo + (1 - (v - min) / (max - min)) * (A - margem.topo - margem.base);
+  const base = A - margem.base;
+  const f2 = (n: number) => n.toFixed(2);
+
+  const linha = pontos.map((p, i) => `${i ? "L" : "M"}${f2(x(i))},${f2(y(p.valor))}`).join(" ");
+  const area =
+    `M${f2(x(0))},${f2(base)} ` +
+    pontos.map((p, i) => `L${f2(x(i))},${f2(y(p.valor))}`).join(" ") +
+    ` L${f2(x(pontos.length - 1))},${f2(base)} Z`;
+  const degraus =
+    `M${f2(x(0))},${f2(base)} L${f2(x(0))},${f2(y(pontos[0].valor))} ` +
+    pontos
+      .map((p, i) =>
+        i ? `L${f2(x(i))},${f2(y(pontos[i - 1].valor))} L${f2(x(i))},${f2(y(p.valor))}` : "",
+      )
+      .join(" ") +
+    ` L${f2(x(pontos.length - 1))},${f2(base)} Z`;
+
+  // Faixa interquartil: contorno superior à ida, inferior à volta.
+  let faixaD: string | null = null;
+  if (daFaixa.length >= 8 && forma === "taxa") {
+    const idx = meses.map((m, i) => [m, i] as const).filter(([m]) => porMes.has(m));
+    const cima = idx.map(([m, i], k) => `${k ? "L" : "M"}${f2(x(i))},${f2(y(porMes.get(m)!.p75))}`);
+    const baixo = [...idx].reverse().map(([m, i]) => `L${f2(x(i))},${f2(y(porMes.get(m)!.p25))}`);
+    faixaD = [...cima, ...baixo, "Z"].join(" ");
+  }
+
+  const largura = (L - margem.esq - margem.dir) / pontos.length;
+  const iJanela = janelaDe ? meses.findIndex((m) => m >= janelaDe) : -1;
+  const iMax = pontos.reduce((b, p, i) => (p.valor > pontos[b].valor ? i : b), 0);
+  const iMin = pontos.reduce((b, p, i) => (p.valor < pontos[b].valor ? i : b), 0);
+
+  let xQuebra: number | null = null;
+  if (descontinuidade) {
+    const idx = meses.findIndex((m) => m >= descontinuidade.slice(0, 7));
+    if (idx > 0) xQuebra = x(idx);
+  }
+
+  g = {
+    linha,
+    area,
+    degraus,
+    faixaD,
+    base,
+    largura,
+    xQuebra,
+    colunas: pontos.map((p, i) => ({
+      x: x(i) - largura * 0.38,
+      y: y(p.valor),
+      h: Math.max(base - y(p.valor), 0.15),
+    })),
+    ultimoX: x(pontos.length - 1),
+    ultimoY: y(pontos[pontos.length - 1].valor),
+    yRef: referencia !== null ? y(referencia) : null,
+    janelaX: iJanela > 0 ? x(iJanela) : null,
+    max: { v: pontos[iMax].valor, mes: pontos[iMax].mes },
+    min: { v: pontos[iMin].valor, mes: pontos[iMin].mes },
+    /* Leitura ponto a ponto, já formatada aqui. Formatar no cliente obrigaria
+       a uma segunda implementação das regras pt-PT — «2,92 mil M€», «33,0 %»,
+       «1 011 558» — que divergiria da do servidor ao primeiro ajuste. O peso
+       que isto acrescenta é texto repetitivo, que comprime a quase nada. */
+    leitura: pontos
+      .map((p) => `${formatarMes(p.mes)}§${formatar(p.valor, unidade)}`)
+      .join("|"),
+    /* Posição do primeiro ponto e passo entre pontos, em unidades do viewBox:
+       chegam para situar a guia sem enviar as coordenadas todas. */
+    x0: x(0),
+    dx: pontos.length > 1 ? x(1) - x(0) : 0,
+    primeiroMes: meses[0],
+    ultimoMes: meses[meses.length - 1],
+    temFaixa: !!faixaD,
+  };
+}
+
+const idGrad = `g-${Math.random().toString(36).slice(2, 9)}`;
+const resumo = g
+  ? `${titulo}: evolução de ${formatarMes(g.primeiroMes)} a ${formatarMes(g.ultimoMes)}. ` +
+    `Máximo ${formatar(g.max.v, unidade)} em ${formatarMes(g.max.mes)}; ` +
+    `mínimo ${formatar(g.min.v, unidade)} em ${formatarMes(g.min.mes)}. ` +
+    `Valor mais recente ${formatar(pontos[pontos.length - 1].valor, unidade)}.`
+  : `${titulo}: dados insuficientes para traçar uma evolução.`;
+---
+
+{
+  g ? (
+    <figure
+      class="serie"
+      data-forma={forma}
+      data-leitura={g.leitura}
+      data-x0={g.x0.toFixed(3)}
+      data-dx={g.dx.toFixed(4)}
+    >
+      <svg
+        viewBox={`0 0 ${L} ${A}`}
+        preserveAspectRatio="none"
+        role="img"
+        aria-label={resumo}
+        style={`height:${altura}px`}
+      >
+        <defs>
+          <linearGradient id={idGrad} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.22" />
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.02" />
+          </linearGradient>
+        </defs>
+
+        {/* A janela que produziu o valor grande do cartão, para que o número e
+            o gráfico deixem de ser duas coisas separadas. */}
+        {g.janelaX !== null && (
+          <rect
+            x={g.janelaX}
+            y={margem.topo - 1}
+            width={100 - g.janelaX}
+            height={g.base - margem.topo + 1}
+            class="serie__janela"
+          />
+        )}
+
+        {g.faixaD && <path d={g.faixaD} class="serie__faixa" />}
+
+        {g.yRef !== null && (
+          <line x1="0" x2={L} y1={g.yRef} y2={g.yRef} class="serie__referencia"
+            vector-effect="non-scaling-stroke" />
+        )}
+
+        {g.xQuebra !== null && (
+          <line x1={g.xQuebra} x2={g.xQuebra} y1={margem.topo - 1} y2={g.base}
+            class="serie__quebra" vector-effect="non-scaling-stroke" />
+        )}
+
+        {forma === "contagem" ? (
+          g.colunas.map((c: any, i: number) => (
+            <rect
+              x={c.x} y={c.y} width={g.largura * 0.76} height={c.h}
+              class="serie__coluna"
+              style={`--base:${g.base}px;--atraso:${Math.min(i * 6, 420)}ms`}
+            />
+          ))
+        ) : forma === "saldo" ? (
+          <>
+            <path d={g.degraus} fill={`url(#${idGrad})`} class="serie__area" />
+            <path d={g.degraus} class="serie__linha" fill="none" vector-effect="non-scaling-stroke" />
+          </>
+        ) : (
+          <>
+            <path d={g.area} fill={`url(#${idGrad})`} class="serie__area" />
+            <path d={g.linha} class="serie__linha" fill="none" vector-effect="non-scaling-stroke" />
+          </>
+        )}
+
+        <line x1={g.ultimoX} x2={g.ultimoX} y1={g.ultimoY} y2={g.ultimoY}
+          class="serie__ponta" vector-effect="non-scaling-stroke" />
+
+        {/* Guia da leitura. Vertical em vez de um ponto sobre a linha: o
+            `preserveAspectRatio="none"` estica o eixo horizontal, e um ponto
+            colocado por cálculo sairia do sítio nas larguras extremas. A guia
+            atravessa o gráfico e não depende do valor. */}
+        <line
+          class="serie__guia"
+          y1={margem.topo - 1}
+          y2={g.base}
+          vector-effect="non-scaling-stroke"
+          aria-hidden="true"
+          hidden
+        />
+      </svg>
+
+      {/* A leitura é HTML por cima do SVG, e não texto dentro dele: dentro
+          herdava a distorção horizontal do viewBox. */}
+      <output class="serie__dica num" aria-hidden="true" hidden></output>
+
+      <figcaption class="serie__legenda">
+        <span class="num">{formatarMes(g.primeiroMes)}</span>
+        <span class="serie__chaves">
+          {g.temFaixa && <span class="chave chave--faixa">metade das unidades</span>}
+          {g.yRef !== null && rotuloReferencia && (
+            <span class="chave chave--referencia">{rotuloReferencia}</span>
+          )}
+          {g.xQuebra !== null && <span class="chave chave--quebra">reforma ULS, jan. 2024</span>}
+        </span>
+        <span class="num">{formatarMes(g.ultimoMes)}</span>
+      </figcaption>
+
+      <p class="serie__extremos num">
+        Máximo {formatar(g.max.v, unidade)} em {formatarMes(g.max.mes)} · mínimo{" "}
+        {formatar(g.min.v, unidade)} em {formatarMes(g.min.mes)}
+      </p>
+    </figure>
+  ) : (
+    <p class="serie__vazio">Sem série suficiente para traçar uma evolução.</p>
+  )
+}
+
+<script>
+  /* Leitura ao passar o rato, na forma que o painel já usa: mês a negrito,
+   * valor ao lado. Astro agrupa este script uma só vez por página, mesmo com
+   * 25 séries — não há 25 cópias do mesmo código.
+   *
+   * Só onde há apontador com pairar. Em ecrã tátil, `pointermove` sobre um
+   * gráfico ou rouba o gesto de rolar ou aparece e desaparece a cada toque;
+   * quem lê no telemóvel tem os extremos escritos por baixo do gráfico.
+   */
+  if (matchMedia("(hover: hover)").matches) {
+    for (const fig of document.querySelectorAll<HTMLElement>(".serie[data-leitura]")) {
+      const leitura = (fig.dataset.leitura ?? "").split("|");
+      if (leitura.length < 2) continue;
+      const svg = fig.querySelector("svg")!;
+      const guia = fig.querySelector<SVGLineElement>(".serie__guia")!;
+      const dica = fig.querySelector<HTMLElement>(".serie__dica")!;
+      const x0 = Number(fig.dataset.x0);
+      const dx = Number(fig.dataset.dx);
+      let ultimo = -1;
+
+      const mover = (ev: PointerEvent) => {
+        const r = svg.getBoundingClientRect();
+        const fracao = (ev.clientX - r.left) / r.width;
+        const i = Math.max(0, Math.min(leitura.length - 1, Math.round(fracao * (leitura.length - 1))));
+        if (i === ultimo) return;
+        ultimo = i;
+
+        const vx = x0 + i * dx;
+        guia.setAttribute("x1", String(vx));
+        guia.setAttribute("x2", String(vx));
+        guia.removeAttribute("hidden");
+
+        const [mes, valor] = leitura[i].split("§");
+        dica.innerHTML = "";
+        const b = document.createElement("b");
+        b.textContent = mes;
+        dica.append(b, ` ${valor}`);
+        dica.removeAttribute("hidden");
+
+        /* A dica segue o ponto mas não sai da caixa do gráfico: encostada a
+           um extremo, ficaria cortada pelo cartão. */
+        const largura = dica.offsetWidth;
+        const px = (vx / 100) * r.width;
+        dica.style.left = `${Math.max(0, Math.min(r.width - largura, px - largura / 2))}px`;
+      };
+
+      const sair = () => {
+        ultimo = -1;
+        guia.setAttribute("hidden", "");
+        dica.setAttribute("hidden", "");
+      };
+
+      svg.addEventListener("pointermove", mover);
+      svg.addEventListener("pointerleave", sair);
+    }
+  }
+</script>
+
+<style>
+  .serie { margin: 14px 0 0; position: relative; }
+  .serie svg { display: block; width: 100%; overflow: visible; }
+
+  .serie__guia { stroke: var(--ink-2); stroke-width: 1; opacity: 0.55; }
+  .serie__dica {
+    position: absolute;
+    top: -6px;
+    z-index: 2;
+    padding: 4px 9px;
+    border-radius: 6px;
+    background: var(--ink);
+    color: var(--page);
+    font-size: var(--t-3xs);
+    line-height: 1.35;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  }
+  .serie__dica b { font-weight: 700; }
+  .serie svg { cursor: crosshair; }
+
+  .serie__linha {
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .serie__coluna { fill: var(--accent); fill-opacity: 0.78; }
+  /* As colunas crescem da linha de base, não do centro: uma barra que se
+     expande para os dois lados lê-se como um erro de desenho. A origem é
+     definida em píxeis do viewBox pelo componente, porque `bottom` numa
+     transformação SVG refere-se à caixa do elemento e não ao eixo. */
+  html.js .serie__coluna {
+    transform: scaleY(0);
+    transform-box: view-box;
+    transform-origin: 0 var(--base);
+    transition: transform 0.7s cubic-bezier(0.22, 0.8, 0.25, 1) var(--atraso, 0ms);
+  }
+  html.js svg.entrou .serie__coluna { transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .serie__coluna { transform: none; transition: none; }
+  }
+  .serie__faixa { fill: var(--ink-2); fill-opacity: 0.1; }
+  .serie__janela { fill: var(--accent); fill-opacity: 0.05; }
+
+  /* Segmento de comprimento zero: com linecap redondo desenha um ponto de
+     diâmetro constante, imune à distorção do preserveAspectRatio. */
+  .serie__ponta { stroke: var(--accent); stroke-width: 6; stroke-linecap: round; }
+
+  .serie__referencia { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.8; }
+  .serie__quebra { stroke: var(--cat3); stroke-width: 1; stroke-dasharray: 2 2; opacity: 0.9; }
+
+  .serie__legenda {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 4px 12px;
+    font-size: var(--t-3xs);
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .serie__chaves { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .chave { display: inline-flex; align-items: center; gap: 5px; }
+  .chave::before { content: ""; width: 12px; height: 0; border-top-width: 1px; border-top-style: dashed; }
+  .chave--referencia::before { border-top-color: var(--muted); }
+  .chave--quebra::before { border-top-color: var(--cat3); }
+  .chave--faixa::before {
+    height: 8px;
+    border: 0;
+    background: color-mix(in srgb, var(--ink-2) 12%, transparent);
+    border-radius: 2px;
+  }
+
+  .serie__extremos { margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted); }
+  .serie__vazio { font-size: var(--t-xs); color: var(--muted); margin: 14px 0 0; }
+
+  @media (max-width: 34rem) {
+    .serie__legenda { grid-template-columns: auto auto; justify-content: space-between; }
+    .serie__chaves { grid-column: 1 / -1; order: 2; justify-content: flex-start; }
+  }
+</style>

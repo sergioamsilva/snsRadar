@@ -1,0 +1,258 @@
+---
+/**
+ * A pulseira do país — assinatura da homepage.
+ *
+ * Quem já esteve numa urgência em Portugal saiu de lá com uma pulseira de uma
+ * cor. Esta banda é a soma dessas pulseiras num ano: 5,4 milhões de
+ * atendimentos, na proporção real de cada nível da Triagem de Manchester.
+ *
+ * As cores não são uma escolha de design — são um código clínico com
+ * significado fixo. Por isso ficam como são, e por isso cada segmento leva
+ * sempre rótulo: a cor sozinha nunca carrega o significado, e o amarelo e o
+ * branco não têm contraste suficiente para o fazerem.
+ *
+ * Um movimento só: os segmentos crescem da esquerda, em cascata, e o total
+ * conta. Desligado com `prefers-reduced-motion`; sem JavaScript aparece tudo
+ * no lugar.
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+const RAIZ = path.resolve(process.cwd(), "..", "data", "out");
+const enriquecimento = JSON.parse(
+  fs.readFileSync(path.join(RAIZ, "enriquecimento.json"), "utf-8"),
+);
+const t = enriquecimento.triagem_nacional;
+
+const nf = (n: number) => new Intl.NumberFormat("pt-PT").format(n);
+const pct = (n: number) =>
+  new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(n);
+
+/* Segmentos abaixo de 2% não cabem com rótulo dentro da banda; recebem uma
+   largura mínima visual para não desaparecerem, e a legenda dá o valor exato. */
+const MIN_VISUAL = 1.6;
+const niveis = t?.niveis ?? [];
+const ajustado = niveis.map((n: any) => ({ ...n, largura: Math.max(n.peso, MIN_VISUAL) }));
+const somaLarguras = ajustado.reduce((s: number, n: any) => s + n.largura, 0);
+---
+
+{
+  t && (
+    <section class="tri" aria-labelledby="tri-titulo">
+      <div class="sec-band">
+        <h2 id="tri-titulo">A pulseira do país</h2>
+        <span class="ln" />
+        <span class="n">{t.periodo.replace(" a ", " – ")}</span>
+      </div>
+      <p class="tri__sub">
+        Num ano, <strong class="num" data-contar={t.total}>{nf(t.total)}</strong> pessoas
+        saíram de uma urgência do SNS com uma pulseira de triagem. Estas são as
+        cores que receberam.
+      </p>
+
+      <div
+        class="tri__banda"
+        role="img"
+        aria-label={
+          `Composição de ${nf(t.total)} atendimentos em urgência por nível de triagem: ` +
+          niveis.map((n: any) => `${n.rotulo}, ${pct(n.peso)} por cento`).join("; ") + "."
+        }
+      >
+        {
+          ajustado.map((n: any, i: number) => (
+            <span
+              class="tri__seg"
+              style={`--w:${(100 * n.largura) / somaLarguras}%;--c:${n.cor};--i:${i}`}
+              data-nivel={n.id}
+            >
+              <span class="tri__pct num">{n.peso >= 8 ? `${pct(n.peso)} %` : ""}</span>
+            </span>
+          ))
+        }
+      </div>
+
+      <ul class="tri__legenda">
+        {
+          niveis.map((n: any) => (
+            <li>
+              <span class="tri__ponto" style={`--c:${n.cor}`} aria-hidden="true" />
+              <span class="tri__rot">{n.rotulo}</span>
+              <span class="tri__sig">{n.significado}</span>
+              <span class="tri__val num">{nf(n.valor)}</span>
+              <span class="tri__peso num">{pct(n.peso)} %</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="tri__nota">
+        Mais de metade dos atendimentos é <strong>amarelo</strong> — urgente, mas
+        não emergente. O vermelho, a emergência verdadeira, é{" "}
+        <strong class="num">{pct(niveis[0]?.peso ?? 0)} %</strong>. A triagem mede
+        a gravidade à chegada, não o tempo de espera nem a qualidade do
+        atendimento.
+      </p>
+    </section>
+  )
+}
+
+<style>
+  .tri {
+    margin: 0 0 10px;
+  }
+  .tri__sub {
+    margin: 10px 0 14px;
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+    max-width: 74ch;
+  }
+  .tri__sub strong {
+    font-weight: 750;
+    color: var(--ink);
+  }
+
+  /* A banda: seis segmentos proporcionais, com filete para que o branco e o
+     amarelo não se percam no papel. */
+  .tri__banda {
+    display: flex;
+    height: clamp(84px, 11vw, 132px);
+    overflow: hidden;
+    /* Full-bleed: a banda vale pela escala, e um cartão com cantos a
+       arredondar tira-lhe a presença. */
+    margin-inline: calc(-1 * var(--gutter));
+    border-block: 1px solid var(--baseline);
+  }
+  .tri__seg {
+    width: var(--w);
+    background: var(--c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.14);
+  }
+  .tri__seg:last-child {
+    box-shadow: none;
+  }
+  .tri__pct {
+    font-size: clamp(13px, 1.4vw, 17px);
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    /* Tinta escura em todos: o amarelo e o branco não suportam texto claro, e
+       um único tom mantém a leitura previsível ao longo da banda. */
+    color: #0b0b0b;
+    mix-blend-mode: normal;
+  }
+  /* Tinta escura em todos menos o vermelho, verificado par a par: sobre o
+     verde o branco mede 3,86:1 e o preto 5,10:1; sobre o azul, 2,97 contra
+     6,63. Só o vermelho inverte — aí o preto ficaria em 4,03 e o branco dá
+     4,88. O axe não assinalou o verde porque o rótulo fica no limiar do que
+     conta como texto grande; a verificação par a par apanhou-o. */
+  .tri__seg[data-nivel="vermelha"] .tri__pct {
+    color: #fff;
+  }
+
+  .tri__legenda {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 2px 20px;
+  }
+  .tri__legenda li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "ponto rot val" "ponto sig peso";
+    gap: 0 8px;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--grid);
+  }
+  .tri__ponto {
+    grid-area: ponto;
+    align-self: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--c);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+  }
+  .tri__rot {
+    grid-area: rot;
+    font-size: var(--t-xs);
+    font-weight: 600;
+  }
+  .tri__sig {
+    grid-area: sig;
+    font-size: var(--t-2xs);
+    color: var(--muted);
+  }
+  .tri__val {
+    grid-area: val;
+    font-size: var(--t-xs);
+    font-weight: 700;
+  }
+  .tri__peso {
+    grid-area: peso;
+    font-size: var(--t-2xs);
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .tri__nota {
+    margin: 14px 0 0;
+    font-size: var(--t-xs);
+    color: var(--muted);
+    max-width: 90ch;
+  }
+  .tri__nota strong {
+    color: var(--ink-2);
+  }
+
+  /* ── movimento ─────────────────────────────────────────────────────────
+     Um só gesto: a banda revela-se da esquerda para a direita, como uma
+     pulseira a ser preenchida.
+
+     A primeira versão animava cada segmento a crescer do seu próprio bordo,
+     em cascata — e durante a animação abriam-se buracos brancos entre eles,
+     que se leem como página partida e não como intenção. Uma máscara sobre o
+     contentor inteiro mantém a banda contínua em todos os fotogramas. */
+  html.js .tri__banda {
+    clip-path: inset(0 100% 0 0);
+    animation: tri-revelar 0.9s cubic-bezier(0.22, 0.7, 0.2, 1) 0.15s forwards;
+  }
+  html.js .tri__pct {
+    opacity: 0;
+    animation: tri-surgir 0.45s ease forwards;
+    /* Cada rótulo aparece quando a máscara já passou por ele. */
+    animation-delay: calc(var(--i) * 80ms + 620ms);
+  }
+  @keyframes tri-revelar {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes tri-surgir {
+    to {
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .tri__banda,
+    html.js .tri__pct {
+      animation: none;
+      clip-path: none;
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .tri__banda {
+      height: 72px;
+    }
+    .tri__pct {
+      font-size: var(--t-3xs);
+    }
+  }
+</style>

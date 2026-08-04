@@ -1,0 +1,158 @@
+{
+  "cesarianas": {
+    "indicador": "cesarianas",
+    "ano": "2023",
+    "unidade": "percentagem",
+    "titulo": "Cesarianas em percentagem dos nascimentos",
+    "fonte": "Eurostat · hlth_co_proc3 e demo_gind",
+    "url": "https://ec.europa.eu/eurostat/databrowser/view/hlth_co_proc3",
+    "nota": "O Eurostat conta todos os hospitais, públicos e privados. Os privados portugueses operam mais, pelo que a taxa do país é mais alta do que a dos hospitais do SNS medida neste portal.",
+    "paises": [
+      {
+        "codigo": "CY",
+        "nome": "Cyprus",
+        "valor": 62.1
+      },
+      {
+        "codigo": "EL",
+        "nome": "Greece",
+        "valor": 58.1
+      },
+      {
+        "codigo": "RO",
+        "nome": "Romania",
+        "valor": 51.4
+      },
+      {
+        "codigo": "BG",
+        "nome": "Bulgaria",
+        "valor": 45.7
+      },
+      {
+        "codigo": "PL",
+        "nome": "Poland",
+        "valor": 43.1
+      },
+      {
+        "codigo": "IE",
+        "nome": "Ireland",
+        "valor": 38.6
+      },
+      {
+        "codigo": "PT",
+        "nome": "Portugal",
+        "valor": 37.9
+      },
+      {
+        "codigo": "HU",
+        "nome": "Hungary",
+        "valor": 36.7
+      },
+      {
+        "codigo": "MT",
+        "nome": "Malta",
+        "valor": 34.7
+      },
+      {
+        "codigo": "IT",
+        "nome": "Italy",
+        "valor": 32.1
+      },
+      {
+        "codigo": "AT",
+        "nome": "Austria",
+        "valor": 31.9
+      },
+      {
+        "codigo": "DE",
+        "nome": "Germany",
+        "valor": 31.8
+      },
+      {
+        "codigo": "SK",
+        "nome": "Slovakia",
+        "valor": 31.3
+      },
+      {
+        "codigo": "LU",
+        "nome": "Luxembourg",
+        "valor": 29.5
+      },
+      {
+        "codigo": "HR",
+        "nome": "Croatia",
+        "valor": 28.9
+      },
+      {
+        "codigo": "CZ",
+        "nome": "Czechia",
+        "valor": 25.4
+      },
+      {
+        "codigo": "ES",
+        "nome": "Spain",
+        "valor": 24.7
+      },
+      {
+        "codigo": "LV",
+        "nome": "Latvia",
+        "valor": 23.4
+      },
+      {
+        "codigo": "LT",
+        "nome": "Lithuania",
+        "valor": 22.5
+      },
+      {
+        "codigo": "BE",
+        "nome": "Belgium",
+        "valor": 22.4
+      },
+      {
+        "codigo": "SI",
+        "nome": "Slovenia",
+        "valor": 21.9
+      },
+      {
+        "codigo": "FR",
+        "nome": "France",
+        "valor": 21.1
+      },
+      {
+        "codigo": "EE",
+        "nome": "Estonia",
+        "valor": 20.7
+      },
+      {
+        "codigo": "FI",
+        "nome": "Finland",
+        "valor": 20.4
+      },
+      {
+        "codigo": "DK",
+        "nome": "Denmark",
+        "valor": 20.3
+      },
+      {
+        "codigo": "SE",
+        "nome": "Sweden",
+        "valor": 18.5
+      },
+      {
+        "codigo": "NO",
+        "nome": "Norway",
+        "valor": 16.0
+      },
+      {
+        "codigo": "NL",
+        "nome": "Netherlands",
+        "valor": 15.9
+      },
+      {
+        "codigo": "IS",
+        "nome": "Iceland",
+        "valor": 14.2
+      }
+    ]
+  }
+}

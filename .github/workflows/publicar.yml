@@ -1,0 +1,79 @@
+# Publica o portal no GitHub Pages a cada alteração de main.
+#
+# Só constrói o sítio Astro. Não corre o pipeline de ingestão: os dados tratados
+# em `data/out` estão versionados, e é deles que o sítio se serve. Atualizar os
+# números é correr `atualizar.py` localmente e fazer commit do que mudou — o que
+# mantém a revisão humana no meio do caminho, que é onde ela deve estar num
+# portal que publica números de saúde.
+name: Publicar o portal
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Uma publicação de cada vez. Não cancela a que estiver a decorrer: interromper
+# a meio deixaria o portal servido por um estado incompleto.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Instalar dependências
+        working-directory: site
+        run: npm ci
+
+      - name: Construir o sítio
+        working-directory: site
+        run: npx astro build
+
+      # A raiz do portal é o painel, que não é gerado pelo Astro: é o
+      # index.html da raiz do repositório, como no csmRadar. Entra por cima do
+      # que o Astro produziu.
+      - name: Montar a raiz do portal
+        run: |
+          cp index.html site/dist/index.html
+          cp og.png site/dist/og.png
+
+      # O sítio lê `../data/out` em tempo de build. Se essa leitura falhar em
+      # silêncio, o portal publica-se vazio — daí a contagem antes de subir.
+      - name: Confirmar o que vai para o ar
+        working-directory: site
+        run: |
+          n=$(find dist/instituicao -name index.html | wc -l)
+          echo "fichas geradas: $n"
+          test "$n" -ge 40 || { echo "::error::só $n fichas — o build não leu data/out"; exit 1; }
+          test -s dist/instituicoes/index.html || { echo "::error::lista de instituições em falta"; exit 1; }
+          grep -q 'id="tab"' dist/index.html || { echo "::error::a raiz não é o painel"; exit 1; }
+          test -s dist/og.png || { echo "::error::og.png em falta"; exit 1; }
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

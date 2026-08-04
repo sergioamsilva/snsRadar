@@ -1,0 +1,284 @@
+---
+/**
+ * Conjunto de ícones do snsRadar, desenhados à mão para este projeto.
+ *
+ * **Porque não uma biblioteca.** Nenhum conjunto genérico tem um fémur, e um
+ * ícone de «relógio» ao lado de «fratura da anca operada nas primeiras 48 h»
+ * diz menos do que nada — decora sem informar. Estes vêm do universo real:
+ * um recém-nascido, um relógio, um osso, um traçado de eletrocardiograma.
+ *
+ * **Regras.** Grelha de 24, traço de 2 px, sem preenchimento, extremidades
+ * redondas, `currentColor` — herdam a cor do texto ao lado em vez de trazerem
+ * paleta própria. Nunca dentro de caixinhas arredondadas com tinta pastel: nus
+ * sobre o papel, como um sinal e não como um autocolante.
+ *
+ * **Acessibilidade.** Todos decorativos: `aria-hidden`, sem `title`. Cada
+ * ícone acompanha um rótulo de texto que já diz o que ele diz — se o ícone
+ * desaparecer, não se perde informação nenhuma. É por isso que podem ser
+ * decorativos sem culpa.
+ */
+export type IconeNome =
+  | "nascimento"
+  | "relogio"
+  | "osso"
+  | "pulso"
+  | "lupa"
+  | "aviso"
+  | "balanca"
+  | "origem"
+  | "camadas"
+  | "fusao"
+  | "divisao"
+  | "proibido"
+  | "cruz"
+  | "lista"
+  | "medico"
+  | "hospital"
+  | "grafico"
+  | "calendario"
+  | "pessoa";
+
+interface Props {
+  nome: IconeNome;
+  /** Tamanho em píxeis; o traço mantém-se visualmente constante. */
+  tamanho?: number;
+  class?: string;
+}
+const { nome, tamanho = 22, class: classe = "" } = Astro.props;
+
+/* O traço afina-se em ícones grandes e engrossa nos pequenos, para que a
+   densidade ótica não mude com o tamanho. */
+const traco = (2 * 22) / tamanho;
+---
+
+<svg
+  class={`icone ${classe}`}
+  width={tamanho}
+  height={tamanho}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={traco}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {/* Recém-nascido: cabeça e um caracol de cabelo. Duas linhas bastam para
+      que se leia «bebé» e não «pessoa» — é o caracol que faz a diferença. */}
+  {
+    nome === "nascimento" && (
+      <>
+        <circle cx="12" cy="13.5" r="6.6" />
+        <path d="M12 6.9c-.2-2.1 1-3.5 2.6-3.2 1.3.2 1.7 1.6.8 2.3" />
+        <path d="M9.6 12.6h.02M14.4 12.6h.02" />
+        <path d="M9.9 16.2c1.3 1.1 2.9 1.1 4.2 0" />
+      </>
+    )
+  }
+
+  {/* Relógio: o tempo máximo garantido é um prazo, e um prazo é um relógio. */}
+  {
+    nome === "relogio" && (
+      <>
+        <circle cx="12" cy="12" r="8.4" />
+        <path d="M12 7.2V12l3.2 2.1" />
+      </>
+    )
+  }
+
+  {/* Fémur — uma silhueta só.
+      Duas tentativas com círculos sobrepostos falharam pela mesma razão: com
+      traço e sem preenchimento, os círculos mostram sempre as linhas
+      interiores, e quatro anéis encadeados lêem-se como uma molécula, não como
+      um osso. A silhueta tem de ser um contorno único.
+      Geometria: haste de 3,2 de altura entre x 7,2 e 16,8; quatro lóbulos de
+      raio 2,6 centrados a ±2,2 do eixo. Os pontos onde os arcos encontram a
+      haste e onde os lóbulos se cruzam estão calculados, não estimados —
+      é isso que faz o contorno fechar sem degrau. Desenhado na horizontal e
+      rodado 45°, que é como um osso se lê melhor. */}
+  {
+    nome === "osso" && (
+      <path
+        transform="rotate(-45 12 12)"
+        d="M9.67 10.6
+           A2.6 2.6 0 1 0 5.81 12
+           A2.6 2.6 0 1 0 9.67 13.4
+           H14.33
+           A2.6 2.6 0 1 0 18.19 12
+           A2.6 2.6 0 1 0 14.33 10.6
+           Z"
+      />
+    )
+  }
+
+  {/* Traçado de monitor. Nenhuma imagem diz «urgência» tão depressa. */}
+  {
+    nome === "pulso" && (
+      <path d="M2.5 12h4.2l2.3-5.6L13.2 18l2.4-6h5.9" />
+    )
+  }
+
+  {nome === "lupa" && (
+    <>
+      <circle cx="10.6" cy="10.6" r="6.4" />
+      <path d="M15.4 15.4 20.5 20.5" />
+    </>
+  )}
+
+  {/* Aviso: isto não é um serviço oficial. */}
+  {
+    nome === "aviso" && (
+      <>
+        <path d="M12 3.6 21.4 20H2.6L12 3.6Z" />
+        <path d="M12 9.6v4.2M12 17.1h.02" />
+      </>
+    )
+  }
+
+  {/* Balança: comparar hospitais sem ajuste ao risco é pesar coisas
+      diferentes na mesma balança. */}
+  {
+    nome === "balanca" && (
+      <>
+        <path d="M12 4.2v15.6M6.4 19.8h11.2M4 8.4h16" />
+        <path d="M4 8.4 1.6 14.2h4.8L4 8.4ZM20 8.4l-2.4 5.8h4.8L20 8.4Z" />
+      </>
+    )
+  }
+
+  {/* Origem: cada número liga à consulta que o reproduz. */}
+  {
+    nome === "origem" && (
+      <>
+        <path d="M10.2 13.8a4.2 4.2 0 0 0 6.3.5l2.5-2.5a4.2 4.2 0 0 0-5.9-5.9l-1.4 1.4" />
+        <path d="M13.8 10.2a4.2 4.2 0 0 0-6.3-.5L5 12.2a4.2 4.2 0 0 0 5.9 5.9l1.4-1.4" />
+      </>
+    )
+  }
+
+  {/* Camadas empilhadas: o valor de um mês assenta sobre o do anterior, que é
+      exatamente o que uma série acumulada faz. */}
+  {
+    nome === "camadas" && (
+      <>
+        <path d="M12 3.4 3.3 8.1 12 12.8l8.7-4.7L12 3.4Z" />
+        <path d="M3.3 12.2 12 16.9l8.7-4.7" />
+        <path d="M3.3 16.3 12 21l8.7-4.7" />
+      </>
+    )
+  }
+
+  {/* Duas entidades a tornarem-se uma: a reforma das ULS em 2024. */}
+  {
+    nome === "fusao" && (
+      <>
+        <path d="M4.6 4.2 12 11.2M19.4 4.2 12 11.2" />
+        <path d="M12 11.2V20" />
+        <path d="M8.6 16.6 12 20l3.4-3.4" />
+      </>
+    )
+  }
+
+  {/* O sinal de divisão. Σnumeradores a dividir por Σdenominadores é
+      literalmente do que a secção fala — nenhuma metáfora chega mais perto. */}
+  {
+    nome === "divisao" && (
+      <>
+        <path d="M4.4 12h15.2" />
+        <path d="M12 6.6h.02M12 17.4h.02" />
+      </>
+    )
+  }
+
+  {/* Interdição: o que o portal nunca faz. */}
+  {
+    nome === "proibido" && (
+      <>
+        <circle cx="12" cy="12" r="8.4" />
+        <path d="M6.1 6.1 17.9 17.9" />
+      </>
+    )
+  }
+
+  {/* Cruz nua, para as regras dentro da lista: repetir o círculo sete vezes
+      na mesma vista faria mancha. */}
+  {nome === "cruz" && <path d="M6.4 6.4 17.6 17.6M17.6 6.4 6.4 17.6" />}
+
+  {/* Estetoscópio: o médico de família que 1,67 milhões de pessoas não têm. */}
+  {
+    nome === "medico" && (
+      <>
+        <path d="M5.5 3.6V9a4.5 4.5 0 0 0 9 0V3.6" />
+        <path d="M3.9 3.6h3.2M12.9 3.6h3.2" />
+        <path d="M10 13.5v3.1" />
+        <circle cx="10" cy="19.2" r="2.6" />
+      </>
+    )
+  }
+
+  {/* Unidade de saúde.
+      A primeira versão era um retângulo largo com uma cruz ao centro e, a
+      25 px, lia-se como um quadrado com um «+» — podia ser qualquer coisa. O
+      que faz um edifício reconhecer-se é a porta e a proporção vertical: com
+      elas, e a cruz junto ao topo, deixa de haver dúvida. */}
+  {
+    nome === "hospital" && (
+      <>
+        <path d="M5 21V6.2h14V21" />
+        <path d="M2.8 21h18.4" />
+        <path d="M12 8.9v4.4M9.8 11.1h4.4" />
+        <path d="M10.2 21v-3.7h3.6V21" />
+      </>
+    )
+  }
+
+  {/* Indicadores: três colunas sobre a linha de base. */}
+  {
+    nome === "grafico" && (
+      <>
+        <path d="M3.2 20.4h17.6" />
+        <path d="M6.6 20.4v-6.2M12 20.4V5.6M17.4 20.4v-9.4" />
+      </>
+    )
+  }
+
+  {/* Período: o calendário e as suas argolas. */}
+  {
+    nome === "calendario" && (
+      <>
+        <rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2.2" />
+        <path d="M3.4 10.2h17.2" />
+        <path d="M8.4 3v4.4M15.6 3v4.4" />
+      </>
+    )
+  }
+
+  {/* Uma pessoa: as consultas contam-se em gente atendida. */}
+  {
+    nome === "pessoa" && (
+      <>
+        <circle cx="12" cy="8.2" r="3.7" />
+        <path d="M4.8 20.6c0-4 3.2-6.7 7.2-6.7s7.2 2.7 7.2 6.7" />
+      </>
+    )
+  }
+
+  {/* Inventário do que está feito. */}
+  {
+    nome === "lista" && (
+      <>
+        <path d="M9.6 6.6h10.4M9.6 12h10.4M9.6 17.4h10.4" />
+        <path d="M4 6.6h.02M4 12h.02M4 17.4h.02" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .icone {
+    display: block;
+    flex: none;
+    color: var(--ink);
+  }
+</style>

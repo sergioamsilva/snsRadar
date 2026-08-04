@@ -1,0 +1,101 @@
+# Valores de referência publicados por terceiros.
+#
+# Os testes em tests/ provam que somos consistentes com o Portal da
+# Transparência. Não provam que o portal esteja certo. Este ficheiro reúne o que
+# outras entidades publicam sobre os mesmos factos, e alimenta
+# tests/test_validacao_externa.py.
+#
+# É curado à mão de propósito. A ERS — a única entidade independente que avalia
+# a qualidade dos prestadores — não disponibiliza dados legíveis por máquina: o
+# SINAS+ é uma ferramenta interativa sem endpoints e as informações de
+# monitorização saem como páginas e PDF individuais. Verificado em agosto de
+# 2026: nenhum pedido de dados observado ao renderizar as páginas. Enquanto
+# assim for, a única forma honesta de as usar é transcrevê-las com a fonte à
+# vista, como abaixo.
+#
+# Ao atualizar: acrescentar, não substituir. Uma referência antiga que deixe de
+# bater certo é informação, não lixo.
+
+partos:
+  - ano: 2025
+    fonte: ACSS
+    via: CNN Portugal, 14 de fevereiro de 2026
+    perimetro: SNS sem a parceria público-privada de Cascais
+    partos: 63897
+    cesarianas: 21224
+    taxa_cesarianas: 33.2
+    nota: >-
+      A comparação com este valor foi o que revelou que a ACSS não conta o
+      Hospital de Cascais como SNS.
+
+  - ano: 2024
+    fonte: INE / ERS
+    perimetro: unidades públicas, contagem de nados-vivos e não de partos
+    cesarianas: 21073
+    taxa_cesarianas: 32.7
+    nota: >-
+      O INE conta nados-vivos por cesariana; nós contamos partos. As gravidezes
+      gemelares explicam a diferença residual, sempre no mesmo sentido.
+
+  - ano: 2024
+    fonte: INE / ERS
+    perimetro: todas as unidades, públicas e não públicas
+    cesarianas: 31035
+    taxa_cesarianas: 38.7
+    nota: >-
+      Nas unidades não públicas a taxa foi de 63,4%, contra 32,7% no SNS. É o
+      contraste que dá sentido ao número do SNS.
+
+nascimentos:
+  - ano: 2024
+    fonte: INE, Estatísticas Demográficas
+    nados_vivos: 84934
+  - ano: 2025
+    fonte: INE, Estatísticas Demográficas
+    nados_vivos: 87732
+
+populacao:
+  - ano: 2023
+    fonte: INE, indicador 0008273
+    continente: 10700528
+    acores: 243308
+    madeira: 260511
+    nota: >-
+      Só o continente interessa: as regiões autónomas têm serviços regionais de
+      saúde próprios e não constam do Portal da Transparência. Os utentes
+      inscritos nos cuidados primários (10 811 298) excedem em 1% os residentes,
+      o que é esperado — as inscrições sobrevivem a mudanças de residência.
+
+pessoal:
+  - ano: 2023
+    fonte: "INE / PORDATA, «SNS: pessoal ao serviço nos hospitais — Continente»"
+    trabalhadores: 114911
+    medicos: 22466
+    enfermeiros: 40972
+    nota: >-
+      Ficamos 4,4% acima porque oito ULS já existiam antes de 2024 e já
+      integravam os seus centros de saúde; os seus 16 203 trabalhadores incluem
+      pessoal de cuidados primários que a série hospitalar do INE não conta.
+
+taxa_cesarianas_referencia:
+  valor: 15
+  intervalo: [10, 15]
+  fonte: >-
+    Organização Mundial da Saúde, Declaração sobre taxas de cesarianas, 2015.
+
+# ---------------------------------------------------------------------------
+# Por obter
+# ---------------------------------------------------------------------------
+#
+# ERS — SINAS+ (avaliação de qualidade por prestador) e reclamações de utentes.
+#   É a única avaliação de qualidade independente do próprio SNS, e o snsRadar
+#   fica mais pobre sem ela: hoje só conta a história que o SNS conta sobre si.
+#   Sem interface de dados. Requer pedido à ERS ou transcrição manual.
+#
+# Tempos de espera nas urgências em tempo real (tempos.min-saude.pt).
+#   Endpoints identificados — /api/institutions, /api/specialties/consultations,
+#   /api/specialties/surgeries — mas exigem cabeçalho x-api-key. Requer pedido à
+#   SPMS. Seria a funcionalidade de maior utilidade imediata ao cidadão.
+#
+# OCDE (SDMX) e Eurostat: ambas as APIs respondem e dariam contexto
+#   internacional — a taxa de cesarianas de 33% é alta em relação a quê?

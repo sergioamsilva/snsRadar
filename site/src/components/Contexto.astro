@@ -1,0 +1,191 @@
+---
+/**
+ * Contexto da unidade: o que não vem dos indicadores mensais.
+ *
+ * Três acrescentos que respondem às três maiores limitações da ficha —
+ * mortalidade sem ajuste ao risco, contagens sem denominador, e dinheiro sem
+ * rasto. Aparecem no topo porque enquadram tudo o que vem a seguir.
+ */
+import type { Ficha } from "../lib/dados";
+import { formatar } from "../lib/dados";
+
+interface Props {
+  ficha: Ficha;
+}
+const { ficha } = Astro.props;
+const { mortalidade_ajustada: smr, populacao, contratos } = ficha;
+
+const nf = (min: number, max: number) =>
+  new Intl.NumberFormat("pt-PT", { minimumFractionDigits: min, maximumFractionDigits: max });
+
+/* O SMR só se lê com o intervalo de confiança: sem ele, uma diferença de acaso
+   passa por facto. Só se afirma «acima» ou «abaixo» quando o intervalo não
+   contém 1. */
+const leitura =
+  smr?.smr === undefined || !smr.significativo
+    ? "sem diferença estatisticamente significativa face ao esperado"
+    : smr.smr > 1
+      ? `${nf(0, 0).format((smr.smr - 1) * 100)} % mais óbitos do que o esperado`
+      : `${nf(0, 0).format((1 - smr.smr) * 100)} % menos óbitos do que o esperado`;
+const classe = !smr?.significativo ? "neutro" : smr.smr! > 1 ? "acima" : "abaixo";
+---
+
+{
+  (smr || populacao || contratos) && (
+    <section class="ctx">
+      {smr && smr.smr !== undefined && (
+        <article class={`ctx__cartao ctx__cartao--${classe}`}>
+          <h3>Mortalidade ajustada ao risco</h3>
+          <p class="ctx__valor num">{nf(2, 2).format(smr.smr)}</p>
+          <p class="ctx__leitura">{leitura}</p>
+          <p class="ctx__detalhe num">
+            {nf(0, 0).format(smr.observados!)} óbitos observados,{" "}
+            {nf(0, 0).format(smr.esperados!)} esperados
+            {smr.ic95 && (
+              <> · intervalo de 95 %: {nf(2, 2).format(smr.ic95[0])} a {nf(2, 2).format(smr.ic95[1])}</>
+            )}
+          </p>
+          <p class="ctx__nota">
+            Comparação corrigida pelo tipo de doentes que a unidade recebe —
+            capítulo de diagnóstico, idade e sexo. É o único indicador desta
+            página que permite comparar mortalidade entre hospitais.
+            {smr.periodo && <> Período: {smr.periodo}.</>}
+          </p>
+        </article>
+      )}
+
+      {smr && smr.indisponivel && (
+        <article class="ctx__cartao ctx__cartao--indisponivel">
+          <h3>Mortalidade ajustada ao risco</h3>
+          <p class="ctx__valor">Não publicada</p>
+          <p class="ctx__leitura">{smr.indisponivel}</p>
+          <p class="ctx__nota">
+            Uma queda desta dimensão, transversal a todos os capítulos de
+            diagnóstico, não é compatível com melhoria clínica — indica óbitos
+            por registar. Preferimos não mostrar nada a mostrar um número que
+            colocaria esta unidade entre as melhores do país sem fundamento.
+          </p>
+        </article>
+      )}
+
+      {populacao && (
+        <article class="ctx__cartao">
+          <h3>População servida</h3>
+          <p class="ctx__valor num">{nf(0, 0).format(populacao.inscritos)}</p>
+          <p class="ctx__leitura">utentes inscritos nos cuidados primários</p>
+          {populacao.percentagem_sem_medico !== null && (
+            <p class="ctx__detalhe num">
+              {nf(0, 0).format(populacao.sem_medico_familia)} sem médico de
+              família ({nf(1, 1).format(populacao.percentagem_sem_medico)} %)
+            </p>
+          )}
+          <p class="ctx__nota">
+            É a população pela qual esta unidade é responsável, e o denominador
+            que torna as contagens comparáveis entre unidades de dimensão
+            diferente.
+          </p>
+        </article>
+      )}
+
+      {contratos && contratos.cobertura_suficiente && (
+        <article class="ctx__cartao">
+          <h3>Contratos públicos</h3>
+          <p class="ctx__valor num">{formatar(contratos.valor, "euros")}</p>
+          <p class="ctx__leitura num">
+            {nf(0, 0).format(contratos.contratos)} contratos
+            {contratos.desde && <>, {contratos.desde}–{contratos.ate}</>}
+          </p>
+          {contratos.peso_ajuste_direto !== null && (
+            <p class="ctx__detalhe num">
+              {nf(0, 0).format(contratos.peso_ajuste_direto)} % do valor por
+              ajuste direto
+            </p>
+          )}
+          {/* A derrapagem é o dado que não existe em mais lado nenhum: as
+              estatísticas de despesa contam o preço da adjudicação, e a
+              modificação é publicada num registo à parte que ninguém junta. */}
+          {contratos.modificacoes && contratos.modificacoes.acrescimo !== 0 && (
+            <p class="ctx__detalhe num">
+              {formatar(Math.abs(contratos.modificacoes.acrescimo), "euros")}{" "}
+              {contratos.modificacoes.acrescimo > 0 ? "acrescentados" : "retirados"} a{" "}
+              {nf(0, 0).format(contratos.modificacoes.contratos_modificados)}{" "}
+              contratos depois de assinados
+            </p>
+          )}
+          {contratos.maiores_areas.length > 0 && (
+            <ul class="ctx__areas">
+              {contratos.maiores_areas.slice(0, 3).map((a) => (
+                <li>
+                  <span>{a.rotulo}</span>
+                  <span class="num">{formatar(a.valor, "euros")}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p class="ctx__nota">
+            {contratos.maiores_fornecedores.length > 0 && (
+              <>Maior fornecedor: {contratos.maiores_fornecedores[0].nome} (
+              {formatar(contratos.maiores_fornecedores[0].valor, "euros")}). </>
+            )}
+            O ajuste direto é legal, mas concentrar nele a despesa reduz a
+            concorrência. Fonte: {contratos.fonte} — o registo integral dos
+            contratos públicos do país, em domínio público.
+          </p>
+        </article>
+      )}
+    </section>
+  )
+}
+
+<style>
+  .ctx {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    border-block: 1px solid var(--grid);
+    margin: 0 0 8px;
+  }
+  .ctx__cartao { padding: 22px 22px 20px 0; position: relative; }
+  .ctx__cartao::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 34px; height: 2px;
+    background: var(--baseline);
+  }
+  .ctx__cartao--acima::before { background: var(--neg); }
+  .ctx__cartao--abaixo::before { background: var(--cat2); }
+  .ctx__cartao--indisponivel::before { background: var(--warn); }
+
+  .ctx__cartao h3 {
+    font-size: var(--t-3xs); font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .ctx__valor {
+    font-size: clamp(28px, 3.6vw, 36px); font-weight: 750;
+    letter-spacing: -0.02em; line-height: 1.05; margin: 10px 0 4px;
+  }
+  .ctx__leitura { margin: 0; font-size: var(--t-xs); font-weight: 600; }
+  .ctx__cartao--acima .ctx__leitura { color: var(--neg-texto); }
+  .ctx__cartao--abaixo .ctx__leitura { color: var(--pos-texto); }
+  .ctx__detalhe { margin: 4px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+  .ctx__nota { margin: 10px 0 0; font-size: var(--t-2xs); color: var(--ink-2); line-height: 1.5; }
+
+  /* O que a unidade compra, em três linhas. Sem gráfico: são três valores, e
+     três valores lêem-se melhor numa lista alinhada do que numa barra. */
+  .ctx__areas {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    font-size: var(--t-2xs);
+  }
+  .ctx__areas li {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 3px 0;
+    border-top: 1px solid var(--grid);
+    color: var(--ink-2);
+  }
+  .ctx__areas li span:last-child {
+    color: var(--ink);
+    font-weight: 650;
+    white-space: nowrap;
+  }
+</style>

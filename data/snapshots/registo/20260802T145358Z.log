@@ -1,0 +1,194 @@
+snsRadar — atualização de 2026-08-02 14:53 UTC
+
+catálogo: 144 datasets
+escrito data/raw/_catalogo.json
+  2,630,091 registos | 144 datasets sem licença declarada
+  7 datasets com contagem anunciada errada no catálogo:
+    atividade-operacional-do-sns-24: anuncia 8,583, tem 577
+    dados-financeiros: anuncia 6,492, tem 2,896
+    inscritos-lic-dentro-tmrg: anuncia 6,403, tem 1,890
+    portal-base: anuncia 339,300, tem 44,015
+    top-50-de-prescricao-rsp-em-locais-nao-sns: anuncia 325,984, tem 10,277
+    utentes-admitidos-e-referenciados: anuncia 425, tem 420
+    utilizacao-de-registo-saude-eletronico-por-profissionais-de-saude-em-hospitais-q: anuncia 3,865, tem 3,726
+a descarregar 25 datasets via /exports/csv
+  [1/25] inscritos-lic-dentro-tmrg: 23 KB
+  [2/25] demora-media-antes-da-cirurgia: 83 KB
+  [3/25] inscritos-em-lic-dentro-do-tmrg-180-dias: 54 KB
+  [4/25] consultas-em-tempo-real: 97 KB
+  [5/25] atendimentos-em-urgencia-triagem-manchester: 139 KB
+  [6/25] 01_sica_evolucao-mensal-das-consultas-medicas-hospitalares: 118 KB
+  [7/25] fraturas-da-anca-cirurgias-nas-primeiras-48h: 76 KB
+  [8/25] atendimentos-por-tipo-de-urgencia-hospitalar-link: 113 KB
+  [9/25] partos-e-cesarianas: 54 KB
+  [10/25] ocupacao-do-internamento: 89 KB
+  [11/25] cirurgias-em-ambulatorio: 86 KB
+  [12/25] taxa-de-mortalidade-por-avc-isquemico-e-hemorragico: 62 KB
+  [13/25] trabalhadores-por-grupo-profissional: 153 KB
+  [14/25] lotacao-praticada-por-tipo-de-cama: 82 KB
+  [15/25] atividade-de-internamento-hospitalar: 179 KB
+  [16/25] intervencoes-cirurgicas: 108 KB
+  [17/25] morbilidade-e-mortalidade-hospitalar: 677 KB
+  [18/25] evolucao-mensal-das-consultas-de-psicologia: 55 KB
+  [19/25] evolucao-mensal-das-consultas-de-nutricao: 54 KB
+  [20/25] tempo-medio-de-pagamento-das-instituicoes-do-sns-a-fornecedores: 17 KB
+  [21/25] divida-total-vencida-e-pagamentos: 176 KB
+  [22/25] percentagem-de-gastos-com-te-e-suplementos-no-total-gastos-com-pessoal: 57 KB
+  [23/25] consultas-em-telemedicina: 43 KB
+  [24/25] utentes-inscritos-em-cuidados-de-saude-primarios: 186 KB
+  [25/25] portal-base: 2,003 KB
+
+total: 4.7 MB | falhas: 0
+snapshot 2026-08-02T14:54:46+00:00 — 26 datasets, 686,046 registos
+  novos=1 alterados=0 removidos=0 inalterados=25
+  arquivado em manifesto-20260802T145446.json
+  todos os datasets completos face à fonte
+43 fichas de instituição escritas em /home/parallels/projects/snsRadar/data/out
+22 indicadores; nacional.json com 22 valores
+  1 entidades sem indicadores: hospital-jose-luciano-castro
+mortalidade ajustada: 39 unidades com SMR, 4 excluídas por registo não fiável
+população: 39 unidades, 10,811,298 utentes inscritos
+taxas per capita: 39 unidades
+contratos desde 2024: 32 unidades, 165 M€
+  peso do ajuste direto: mediana 89 %, máximo 100 %
+escrito em data/out/enriquecimento.json
+43 fichas de instituição escritas em /home/parallels/projects/snsRadar/data/out
+22 indicadores; nacional.json com 22 valores
+  1 entidades sem indicadores: hospital-jose-luciano-castro
+dist/index.html — 2,418 KB | 43 instituições, 22 indicadores, 131,009 pontos, 162 meses (2013-01 a 2026-06)
+15:54:50 [types] Generated 23ms
+15:54:50 [build] output: "static"
+15:54:50 [build] mode: "static"
+15:54:50 [build] directory: /home/parallels/projects/snsRadar/site/dist/
+15:54:50 [build] Collecting build info...
+15:54:50 [build] ✓ Completed in 53ms.
+15:54:50 [build] Building static entrypoints...
+15:54:50 [vite] ✓ built in 136ms
+15:54:50 [vite] ✓ built in 15ms
+15:54:50 [build] Rearranging server assets...
+
+ generating static routes 
+15:54:50   ├─ /instituicao/hospital-cascais/index.html (+88ms) 
+15:54:50   ├─ /instituicao/ipo-coimbra/index.html (+77ms) 
+15:54:50   ├─ /instituicao/ipo-lisboa/index.html (+75ms) 
+15:54:51   ├─ /instituicao/ipo-porto/index.html (+76ms) 
+15:54:51   ├─ /instituicao/uls-alentejo-central/index.html (+71ms) 
+15:54:51   ├─ /instituicao/uls-algarve/index.html (+71ms) 
+15:54:51   ├─ /instituicao/uls-almada-seixal/index.html (+72ms) 
+15:54:51   ├─ /instituicao/uls-alto-alentejo/index.html (+81ms) 
+15:54:51   ├─ /instituicao/uls-alto-ave/index.html (+77ms) 
+15:54:51   ├─ /instituicao/uls-alto-minho/index.html (+66ms) 
+15:54:51   ├─ /instituicao/uls-amadora-sintra/index.html (+66ms) 
+15:54:51   ├─ /instituicao/uls-arco-ribeirinho/index.html (+64ms) 
+15:54:51   ├─ /instituicao/uls-arrabida/index.html (+67ms) 
+15:54:51   ├─ /instituicao/uls-baixo-alentejo/index.html (+66ms) 
+15:54:51   ├─ /instituicao/uls-baixo-mondego/index.html (+63ms) 
+15:54:51   ├─ /instituicao/uls-barcelos-esposende/index.html (+72ms) 
+15:54:51   ├─ /instituicao/uls-braga/index.html (+76ms) 
+15:54:52   ├─ /instituicao/uls-castelo-branco/index.html (+69ms) 
+15:54:52   ├─ /instituicao/uls-coimbra/index.html (+75ms) 
+15:54:52   ├─ /instituicao/uls-cova-beira/index.html (+79ms) 
+15:54:52   ├─ /instituicao/uls-entre-douro-vouga/index.html (+68ms) 
+15:54:52   ├─ /instituicao/uls-estuario-tejo/index.html (+72ms) 
+15:54:52   ├─ /instituicao/uls-gaia-espinho/index.html (+72ms) 
+15:54:52   ├─ /instituicao/uls-guarda/index.html (+71ms) 
+15:54:52   ├─ /instituicao/uls-leziria/index.html (+65ms) 
+15:54:52   ├─ /instituicao/uls-lisboa-ocidental/index.html (+64ms) 
+15:54:52   ├─ /instituicao/uls-litoral-alentejano/index.html (+62ms) 
+15:54:52   ├─ /instituicao/uls-loures-odivelas/index.html (+65ms) 
+15:54:52   ├─ /instituicao/uls-matosinhos/index.html (+64ms) 
+15:54:52   ├─ /instituicao/uls-medio-ave/index.html (+65ms) 
+15:54:52   ├─ /instituicao/uls-medio-tejo/index.html (+74ms) 
+15:54:53   ├─ /instituicao/uls-nordeste/index.html (+64ms) 
+15:54:53   ├─ /instituicao/uls-oeste/index.html (+64ms) 
+15:54:53   ├─ /instituicao/uls-povoa-varzim-vila-conde/index.html (+59ms) 
+15:54:53   ├─ /instituicao/uls-regiao-aveiro/index.html (+61ms) 
+15:54:53   ├─ /instituicao/uls-regiao-leiria/index.html (+67ms) 
+15:54:53   ├─ /instituicao/uls-santa-maria/index.html (+62ms) 
+15:54:53   ├─ /instituicao/uls-santo-antonio/index.html (+62ms) 
+15:54:53   ├─ /instituicao/uls-sao-jose/index.html (+66ms) 
+15:54:53   ├─ /instituicao/uls-sao-joao/index.html (+66ms) 
+15:54:53   ├─ /instituicao/uls-tras-os-montes-alto-douro/index.html (+73ms) 
+15:54:53   ├─ /instituicao/uls-tamega-sousa/index.html (+63ms) 
+15:54:53   ├─ /instituicao/uls-dao-lafoes/index.html (+63ms) 
+15:54:53   ├─ /metodologia/index.html (+1ms) 
+15:54:53   ├─ /index.html (+1ms) 
+15:54:53 ✓ Completed in 2.98s.
+
+15:54:53 [build] ✓ Completed in 3.15s.
+15:54:53 [build] 45 page(s) built in 3.21s
+15:54:53 [build] Complete!
+crosswalk: 44 entidades canónicas, 117 chaves
+
+  ok     cobertura de nomes
+  ok     sem sobreposição de grafias
+  ok     continuidade através de 2024
+build: 43 fichas, 22 indicadores, 44 entidades no crosswalk
+
+  ok     aritmética contra a fonte
+    ocupação YTD: 7473/7491 linhas reproduzidas (99.8%)
+  ok     fórmula da ocupação (acumulada no ano)
+  ok     des-acumulação: fluxos plausíveis
+    cesarianas/uls-coimbra: Σnum÷Σden=24.266% vs média das taxas mensais=24.291%
+  ok     regra Σnum÷Σden aplicada
+  ok     supressão de denominadores pequenos
+  ok     cautelas presentes
+  ok     fonte por valor
+validação externa: 40 instituições
+
+    2025: 63,854 partos, 21,158 cesarianas, 33.1 %   [ACSS, via CNN Portugal, fev. 2026 — SNS sem a PPP de Cascais]
+           partos vs 63,897: -0.07 %
+           cesarianas vs 21,224: -0.31 %
+    2024: 64,505 partos, 20,988 cesarianas, 32.5 %   [INE/ERS, 2024 — nados-vivos por cesariana em unidades públicas]
+           cesarianas vs 21,073: -0.40 %
+  ok     partos e cesarianas vs ACSS e INE/ERS
+
+    2024: 61,526 partos no SNS para 84,934 nados-vivos (INE) — 72 %
+    2025: 63,854 partos no SNS para 87,732 nados-vivos (INE) — 73 %
+  ok     quota do SNS nos nascimentos do país
+
+    2025: taxa mais alta = ULS Nordeste (46.0 %); ACSS aponta ULS Nordeste (46.0 %)
+  ok     hospital com a taxa mais alta vs ACSS
+
+
+[1m▸ Espelhar o catálogo dos 144 datasets[0m
+
+[1m▸ Descarregar os datasets do núcleo[0m
+
+[1m▸ Registar hashes e validar contra a fonte[0m
+
+[1m▸ Construir as fichas (1.ª passagem)[0m
+
+[1m▸ Mortalidade ajustada ao risco, população, per capita e contratos[0m
+
+[1m▸ Reconstruir as fichas já com o enriquecimento[0m
+
+[1m▸ Gerar o painel autónomo[0m
+
+[1m▸ Construir o sítio Astro[0m
+
+[1m▸ Verificar: test_crosswalk[0m
+
+[1m▸ Verificar: test_build[0m
+
+[1m▸ Verificar: test_validacao_externa[0m
+
+[1m✓ reconstrução completa[0m
+      38.2s  catálogo
+       8.7s  ingestão
+       0.8s  snapshot
+       0.9s  build 1/2
+       1.3s  enriquecimento
+       1.0s  build 2/2
+       0.7s  painel
+       3.9s  sítio
+       3.4s  test_crosswalk
+       0.4s  test_build
+       0.1s  test_validacao_externa
+    ──────
+      59.4s  total
+
+── alterações detetadas na fonte ──
+  novo      morbilidade_mortalidade_hospit
+
+registo em data/snapshots/registo/20260802T145358Z.log

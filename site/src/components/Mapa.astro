@@ -1,0 +1,390 @@
+---
+/**
+ * O país desenhado pelos seus hospitais.
+ *
+ * **O contorno.** A primeira versão não tinha nenhum, por princípio: as 43
+ * unidades bastariam para desenhar o país. Não bastam. Concentram-se todas no
+ * litoral, o interior fica vazio, e o que se vê é uma constelação que não se
+ * reconhece como Portugal — sobretudo depois de o mapa passar a abrir a página
+ * sob o título «o país tem a forma dos seus hospitais». Um título que promete
+ * uma forma obriga essa forma a ler-se.
+ *
+ * O contorno entra por isso, e entra como andaime: distritos em traço de
+ * cabelo e enchimento a 5 % de tinta, por baixo. Os pontos continuam a ser a
+ * figura; o país deixa de ser adivinhado. Vem de `data/mapa/continente.json`,
+ * que já existia no projeto — é o mesmo ficheiro que o painel desenha — e é
+ * opcional (`contorno`), para que o mapa possa voltar a aparecer nu onde a
+ * escala não o justifique.
+ *
+ * **Projeção.** A mesma com que os contornos foram gerados, copiada de
+ * `scripts/build_dashboard.py`: equirretangular com a longitude corrigida por
+ * cos(latitude média). Tem de ser exatamente a mesma, senão as unidades não
+ * assentam sobre os seus distritos. Sem a correção, Portugal aparece 30% mais
+ * largo do que é — a distorção que faz um país estreito parecer quadrado.
+ *
+ * **Codificação.** Uma só cor; o tamanho carrega a magnitude (área ∝ população
+ * inscrita, logo raio ∝ √população). Escolha deliberada: cinco regiões em cinco
+ * cores não sobreviveriam a daltonismo sem um segundo encoding, e a informação
+ * que interessa aqui é «qual é a minha» e «que dimensão tem». As unidades sem
+ * população publicada aparecem como anel vazado — a ausência tem marca própria,
+ * não vira um ponto pequeno que se leria como «serve pouca gente».
+ *
+ * **Movimento.** Um só gesto: uma varredura de norte para sul, cada ponto a
+ * surgir quando a linha lhe passa por cima. Sem JavaScript aparecem todos no
+ * lugar; com `prefers-reduced-motion` também.
+ *
+ * **Acessibilidade.** Cada ponto é uma ligação com nome acessível — navegável
+ * por teclado e legível por leitor de ecrã, sem depender do mapa. O alvo de
+ * rato/toque é maior do que a marca.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { indice, enriquecimento, ligacao } from "../lib/dados";
+
+interface Props {
+  /** Distritos em traço de cabelo por baixo dos pontos. */
+  contorno?: boolean;
+}
+const { contorno = false } = Astro.props;
+
+const lista = indice().filter((i) => i.geo);
+const inscritos = enriquecimento().populacao.por_instituicao;
+
+/* O contorno e a sua caixa. `w`/`h` definem o espaço de coordenadas em que os
+   traçados foram gerados, e é nesse espaço que tudo o resto é projetado. */
+const mapa: { w: number; h: number; paths: { n: string; d: string }[] } = JSON.parse(
+  fs.readFileSync(
+    path.resolve(process.cwd(), "..", "data", "mapa", "continente.json"),
+    "utf-8",
+  ),
+);
+
+/* Projeção idêntica à de `scripts/build_dashboard.py`. Os números não são
+   escolhidos aqui: são os que geraram os traçados dos distritos. */
+const LON0 = -9.6, LON1 = -6.15, LAT0 = 36.9, LAT1 = 42.2;
+const X0 = 6, Y0 = 6;
+const k = Math.cos((((LAT0 + LAT1) / 2) * Math.PI) / 180);
+const escala = Math.min(
+  (mapa.w - 12) / ((LON1 - LON0) * k),
+  (mapa.h - 12) / (LAT1 - LAT0),
+);
+
+const ALTURA = mapa.h;
+const LARGURA = mapa.w;
+
+const projetar = (g: { lat: number; lon: number }) => ({
+  x: X0 + (g.lon - LON0) * k * escala,
+  y: Y0 + (LAT1 - g.lat) * escala,
+});
+
+const populacaoMaxima = Math.max(...Object.values(inscritos).map((p) => p.inscritos));
+/* Em unidades deste espaço, que é 5,6 vezes maior do que o anterior. Acima
+   disto Lisboa e Porto voltam a fundir-se numa mancha só. */
+const R_MAX = 16;
+const raio = (pop: number | null) =>
+  pop === null ? 6.5 : Math.max(6, (R_MAX * Math.sqrt(pop)) / Math.sqrt(populacaoMaxima));
+
+const pontos = lista
+  .map((i) => {
+    const pop = inscritos[i.id]?.inscritos ?? null;
+    return { ...i, ...projetar(i.geo!), pop, r: raio(pop) };
+  })
+  /* Desenhar de norte para sul: a ordem no DOM é a ordem da varredura, e os
+     pontos maiores ficam por baixo dos menores onde se sobrepõem. */
+  .sort((a, b) => a.y - b.y);
+
+/* Rótulos diretos: poucos, e colocados por regra, não por sorte.
+ *
+ * Duas tentativas falharam antes desta. Rotular as cinco **maiores** punha os
+ * nomes em Lisboa e no Porto, que é onde os pontos já se pisam — «Amadora/
+ * Sintra» caiu por cima de «Lisboa Ocidental». Rotular todas as **isoladas**
+ * resolveu essa colisão mas gerou onze rótulos, com «Trás-os-Montes e Alto
+ * Douro» a sair pela margem esquerda e «Baixo Alentejo» a cair sobre «Litoral
+ * Alentejano».
+ *
+ * O que funciona: reservar espaço à direita no viewBox, ancorar sempre nesse
+ * lado, aceitar só nomes curtos, e recusar qualquer rótulo que se sobreponha a
+ * um já colocado. O resultado é determinista — não depende de o texto medir o
+ * que eu julgo que mede.
+ *
+ * Ficam de fora os aglomerados do litoral, de propósito: no mapa procura-se
+ * onde se vive, e quem vive em Lisboa não precisa de legenda para encontrar
+ * Lisboa. */
+/* O espaço reservado à direita, nas unidades deste viewBox. O desenho do
+   continente ocupa cerca de 280 das 340 unidades de largura, portanto a maior
+   parte deste espaço já existia por baixo dos rótulos. */
+const ESPACO_ROTULOS = 76;
+const NOME_MAXIMO = 12;
+const MAX_ROTULOS = 5;
+
+const nomeCurtoDoMapa = (n: string) => n.replace(/^ULS\s+(da|de|do)?\s*/i, "");
+
+/* Largura aproximada de um caratere a 14,5px de corpo, em unidades do viewBox. */
+const LARGURA_CARATERE = 7.5;
+const ALTURA_ROTULO = 19;
+
+const rotulos: { id: string; x: number; y: number; texto: string }[] = [];
+/* Distância à unidade mais próxima. Só se rotula quem tem espaço à sua volta:
+   um rótulo encostado a um aglomerado aponta para uma mancha, não para um
+   ponto, e nos aglomerados o nome não ajuda ninguém a orientar-se. */
+const isolamento = (p: (typeof pontos)[number]) =>
+  Math.min(...pontos.filter((o) => o.id !== p.id).map((o) => Math.hypot(o.x - p.x, o.y - p.y)));
+const ISOLAMENTO_MINIMO = 39;
+
+for (const p of [...pontos].sort((a, b) => isolamento(b) - isolamento(a))) {
+  if (rotulos.length >= MAX_ROTULOS) break;
+  if (isolamento(p) < ISOLAMENTO_MINIMO) continue;
+  const texto = nomeCurtoDoMapa(p.nome_curto);
+  if (texto.length > NOME_MAXIMO) continue;
+
+  const x = p.x + p.r + 8;
+  const largura = texto.length * LARGURA_CARATERE;
+  if (x + largura > LARGURA + ESPACO_ROTULOS) continue;
+
+  /* Sem sobreposição com outro rótulo nem com marca nenhuma. */
+  const colideComRotulo = rotulos.some(
+    (r) =>
+      Math.abs(r.y - p.y) < ALTURA_ROTULO &&
+      x < r.x + r.texto.length * LARGURA_CARATERE &&
+      r.x < x + largura,
+  );
+  const colideComPonto = pontos.some(
+    (o) =>
+      o.id !== p.id &&
+      Math.abs(o.y - p.y) < ALTURA_ROTULO / 2 + o.r &&
+      o.x + o.r > x &&
+      o.x - o.r < x + largura,
+  );
+  if (colideComRotulo || colideComPonto) continue;
+
+  rotulos.push({ id: p.id, x, y: p.y + 1, texto });
+}
+
+const nf = new Intl.NumberFormat("pt-PT");
+const totalComPop = pontos.filter((p) => p.pop !== null).length;
+---
+
+<figure class="mapa">
+  <svg
+    viewBox={`0 0 ${LARGURA + ESPACO_ROTULOS} ${ALTURA}`}
+    class="mapa__svg"
+    aria-labelledby="mapa-titulo"
+    data-mapa
+  >
+    <title id="mapa-titulo">
+      Mapa de Portugal continental com as {pontos.length} unidades de saúde do SNS,
+      cada uma com dimensão proporcional à população inscrita.
+    </title>
+    {/* Andaime: os distritos por baixo, para que a forma se reconheça. Não são
+        interativos nem legendados — quem procura o seu hospital procura um
+        ponto, não um distrito. */}
+    {
+      contorno && (
+        <g class="mapa__contorno" aria-hidden="true">
+          {mapa.paths.map((d) => (
+            <path d={d.d} />
+          ))}
+        </g>
+      )
+    }
+    {
+      pontos.map((p, i) => (
+        <a
+          href={ligacao(`/instituicao/${p.id}/`)}
+          class="mapa__ponto"
+          data-ponto
+          data-busca={`${p.nome_curto} ${p.distrito} ${p.regiao}`.toLowerCase()}
+          data-nome={p.nome_curto}
+          data-distrito={p.distrito}
+          data-regiao={p.regiao}
+          data-pop={p.pop ?? ""}
+          data-sem-medico={inscritos[p.id]?.percentagem_sem_medico ?? ""}
+          data-indicadores={p.n_indicadores}
+          style={`--x:${p.x};--y:${p.y};--r:${p.r};--i:${i}`}
+        >
+          <title>
+            {p.nome_curto} — {p.distrito}
+            {p.pop !== null && `, ${nf.format(p.pop)} utentes inscritos`}
+          </title>
+          {/* Alvo generoso para rato e dedo, invisível: a marca fica fina, o
+              alvo não. */}
+          <circle class="mapa__alvo" cx={p.x} cy={p.y} r={Math.max(p.r + 9, 17)} />
+          <circle
+            class={`mapa__marca${p.pop === null ? " mapa__marca--sem-pop" : ""}`}
+            cx={p.x}
+            cy={p.y}
+            r={p.r}
+          />
+        </a>
+      ))
+    }
+    {
+      rotulos.map((r) => (
+        <text class="mapa__rotulo" x={r.x} y={r.y} aria-hidden="true">
+          {r.texto}
+        </text>
+      ))
+    }
+  </svg>
+  <figcaption class="mapa__legenda">
+    <span class="mapa__escala" aria-hidden="true">
+      <svg viewBox="0 0 26 10" class="mapa__escala-svg">
+        <circle cx="4" cy="5" r="1.5" class="mapa__marca" />
+        <circle cx="13" cy="5" r="2.5" class="mapa__marca" />
+        <circle cx="22" cy="5" r="3.6" class="mapa__marca" />
+      </svg>
+    </span>
+    <span>
+      Área proporcional à população inscrita, de {nf.format(
+        Math.min(...Object.values(inscritos).map((p) => p.inscritos)),
+      )} a {nf.format(populacaoMaxima)} utentes ({totalComPop} das {pontos.length}{" "}
+      unidades). Anel vazado: população não publicada.
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .mapa {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .mapa__svg {
+    width: 100%;
+    height: auto;
+    max-height: 62vh;
+    /* O espaço dos rótulos está reservado dentro do viewBox, por isso nada
+       precisa de transbordar — e nada transborda para cima da coluna ao lado. */
+    overflow: hidden;
+  }
+
+  .mapa__ponto {
+    cursor: pointer;
+  }
+  .mapa__alvo {
+    fill: transparent;
+  }
+
+  /* O andaime. Enchimento a 5 % de tinta e traço de cabelo: o suficiente para
+     Portugal se reconhecer, pouco para competir com os pontos. */
+  .mapa__contorno path {
+    fill: color-mix(in srgb, var(--ink) 5%, transparent);
+    stroke: color-mix(in srgb, var(--ink) 13%, transparent);
+    stroke-width: 1;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .mapa__marca {
+    fill: var(--accent);
+    /* Anel da cor do papel entre marcas que se sobrepõem, para que duas
+       unidades vizinhas continuem a ler-se como duas. */
+    stroke: var(--page);
+    stroke-width: 2.6;
+    transition:
+      fill 0.15s ease,
+      opacity 0.2s ease;
+  }
+  .mapa__marca--sem-pop {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 4.5;
+  }
+
+  .mapa__ponto:hover .mapa__marca,
+  .mapa__ponto:focus-visible .mapa__marca {
+    fill: var(--ink);
+  }
+  .mapa__ponto:focus-visible {
+    outline: none;
+  }
+  .mapa__ponto:focus-visible .mapa__alvo {
+    fill: none;
+    stroke: var(--accent-texto);
+    stroke-width: 4;
+  }
+
+  /* Atenuadas pela procura: continuam visíveis, para que a forma do país não
+     se desfaça enquanto se escreve. */
+  .mapa__ponto[data-fora] .mapa__marca {
+    fill: var(--grid);
+    stroke: var(--page);
+  }
+  .mapa__ponto[data-fora] .mapa__marca--sem-pop {
+    fill: none;
+    stroke: var(--grid);
+  }
+
+  .mapa__rotulo {
+    font-size: 14.5px;
+    font-weight: 650;
+    fill: var(--ink-2);
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+
+  .mapa__legenda {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--t-3xs);
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .mapa__escala-svg .mapa__marca {
+    stroke-width: 0.35;
+  }
+  .mapa__escala-svg {
+    width: 52px;
+    height: 20px;
+    display: block;
+  }
+
+  /* ── movimento: uma varredura de norte para sul ─────────────────────────
+     Os pontos estão ordenados por latitude, por isso `--i` já é a ordem da
+     varredura. 14 ms entre pontos dá ~600 ms do Minho ao Algarve: rápido o
+     suficiente para se ler como um gesto único e não como 43 gestos. */
+  html.js .mapa__ponto {
+    opacity: 0;
+    animation: mapa-surgir 0.42s cubic-bezier(0.22, 0.9, 0.3, 1) forwards;
+    animation-delay: calc(var(--i) * 14ms + 120ms);
+  }
+  @keyframes mapa-surgir {
+    from {
+      opacity: 0;
+      transform: translateY(-2px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  html.js .mapa__rotulo {
+    opacity: 0;
+    animation: mapa-rotulo 0.4s ease 0.82s forwards;
+  }
+  @keyframes mapa-rotulo {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .mapa__ponto,
+    html.js .mapa__rotulo {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .mapa__svg {
+      max-height: 46vh;
+    }
+    .mapa__rotulo {
+      font-size: 17px;
+    }
+  }
+</style>

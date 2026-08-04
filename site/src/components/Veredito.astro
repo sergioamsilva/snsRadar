@@ -1,0 +1,357 @@
+---
+/**
+ * Leitura de conjunto — o resumo que faltava ao topo de uma ficha de 14 000 px.
+ *
+ * A ficha responde bem a «como está este hospital neste indicador» e não
+ * respondia de todo a «como está este hospital». Vinte e cinco cartões
+ * empilhados obrigam quem chega a fazer a contagem de cabeça enquanto rola.
+ *
+ * O que este bloco **não** faz, de propósito:
+ *
+ *   · não pontua nem ordena hospitais. Conta quantos indicadores caem de cada
+ *     lado da mediana e diz que lados são esses. Um índice único somaria coisas
+ *     que não se somam — tempo de espera com dívida a fornecedores.
+ *   · não trata a contagem como veredito clínico. Salvo a mortalidade ajustada,
+ *     nada nesta página está ajustado ao risco, e a cautela vai no próprio
+ *     bloco, não numa nota de rodapé que ninguém lê.
+ *   · não inventa comparação onde ela não existe. Indicadores neutros — aqueles
+ *     em que subir não é bom nem mau — ficam de fora da contagem e são
+ *     declarados à parte.
+ *
+ * A barra segmentada é a mesma ideia das réguas dos cartões, subida um nível:
+ * a ficha inteira como uma linha de boletim de análises.
+ */
+import { comparacoes, formatar, type Ficha, type Nacional } from "../lib/dados";
+
+interface Props {
+  ficha: Ficha;
+  nac: Nacional;
+}
+const { ficha: f, nac } = Astro.props;
+
+const { linhas, neutros } = comparacoes(f, nac);
+
+const melhores = linhas.filter((l) => l.estado === "melhor");
+const semelhantes = linhas.filter((l) => l.estado === "semelhante");
+const piores = linhas.filter((l) => l.estado === "pior");
+const total = linhas.length;
+
+/* Os dois extremos, por distância relativa à mediana. São a porta de entrada
+   para os cartões: quem lê o resumo salta dali para o indicador. */
+const maisAcima = [...melhores].sort((a, b) => b.desvio - a.desvio)[0] ?? null;
+const maisAbaixo = [...piores].sort((a, b) => b.desvio - a.desvio)[0] ?? null;
+
+/* Quantas unidades formam a mediana. Sai do próprio nacional para não haver um
+   «43» escrito à mão que sobreviva à entrada da 44.ª instituição. */
+const nUnidades = linhas.length
+  ? (nac[linhas[0].id]?.n_instituicoes ?? null)
+  : null;
+
+const SEGMENTOS = [
+  { chave: "melhor", n: melhores.length, rotulo: "melhor que a mediana" },
+  { chave: "semelhante", n: semelhantes.length, rotulo: "em linha" },
+  { chave: "pior", n: piores.length, rotulo: "pior que a mediana" },
+] as const;
+---
+
+{
+  total > 0 && (
+    <section class="ver" id="veredito" data-seccao aria-labelledby="ver-titulo">
+      <div class="sec-band">
+        <h2 id="ver-titulo">Leitura de conjunto</h2>
+        <span class="ln" />
+        <span class="n">{total} indicadores comparáveis</span>
+      </div>
+
+      <div class="ver__caixa" data-entrada>
+        <p class="ver__frase">
+          Face à mediana{nUnidades ? ` das ${nUnidades} unidades do SNS` : " nacional"},
+          a <strong>{f.nome_curto}</strong> está{" "}
+          <b class="ver__c ver__c--melhor">
+            <span class="num">{melhores.length}</span> vez{melhores.length === 1 ? "" : "es"} melhor
+          </b>
+          {", "}
+          <b class="ver__c ver__c--semelhante">
+            <span class="num">{semelhantes.length}</span> vez{semelhantes.length === 1 ? "" : "es"} em linha
+          </b>
+          {" e "}
+          <b class="ver__c ver__c--pior">
+            <span class="num">{piores.length}</span> vez{piores.length === 1 ? "" : "es"} pior
+          </b>
+          {", nos "}
+          <span class="num">{total}</span> indicadores em que a comparação faz
+          sentido.
+        </p>
+
+        {/* A meta da barra vai numa variável para que o CSS possa parti-la do
+            zero e deixá-la crescer quando entra no ecrã. Sem JavaScript já
+            nasce na largura certa. */}
+        <div
+          class="ver__barra"
+          data-escala
+          role="img"
+          aria-label={SEGMENTOS.filter((s) => s.n > 0)
+            .map((s) => `${s.n} ${s.rotulo}`)
+            .join("; ")}
+        >
+          {SEGMENTOS.filter((s) => s.n > 0).map((s) => (
+            <span
+              class={`ver__seg ver__seg--${s.chave}`}
+              style={`--f:${(100 * s.n) / total}%`}
+            >
+              <span class="ver__seg-n num">{s.n}</span>
+            </span>
+          ))}
+        </div>
+
+        <ul class="ver__legenda">
+          {SEGMENTOS.map((s) => (
+            <li>
+              <span class={`ver__ponto ver__ponto--${s.chave}`} aria-hidden="true" />
+              {s.rotulo}
+            </li>
+          ))}
+        </ul>
+
+        {(maisAcima || maisAbaixo) && (
+          <dl class="ver__extremos">
+            {maisAcima && (
+              <div>
+                {/* «Mais acima» seria mentira: neste indicador a unidade está
+                    melhor por ter um valor mais **baixo** do que a mediana. O
+                    rótulo tem de falar de melhor e pior, que é o que a
+                    polaridade do indicador determina, e não de cima e baixo. */}
+                <dt>Onde está melhor</dt>
+                <dd>
+                  <a href={`#${maisAcima.id}`}>{maisAcima.titulo}</a>
+                  <span class="ver__val num">
+                    {formatar(maisAcima.valor, maisAcima.unidade)}
+                  </span>
+                  <span class="ver__cmp ver__cmp--melhor">
+                    <span aria-hidden="true">{maisAcima.seta}</span> {maisAcima.texto}
+                  </span>
+                </dd>
+              </div>
+            )}
+            {maisAbaixo && (
+              <div>
+                <dt>Onde está pior</dt>
+                <dd>
+                  <a href={`#${maisAbaixo.id}`}>{maisAbaixo.titulo}</a>
+                  <span class="ver__val num">
+                    {formatar(maisAbaixo.valor, maisAbaixo.unidade)}
+                  </span>
+                  <span class="ver__cmp ver__cmp--pior">
+                    <span aria-hidden="true">{maisAbaixo.seta}</span> {maisAbaixo.texto}
+                  </span>
+                </dd>
+              </div>
+            )}
+          </dl>
+        )}
+
+        <p class="ver__cautela">
+          <strong>Cautela.</strong> Isto é uma contagem, não uma avaliação.
+          Salvo a mortalidade ajustada ao risco, nenhum destes indicadores
+          corrige o tipo de doentes que a unidade recebe: um hospital que trata
+          casos mais graves fica abaixo da mediana sem que isso signifique
+          piores cuidados. Estar acima em mais indicadores do que abaixo não faz
+          de uma unidade melhor do que outra.
+          {neutros > 0 && (
+            <>
+              {" "}
+              <span class="num">{neutros}</span>{" "}
+              {neutros === 1
+                ? "indicador ficou de fora por ser neutro"
+                : "indicadores ficaram de fora por serem neutros"}
+              {" "}— subir ou descer não é bom nem mau.
+            </>
+          )}
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .ver__caixa {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    margin-top: 8px;
+  }
+
+  .ver__frase {
+    margin: 0;
+    font-size: var(--t-md);
+    line-height: 1.5;
+    max-width: 72ch;
+    color: var(--ink-2);
+  }
+  .ver__frase strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .ver__c {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .ver__c--melhor {
+    color: var(--pos-texto);
+  }
+  .ver__c--pior {
+    color: var(--neg-texto);
+  }
+  .ver__c--semelhante {
+    color: var(--ink);
+  }
+
+  /* A régua da ficha inteira. Os segmentos partem de zero e abrem da esquerda,
+     um a um — a mesma cascata dos cartões, uma escala acima. */
+  .ver__barra {
+    display: flex;
+    gap: 2px;
+    height: 34px;
+    margin: 16px 0 10px;
+  }
+  .ver__seg {
+    flex: 0 0 var(--f);
+    min-width: 0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .ver__seg-n {
+    font-size: var(--t-2xs);
+    font-weight: 700;
+    color: var(--chip-on-ink);
+  }
+  /* Não são as cores de marca: o verde e o vermelho de `--pos` e `--neg` servem
+     para filetes e pontos, e a contagem escrita por cima deles mede 3,2:1 —
+     abaixo do mínimo do WCAG AA. Os níveis `-texto` foram calculados para
+     aguentar texto e é isso que estão a fazer aqui. */
+  .ver__seg--melhor {
+    background: var(--pos-texto);
+  }
+  .ver__seg--pior {
+    background: var(--neg-texto);
+  }
+  .ver__seg--semelhante {
+    background: var(--baseline);
+  }
+  /* Sobre o cinzento neutro, a tinta da página é que contrasta. */
+  .ver__seg--semelhante .ver__seg-n {
+    color: var(--ink);
+  }
+
+  html.js .ver__barra .ver__seg {
+    flex-basis: 0;
+    transition: flex-basis 0.75s cubic-bezier(0.22, 0.75, 0.2, 1);
+  }
+  html.js .ver__barra .ver__seg:nth-child(2) {
+    transition-delay: 90ms;
+  }
+  html.js .ver__barra .ver__seg:nth-child(3) {
+    transition-delay: 180ms;
+  }
+  html.js .ver__barra.entrou .ver__seg {
+    flex-basis: var(--f);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .ver__barra .ver__seg {
+      flex-basis: var(--f);
+      transition: none;
+    }
+  }
+
+  .ver__legenda {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: var(--t-2xs);
+    color: var(--muted);
+  }
+  .ver__legenda li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ver__ponto {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    flex: none;
+  }
+  .ver__ponto--melhor {
+    background: var(--pos-texto);
+  }
+  .ver__ponto--pior {
+    background: var(--neg-texto);
+  }
+  .ver__ponto--semelhante {
+    background: var(--baseline);
+  }
+
+  .ver__extremos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+    gap: 0 26px;
+    margin: 18px 0 0;
+    border-top: 1px solid var(--grid);
+  }
+  .ver__extremos > div {
+    padding: 14px 0 2px;
+  }
+  .ver__extremos dt {
+    font-size: var(--t-3xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .ver__extremos dd {
+    margin: 6px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ver__extremos a {
+    font-size: var(--t-sm);
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration-color: var(--baseline);
+  }
+  .ver__extremos a:hover {
+    color: var(--accent-texto);
+  }
+  .ver__val {
+    font-size: var(--t-lg);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+  .ver__cmp {
+    font-size: var(--t-2xs);
+    font-weight: 600;
+  }
+  .ver__cmp--melhor {
+    color: var(--pos-texto);
+  }
+  .ver__cmp--pior {
+    color: var(--neg-texto);
+  }
+
+  .ver__cautela {
+    margin: 16px 0 0;
+    font-size: var(--t-xs);
+    color: var(--ink-2);
+    border-left: 2px solid var(--warn);
+    padding: 2px 0 2px 12px;
+    max-width: 88ch;
+  }
+</style>

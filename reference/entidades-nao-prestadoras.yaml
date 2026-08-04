@@ -1,0 +1,50 @@
+# Entidades que aparecem nas colunas de instituição mas não prestam cuidados.
+#
+# Organismos centrais do Ministério da Saúde, autoridades reguladoras e
+# agregados regionais. Não têm ficha no snsRadar — mas têm de estar aqui
+# declaradas, porque o teste de cobertura é de tolerância zero: qualquer nome
+# que a fonte use e que não resolva nem conste desta lista faz o pipeline
+# falhar. É assim que uma instituição nova, ou renomeada, deixa de poder
+# desaparecer em silêncio das fichas.
+#
+# Chaves na forma de ingest/common.py::normalizar_agressivo.
+
+organismos_centrais:
+  - acao governativa
+  - administracao central sistema saude          # ACSS
+  - direcao executiva servico nacional saude     # DE-SNS
+  - direcao geral saude                          # DGS
+  - infarmed autoridade nacional medicamento produtos saude
+  - inspecao geral atividades em saude           # IGAS
+  - instituto nacional emergencia medica         # INEM
+  - instituto nacional saude doutor ricardo jorge
+  - instituto nacional saude dr ricardo jorge
+  - instituto nacional saude dr ricardo jorge lisboa
+  - instituto para os comportamentos aditivos as dependencias   # ICAD
+  - instituto portugues sangue transplantacao    # IPST
+  - secretaria geral ministerio saude
+  - servico intervencao nos comportamentos aditivos nas dependencias
+  - servicos centrais
+  - servicos partilhados ministerio saude        # SPMS
+
+administracoes_regionais:
+  - administracao regional saude alentejo
+  - administracao regional saude algarve
+  - administracao regional saude centro
+  - administracao regional saude lisboa vale tejo
+  - administracao regional saude norte
+
+agregados_regionais:
+  # Totais por região, não instituições. Somá-los às fichas duplicaria o país.
+  - regiao saude alentejo
+  - regiao saude algarve
+  - regiao saude centro
+  - regiao saude lvt
+  - regiao saude norte
+
+corrompidos_na_fonte:
+  # A fonte aplicou uma substituição automática de «EPE» por «E. P. E.» que
+  # corrompeu palavras onde essa sequência de letras ocorre por acaso:
+  # «Dependências» tornou-se «DE. P. E.ndências». Mapeado para que o teste de
+  # cobertura não falhe por causa de um defeito da fonte que já reportámos.
+  - instituto para os comportamentos aditivos as p ndencias

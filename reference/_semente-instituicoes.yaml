@@ -1,0 +1,2759 @@
+# RASCUNHO gerado por ingest/semear_crosswalk.py — não usar em produção.
+# O crosswalk de produção é reference/instituicoes.yaml, curado à mão
+# contra o Decreto-Lei n.º 102/2023.
+- chave_normalizada: acao governativa
+  nome_provavel: Ação Governativa
+  aliases:
+  - Ação Governativa
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: administracao central do sistema de saude i p
+  nome_provavel: Administração Central do Sistema de Saúde, I.P.
+  aliases:
+  - Administração Central do Sistema de Saúde, I.P
+  - Administração Central do Sistema de Saúde, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 3
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: administracao regional de saude de lisboa e vale do tejo
+  nome_provavel: Administração Regional de Saúde de Lisboa e Vale do Tejo
+  aliases:
+  - Administração Regional de Saúde de Lisboa e Vale do Tejo
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: administracao regional de saude de lisboa e vale do tejo i p
+  nome_provavel: Administração Regional de Saúde de Lisboa e Vale do Tejo, I.P.
+  aliases:
+  - Administração Regional de Saúde de Lisboa e Vale do Tejo, I.P.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2025-03
+  e_uls: false
+- chave_normalizada: administracao regional de saude do alentejo
+  nome_provavel: Administração Regional de Saúde do Alentejo
+  aliases:
+  - Administração Regional de Saúde do Alentejo
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: administracao regional de saude do alentejo i p
+  nome_provavel: Administração Regional de Saúde do Alentejo, I.P.
+  aliases:
+  - Administração Regional de Saúde do Alentejo, I.P.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2025-03
+  e_uls: false
+- chave_normalizada: administracao regional de saude do algarve
+  nome_provavel: Administração Regional de Saúde do Algarve
+  aliases:
+  - Administração Regional de Saúde do Algarve
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: administracao regional de saude do algarve i p
+  nome_provavel: Administração Regional de Saúde do Algarve, I.P.
+  aliases:
+  - Administração Regional de Saúde do Algarve, I.P.
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2025-03
+  e_uls: false
+- chave_normalizada: administracao regional de saude do centro
+  nome_provavel: Administração Regional de Saúde do Centro
+  aliases:
+  - Administração Regional de Saúde do Centro
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: administracao regional de saude do centro i p
+  nome_provavel: Administração Regional de Saúde do Centro, I.P.
+  aliases:
+  - Administração Regional de Saúde do Centro, I.P.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2025-03
+  e_uls: false
+- chave_normalizada: administracao regional de saude do norte
+  nome_provavel: Administração Regional de Saúde do Norte
+  aliases:
+  - Administração Regional de Saúde do Norte
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: administracao regional de saude do norte i p
+  nome_provavel: Administração Regional de Saúde do Norte, I.P.
+  aliases:
+  - Administração Regional de Saúde do Norte, I.P.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2025-03
+  e_uls: false
+- chave_normalizada: centro hospitalar alto ave e p e
+  nome_provavel: Centro Hospitalar Alto Ave, E. P. E.
+  aliases:
+  - Centro Hospitalar Alto Ave, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2014-12
+  e_uls: false
+- chave_normalizada: centro hospitalar barreiro montijo
+  nome_provavel: Centro Hospitalar Barreiro Montijo, E.P.E.
+  aliases:
+  - Centro Hospitalar Barreiro Montijo, E.P.E.
+  - Centro Hospitalar Barreiro/Montijo, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar cova da beira
+  nome_provavel: Centro Hospitalar Cova da Beira, EPE
+  aliases:
+  - Centro Hospitalar Cova da Beira, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2018-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de entre o douro e vouga
+  nome_provavel: Centro Hospitalar de Entre o Douro e Vouga, E.P.E.
+  aliases:
+  - Centro Hospitalar de Entre o Douro e Vouga, E.P.E.
+  - Centro Hospitalar de Entre o Douro e Vouga, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de entre o douro e vouga e p e
+  nome_provavel: Centro Hospitalar de Entre o Douro e Vouga, E. P. E.
+  aliases:
+  - Centro Hospitalar de Entre o Douro e Vouga, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de leiria
+  nome_provavel: Centro Hospitalar de Leiria, E.P.E.
+  aliases:
+  - Centro Hospitalar de Leiria, E.P.E.
+  - Centro Hospitalar de Leiria, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de leiria e p e
+  nome_provavel: Centro Hospitalar de Leiria, E. P. E.
+  aliases:
+  - Centro Hospitalar de Leiria, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de lisboa central
+  nome_provavel: Centro Hospitalar de Lisboa Central, EPE
+  aliases:
+  - Centro Hospitalar de Lisboa Central, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2018-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de lisboa ocidental
+  nome_provavel: Centro Hospitalar de Lisboa Ocidental, E.P.E.
+  aliases:
+  - Centro Hospitalar de Lisboa Ocidental, E.P.E.
+  - Centro Hospitalar de Lisboa Ocidental, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de lisboa zona ocidental
+  nome_provavel: Centro Hospitalar de Lisboa - Zona Ocidental, EPE
+  aliases:
+  - Centro Hospitalar de Lisboa - Zona Ocidental, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de lisboa zona ocidental e p e
+  nome_provavel: Centro Hospitalar de Lisboa - Zona Ocidental, E. P. E.
+  aliases:
+  - Centro Hospitalar de Lisboa - Zona Ocidental, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de sao joao
+  nome_provavel: Centro Hospitalar de São João, EPE
+  aliases:
+  - Centro Hospitalar de São João, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2018-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de setubal
+  nome_provavel: Centro Hospitalar de Setúbal, E.P.E.
+  aliases:
+  - Centro Hospitalar de Setúbal, E.P.E.
+  - Centro Hospitalar de Setúbal, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de setubal e p e
+  nome_provavel: Centro Hospitalar de Setúbal, E. P. E.
+  aliases:
+  - Centro Hospitalar de Setúbal, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de tras os montes e alto douro
+  nome_provavel: Centro Hospitalar de Trás-os-Montes e Alto Douro, E.P.E.
+  aliases:
+  - Centro Hospitalar de Trás-os-Montes e Alto Douro, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar de vila nova de gaia espinho
+  nome_provavel: Centro Hospitalar de Vila Nova de Gaia/Espinho, E.P.E.
+  aliases:
+  - Centro Hospitalar de Vila Nova de Gaia/Espinho, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do alto ave
+  nome_provavel: Centro Hospitalar do Alto Ave, EPE
+  aliases:
+  - Centro Hospitalar do Alto Ave, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 13
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2018-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do baixo vouga
+  nome_provavel: Centro Hospitalar do Baixo Vouga, E.P.E.
+  aliases:
+  - Centro Hospitalar do Baixo Vouga, E.P.E.
+  - Centro Hospitalar do Baixo Vouga, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do baixo vouga e p e
+  nome_provavel: Centro Hospitalar do Baixo Vouga, E. P. E.
+  aliases:
+  - Centro Hospitalar do Baixo Vouga, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do barreiro montijo
+  nome_provavel: Centro Hospitalar do Barreiro - Montijo, EPE
+  aliases:
+  - Centro Hospitalar do Barreiro - Montijo, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do barreiro montijo e p e
+  nome_provavel: Centro Hospitalar do Barreiro - Montijo, E. P. E.
+  aliases:
+  - Centro Hospitalar do Barreiro - Montijo, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do medio ave
+  nome_provavel: Centro Hospitalar do Médio Ave, E.P.E.
+  aliases:
+  - Centro Hospitalar do Médio Ave, E.P.E.
+  - Centro Hospitalar do Médio Ave, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do medio tejo
+  nome_provavel: Centro Hospitalar do Médio Tejo, E.P.E.
+  aliases:
+  - Centro Hospitalar do Médio Tejo, E.P.E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2023-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do oeste
+  nome_provavel: Centro Hospitalar do Oeste, EPE, EPE
+  aliases:
+  - Centro Hospitalar do Oeste
+  - Centro Hospitalar do Oeste, E.P.E.
+  - Centro Hospitalar do Oeste, EPE
+  - Centro Hospitalar do Oeste, EPE, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do oeste e p e
+  nome_provavel: Centro Hospitalar do Oeste, E. P. E.
+  aliases:
+  - Centro Hospitalar do Oeste, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2018-07
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do oeste spa
+  nome_provavel: Centro Hospitalar do Oeste, SPA
+  aliases:
+  - Centro Hospitalar do Oeste, SPA
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2018-06
+  e_uls: false
+- chave_normalizada: centro hospitalar do porto
+  nome_provavel: Centro Hospitalar do Porto, EPE
+  aliases:
+  - Centro Hospitalar do Porto, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2018-01
+  ultimo_periodo: 2023-01
+  e_uls: false
+- chave_normalizada: centro hospitalar do tamega e sousa
+  nome_provavel: Centro Hospitalar do Tâmega e Sousa, E.P.E.
+  aliases:
+  - Centro Hospitalar do Tâmega e Sousa, E.P.E.
+  - Centro Hospitalar do Tâmega e Sousa, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar do tamega e sousa e p e
+  nome_provavel: Centro Hospitalar do Tâmega e Sousa, E. P. E.
+  aliases:
+  - Centro Hospitalar do Tâmega e Sousa, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar e universitario de coimbra
+  nome_provavel: Centro Hospitalar e Universitário de Coimbra, E.P.E.
+  aliases:
+  - Centro Hospitalar e Universitário de Coimbra, E.P.E.
+  - Centro Hospitalar e Universitário de Coimbra, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar e universitario de coimbra e p e
+  nome_provavel: Centro Hospitalar e Universitário de Coimbra, E. P. E.
+  aliases:
+  - Centro Hospitalar e Universitário de Coimbra, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar entre douro e vouga
+  nome_provavel: Centro Hospitalar Entre Douro e Vouga, EPE
+  aliases:
+  - Centro Hospitalar Entre Douro e Vouga, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 19
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar lisboa norte
+  nome_provavel: Centro Hospitalar Lisboa Norte, EPE
+  aliases:
+  - Centro Hospitalar Lisboa Norte, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2018-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar medio ave
+  nome_provavel: Centro Hospitalar Médio Ave, EPE
+  aliases:
+  - Centro Hospitalar Médio Ave, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar medio ave e p e
+  nome_provavel: Centro Hospitalar Médio Ave, E. P. E.
+  aliases:
+  - Centro Hospitalar Médio Ave, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar medio tejo
+  nome_provavel: Centro Hospitalar Médio Tejo, E.P.E.
+  aliases:
+  - Centro Hospitalar Médio Tejo, E.P.E.
+  - Centro Hospitalar Médio Tejo, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar medio tejo e p e
+  nome_provavel: Centro Hospitalar Médio Tejo, E. P. E.
+  aliases:
+  - Centro Hospitalar Médio Tejo, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar povoa de varzim vila do conde
+  nome_provavel: Centro Hospitalar Póvoa de Varzim/Vila do Conde, E.P.E.
+  aliases:
+  - Centro Hospitalar Póvoa de Varzim/Vila do Conde, E.P.E.
+  - Centro Hospitalar Póvoa de Varzim/Vila do Conde, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar povoa varzim vila do conde
+  nome_provavel: Centro Hospitalar Póvoa Varzim / Vila do Conde, EPE
+  aliases:
+  - Centro Hospitalar Póvoa Varzim / Vila do Conde, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar povoa varzim vila do conde e p e
+  nome_provavel: Centro Hospitalar Póvoa Varzim / Vila do Conde, E. P. E.
+  aliases:
+  - Centro Hospitalar Póvoa Varzim / Vila do Conde, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar psiquiatrico de lisboa
+  nome_provavel: Centro Hospitalar Psiquiátrico de Lisboa
+  aliases:
+  - Centro Hospitalar Psiquiátrico de Lisboa
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 14
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar psiquiatrico de lisboa spa
+  nome_provavel: Centro Hospitalar Psiquiátrico de Lisboa, SPA
+  aliases:
+  - Centro Hospitalar Psiquiátrico de Lisboa, SPA
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2025-04
+  e_uls: false
+- chave_normalizada: centro hospitalar tamega e sousa
+  nome_provavel: Centro Hospitalar Tâmega e Sousa, E.P.E.
+  aliases:
+  - Centro Hospitalar Tâmega e Sousa, E.P.E.
+  - Centro Hospitalar Tâmega e Sousa, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 18
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar tondela viseu
+  nome_provavel: Centro Hospitalar Tondela-Viseu, E.P.E.
+  aliases:
+  - Centro Hospitalar Tondela-Viseu, E.P.E.
+  - Centro Hospitalar Tondela-Viseu, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar tondela viseu e p e
+  nome_provavel: Centro Hospitalar Tondela-Viseu, E. P. E.
+  aliases:
+  - Centro Hospitalar Tondela-Viseu, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar tras os montes e alto douro
+  nome_provavel: Centro Hospitalar Trás-os-Montes e Alto Douro, EPE
+  aliases:
+  - Centro Hospitalar Trás-os-Montes e Alto Douro, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar tras os montes e alto douro e p e
+  nome_provavel: Centro Hospitalar Trás-os-Montes e Alto Douro, E. P. E.
+  aliases:
+  - Centro Hospitalar Trás-os-Montes e Alto Douro, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario cova da beira
+  nome_provavel: Centro Hospitalar Universitário Cova da Beira, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário Cova da Beira, E.P.E.
+  - Centro Hospitalar Universitário Cova da Beira, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 19
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario cova da beira e p e
+  nome_provavel: Centro Hospitalar Universitário Cova da Beira, E. P. E.
+  aliases:
+  - Centro Hospitalar Universitário Cova da Beira, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de lisboa central
+  nome_provavel: Centro Hospitalar Universitário de Lisboa Central, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário de Lisboa Central, E.P.E.
+  - Centro Hospitalar Universitário de Lisboa Central, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de lisboa central e p e
+  nome_provavel: Centro Hospitalar Universitário de Lisboa Central, E. P. E.
+  aliases:
+  - Centro Hospitalar Universitário de Lisboa Central, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de lisboa norte
+  nome_provavel: Centro Hospitalar Universitário de Lisboa Norte, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário de Lisboa Norte, E.P.E.
+  - Centro Hospitalar Universitário de Lisboa Norte, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 16
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de s joao
+  nome_provavel: Centro Hospitalar Universitário de S. João, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário de S. João, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de santo antonio
+  nome_provavel: Centro Hospitalar Universitário de Santo António, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário de Santo António, E.P.E.
+  - Centro Hospitalar Universitário de Santo António, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 20
+  primeiro_periodo: 2022-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de santo antonio e p e
+  nome_provavel: Centro Hospitalar Universitário de Santo António, E. P. E.
+  aliases:
+  - Centro Hospitalar Universitário de Santo António, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2023-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de sao joao
+  nome_provavel: Centro Hospitalar Universitário de São João, EPE
+  aliases:
+  - Centro Hospitalar Universitário de São João, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 18
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario de sao joao e p e
+  nome_provavel: Centro Hospitalar Universitário de São João, E. P. E.
+  aliases:
+  - Centro Hospitalar Universitário de São João, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario do algarve
+  nome_provavel: Centro Hospitalar Universitário do Algarve, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário do Algarve, E.P.E.
+  - Centro Hospitalar Universitário do Algarve, EPE
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 3
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario do algarve e p e
+  nome_provavel: Centro Hospitalar Universitário do Algarve, E.P.E
+  aliases:
+  - Centro Hospitalar Universitário do Algarve, E.P.E
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario do algarve epe
+  nome_provavel: Centro Hospitalar Universitário do Algarve,EPE
+  aliases:
+  - Centro Hospitalar Universitário do Algarve,EPE
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 17
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario do porto
+  nome_provavel: Centro Hospitalar Universitário do Porto, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário do Porto, E.P.E.
+  - Centro Hospitalar Universitário do Porto, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 19
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario do porto e p e
+  nome_provavel: Centro Hospitalar Universitário do Porto, E. P. E.
+  aliases:
+  - Centro Hospitalar Universitário do Porto, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario lisboa central
+  nome_provavel: Centro Hospitalar Universitário Lisboa Central, E.P.E.
+  aliases:
+  - Centro Hospitalar Universitário Lisboa Central, E.P.E.
+  - Centro Hospitalar Universitário Lisboa Central, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 18
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario lisboa norte
+  nome_provavel: Centro Hospitalar Universitário Lisboa Norte, EPE
+  aliases:
+  - Centro Hospitalar Universitário Lisboa Norte, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 3
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar universitario lisboa norte e p e
+  nome_provavel: Centro Hospitalar Universitário Lisboa Norte, E. P. E.
+  aliases:
+  - Centro Hospitalar Universitário Lisboa Norte, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar vila nova de gaia espinho
+  nome_provavel: Centro Hospitalar Vila Nova de Gaia/Espinho, EPE
+  aliases:
+  - Centro Hospitalar Vila Nova de Gaia/Espinho, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 19
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar vila nova gaia espinho
+  nome_provavel: Centro Hospitalar Vila Nova Gaia/Espinho, EPE
+  aliases:
+  - Centro Hospitalar Vila Nova Gaia/Espinho, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro hospitalar vila nova gaia espinho e p e
+  nome_provavel: Centro Hospitalar Vila Nova Gaia/Espinho, E. P. E.
+  aliases:
+  - Centro Hospitalar Vila Nova Gaia/Espinho, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: centro medicina de reabilitacao da regiao centro rovisco pais
+  nome_provavel: Centro Medicina de Reabilitação da Região Centro - Rovisco Pais
+  aliases:
+  - Centro Medicina de Reabilitação da Região Centro - Rovisco Pais
+  - Centro Medicina de Reabilitação da Região Centro Rovisco Pais
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 11
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: direcao executiva do servico nacional de saude i p
+  nome_provavel: Direção Executiva do Serviço Nacional de Saúde, I.P.
+  aliases:
+  - Direção Executiva do Serviço Nacional de Saúde, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 3
+  primeiro_periodo: 2022-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: direcao geral da saude
+  nome_provavel: Direção-Geral da Saúde
+  aliases:
+  - Direção-Geral da Saúde
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: hospital arcebispo joao crisostomo
+  nome_provavel: Hospital Arcebispo João Crisóstomo
+  aliases:
+  - Hospital Arcebispo João Crisóstomo
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 15
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital arcebispo joao crisostomo cantanhede
+  nome_provavel: Hospital Arcebispo João Crisóstomo - Cantanhede
+  aliases:
+  - Hospital Arcebispo João Crisóstomo - Cantanhede
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 3
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital da senhora da oliveira guimaraes
+  nome_provavel: Hospital da Senhora da Oliveira - Guimarães, E.P.E.
+  aliases:
+  - Hospital da Senhora da Oliveira - Guimarães, E.P.E.
+  - Hospital da Senhora da Oliveira Guimarães, EPE
+  - Hospital da Senhora da Oliveira, Guimarães, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 21
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital da senhora da oliveira guimaraes e p e
+  nome_provavel: Hospital da Senhora da Oliveira Guimarães, E. P. E.
+  aliases:
+  - Hospital da Senhora da Oliveira Guimarães, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2015-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de braga
+  nome_provavel: Hospital de Braga, E.P.E.
+  aliases:
+  - Hospital de Braga, E.P.E.
+  - Hospital de Braga, EPE
+  - Hospital de Braga, PPP
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de braga e p e
+  nome_provavel: Hospital de Braga, E. P. E.
+  aliases:
+  - Hospital de Braga, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2019-09
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de cascais
+  nome_provavel: Hospital de Cascais, PPP
+  aliases:
+  - Hospital de Cascais, PPP
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 19
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: hospital de cascais dr jose de almeida
+  nome_provavel: Hospital de Cascais Dr. José de Almeida
+  aliases:
+  - Hospital de Cascais Dr. José de Almeida
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: '2019'
+  ultimo_periodo: '2026'
+  e_uls: false
+- chave_normalizada: hospital de loures
+  nome_provavel: Hospital de Loures, E.P.E.
+  aliases:
+  - Hospital de Loures, E.P.E.
+  - Hospital de Loures, EPE
+  - Hospital de Loures, PPP
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de loures e p e
+  nome_provavel: Hospital de Loures, E. P. E.
+  aliases:
+  - Hospital de Loures, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2021-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de magalhaes lemos
+  nome_provavel: Hospital de Magalhães Lemos, E.P.E.
+  aliases:
+  - Hospital de Magalhães Lemos, E.P.E.
+  - Hospital de Magalhães Lemos, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 14
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de magalhaes lemos e p e
+  nome_provavel: Hospital de Magalhães Lemos, E. P. E.
+  aliases:
+  - Hospital de Magalhães Lemos, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de vila franca de xira
+  nome_provavel: Hospital de Vila Franca de Xira, E.P.E.
+  aliases:
+  - Hospital de Vila Franca de Xira, E.P.E.
+  - Hospital de Vila Franca de Xira, EPE
+  - Hospital de Vila Franca de Xira, PPP
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital de vila franca de xira e p e
+  nome_provavel: Hospital de Vila Franca de Xira, E. P. E.
+  aliases:
+  - Hospital de Vila Franca de Xira, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2021-05
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital da figueira da foz
+  nome_provavel: Hospital Distrital da Figueira da Foz, E.P.E.
+  aliases:
+  - Hospital Distrital da Figueira da Foz, E.P.E.
+  - Hospital Distrital da Figueira da Foz, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 19
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital de santarem
+  nome_provavel: Hospital Distrital de Santarém, E.P.E.
+  aliases:
+  - Hospital Distrital de Santarém, E.P.E.
+  - Hospital Distrital de Santarém, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital figueira da foz
+  nome_provavel: Hospital Distrital Figueira da Foz, EPE
+  aliases:
+  - Hospital Distrital Figueira da Foz, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital figueira da foz e p e
+  nome_provavel: Hospital Distrital Figueira da Foz, E. P. E.
+  aliases:
+  - Hospital Distrital Figueira da Foz, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital s maria maior barcelos
+  nome_provavel: Hospital Distrital S.Maria Maior, EPE - Barcelos
+  aliases:
+  - Hospital Distrital S.Maria Maior, EPE - Barcelos
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital s maria maior e p e barcelos
+  nome_provavel: Hospital Distrital S.Maria Maior, E. P. E. - Barcelos
+  aliases:
+  - Hospital Distrital S.Maria Maior, E. P. E. - Barcelos
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital santarem
+  nome_provavel: Hospital Distrital Santarém, EPE
+  aliases:
+  - Hospital Distrital Santarém, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital distrital santarem e p e
+  nome_provavel: Hospital Distrital Santarém, E. P. E.
+  aliases:
+  - Hospital Distrital Santarém, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital do espirito santo de evora
+  nome_provavel: Hospital do Espírito Santo de Évora, E.P.E.
+  aliases:
+  - Hospital do Espírito Santo de Évora, E.P.E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital doutor francisco zagalo ovar
+  nome_provavel: Hospital Doutor Francisco Zagalo - Ovar
+  aliases:
+  - Hospital Doutor Francisco Zagalo - Ovar
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital dr francisco zagalo
+  nome_provavel: Hospital Dr. Francisco Zagalo
+  aliases:
+  - Hospital Dr. Francisco Zagalo
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 16
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital dr francisco zagalo ovar
+  nome_provavel: Hospital Dr. Francisco Zagalo - Ovar
+  aliases:
+  - Hospital Dr. Francisco Zagalo - Ovar
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital espirito santo de evora
+  nome_provavel: Hospital Espírito Santo de Évora, EPE
+  aliases:
+  - Hospital Espírito Santo de Évora, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital espirito santo de evora e p e
+  nome_provavel: Hospital Espírito Santo de Évora, E. P. E.
+  aliases:
+  - Hospital Espírito Santo de Évora, E. P. E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital fernando fonseca
+  nome_provavel: Hospital Fernando Fonseca, EPE
+  aliases:
+  - Hospital Fernando Fonseca, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 3
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital fernando fonseca e p e
+  nome_provavel: Hospital Fernando Fonseca, E. P. E.
+  aliases:
+  - Hospital Fernando Fonseca, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital garcia de orta
+  nome_provavel: Hospital Garcia de Orta, E.P.E.
+  aliases:
+  - Hospital Garcia de Orta, E.P.E.
+  - Hospital Garcia de Orta, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital garcia de orta almada
+  nome_provavel: Hospital Garcia de Orta, EPE - Almada
+  aliases:
+  - Hospital Garcia de Orta, EPE - Almada
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital garcia de orta e p e almada
+  nome_provavel: Hospital Garcia de Orta, E. P. E. - Almada
+  aliases:
+  - Hospital Garcia de Orta, E. P. E. - Almada
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital jose luciano castro anadia
+  nome_provavel: Hospital José Luciano Castro - Anadia
+  aliases:
+  - Hospital José Luciano Castro - Anadia
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2014-12
+  e_uls: false
+- chave_normalizada: hospital jose luciano de castro
+  nome_provavel: Hospital José Luciano de Castro
+  aliases:
+  - Hospital José Luciano de Castro
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 7
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2014-12
+  e_uls: false
+- chave_normalizada: hospital jose luciano de castro anadia
+  nome_provavel: Hospital José Luciano de Castro - Anadia
+  aliases:
+  - Hospital José Luciano de Castro - Anadia
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2019-09
+  e_uls: false
+- chave_normalizada: hospital professor doutor fernando fonseca
+  nome_provavel: Hospital Professor Doutor Fernando Fonseca, E.P.E.
+  aliases:
+  - Hospital Professor Doutor Fernando Fonseca, E.P.E.
+  - Hospital Professor Doutor Fernando Fonseca, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 18
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital rovisco pais
+  nome_provavel: Hospital Rovisco Pais
+  aliases:
+  - Hospital Rovisco Pais
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: hospital santa maria maior
+  nome_provavel: Hospital Santa Maria Maior, E.P.E.
+  aliases:
+  - Hospital Santa Maria Maior, E.P.E.
+  - Hospital Santa Maria Maior, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 20
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: infarmed autoridade nacional do medicamento e produtos de saude i p
+  nome_provavel: Infarmed - Autoridade Nacional do Medicamento e Produtos de Saúde, I.P.
+  aliases:
+  - Infarmed - Autoridade Nacional do Medicamento e Produtos de Saúde, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: inspecao geral das atividades em saude
+  nome_provavel: Inspeção-Geral das Atividades em Saúde
+  aliases:
+  - Inspeção-Geral das Atividades em Saúde
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto de oftalmologia dr gama pinto
+  nome_provavel: Instituto de Oftalmologia Dr. Gama Pinto
+  aliases:
+  - Instituto de Oftalmologia Dr. Gama Pinto
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: instituto de oftalmologia gama pinto
+  nome_provavel: Instituto de Oftalmologia Gama Pinto
+  aliases:
+  - Instituto de Oftalmologia Gama Pinto
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: instituto gama pinto
+  nome_provavel: Instituto Gama Pinto
+  aliases:
+  - Instituto Gama Pinto
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 11
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: instituto nacional de emergencia medica
+  nome_provavel: Instituto Nacional de Emergência Médica
+  aliases:
+  - Instituto Nacional de Emergência Médica
+  regioes:
+  - Serviços Centrais
+  n_datasets: 2
+  primeiro_periodo: 2022-12
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: instituto nacional de emergencia medica i p
+  nome_provavel: Instituto Nacional de Emergência Médica, I.P.
+  aliases:
+  - Instituto Nacional de Emergência Médica, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto nacional de saude doutor ricardo jorge i p
+  nome_provavel: Instituto Nacional de Saúde Doutor Ricardo Jorge, I.P.
+  aliases:
+  - Instituto Nacional de Saúde Doutor Ricardo Jorge, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2023-03
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto nacional de saude dr ricardo jorge i p
+  nome_provavel: Instituto Nacional de Saúde Dr. Ricardo Jorge, I.P.
+  aliases:
+  - Instituto Nacional de Saúde Dr. Ricardo Jorge, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-02
+  e_uls: false
+- chave_normalizada: instituto nacional saude dr ricardo jorge lisboa
+  nome_provavel: Instituto Nacional Saúde Dr. Ricardo Jorge - Lisboa
+  aliases:
+  - Instituto Nacional Saúde Dr. Ricardo Jorge - Lisboa
+  regioes:
+  - Serviços Centrais
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: instituto para os comportamentos aditivos e as de p e ndencias i p
+  nome_provavel: Instituto para os Comportamentos Aditivos e as DE. P. E.ndências, I. P.
+  aliases:
+  - Instituto para os Comportamentos Aditivos e as DE. P. E.ndências, I. P.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2024-10
+  ultimo_periodo: 2024-12
+  e_uls: false
+- chave_normalizada: instituto para os comportamentos aditivos e as dependencias i p
+  nome_provavel: Instituto para os Comportamentos Aditivos e as Dependências, I. P.
+  aliases:
+  - Instituto para os Comportamentos Aditivos e as Dependências, I. P.
+  - Instituto para os Comportamentos Aditivos e as Dependências, I.P.
+  regioes:
+  - Região de Saúde LVT
+  - Serviços Centrais
+  n_datasets: 3
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia de coimbra
+  nome_provavel: INSTITUTO PORTUGUES DE ONCOLOGIA DE COIMBRA, EPE
+  aliases:
+  - INSTITUTO PORTUGUES DE ONCOLOGIA DE COIMBRA, EPE
+  - Instituto Português de Oncologia de Coimbra, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia de coimbra e p e
+  nome_provavel: Instituto Português de Oncologia de Coimbra, E. P. E.
+  aliases:
+  - Instituto Português de Oncologia de Coimbra, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia de coimbra francisco gentil
+  nome_provavel: Instituto Português de Oncologia de Coimbra Francisco Gentil, E.P.E.
+  aliases:
+  - Instituto Português de Oncologia de Coimbra Francisco Gentil, E.P.E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2023-03
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia de lisboa
+  nome_provavel: INSTITUTO PORTUGUES DE ONCOLOGIA DE LISBOA, EPE
+  aliases:
+  - INSTITUTO PORTUGUES DE ONCOLOGIA DE LISBOA, EPE
+  - Instituto Português de Oncologia de Lisboa, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia de lisboa e p e
+  nome_provavel: Instituto Português de Oncologia de Lisboa, E. P. E.
+  aliases:
+  - Instituto Português de Oncologia de Lisboa, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia de lisboa francisco gentil
+  nome_provavel: Instituto Português de Oncologia de Lisboa Francisco Gentil, E.P.E.
+  aliases:
+  - Instituto Português de Oncologia de Lisboa Francisco Gentil, E.P.E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2023-03
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia do porto
+  nome_provavel: INSTITUTO PORTUGUES DE ONCOLOGIA DO PORTO, EPE
+  aliases:
+  - INSTITUTO PORTUGUES DE ONCOLOGIA DO PORTO, EPE
+  - Instituto Português de Oncologia do Porto, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia do porto e p e
+  nome_provavel: Instituto Português de Oncologia do Porto, E. P. E.
+  aliases:
+  - Instituto Português de Oncologia do Porto, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: false
+- chave_normalizada: instituto portugues de oncologia do porto francisco gentil
+  nome_provavel: Instituto Português de Oncologia do Porto Francisco Gentil, E.P.E.
+  aliases:
+  - Instituto Português de Oncologia do Porto Francisco Gentil, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2023-03
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto portugues do sangue e da transplantacao i p
+  nome_provavel: Instituto Português do Sangue e da Transplantação, I.P.
+  aliases:
+  - Instituto Português do Sangue e da Transplantação, I.P.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: instituto portugues do sangue e da transplantacao ip
+  nome_provavel: Instituto Português Do Sangue e Da Transplantação, IP
+  aliases:
+  - Instituto Português Do Sangue e Da Transplantação, IP
+  - Instituto Português do Sangue e da Transplantação, IP
+  regioes:
+  - Serviços Centrais
+  n_datasets: 2
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2026-04
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia de coimbra
+  nome_provavel: Instituto Português Oncologia de Coimbra, EPE
+  aliases:
+  - Instituto Português Oncologia de Coimbra, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 16
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia de lisboa
+  nome_provavel: Instituto Português Oncologia de Lisboa, EPE
+  aliases:
+  - Instituto Português Oncologia de Lisboa, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 16
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia do porto
+  nome_provavel: Instituto Português Oncologia do Porto, EPE
+  aliases:
+  - Instituto Português Oncologia do Porto, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 16
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia f gentil centro
+  nome_provavel: Instituto Português Oncologia  F. Gentil - Centro, E.P.E.
+  aliases:
+  - Instituto Português Oncologia  F. Gentil - Centro, E.P.E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 15
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia f gentil coimbra
+  nome_provavel: Instituto Português Oncologia  F. Gentil - Coimbra, E.P.E.
+  aliases:
+  - Instituto Português Oncologia  F. Gentil - Coimbra, E.P.E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: '2019'
+  ultimo_periodo: '2026'
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia f gentil lisboa
+  nome_provavel: Instituto Português Oncologia  F. Gentil - Lisboa, E.P.E.
+  aliases:
+  - Instituto Português Oncologia  F. Gentil - Lisboa, E.P.E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 16
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia f gentil porto
+  nome_provavel: Instituto Português Oncologia  F. Gentil - Porto, E.P.E.
+  aliases:
+  - Instituto Português Oncologia  F. Gentil - Porto, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 16
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia francisco gentil coimbra
+  nome_provavel: Instituto Português Oncologia Francisco Gentil - Coimbra, E.P.E.
+  aliases:
+  - Instituto Português Oncologia Francisco Gentil - Coimbra, E.P.E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-02
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia francisco gentil lisboa
+  nome_provavel: Instituto Português Oncologia Francisco Gentil - Lisboa, E.P.E.
+  aliases:
+  - Instituto Português Oncologia Francisco Gentil - Lisboa, E.P.E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-02
+  e_uls: false
+- chave_normalizada: instituto portugues oncologia francisco gentil porto
+  nome_provavel: Instituto Português Oncologia Francisco Gentil - Porto, E.P.E.
+  aliases:
+  - Instituto Português Oncologia Francisco Gentil - Porto, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-02
+  e_uls: false
+- chave_normalizada: regiao de saude do alentejo
+  nome_provavel: Região de Saúde do Alentejo
+  aliases:
+  - Região de Saúde do Alentejo
+  regioes:
+  - Administração Regional de Saúde do Alentejo
+  - UNIDADE LOCAL DE SAUDE DO LITORAL ALENTEJANO, EPE
+  - UNIDADE LOCAL DO BAIXO ALENTEJO, EPE
+  - Unidade Local de Saúde do Alentejo Central, E. P. E.
+  - Unidade Local de Saúde do Alto Alentejo, E. P. E.
+  n_datasets: 1
+  primeiro_periodo: 2026-05
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: regiao de saude do algarve
+  nome_provavel: Região de Saúde do Algarve
+  aliases:
+  - Região de Saúde do Algarve
+  regioes:
+  - Administração Regional de Saúde do Algarve
+  - Unidade Local de Saúde do Algarve, E. P. E.
+  n_datasets: 1
+  primeiro_periodo: 2026-05
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: regiao de saude do centro
+  nome_provavel: Região de Saúde do Centro
+  aliases:
+  - Região de Saúde do Centro
+  regioes:
+  - Administração Regional de Saúde do Centro
+  - INSTITUTO PORTUGUES DE ONCOLOGIA DE COIMBRA, EPE
+  - UNIDADE LOCAL DE SAUDE DE CASTELO BRANCO, EPE
+  - UNIDADE LOCAL DE SAÚDE DA GUARDA, EPE
+  - Unidade Local de Saúde da Cova da Beira, E. P. E.
+  - Unidade Local de Saúde da Região de Aveiro, E. P. E.
+  - Unidade Local de Saúde da Região de Leiria, E. P. E.
+  - Unidade Local de Saúde de Coimbra, E. P. E.
+  - Unidade Local de Saúde de Viseu Dão-Lafões, E. P. E.
+  - Unidade Local de Saúde do Baixo Mondego, E. P. E.
+  n_datasets: 1
+  primeiro_periodo: 2026-05
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: regiao de saude lvt
+  nome_provavel: Região de Saúde LVT
+  aliases:
+  - Região de Saúde LVT
+  regioes:
+  - Administração Regional de Saúde de Lisboa e Vale do Tejo
+  - INSTITUTO PORTUGUES DE ONCOLOGIA DE LISBOA, EPE
+  - Instituto para os Comportamentos Aditivos e as Dependências, I. P.
+  - Unidade Local de Saúde da Arrábida, E. P. E.
+  - Unidade Local de Saúde da Lezíria, E. P. E
+  - Unidade Local de Saúde de Almada-Seixal, E. P. E.
+  - Unidade Local de Saúde de Amadora/Sintra, E. P. E.
+  - Unidade Local de Saúde de Lisboa Ocidental, E. P. E.
+  - Unidade Local de Saúde de Loures-Odivelas, E. P. E.
+  - Unidade Local de Saúde de Santa Maria, E. P. E.
+  - Unidade Local de Saúde de São José, E. P. E.
+  - Unidade Local de Saúde do Arco Ribeirinho, E. P. E.
+  - Unidade Local de Saúde do Estuário do Tejo, E. P. E.
+  - Unidade Local de Saúde do Médio Tejo, E. P. E.
+  - Unidade Local de Saúde do Oeste, E. P. E.
+  n_datasets: 1
+  primeiro_periodo: 2026-05
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: regiao de saude norte
+  nome_provavel: Região de Saúde Norte
+  aliases:
+  - Região de Saúde Norte
+  regioes:
+  - Administração Regional de Saúde do Norte
+  - INSTITUTO PORTUGUES DE ONCOLOGIA DO PORTO, EPE
+  - UNIDADE LOCAL DE SAUDE DO NORDESTE, EPE
+  - UNIDADE LOCAL DE SAÚDE ALTO MINHO, EPE
+  - UNIDADE LOCAL DE SAÚDE DE MATOSINHOS, EPE
+  - Unidade Local de Saúde Póvoa de Varzim/Vila do Conde, E. P. E.
+  - Unidade Local de Saúde de Barcelos/Esposende, E. P. E.
+  - Unidade Local de Saúde de Braga, E. P. E.
+  - Unidade Local de Saúde de Entre Douro e Vouga, E. P. E.
+  - Unidade Local de Saúde de Gaia/Espinho, E. P. E.
+  - Unidade Local de Saúde de Santo António, E. P. E.
+  - Unidade Local de Saúde de São João, E. P. E.
+  - Unidade Local de Saúde de Trás-os-Montes e Alto Douro, E. P. E.
+  - Unidade Local de Saúde do Alto Ave, E. P. E.
+  - Unidade Local de Saúde do Médio Ave, E. P. E.
+  - Unidade Local de Saúde do Tâmega e Sousa, E. P. E.
+  n_datasets: 1
+  primeiro_periodo: 2026-05
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: secretaria geral do ministerio da saude
+  nome_provavel: Secretaria Geral do Ministério da Saúde
+  aliases:
+  - Secretaria Geral do Ministério da Saúde
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: servico de intervencao nos comportamentos aditivos e nas dependencias
+  nome_provavel: Serviço de Intervenção nos Comportamentos Aditivos e nas Dependências
+  aliases:
+  - Serviço de Intervenção nos Comportamentos Aditivos e nas Dependências
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-12
+  e_uls: false
+- chave_normalizada: servicos centrais
+  nome_provavel: Serviços Centrais
+  aliases:
+  - Serviços Centrais
+  regioes:
+  - Administração Central do Sistema de Saúde, I.P
+  - Direção Executiva do Serviço Nacional de Saúde, I.P.
+  - Instituto Nacional Saúde Dr. Ricardo Jorge - Lisboa
+  - Instituto Nacional de Emergência Médica
+  - Instituto Português Do Sangue e Da Transplantação, IP
+  n_datasets: 1
+  primeiro_periodo: 2026-05
+  ultimo_periodo: 2026-05
+  e_uls: false
+- chave_normalizada: servicos partilhados do ministerio da saude
+  nome_provavel: Serviços Partilhados do Ministério da Saúde, E.P.E.
+  aliases:
+  - Serviços Partilhados do Ministério da Saúde, E.P.E.
+  regioes:
+  - Serviços Centrais
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: false
+- chave_normalizada: unidade local de saude alto minho
+  nome_provavel: Unidade Local de Saúde Alto Minho, E.P.E.
+  aliases:
+  - UNIDADE LOCAL DE SAÚDE ALTO MINHO, EPE
+  - Unidade Local de Saúde Alto Minho, E.P.E.
+  - Unidade Local de Saúde Alto Minho, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 3
+  primeiro_periodo: 2014-03
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude alto minho e p e
+  nome_provavel: Unidade Local de Saúde Alto Minho, E. P. E.
+  aliases:
+  - Unidade Local de Saúde Alto Minho, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude baixo alentejo
+  nome_provavel: Unidade Local de Saúde Baixo Alentejo, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Baixo Alentejo, E.P.E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude castelo branco
+  nome_provavel: Unidade Local de Saúde Castelo Branco, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Castelo Branco, E.P.E.
+  - Unidade Local de Saúde Castelo Branco, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 19
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da arrabida
+  nome_provavel: Unidade Local de Saúde da Arrábida, E.P.E.
+  aliases:
+  - Unidade Local de Saúde da Arrábida, E.P.E.
+  - Unidade Local de Saúde da Arrábida, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da arrabida e p e
+  nome_provavel: Unidade Local de Saúde da Arrábida, E. P. E.
+  aliases:
+  - Unidade Local de Saúde da Arrábida, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude da cova da beira
+  nome_provavel: Unidade Local de Saúde da Cova da Beira, E.P.E.
+  aliases:
+  - Unidade Local de Saúde da Cova da Beira, E.P.E.
+  - Unidade Local de Saúde da Cova da Beira, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da cova da beira e p e
+  nome_provavel: Unidade Local de Saúde da Cova da Beira, E. P. E.
+  aliases:
+  - Unidade Local de Saúde da Cova da Beira, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude da guarda
+  nome_provavel: Unidade Local de Saúde da Guarda, E.P.E.
+  aliases:
+  - UNIDADE LOCAL DE SAÚDE DA GUARDA, EPE
+  - Unidade Local de Saúde da Guarda, E.P.E.
+  - Unidade Local de Saúde da Guarda, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 22
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude da guarda e p e
+  nome_provavel: Unidade Local de Saúde da Guarda, E. P. E.
+  aliases:
+  - Unidade Local de Saúde da Guarda, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude da leziria
+  nome_provavel: Unidade Local de Saúde da Lezíria, E.P.E.
+  aliases:
+  - Unidade Local de Saúde da Lezíria, E.P.E.
+  - Unidade Local de Saúde da Lezíria, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da leziria e p e
+  nome_provavel: Unidade Local de Saúde da Lezíria, E. P. E
+  aliases:
+  - Unidade Local de Saúde da Lezíria, E. P. E
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude da povoa de varzim vila do conde
+  nome_provavel: Unidade Local de Saúde da Póvoa de Varzim / Vila do Conde, E.P.E.
+  aliases:
+  - Unidade Local de Saúde da Póvoa de Varzim / Vila do Conde, E.P.E.
+  - Unidade Local de Saúde da Póvoa de Varzim/Vila do Conde, E.P.E.
+  - Unidade Local de Saúde da Póvoa de Varzim/Vila do Conde, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da regiao de aveiro
+  nome_provavel: Unidade Local de Saúde da Região de Aveiro, E.P.E.
+  aliases:
+  - Unidade Local de Saúde da Região de Aveiro, E.P.E.
+  - Unidade Local de Saúde da Região de Aveiro, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da regiao de aveiro e p e
+  nome_provavel: Unidade Local de Saúde da Região de Aveiro, E. P. E.
+  aliases:
+  - Unidade Local de Saúde da Região de Aveiro, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude da regiao de leiria
+  nome_provavel: Unidade Local de Saúde da Região de Leiria, E.P.E.
+  aliases:
+  - Unidade Local de Saúde da Região de Leiria, E.P.E.
+  - Unidade Local de Saúde da Região de Leiria, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude da regiao de leiria e p e
+  nome_provavel: Unidade Local de Saúde da Região de Leiria, E. P. E.
+  aliases:
+  - Unidade Local de Saúde da Região de Leiria, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de almada seixal
+  nome_provavel: Unidade Local de Saúde de Almada / Seixal, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Almada / Seixal, E.P.E.
+  - Unidade Local de Saúde de Almada-Seixal, E.P.E.
+  - Unidade Local de Saúde de Almada-Seixal, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de almada seixal e p e
+  nome_provavel: Unidade Local de Saúde de Almada-Seixal, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Almada-Seixal, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de amadora sintra
+  nome_provavel: Unidade Local de Saúde de Amadora / Sintra, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Amadora / Sintra, E.P.E.
+  - Unidade Local de Saúde de Amadora/Sintra, E.P.E.
+  - Unidade Local de Saúde de Amadora/Sintra, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de amadora sintra e p e
+  nome_provavel: Unidade Local de Saúde de Amadora/Sintra, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Amadora/Sintra, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de barcelos esposende
+  nome_provavel: Unidade Local de Saúde de Barcelos / Esposende, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Barcelos / Esposende, E.P.E.
+  - Unidade Local de Saúde de Barcelos/Esposende, E.P.E.
+  - Unidade Local de Saúde de Barcelos/Esposende, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de barcelos esposende e p e
+  nome_provavel: Unidade Local de Saúde de Barcelos/Esposende, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Barcelos/Esposende, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de braga
+  nome_provavel: Unidade Local de Saúde de Braga, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Braga, E.P.E.
+  - Unidade Local de Saúde de Braga, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de braga e p e
+  nome_provavel: Unidade Local de Saúde de Braga, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Braga, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de castelo branco
+  nome_provavel: Unidade Local de Saúde de Castelo Branco, E.P.E.
+  aliases:
+  - UNIDADE LOCAL DE SAUDE DE CASTELO BRANCO, EPE
+  - Unidade Local de Saúde de Castelo Branco, E.P.E.
+  - Unidade Local de Saúde de Castelo Branco, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 22
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de castelo branco e p e
+  nome_provavel: Unidade Local de Saúde de Castelo Branco, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Castelo Branco, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude de coimbra
+  nome_provavel: Unidade Local de Saúde de Coimbra, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Coimbra, E.P.E.
+  - Unidade Local de Saúde de Coimbra, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de coimbra e p e
+  nome_provavel: Unidade Local de Saúde de Coimbra, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Coimbra, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de dao lafoes
+  nome_provavel: Unidade Local de Saúde de Dão-Lafões, EPE
+  aliases:
+  - Unidade Local de Saúde de Dão-Lafões, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 18
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude de entre douro e vouga
+  nome_provavel: Unidade Local de Saúde de Entre Douro e Vouga, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Entre Douro e Vouga, E.P.E.
+  - Unidade Local de Saúde de Entre Douro e Vouga, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de entre douro e vouga e p e
+  nome_provavel: Unidade Local de Saúde de Entre Douro e Vouga, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Entre Douro e Vouga, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de gaia e espinho
+  nome_provavel: Unidade Local de Saúde de Gaia e Espinho, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Gaia e Espinho, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de gaia espinho
+  nome_provavel: Unidade Local de Saúde de Gaia / Espinho, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Gaia / Espinho, E.P.E.
+  regioes:
+  - Região de Saúde do Norte
+  n_datasets: 1
+  primeiro_periodo: '2019'
+  ultimo_periodo: '2026'
+  e_uls: true
+- chave_normalizada: unidade local de saude de gaia espinho e p e
+  nome_provavel: Unidade Local de Saúde de Gaia/Espinho, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Gaia/Espinho, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de lisboa ocidental
+  nome_provavel: Unidade Local de Saúde de Lisboa Ocidental, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Lisboa Ocidental, E.P.E.
+  - Unidade Local de Saúde de Lisboa Ocidental, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de lisboa ocidental e p e
+  nome_provavel: Unidade Local de Saúde de Lisboa Ocidental, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Lisboa Ocidental, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de loures odivelas
+  nome_provavel: Unidade Local de Saúde de Loures / Odivelas, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Loures / Odivelas, E.P.E.
+  - Unidade Local de Saúde de Loures-Odivelas, E.P.E.
+  - Unidade Local de Saúde de Loures-Odivelas, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de loures odivelas e p e
+  nome_provavel: Unidade Local de Saúde de Loures-Odivelas, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Loures-Odivelas, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de matosinhos
+  nome_provavel: Unidade Local de Saúde de Matosinhos, E.P.E.
+  aliases:
+  - UNIDADE LOCAL DE SAÚDE DE MATOSINHOS, EPE
+  - Unidade Local de Saúde de Matosinhos, E.P.E.
+  - Unidade Local de Saúde de Matosinhos, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 22
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude de matosinhos e p e
+  nome_provavel: Unidade Local de Saúde de Matosinhos, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Matosinhos, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude de s joao
+  nome_provavel: Unidade Local de Saúde de S. João, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de S. João, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de santa maria
+  nome_provavel: Unidade Local de Saúde de Santa Maria, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Santa Maria, E.P.E.
+  - Unidade Local de Saúde de Santa Maria, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de santa maria e p e
+  nome_provavel: Unidade Local de Saúde de Santa Maria, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Santa Maria, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de santo antonio
+  nome_provavel: Unidade Local de Saúde de Santo António, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Santo António, E.P.E.
+  - Unidade Local de Saúde de Santo António, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de santo antonio e p e
+  nome_provavel: Unidade Local de Saúde de Santo António, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Santo António, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de sao joao
+  nome_provavel: Unidade Local de Saúde de São João, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de São João, E.P.E.
+  - Unidade Local de Saúde de São João, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 19
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude de sao joao e p e
+  nome_provavel: Unidade Local de Saúde de São João, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de São João, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de sao jose
+  nome_provavel: Unidade Local de Saúde de São José, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de São José, E.P.E.
+  - Unidade Local de Saúde de São José, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de sao jose e p e
+  nome_provavel: Unidade Local de Saúde de São José, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de São José, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de tras os montes e alto douro
+  nome_provavel: Unidade Local de Saúde de Trás-os-Montes e Alto Douro, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Trás-os-Montes e Alto Douro, E.P.E.
+  - Unidade Local de Saúde de Trás-os-Montes e Alto Douro, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de tras os montes e alto douro e p e
+  nome_provavel: Unidade Local de Saúde de Trás-os-Montes e Alto Douro, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Trás-os-Montes e Alto Douro, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude de vila nova de gaia espinho
+  nome_provavel: Unidade Local de Saúde de Vila Nova de Gaia/Espinho, EPE
+  aliases:
+  - Unidade Local de Saúde de Vila Nova de Gaia/Espinho, EPE
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 18
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude de viseu dao lafoes
+  nome_provavel: Unidade Local de Saúde de Viseu Dão-Lafões, E.P.E.
+  aliases:
+  - Unidade Local de Saúde de Viseu Dão-Lafões, E.P.E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude de viseu dao lafoes e p e
+  nome_provavel: Unidade Local de Saúde de Viseu Dão-Lafões, E. P. E.
+  aliases:
+  - Unidade Local de Saúde de Viseu Dão-Lafões, E. P. E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do alentejo central
+  nome_provavel: Unidade Local de Saúde do Alentejo Central, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Alentejo Central, E.P.E.
+  - Unidade Local de Saúde do Alentejo Central, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do alentejo central e p e
+  nome_provavel: Unidade Local de Saúde do Alentejo Central, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Alentejo Central, E. P. E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do algarve
+  nome_provavel: Unidade Local de Saúde do Algarve, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Algarve, E.P.E.
+  - Unidade Local de Saúde do Algarve, EPE
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do algarve e p e
+  nome_provavel: Unidade Local de Saúde do Algarve, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Algarve, E. P. E.
+  regioes:
+  - Região de Saúde do Algarve
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do alto alentejo
+  nome_provavel: Unidade Local de Saúde do Alto Alentejo, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Alto Alentejo, E.P.E.
+  - Unidade Local de Saúde do Alto Alentejo, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do alto alentejo e p e
+  nome_provavel: Unidade Local de Saúde do Alto Alentejo, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Alto Alentejo, E. P. E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do alto ave
+  nome_provavel: Unidade Local de Saúde do Alto Ave, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Alto Ave, E.P.E.
+  - Unidade Local de Saúde do Alto Ave, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do alto ave e p e
+  nome_provavel: Unidade Local de Saúde do Alto Ave, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Alto Ave, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do alto minho
+  nome_provavel: Unidade Local de Saúde do Alto Minho, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Alto Minho, E.P.E.
+  - Unidade Local de Saúde do Alto Minho, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude do alto minho e p e
+  nome_provavel: Unidade Local de Saúde do Alto Minho, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Alto Minho, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-10
+  e_uls: true
+- chave_normalizada: unidade local de saude do arco ribeirinho
+  nome_provavel: Unidade Local de Saúde do Arco Ribeirinho, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Arco Ribeirinho, E.P.E.
+  - Unidade Local de Saúde do Arco Ribeirinho, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do arco ribeirinho e p e
+  nome_provavel: Unidade Local de Saúde do Arco Ribeirinho, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Arco Ribeirinho, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do baixo alentejo
+  nome_provavel: Unidade Local de Saúde do Baixo Alentejo, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Baixo Alentejo, E.P.E.
+  - Unidade Local de Saúde do Baixo Alentejo, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude do baixo alentejo e p e
+  nome_provavel: Unidade Local de Saúde do Baixo Alentejo, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Baixo Alentejo, E. P. E.
+  regioes:
+  - Região de Saúde do Alentejo
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude do baixo mondego
+  nome_provavel: Unidade Local de Saúde do Baixo Mondego, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Baixo Mondego, E.P.E.
+  - Unidade Local de Saúde do Baixo Mondego, EPE
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do baixo mondego e p e
+  nome_provavel: Unidade Local de Saúde do Baixo Mondego, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Baixo Mondego, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  - Região de Saúde do Centro
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do estuario do tejo
+  nome_provavel: Unidade Local de Saúde do Estuário do Tejo, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Estuário do Tejo, E.P.E.
+  - Unidade Local de Saúde do Estuário do Tejo, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do estuario do tejo e p e
+  nome_provavel: Unidade Local de Saúde do Estuário do Tejo, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Estuário do Tejo, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  - Região de Saúde do Alentejo
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do litoral alentejano
+  nome_provavel: Unidade Local de Saúde do Litoral Alentejano, E.P.E.
+  aliases:
+  - UNIDADE LOCAL DE SAUDE DO LITORAL ALENTEJANO, EPE
+  - Unidade Local de Saúde do Litoral Alentejano, E.P.E.
+  - Unidade Local de Saúde do Litoral Alentejano, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 22
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude do litoral alentejano e p e
+  nome_provavel: Unidade Local de Saúde do Litoral Alentejano, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Litoral Alentejano, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude do medio ave
+  nome_provavel: Unidade Local de Saúde do Médio Ave, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Médio Ave, E.P.E.
+  - Unidade Local de Saúde do Médio Ave, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do medio ave e p e
+  nome_provavel: Unidade Local de Saúde do Médio Ave, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Médio Ave, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do medio tejo
+  nome_provavel: Unidade Local de Saúde do Médio Tejo, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Médio Tejo, E.P.E.
+  - Unidade Local de Saúde do Médio Tejo, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do medio tejo e p e
+  nome_provavel: Unidade Local de Saúde do Médio Tejo, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Médio Tejo, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do nordeste
+  nome_provavel: Unidade Local de Saúde do Nordeste, E.P.E.
+  aliases:
+  - UNIDADE LOCAL DE SAUDE DO NORDESTE, EPE
+  - Unidade Local de Saúde do Nordeste, E.P.E.
+  - Unidade Local de Saúde do Nordeste, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 22
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2026-05
+  e_uls: true
+- chave_normalizada: unidade local de saude do nordeste e p e
+  nome_provavel: Unidade Local de Saúde do Nordeste, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Nordeste, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2024-12
+  e_uls: true
+- chave_normalizada: unidade local de saude do norte alentejano
+  nome_provavel: Unidade Local de Saúde do Norte Alentejano, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Norte Alentejano, E.P.E.
+  - Unidade Local de Saúde do Norte Alentejano, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 21
+  primeiro_periodo: 2013-01
+  ultimo_periodo: 2023-12
+  e_uls: true
+- chave_normalizada: unidade local de saude do norte alentejano e p e
+  nome_provavel: Unidade Local de Saúde do Norte Alentejano, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Norte Alentejano, E. P. E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-01
+  ultimo_periodo: 2023-12
+  e_uls: true
+- chave_normalizada: unidade local de saude do oeste
+  nome_provavel: Unidade Local de Saúde do Oeste, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Oeste, E.P.E.
+  - Unidade Local de Saúde do Oeste, EPE
+  regioes:
+  - Região de Saúde LVT
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do oeste e p e
+  nome_provavel: Unidade Local de Saúde do Oeste, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Oeste, E. P. E.
+  regioes:
+  - Região de Saúde LVT
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude do tamega e sousa
+  nome_provavel: Unidade Local de Saúde do Tâmega e Sousa, E.P.E.
+  aliases:
+  - Unidade Local de Saúde do Tâmega e Sousa, E.P.E.
+  - Unidade Local de Saúde do Tâmega e Sousa, EPE
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Norte
+  n_datasets: 20
+  primeiro_periodo: '2019'
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude do tamega e sousa e p e
+  nome_provavel: Unidade Local de Saúde do Tâmega e Sousa, E. P. E.
+  aliases:
+  - Unidade Local de Saúde do Tâmega e Sousa, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local de saude guarda
+  nome_provavel: Unidade Local de Saúde Guarda, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Guarda, E.P.E.
+  regioes:
+  - Região de Saúde do Centro
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude litoral alentejano
+  nome_provavel: Unidade Local de Saúde Litoral Alentejano, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Litoral Alentejano, E.P.E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude litoral alentejano e p e
+  nome_provavel: Unidade Local de Saúde Litoral Alentejano, E. P. E.
+  aliases:
+  - Unidade Local de Saúde Litoral Alentejano, E. P. E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2024-08
+  e_uls: true
+- chave_normalizada: unidade local de saude matosinhos
+  nome_provavel: Unidade Local de Saúde Matosinhos, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Matosinhos, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude nordeste
+  nome_provavel: Unidade Local de Saúde Nordeste, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Nordeste, E.P.E.
+  regioes:
+  - Região de Saúde Norte
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2026-06
+  e_uls: true
+- chave_normalizada: unidade local de saude norte alentejano
+  nome_provavel: Unidade Local de Saúde Norte Alentejano, E.P.E.
+  aliases:
+  - Unidade Local de Saúde Norte Alentejano, E.P.E.
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 1
+  primeiro_periodo: 2014-12
+  ultimo_periodo: 2023-02
+  e_uls: true
+- chave_normalizada: unidade local de saude povoa de varzim vila do conde e p e
+  nome_provavel: Unidade Local de Saúde Póvoa de Varzim/Vila do Conde, E. P. E.
+  aliases:
+  - Unidade Local de Saúde Póvoa de Varzim/Vila do Conde, E. P. E.
+  regioes:
+  - Região de Saúde Norte
+  - Região de Saúde do Alentejo
+  n_datasets: 2
+  primeiro_periodo: 2024-01
+  ultimo_periodo: 2026-04
+  e_uls: true
+- chave_normalizada: unidade local do baixo alentejo
+  nome_provavel: UNIDADE LOCAL DO BAIXO ALENTEJO, EPE
+  aliases:
+  - UNIDADE LOCAL DO BAIXO ALENTEJO, EPE
+  regioes:
+  - Região de Saúde do Alentejo
+  n_datasets: 2
+  primeiro_periodo: 2024-03
+  ultimo_periodo: 2026-04
+  e_uls: false

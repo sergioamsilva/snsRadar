@@ -1,0 +1,227 @@
+---
+import Base from "../layouts/Base.astro";
+import { indice, enriquecimento, formatar, formatarMesPorExtenso, ligacao } from "../lib/dados";
+import Abertura from "../components/Abertura.astro";
+import Triagem from "../components/Triagem.astro";
+import Europa from "../components/Europa.astro";
+import Movimento from "../components/Movimento.astro";
+import Tese from "../components/Tese.astro";
+
+const lista = indice();
+
+/* Rodapé da lista: quantas pessoas ficam sem médico de família atribuído. É o
+   número que fecha a página, e agrega-se por soma dos numeradores sobre soma
+   dos denominadores, como todo o resto — nunca pela média das percentagens. */
+const pop = enriquecimento().populacao;
+const semMedico = Object.values(pop.por_instituicao).reduce(
+  (s, p) => s + p.sem_medico_familia,
+  0,
+);
+const periodoPop = pop.periodo;
+
+const porRegiao = [...new Set(lista.map((i) => i.regiao))].sort();
+const regioes = porRegiao.map((r) => ({
+  regiao: r,
+  itens: lista
+    .filter((i) => i.regiao === r)
+    .sort((a, b) => a.nome_curto.localeCompare(b.nome_curto, "pt")),
+}));
+---
+
+<Base
+  titulo="O SNS, hospital a hospital"
+  descricao="Indicadores de acesso, qualidade, capacidade e contas de cada unidade de saúde do SNS, comparados com o país. Dados públicos, reorganizados por instituição."
+>
+  <Abertura />
+
+  <Triagem />
+
+  <Tese />
+
+  <Europa />
+
+  <section class="lista" id="achar">
+    <div>
+      <div class="sec-band"><h2>Encontre a sua unidade de saúde</h2><span class="ln" /><span class="n">{lista.length} unidades</span></div>
+
+      <p class="lista__intro">
+        Escreva na caixa de procura lá em cima, ou aponte para um ponto do mapa:
+        os dois filtram esta lista ao mesmo tempo.
+        <strong class="num">{formatar(semMedico, "contagem")}</strong> pessoas
+        inscritas no SNS não têm médico de família atribuído
+        ({formatarMesPorExtenso(periodoPop)}).
+      </p>
+
+      {
+        regioes.map((r) => (
+          <div class="regiao" data-bloco data-entrada>
+            <div class="sec-band"><h2>{r.regiao}</h2><span class="ln" /><span class="n">{r.itens.length} {r.itens.length === 1 ? "unidade" : "unidades"}</span></div>
+            <ul class="regiao__lista">
+              {r.itens.map((i) => (
+                <li
+                  data-item
+                  data-busca={`${i.nome_curto} ${i.distrito} ${i.regiao}`.toLowerCase()}
+                >
+                  <a href={ligacao(`/instituicao/${i.id}/`)}>
+                    <span class="regiao__nome">{i.nome_curto}</span>
+                    <span class="regiao__meta">
+                      {i.distrito}
+                      <span aria-hidden="true"> · </span>
+                      <span class="num">{i.n_indicadores}</span> indicadores
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+      <p class="lista__vazio" data-vazio hidden>
+        Nenhuma unidade corresponde a essa procura.
+      </p>
+    </div>
+  </section>
+  <Movimento />
+</Base>
+
+<script>
+  const campo = document.querySelector<HTMLInputElement>("[data-procura]");
+  const itens = [...document.querySelectorAll<HTMLElement>("[data-item]")];
+  // `[data-bloco]`, e não `[data-regiao]`: os pontos do mapa também levam
+  // `data-regiao` para alimentar o mostrador, e o seletor antigo apanhava
+  // 48 elementos — os 5 blocos mais as 43 unidades —, mandando esconder pontos
+  // do mapa a cada tecla. Não se via porque `hidden` não é propriedade de
+  // elementos SVG, mas a intenção do código era o contrário do que ele fazia.
+  const regioes = [...document.querySelectorAll<HTMLElement>("[data-bloco]")];
+  const pontos = [...document.querySelectorAll<SVGElement>("[data-ponto]")];
+  const vazio = document.querySelector<HTMLElement>("[data-vazio]");
+  const contagem = document.querySelector<HTMLElement>("[data-contagem]");
+
+  // Sem acentos: quem escreve «Tras-os-Montes» tem de encontrar o hospital.
+  const semAcentos = (s: string) =>
+    s.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+
+  campo?.addEventListener("input", () => {
+    const q = semAcentos(campo.value.trim().toLowerCase());
+    let visiveis = 0;
+    for (const item of itens) {
+      const alvo = semAcentos(item.dataset.busca ?? "");
+      const mostra = q === "" || alvo.includes(q);
+      item.hidden = !mostra;
+      if (mostra) visiveis++;
+    }
+    for (const r of regioes) {
+      r.hidden = ![...r.querySelectorAll<HTMLElement>("[data-item]")].some(
+        (i) => !i.hidden,
+      );
+    }
+    // No mapa as que não correspondem são atenuadas, não escondidas: o país
+    // tem de continuar reconhecível enquanto se escreve, senão a procura
+    // desfaz a própria imagem que ajuda a orientar.
+    for (const p of pontos) {
+      const alvo = semAcentos(p.dataset.busca ?? "");
+      if (q === "" || alvo.includes(q)) p.removeAttribute("data-fora");
+      else p.setAttribute("data-fora", "");
+    }
+    if (vazio) vazio.hidden = visiveis > 0;
+    if (contagem) {
+      contagem.textContent =
+        q === "" ? "" : `${visiveis} ${visiveis === 1 ? "unidade" : "unidades"}`;
+    }
+  });
+
+  /* ── o mostrador segue o mapa ──────────────────────────────────────────── */
+
+  const mostrador = {
+    rot: document.querySelector<HTMLElement>("[data-mostrador-rot]"),
+    nome: document.querySelector<HTMLElement>("[data-mostrador-nome]"),
+    pop: document.querySelector<HTMLElement>("[data-mostrador-pop]"),
+    sm: document.querySelector<HTMLElement>("[data-mostrador-sm]"),
+    ind: document.querySelector<HTMLElement>("[data-mostrador-ind]"),
+  };
+  // O estado de repouso é o que já está no HTML — guardá-lo evita recalcular
+  // o resumo do país em JavaScript e mantém uma só fonte para esse número.
+  const repouso = {
+    rot: mostrador.rot?.textContent ?? "",
+    nome: mostrador.nome?.textContent ?? "",
+    pop: mostrador.pop?.textContent ?? "",
+    sm: mostrador.sm?.textContent ?? "",
+    ind: mostrador.ind?.textContent ?? "",
+  };
+  const nf = new Intl.NumberFormat("pt-PT");
+  const nf1 = new Intl.NumberFormat("pt-PT", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+
+  function mostrar(p: SVGElement | null) {
+    if (!mostrador.nome) return;
+    if (!p) {
+      mostrador.rot!.textContent = repouso.rot;
+      mostrador.nome.textContent = repouso.nome;
+      mostrador.pop!.textContent = repouso.pop;
+      mostrador.sm!.textContent = repouso.sm;
+      mostrador.ind!.textContent = repouso.ind;
+      return;
+    }
+    const pop = p.dataset.pop;
+    const sm = p.dataset.semMedico;
+    mostrador.rot!.textContent = `${p.dataset.distrito} · ${p.dataset.regiao}`;
+    mostrador.nome.textContent = p.dataset.nome ?? "";
+    mostrador.pop!.textContent = pop ? nf.format(Number(pop)) : "não publicada";
+    mostrador.sm!.textContent = sm ? `${nf1.format(Number(sm))} %` : "—";
+    mostrador.ind!.textContent = p.dataset.indicadores ?? "";
+  }
+
+  for (const p of pontos) {
+    p.addEventListener("pointerenter", () => mostrar(p));
+    p.addEventListener("focus", () => mostrar(p));
+    p.addEventListener("pointerleave", () => mostrar(null));
+    p.addEventListener("blur", () => mostrar(null));
+  }
+</script>
+
+<style>
+  .lista { padding-top: 6px; scroll-margin-top: 62px; }
+  .lista__intro {
+    margin: 14px 0 22px;
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+    max-width: 74ch;
+  }
+  .lista__intro strong { color: var(--ink); font-weight: 750; }
+
+  .regiao { margin-bottom: 8px; }
+  .regiao__lista {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+  /* 43 ligações numa grelha: o que falta é saber qual está sob o cursor. Uma
+     régua de acento cresce da esquerda no filete que já existe, e o nome
+     avança com ela — dois píxeis, o suficiente para o olho seguir sem que a
+     grelha pareça mexer. */
+  .regiao__lista a {
+    display: flex; flex-direction: column; gap: 2px; padding: 11px 12px 11px 0;
+    text-decoration: none; border-bottom: 1px solid var(--grid); height: 100%;
+    color: inherit; position: relative;
+  }
+  .regiao__lista a::after {
+    content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+    background: var(--accent); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.25, 1);
+  }
+  .regiao__lista a:hover::after,
+  .regiao__lista a:focus-visible::after { transform: scaleX(1); }
+  .regiao__nome { transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.25, 1); }
+  .regiao__lista a:hover .regiao__nome,
+  .regiao__lista a:focus-visible .regiao__nome {
+    color: var(--accent-texto); transform: translateX(2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .regiao__lista a::after, .regiao__nome { transition: none; }
+    .regiao__lista a:hover .regiao__nome { transform: none; }
+  }
+  .regiao__nome { font-weight: 600; font-size: var(--t-sm); }
+  .regiao__meta { font-size: var(--t-2xs); color: var(--muted); }
+  .lista__vazio { color: var(--muted); }
+</style>

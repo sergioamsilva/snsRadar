@@ -1,0 +1,518 @@
+[
+  {
+    "id": "hospital-cascais",
+    "nome_curto": "Hospital de Cascais",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "ppp",
+    "geo": {
+      "lat": 38.7333,
+      "lon": -9.4
+    },
+    "n_indicadores": 14
+  },
+  {
+    "id": "ipo-coimbra",
+    "nome_curto": "IPO Coimbra",
+    "regiao": "Centro",
+    "distrito": "Coimbra",
+    "tipo": "oncologico",
+    "geo": {
+      "lat": 40.2265,
+      "lon": -8.4265
+    },
+    "n_indicadores": 19
+  },
+  {
+    "id": "ipo-lisboa",
+    "nome_curto": "IPO Lisboa",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "oncologico",
+    "geo": {
+      "lat": 38.747,
+      "lon": -9.158
+    },
+    "n_indicadores": 19
+  },
+  {
+    "id": "ipo-porto",
+    "nome_curto": "IPO Porto",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "oncologico",
+    "geo": {
+      "lat": 41.177,
+      "lon": -8.6098
+    },
+    "n_indicadores": 21
+  },
+  {
+    "id": "uls-alentejo-central",
+    "nome_curto": "ULS Alentejo Central",
+    "regiao": "Alentejo",
+    "distrito": "Évora",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.5714,
+      "lon": -7.9135
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-algarve",
+    "nome_curto": "ULS Algarve",
+    "regiao": "Algarve",
+    "distrito": "Faro",
+    "tipo": "uls",
+    "geo": {
+      "lat": 37.029,
+      "lon": -7.935
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-almada-seixal",
+    "nome_curto": "ULS Almada-Seixal",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Setúbal",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.6667,
+      "lon": -9.1583
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-alto-alentejo",
+    "nome_curto": "ULS Alto Alentejo",
+    "regiao": "Alentejo",
+    "distrito": "Portalegre",
+    "tipo": "uls",
+    "geo": {
+      "lat": 39.2967,
+      "lon": -7.4281
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-alto-ave",
+    "nome_curto": "ULS Alto Ave",
+    "regiao": "Norte",
+    "distrito": "Braga",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.4425,
+      "lon": -8.2918
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-alto-minho",
+    "nome_curto": "ULS Alto Minho",
+    "regiao": "Norte",
+    "distrito": "Viana do Castelo",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.6918,
+      "lon": -8.8344
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-amadora-sintra",
+    "nome_curto": "ULS Amadora/Sintra",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.7594,
+      "lon": -9.2306
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-arco-ribeirinho",
+    "nome_curto": "ULS Arco Ribeirinho",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Setúbal",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.6603,
+      "lon": -9.0722
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-arrabida",
+    "nome_curto": "ULS Arrábida",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Setúbal",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.5244,
+      "lon": -8.8882
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-baixo-alentejo",
+    "nome_curto": "ULS Baixo Alentejo",
+    "regiao": "Alentejo",
+    "distrito": "Beja",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.015,
+      "lon": -7.865
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-baixo-mondego",
+    "nome_curto": "ULS Baixo Mondego",
+    "regiao": "Centro",
+    "distrito": "Coimbra",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.15,
+      "lon": -8.86
+    },
+    "n_indicadores": 24
+  },
+  {
+    "id": "uls-barcelos-esposende",
+    "nome_curto": "ULS Barcelos/Esposende",
+    "regiao": "Norte",
+    "distrito": "Braga",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.5388,
+      "lon": -8.6151
+    },
+    "n_indicadores": 23
+  },
+  {
+    "id": "uls-braga",
+    "nome_curto": "ULS Braga",
+    "regiao": "Norte",
+    "distrito": "Braga",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.5503,
+      "lon": -8.4201
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-castelo-branco",
+    "nome_curto": "ULS Castelo Branco",
+    "regiao": "Centro",
+    "distrito": "Castelo Branco",
+    "tipo": "uls",
+    "geo": {
+      "lat": 39.8222,
+      "lon": -7.4931
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-coimbra",
+    "nome_curto": "ULS Coimbra",
+    "regiao": "Centro",
+    "distrito": "Coimbra",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.2075,
+      "lon": -8.427
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-cova-beira",
+    "nome_curto": "ULS Cova da Beira",
+    "regiao": "Centro",
+    "distrito": "Castelo Branco",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.2833,
+      "lon": -7.5
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-entre-douro-vouga",
+    "nome_curto": "ULS Entre Douro e Vouga",
+    "regiao": "Norte",
+    "distrito": "Aveiro",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.9271,
+      "lon": -8.5439
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-estuario-tejo",
+    "nome_curto": "ULS Estuário do Tejo",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.955,
+      "lon": -8.99
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-gaia-espinho",
+    "nome_curto": "ULS Gaia/Espinho",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.1239,
+      "lon": -8.6118
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-guarda",
+    "nome_curto": "ULS Guarda",
+    "regiao": "Centro",
+    "distrito": "Guarda",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.5373,
+      "lon": -7.2676
+    },
+    "n_indicadores": 24
+  },
+  {
+    "id": "uls-leziria",
+    "nome_curto": "ULS Lezíria",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Santarém",
+    "tipo": "uls",
+    "geo": {
+      "lat": 39.2362,
+      "lon": -8.6859
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-lisboa-ocidental",
+    "nome_curto": "ULS Lisboa Ocidental",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.697,
+      "lon": -9.213
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-litoral-alentejano",
+    "nome_curto": "ULS Litoral Alentejano",
+    "regiao": "Alentejo",
+    "distrito": "Setúbal",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.02,
+      "lon": -8.695
+    },
+    "n_indicadores": 24
+  },
+  {
+    "id": "uls-loures-odivelas",
+    "nome_curto": "ULS Loures-Odivelas",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.83,
+      "lon": -9.168
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-matosinhos",
+    "nome_curto": "ULS Matosinhos",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.1844,
+      "lon": -8.6797
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-medio-ave",
+    "nome_curto": "ULS Médio Ave",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.3428,
+      "lon": -8.4756
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-medio-tejo",
+    "nome_curto": "ULS Médio Tejo",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Santarém",
+    "tipo": "uls",
+    "geo": {
+      "lat": 39.6039,
+      "lon": -8.4103
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-nordeste",
+    "nome_curto": "ULS Nordeste",
+    "regiao": "Norte",
+    "distrito": "Bragança",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.8072,
+      "lon": -6.7591
+    },
+    "n_indicadores": 24
+  },
+  {
+    "id": "uls-oeste",
+    "nome_curto": "ULS Oeste",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Leiria",
+    "tipo": "uls",
+    "geo": {
+      "lat": 39.403,
+      "lon": -9.135
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-povoa-varzim-vila-conde",
+    "nome_curto": "ULS Póvoa de Varzim/Vila do Conde",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.3833,
+      "lon": -8.7667
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-regiao-aveiro",
+    "nome_curto": "ULS Região de Aveiro",
+    "regiao": "Centro",
+    "distrito": "Aveiro",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.6405,
+      "lon": -8.6538
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-regiao-leiria",
+    "nome_curto": "ULS Região de Leiria",
+    "regiao": "Centro",
+    "distrito": "Leiria",
+    "tipo": "uls",
+    "geo": {
+      "lat": 39.7436,
+      "lon": -8.8071
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-santa-maria",
+    "nome_curto": "ULS Santa Maria",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.7489,
+      "lon": -9.16
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-santo-antonio",
+    "nome_curto": "ULS Santo António",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.152,
+      "lon": -8.6167
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-sao-jose",
+    "nome_curto": "ULS São José",
+    "regiao": "Lisboa e Vale do Tejo",
+    "distrito": "Lisboa",
+    "tipo": "uls",
+    "geo": {
+      "lat": 38.7203,
+      "lon": -9.1352
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-sao-joao",
+    "nome_curto": "ULS São João",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.181,
+      "lon": -8.6011
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-tras-os-montes-alto-douro",
+    "nome_curto": "ULS Trás-os-Montes e Alto Douro",
+    "regiao": "Norte",
+    "distrito": "Vila Real",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.2952,
+      "lon": -7.7463
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-tamega-sousa",
+    "nome_curto": "ULS Tâmega e Sousa",
+    "regiao": "Norte",
+    "distrito": "Porto",
+    "tipo": "uls",
+    "geo": {
+      "lat": 41.2073,
+      "lon": -8.2841
+    },
+    "n_indicadores": 25
+  },
+  {
+    "id": "uls-dao-lafoes",
+    "nome_curto": "ULS Viseu Dão-Lafões",
+    "regiao": "Centro",
+    "distrito": "Viseu",
+    "tipo": "uls",
+    "geo": {
+      "lat": 40.6566,
+      "lon": -7.9125
+    },
+    "n_indicadores": 25
+  }
+]

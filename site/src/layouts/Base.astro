@@ -1,0 +1,180 @@
+---
+import "../styles/global.css";
+import Icone from "../components/Icone.astro";
+import { ligacao } from "../lib/dados";
+
+interface Props {
+  titulo: string;
+  descricao: string;
+}
+const { titulo, descricao } = Astro.props;
+const ano = new Date().getFullYear();
+const aqui = Astro.url.pathname;
+
+/* A raiz é o painel — um ficheiro estático fora do Astro, como no csmRadar —
+   e por isso as instituições têm endereço próprio. A ordem é a mesma do painel
+   (scripts/build_dashboard.py::NAV_SITIO), para que a barra não mude de forma
+   consoante a página em que se está. */
+const SECCOES = [
+  { href: ligacao("/perguntas/"), rotulo: "Perguntas" },
+  { href: ligacao("/instituicoes/"), rotulo: "Instituições" },
+  { href: ligacao("/"), rotulo: "Painel" },
+  { href: ligacao("/metodologia/"), rotulo: "Metodologia" },
+];
+---
+
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo} · snsRadar</title>
+    <meta name="description" content={descricao} />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:title" content={`${titulo} · snsRadar`} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(aqui, Astro.site).href} />
+    <meta property="og:image" content={new URL(ligacao("/og.png"), Astro.site).href} />
+    <meta property="og:locale" content="pt_PT" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={new URL(aqui, Astro.site).href} />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='%232a78d6'/%3E%3C/svg%3E"
+    />
+    {/* Aplicado antes da primeira pintura, senão o ecrã pisca ao carregar. */}
+    <script is:inline>
+      (() => {
+        const t = localStorage.getItem("snsradar-tema");
+        if (t) document.documentElement.dataset.theme = t;
+        document.documentElement.classList.add("js");
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="saltar" href="#conteudo">Saltar para o conteúdo</a>
+
+    <div class="wrap">
+      <header class="masthead">
+        <a class="brand" href={ligacao("/instituicoes/")}>
+          <span class="kicker">
+            <span class="dot" aria-hidden="true"></span>snsRadar · Observatório do
+            Serviço Nacional de Saúde
+          </span>
+          <h1>O SNS, hospital a hospital <span class="thin">· 2013–2026</span></h1>
+        </a>
+        <p class="fonte">
+          Dados do <a
+            href="https://transparencia.sns.gov.pt/"
+            target="_blank"
+            rel="noopener">Portal da Transparência do SNS</a
+          >, publicados pela ACSS, DE-SNS, INFARMED, SPMS e INEM, e do registo de
+          contratos públicos do <a
+            href="https://dados.gov.pt/pt/organizations/impic/"
+            target="_blank"
+            rel="noopener">IMPIC</a
+          > (domínio público). Reutilizados ao abrigo da Lei n.º 68/2021.{" "}
+          <span class="naooficial">Não é um serviço oficial do SNS.</span>
+        </p>
+      </header>
+
+      <nav class="anchors" aria-label="Secções">
+        {
+          SECCOES.map((s) => (
+            <a
+              href={s.href}
+              aria-current={
+                aqui === s.href ||
+                (s.href === ligacao("/instituicoes/") && aqui.includes("/instituicao/"))
+                  ? "page"
+                  : undefined
+              }
+            >
+              {s.rotulo}
+            </a>
+          ))
+        }
+        <button
+          class="chip fim"
+          type="button"
+          data-tema
+          aria-label="Alternar entre tema claro e escuro">Tema</button
+        >
+      </nav>
+
+      <main id="conteudo">
+        <slot />
+      </main>
+
+      <footer>
+        <div class="cols">
+          <div class="aviso">
+            <h4><Icone nome="aviso" tamanho={18} />O que isto não é</h4>
+            <p>
+              O snsRadar não é um serviço oficial do SNS nem tem qualquer ligação
+              ao Ministério da Saúde. É um trabalho independente que reorganiza
+              dados já públicos.
+            </p>
+          </div>
+          <div>
+            <h4><Icone nome="balanca" tamanho={18} />Antes de comparar hospitais</h4>
+            <p>
+              Salvo a mortalidade ajustada ao risco, estes indicadores <strong
+                >não estão ajustados ao risco</strong
+              >. Um hospital que recebe doentes mais graves terá piores
+              resultados sem que isso signifique piores cuidados.
+            </p>
+          </div>
+          <div>
+            <h4><Icone nome="origem" tamanho={18} />Origem e código</h4>
+            <p>
+              Cada número desta página liga à consulta da API que o reproduz.
+              Reconciliação de entidades verificada contra o Decreto-Lei
+              n.º 102/2023. Todo o código e os dados tratados estão no{" "}
+              <a href="https://github.com/sergioamsilva/snsRadar" rel="noopener"
+                >repositório do projeto</a
+              >, sob licença MIT — incluindo o crosswalk que ninguém mais
+              publica.
+            </p>
+          </div>
+        </div>
+        <p class="rodape-fim">
+          snsRadar, {ano} · <a href="https://github.com/sergioamsilva/snsRadar" rel="noopener">código no GitHub</a> · <a href="mailto:radar@cybersec.pt">radar@cybersec.pt</a>
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      document.querySelector("[data-tema]")?.addEventListener("click", () => {
+        const raiz = document.documentElement;
+        const escuro =
+          raiz.dataset.theme === "dark" ||
+          (!raiz.dataset.theme &&
+            matchMedia("(prefers-color-scheme: dark)").matches);
+        raiz.dataset.theme = escuro ? "light" : "dark";
+        localStorage.setItem("snsradar-tema", raiz.dataset.theme);
+      });
+    </script>
+
+    <style is:global>
+      /* Os títulos do rodapé estão em global.css; aqui só se acomoda o ícone
+         ao lado, sem lhe mexer no corpo nem no espaçamento entre letras. */
+      footer .cols h4 {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      footer .cols h4 .icone {
+        color: var(--muted);
+      }
+    </style>
+    <style>
+      .rodape-fim {
+        margin-top: 22px;
+        font-size: var(--t-2xs);
+        color: var(--muted);
+      }
+    </style>
+  </body>
+</html>

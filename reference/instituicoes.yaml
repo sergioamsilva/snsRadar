@@ -1,0 +1,742 @@
+# Crosswalk de instituições do SNS — snsRadar
+#
+# Cada entrada é uma entidade canónica, com todas as chaves normalizadas sob as
+# quais a fonte a designou ao longo do tempo. Sem este ficheiro nenhuma série
+# atravessa janeiro de 2024: a reforma das Unidades Locais de Saúde
+# (Decreto-Lei n.º 102/2023, de 7 de novembro) renomeou 32 entidades de uma vez.
+#
+# As `chaves` são a forma devolvida por ingest/common.py::normalizar_agressivo
+# (minúsculas, sem acentos, sem pontuação, sem forma jurídica, sem preposições).
+# Uma única chave cobre as várias grafias com que a fonte escreve o mesmo nome
+# — «E.P.E.», «E. P. E.», «EPE», maiúsculas, barras com e sem espaços.
+#
+# `sucessao` documenta cada mudança de identidade com a sua base legal. Quando
+# `de` tem mais do que um elemento, a série anterior e a posterior NÃO
+# representam o mesmo perímetro: o site tem de o dizer ao leitor.
+#
+# Fontes: Decreto-Lei n.º 102/2023 (Diário da República, 1.ª série, n.º 215,
+# 7 de novembro de 2023, pp. 4-20), artigo 1.º, alíneas a) a ff).
+
+# ---------------------------------------------------------------------------
+# NORTE
+# ---------------------------------------------------------------------------
+
+- id: uls-alto-minho
+  nome: Unidade Local de Saúde do Alto Minho, E. P. E.
+  nome_curto: ULS Alto Minho
+  regiao: Norte
+  distrito: Viana do Castelo
+  tipo: uls
+  geo: {lat: 41.6918, lon: -8.8344}
+  chaves: [unidade local saude alto minho]
+  nota: ULS anterior à reforma de 2024; não foi renomeada.
+
+- id: uls-alto-ave
+  nome: Unidade Local de Saúde do Alto Ave, E. P. E.
+  nome_curto: ULS Alto Ave
+  regiao: Norte
+  distrito: Braga
+  tipo: uls
+  geo: {lat: 41.4425, lon: -8.2918}
+  chaves:
+    - unidade local saude alto ave
+    - hospital senhora oliveira guimaraes
+    - centro hospitalar alto ave
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, a)
+      de: ["Hospital da Senhora da Oliveira Guimarães, E. P. E."]
+      nota: >-
+        Integrou o ACES Alto Ave — Guimarães/Vizela/Terras de Basto e o Centro
+        de Saúde de Celorico de Basto.
+
+- id: uls-barcelos-esposende
+  nome: Unidade Local de Saúde de Barcelos/Esposende, E. P. E.
+  nome_curto: ULS Barcelos/Esposende
+  regiao: Norte
+  distrito: Braga
+  tipo: uls
+  geo: {lat: 41.5388, lon: -8.6151}
+  chaves:
+    - unidade local saude barcelos esposende
+    - hospital santa maria maior
+    - hospital distrital s maria maior barcelos
+    # grafia do registo de antibióticos do INFARMED
+    - hospital santa maria maior barcelos
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, b)
+      de: ["Hospital de Santa Maria Maior — Barcelos, E. P. E."]
+      nota: Integrou o ACES Cávado III — Barcelos/Esposende.
+
+- id: uls-braga
+  nome: Unidade Local de Saúde de Braga, E. P. E.
+  nome_curto: ULS Braga
+  regiao: Norte
+  distrito: Braga
+  tipo: uls
+  geo: {lat: 41.5503, lon: -8.4201}
+  chaves:
+    - unidade local saude braga
+    - hospital braga
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, c)
+      de: ["Hospital de Braga, E. P. E."]
+      nota: Integrou os ACES Cávado I — Braga e Cávado II — Gerês/Cabreira.
+
+- id: uls-tamega-sousa
+  nome: Unidade Local de Saúde do Tâmega e Sousa, E. P. E.
+  nome_curto: ULS Tâmega e Sousa
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.2073, lon: -8.2841}
+  chaves:
+    - unidade local saude tamega sousa
+    - centro hospitalar tamega sousa
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, d)
+      de: ["Centro Hospitalar do Tâmega e Sousa, E. P. E."]
+
+- id: uls-povoa-varzim-vila-conde
+  nome: Unidade Local de Saúde da Póvoa de Varzim/Vila do Conde, E. P. E.
+  nome_curto: ULS Póvoa de Varzim/Vila do Conde
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.3833, lon: -8.7667}
+  chaves:
+    - unidade local saude povoa varzim vila conde
+    - centro hospitalar povoa varzim vila conde
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, e)
+      de: ["Centro Hospitalar Póvoa de Varzim/Vila do Conde, E. P. E."]
+
+- id: uls-medio-ave
+  nome: Unidade Local de Saúde do Médio Ave, E. P. E.
+  nome_curto: ULS Médio Ave
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.3428, lon: -8.4756}
+  chaves:
+    - unidade local saude medio ave
+    - centro hospitalar medio ave
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, f)
+      de: ["Centro Hospitalar do Médio Ave, E. P. E."]
+
+- id: uls-gaia-espinho
+  nome: Unidade Local de Saúde de Gaia/Espinho, E. P. E.
+  nome_curto: ULS Gaia/Espinho
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.1239, lon: -8.6118}
+  chaves:
+    - unidade local saude gaia espinho
+    - unidade local saude vila nova gaia espinho
+    - centro hospitalar vila nova gaia espinho
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, g)
+      de: ["Centro Hospitalar de Vila Nova de Gaia/Espinho, E. P. E."]
+  nota: >-
+    A fonte usa indistintamente «ULS de Gaia/Espinho», «ULS de Gaia e Espinho»
+    e «ULS de Vila Nova de Gaia/Espinho» para a mesma entidade.
+
+- id: uls-tras-os-montes-alto-douro
+  nome: Unidade Local de Saúde de Trás-os-Montes e Alto Douro, E. P. E.
+  nome_curto: ULS Trás-os-Montes e Alto Douro
+  regiao: Norte
+  distrito: Vila Real
+  tipo: uls
+  geo: {lat: 41.2952, lon: -7.7463}
+  chaves:
+    - unidade local saude tras os montes alto douro
+    - centro hospitalar tras os montes alto douro
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, h)
+      de: ["Centro Hospitalar de Trás-os-Montes e Alto Douro, E. P. E."]
+
+- id: uls-entre-douro-vouga
+  nome: Unidade Local de Saúde de Entre Douro e Vouga, E. P. E.
+  nome_curto: ULS Entre Douro e Vouga
+  regiao: Norte
+  distrito: Aveiro
+  tipo: uls
+  geo: {lat: 40.9271, lon: -8.5439}
+  chaves:
+    - unidade local saude entre douro vouga
+    - centro hospitalar entre douro vouga
+    - centro hospitalar entre o douro vouga
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, i)
+      de: ["Centro Hospitalar de Entre o Douro e Vouga, E. P. E."]
+
+- id: uls-sao-joao
+  nome: Unidade Local de Saúde de São João, E. P. E.
+  nome_curto: ULS São João
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.181, lon: -8.6011}
+  chaves:
+    - unidade local saude sao joao
+    - unidade local saude s joao
+    - centro hospitalar universitario sao joao
+    - centro hospitalar sao joao
+    - centro hospitalar universitario s joao
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, j)
+      de: ["Centro Hospitalar Universitário de São João, E. P. E."]
+
+- id: uls-santo-antonio
+  nome: Unidade Local de Saúde de Santo António, E. P. E.
+  nome_curto: ULS Santo António
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.152, lon: -8.6167}
+  chaves:
+    - unidade local saude santo antonio
+    - centro hospitalar universitario santo antonio
+    - centro hospitalar universitario porto
+    - centro hospitalar porto
+    - hospital magalhaes lemos
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, k)
+      de: ["Centro Hospitalar Universitário de Santo António, E. P. E."]
+    - data: 2023-02-01
+      base_legal: DL 6/2023
+      de:
+        - Centro Hospitalar Universitário do Porto, E. P. E.
+        - Hospital de Magalhães Lemos, E. P. E.
+      nota: >-
+        Fusão de dois para um. A série anterior a fevereiro de 2023 não cobre o
+        mesmo perímetro assistencial — o Magalhães Lemos era hospital
+        psiquiátrico autónomo.
+
+- id: uls-matosinhos
+  nome: Unidade Local de Saúde de Matosinhos, E. P. E.
+  nome_curto: ULS Matosinhos
+  regiao: Norte
+  distrito: Porto
+  tipo: uls
+  geo: {lat: 41.1844, lon: -8.6797}
+  chaves: [unidade local saude matosinhos]
+  nota: ULS anterior à reforma de 2024; não foi renomeada.
+
+- id: uls-nordeste
+  nome: Unidade Local de Saúde do Nordeste, E. P. E.
+  nome_curto: ULS Nordeste
+  regiao: Norte
+  distrito: Bragança
+  tipo: uls
+  geo: {lat: 41.8072, lon: -6.7591}
+  chaves: [unidade local saude nordeste]
+  nota: ULS anterior à reforma de 2024; não foi renomeada.
+
+- id: ipo-porto
+  nome: Instituto Português de Oncologia do Porto Francisco Gentil, E. P. E.
+  nome_curto: IPO Porto
+  regiao: Norte
+  distrito: Porto
+  tipo: oncologico
+  geo: {lat: 41.177, lon: -8.6098}
+  chaves:
+    - instituto portugues oncologia porto
+    - instituto portugues oncologia f gentil porto
+    - instituto portugues oncologia porto francisco gentil
+    - instituto portugues oncologia francisco gentil porto
+    # Forma abreviada com que o IMPIC o regista no Portal BASE; sem ela
+    # perdiam-se 73 468 contratos e 2 915 M€ desta unidade.
+    - ipo porto fg
+  nota: >-
+    Não abrangido pela reforma ULS. A fonte alterna entre «IPO do Porto» e
+    «IPO F. Gentil - Porto» — é a mesma entidade.
+
+# ---------------------------------------------------------------------------
+# CENTRO
+# ---------------------------------------------------------------------------
+
+- id: uls-regiao-aveiro
+  nome: Unidade Local de Saúde da Região de Aveiro, E. P. E.
+  nome_curto: ULS Região de Aveiro
+  regiao: Centro
+  distrito: Aveiro
+  tipo: uls
+  geo: {lat: 40.6405, lon: -8.6538}
+  chaves:
+    - unidade local saude regiao aveiro
+    - centro hospitalar baixo vouga
+    - hospital dr francisco zagalo
+    - hospital dr francisco zagalo ovar
+    - hospital doutor francisco zagalo ovar
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, q)
+      de:
+        - Centro Hospitalar do Baixo Vouga, E. P. E.
+        - Hospital Dr. Francisco Zagalo — Ovar
+      nota: >-
+        Fusão de dois para um. A série anterior a 2024 do Centro Hospitalar do
+        Baixo Vouga não inclui a atividade do Hospital de Ovar.
+
+- id: uls-baixo-mondego
+  nome: Unidade Local de Saúde do Baixo Mondego, E. P. E.
+  nome_curto: ULS Baixo Mondego
+  regiao: Centro
+  distrito: Coimbra
+  tipo: uls
+  geo: {lat: 40.15, lon: -8.86}
+  chaves:
+    - unidade local saude baixo mondego
+    - hospital distrital figueira foz
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, l)
+      de: ["Hospital Distrital da Figueira da Foz, E. P. E."]
+
+- id: uls-coimbra
+  nome: Unidade Local de Saúde de Coimbra, E. P. E.
+  nome_curto: ULS Coimbra
+  regiao: Centro
+  distrito: Coimbra
+  tipo: uls
+  geo: {lat: 40.2075, lon: -8.427}
+  chaves:
+    - unidade local saude coimbra
+    - centro hospitalar universitario coimbra
+    - hospital arcebispo joao crisostomo
+    - hospital arcebispo joao crisostomo cantanhede
+    - centro medicina reabilitacao regiao centro rovisco pais
+    - hospital rovisco pais
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, p)
+      de:
+        - Centro Hospitalar e Universitário de Coimbra, E. P. E.
+        - Hospital Arcebispo João Crisóstomo — Cantanhede
+        - Centro de Medicina de Reabilitação da Região Centro — Rovisco Pais
+      nota: >-
+        Fusão de três para um. Comparações com anos anteriores a 2024 sobrestimam
+        o crescimento se usarem apenas o Centro Hospitalar e Universitário.
+
+- id: uls-cova-beira
+  nome: Unidade Local de Saúde da Cova da Beira, E. P. E.
+  nome_curto: ULS Cova da Beira
+  regiao: Centro
+  distrito: Castelo Branco
+  tipo: uls
+  geo: {lat: 40.2833, lon: -7.5}
+  chaves:
+    - unidade local saude cova beira
+    - centro hospitalar universitario cova beira
+    - centro hospitalar cova beira
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, m)
+      de: ["Centro Hospitalar Universitário da Cova da Beira, E. P. E."]
+
+- id: uls-dao-lafoes
+  nome: Unidade Local de Saúde de Viseu Dão-Lafões, E. P. E.
+  nome_curto: ULS Viseu Dão-Lafões
+  regiao: Centro
+  distrito: Viseu
+  tipo: uls
+  geo: {lat: 40.6566, lon: -7.9125}
+  chaves:
+    - unidade local saude dao lafoes
+    - unidade local saude viseu dao lafoes
+    - centro hospitalar tondela viseu
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, n)
+      de: ["Centro Hospitalar Tondela-Viseu, E. P. E."]
+  nota: >-
+    O decreto-lei fixa «Unidade Local de Saúde de Viseu Dão-Lafões»; a fonte de
+    dados escreve «Unidade Local de Saúde de Dão-Lafões».
+
+- id: uls-regiao-leiria
+  nome: Unidade Local de Saúde da Região de Leiria, E. P. E.
+  nome_curto: ULS Região de Leiria
+  regiao: Centro
+  distrito: Leiria
+  tipo: uls
+  geo: {lat: 39.7436, lon: -8.8071}
+  chaves:
+    - unidade local saude regiao leiria
+    - centro hospitalar leiria
+    # a fonte dos antibióticos inclui Pombal no nome
+    - centro hospitalar leiria pombal
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, o)
+      de: ["Centro Hospitalar de Leiria, E. P. E."]
+
+- id: uls-guarda
+  nome: Unidade Local de Saúde da Guarda, E. P. E.
+  nome_curto: ULS Guarda
+  regiao: Centro
+  distrito: Guarda
+  tipo: uls
+  geo: {lat: 40.5373, lon: -7.2676}
+  chaves: [unidade local saude guarda]
+  nota: ULS anterior à reforma de 2024; não foi renomeada.
+
+- id: uls-castelo-branco
+  nome: Unidade Local de Saúde de Castelo Branco, E. P. E.
+  nome_curto: ULS Castelo Branco
+  regiao: Centro
+  distrito: Castelo Branco
+  tipo: uls
+  geo: {lat: 39.8222, lon: -7.4931}
+  chaves: [unidade local saude castelo branco]
+  nota: >-
+    ULS anterior à reforma de 2024. A fonte passou a escrever «ULS Castelo
+    Branco» (sem «de») a partir de janeiro de 2024 — é a mesma entidade.
+
+- id: hospital-jose-luciano-castro
+  nome: Hospital José Luciano de Castro — Anadia
+  nome_curto: Hospital de Anadia
+  regiao: Centro
+  distrito: Aveiro
+  tipo: extinto
+  geo: {lat: 40.4383, lon: -8.4333}
+  chaves: [hospital jose luciano castro, hospital jose luciano castro anadia]
+  nota: >-
+    Saiu do setor público empresarial: por acordo de cooperação de 14 de
+    novembro de 2014, ao abrigo do Decreto-Lei n.º 138/2013, foi devolvido à
+    Santa Casa da Misericórdia de Anadia. Deixa de constar dos dados do SNS a
+    partir de dezembro de 2014 — não foi absorvido por nenhuma ULS.
+
+- id: ipo-coimbra
+  nome: Instituto Português de Oncologia de Coimbra Francisco Gentil, E. P. E.
+  nome_curto: IPO Coimbra
+  regiao: Centro
+  distrito: Coimbra
+  tipo: oncologico
+  geo: {lat: 40.2265, lon: -8.4265}
+  chaves:
+    - instituto portugues oncologia coimbra
+    - instituto portugues oncologia f gentil centro
+    - instituto portugues oncologia coimbra francisco gentil
+    - instituto portugues oncologia francisco gentil coimbra
+    - instituto portugues oncologia f gentil coimbra
+  nota: >-
+    Não abrangido pela reforma ULS. A fonte alterna entre «IPO de Coimbra» e
+    «IPO F. Gentil - Centro» — é a mesma entidade, sem alteração legal.
+
+# ---------------------------------------------------------------------------
+# LISBOA E VALE DO TEJO
+# ---------------------------------------------------------------------------
+
+- id: uls-amadora-sintra
+  nome: Unidade Local de Saúde de Amadora/Sintra, E. P. E.
+  nome_curto: ULS Amadora/Sintra
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: uls
+  geo: {lat: 38.7594, lon: -9.2306}
+  chaves:
+    - unidade local saude amadora sintra
+    - hospital professor doutor fernando fonseca
+    - hospital fernando fonseca
+    # o registo de antibióticos abrevia «Prof. Doutor»
+    - hospital prof doutor fernando fonseca
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, r)
+      de: ["Hospital Professor Doutor Fernando Fonseca, E. P. E."]
+
+- id: uls-almada-seixal
+  nome: Unidade Local de Saúde de Almada-Seixal, E. P. E.
+  nome_curto: ULS Almada-Seixal
+  regiao: Lisboa e Vale do Tejo
+  distrito: Setúbal
+  tipo: uls
+  geo: {lat: 38.6667, lon: -9.1583}
+  chaves:
+    - unidade local saude almada seixal
+    - hospital garcia orta
+    - hospital garcia orta almada
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, s)
+      de: ["Hospital Garcia de Orta, E. P. E."]
+
+- id: uls-leziria
+  nome: Unidade Local de Saúde da Lezíria, E. P. E.
+  nome_curto: ULS Lezíria
+  regiao: Lisboa e Vale do Tejo
+  distrito: Santarém
+  tipo: uls
+  geo: {lat: 39.2362, lon: -8.6859}
+  chaves:
+    - unidade local saude leziria
+    - hospital distrital santarem
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, t)
+      de: ["Hospital Distrital de Santarém, E. P. E."]
+
+- id: uls-estuario-tejo
+  nome: Unidade Local de Saúde do Estuário do Tejo, E. P. E.
+  nome_curto: ULS Estuário do Tejo
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: uls
+  geo: {lat: 38.955, lon: -8.99}
+  chaves:
+    - unidade local saude estuario tejo
+    - hospital vila franca xira
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, u)
+      de: ["Hospital de Vila Franca de Xira, E. P. E."]
+
+- id: uls-loures-odivelas
+  nome: Unidade Local de Saúde de Loures-Odivelas, E. P. E.
+  nome_curto: ULS Loures-Odivelas
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: uls
+  geo: {lat: 38.83, lon: -9.168}
+  chaves:
+    - unidade local saude loures odivelas
+    - hospital loures
+    # designação de origem do hospital de Loures
+    - hospital beatriz angelo
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, v)
+      de: ["Hospital de Loures, E. P. E."]
+
+- id: uls-santa-maria
+  nome: Unidade Local de Saúde de Santa Maria, E. P. E.
+  nome_curto: ULS Santa Maria
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: uls
+  geo: {lat: 38.7489, lon: -9.16}
+  chaves:
+    - unidade local saude santa maria
+    - centro hospitalar universitario lisboa norte
+    - centro hospitalar lisboa norte
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, w)
+      de: ["Centro Hospitalar Universitário de Lisboa Norte, E. P. E."]
+
+- id: uls-sao-jose
+  nome: Unidade Local de Saúde de São José, E. P. E.
+  nome_curto: ULS São José
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: uls
+  geo: {lat: 38.7203, lon: -9.1352}
+  chaves:
+    - unidade local saude sao jose
+    - centro hospitalar universitario lisboa central
+    - centro hospitalar lisboa central
+    - centro hospitalar psiquiatrico lisboa
+    - instituto gama pinto
+    - instituto oftalmologia gama pinto
+    - instituto oftalmologia dr gama pinto
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, x)
+      de:
+        - Centro Hospitalar Universitário de Lisboa Central, E. P. E.
+        - Centro Hospitalar Psiquiátrico de Lisboa
+        - Instituto de Oftalmologia Dr. Gama Pinto
+      nota: >-
+        Fusão de três para um. Inclui a absorção do único hospital psiquiátrico
+        autónomo de Lisboa e de um instituto de oftalmologia.
+
+- id: uls-oeste
+  nome: Unidade Local de Saúde do Oeste, E. P. E.
+  nome_curto: ULS Oeste
+  regiao: Lisboa e Vale do Tejo
+  distrito: Leiria
+  tipo: uls
+  geo: {lat: 39.403, lon: -9.135}
+  chaves:
+    - unidade local saude oeste
+    - centro hospitalar oeste
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, y)
+      de: ["Centro Hospitalar do Oeste, E. P. E."]
+
+- id: uls-medio-tejo
+  nome: Unidade Local de Saúde do Médio Tejo, E. P. E.
+  nome_curto: ULS Médio Tejo
+  regiao: Lisboa e Vale do Tejo
+  distrito: Santarém
+  tipo: uls
+  geo: {lat: 39.6039, lon: -8.4103}
+  chaves:
+    - unidade local saude medio tejo
+    - centro hospitalar medio tejo
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, z)
+      de: ["Centro Hospitalar do Médio Tejo, E. P. E."]
+
+- id: uls-arrabida
+  nome: Unidade Local de Saúde da Arrábida, E. P. E.
+  nome_curto: ULS Arrábida
+  regiao: Lisboa e Vale do Tejo
+  distrito: Setúbal
+  tipo: uls
+  geo: {lat: 38.5244, lon: -8.8882}
+  chaves:
+    - unidade local saude arrabida
+    - centro hospitalar setubal
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, aa)
+      de: ["Centro Hospitalar de Setúbal, E. P. E."]
+
+- id: uls-lisboa-ocidental
+  nome: Unidade Local de Saúde de Lisboa Ocidental, E. P. E.
+  nome_curto: ULS Lisboa Ocidental
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: uls
+  geo: {lat: 38.697, lon: -9.213}
+  chaves:
+    - unidade local saude lisboa ocidental
+    - centro hospitalar lisboa ocidental
+    - centro hospitalar lisboa zona ocidental
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, bb)
+      de: ["Centro Hospitalar de Lisboa Ocidental, E. P. E."]
+
+- id: uls-arco-ribeirinho
+  nome: Unidade Local de Saúde do Arco Ribeirinho, E. P. E.
+  nome_curto: ULS Arco Ribeirinho
+  regiao: Lisboa e Vale do Tejo
+  distrito: Setúbal
+  tipo: uls
+  geo: {lat: 38.6603, lon: -9.0722}
+  chaves:
+    - unidade local saude arco ribeirinho
+    - centro hospitalar barreiro montijo
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, cc)
+      de: ["Centro Hospitalar Barreiro-Montijo, E. P. E."]
+
+- id: hospital-cascais
+  nome: Hospital de Cascais Dr. José de Almeida
+  nome_curto: Hospital de Cascais
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: ppp
+  geo: {lat: 38.7333, lon: -9.4}
+  chaves: [hospital cascais, hospital cascais dr jose almeida]
+  nota: >-
+    Parceria público-privada. Única unidade hospitalar do continente fora do
+    modelo ULS — comparações de eficiência com ULS não são equivalentes.
+
+- id: ipo-lisboa
+  nome: Instituto Português de Oncologia de Lisboa Francisco Gentil, E. P. E.
+  nome_curto: IPO Lisboa
+  regiao: Lisboa e Vale do Tejo
+  distrito: Lisboa
+  tipo: oncologico
+  geo: {lat: 38.747, lon: -9.158}
+  chaves:
+    - instituto portugues oncologia lisboa
+    - instituto portugues oncologia f gentil lisboa
+    - instituto portugues oncologia lisboa francisco gentil
+    - instituto portugues oncologia francisco gentil lisboa
+  nota: Não abrangido pela reforma ULS.
+
+# ---------------------------------------------------------------------------
+# ALENTEJO
+# ---------------------------------------------------------------------------
+
+- id: uls-alto-alentejo
+  nome: Unidade Local de Saúde do Alto Alentejo, E. P. E.
+  nome_curto: ULS Alto Alentejo
+  regiao: Alentejo
+  distrito: Portalegre
+  tipo: uls
+  geo: {lat: 39.2967, lon: -7.4281}
+  chaves:
+    - unidade local saude alto alentejo
+    - unidade local saude norte alentejano
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, dd)
+      de: ["Unidade Local de Saúde do Norte Alentejano, E. P. E."]
+      nota: >-
+        Mudança de nome, não fusão hospitalar. Integrou o Laboratório de Saúde
+        Pública do Alentejo.
+
+- id: uls-alentejo-central
+  nome: Unidade Local de Saúde do Alentejo Central, E. P. E.
+  nome_curto: ULS Alentejo Central
+  regiao: Alentejo
+  distrito: Évora
+  tipo: uls
+  geo: {lat: 38.5714, lon: -7.9135}
+  chaves:
+    - unidade local saude alentejo central
+    - hospital espirito santo evora
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, ee)
+      de: ["Hospital do Espírito Santo de Évora, E. P. E."]
+
+- id: uls-baixo-alentejo
+  nome: Unidade Local de Saúde do Baixo Alentejo, E. P. E.
+  nome_curto: ULS Baixo Alentejo
+  regiao: Alentejo
+  distrito: Beja
+  tipo: uls
+  geo: {lat: 38.015, lon: -7.865}
+  chaves: [unidade local saude baixo alentejo, unidade local baixo alentejo]
+  nota: ULS anterior à reforma de 2024; não foi renomeada.
+
+- id: uls-litoral-alentejano
+  nome: Unidade Local de Saúde do Litoral Alentejano, E. P. E.
+  nome_curto: ULS Litoral Alentejano
+  regiao: Alentejo
+  distrito: Setúbal
+  tipo: uls
+  geo: {lat: 38.02, lon: -8.695}
+  chaves: [unidade local saude litoral alentejano]
+  nota: ULS anterior à reforma de 2024; não foi renomeada.
+
+# ---------------------------------------------------------------------------
+# ALGARVE
+# ---------------------------------------------------------------------------
+
+- id: uls-algarve
+  nome: Unidade Local de Saúde do Algarve, E. P. E.
+  nome_curto: ULS Algarve
+  regiao: Algarve
+  distrito: Faro
+  tipo: uls
+  geo: {lat: 37.029, lon: -7.935}
+  chaves:
+    - unidade local saude algarve
+    - centro hospitalar universitario algarve
+  sucessao:
+    - data: 2024-01-01
+      base_legal: DL 102/2023, art. 1.º, ff)
+      de: ["Centro Hospitalar Universitário do Algarve, E. P. E."]

@@ -1,0 +1,27 @@
+# Ambientes. Reconstruíveis a partir de requirements/package.json.
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+
+# Dados brutos da fonte: 428 MB de CSV comprimidos, descarregados do Portal da
+# Transparência. Não entram no repositório — reconstroem-se com
+# `atualizar.py --descarregar`, e o manifesto de SHA-256 em data/snapshots
+# permite verificar que se descarregou o mesmo.
+data/raw/
+
+# Artefactos de build do sítio. Regeneram-se a partir de data/out com `astro build`.
+site/dist/
+site/.astro/
+.astro/
+
+# Capturas usadas durante o desenvolvimento.
+.capturas/
+
+# Restos de sessões de trabalho.
+resp.txt
+
+# Segredos: vivem em ~/.config/snsradar/segredos.env, fora da árvore do
+# projeto, e nunca aqui. Esta regra é uma segunda linha de defesa.
+*.env
+segredos.env

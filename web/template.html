@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="pt-PT">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Observatório do Serviço Nacional de Saúde, 2013–2026: 22 indicadores de acesso, qualidade, capacidade e contas em 44 unidades de saúde, a partir do Portal da Transparência do SNS.">
+<meta property="og:title" content="snsRadar · O SNS, hospital a hospital">
+<meta property="og:description" content="Acesso, qualidade, capacidade e contas de cada hospital do SNS, comparados com o país. Séries mensais desde 2013, atravessando a reforma das ULS de 2024. Cada número com o seu denominador e a sua fonte.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<title>snsRadar · O SNS, hospital a hospital</title>
+<style>
+  :root {
+    --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #f2f1ec;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #6f6d62;
+    --grid: #e1e0d9; --baseline: #c3c2b7; --border: rgba(11,11,11,.10);
+    --accent: #2a78d6; --accent-soft: #cde2fb; --brand: #2a78d6;
+    --accent-texto: #2168bd;
+    --pos: #1a7a1a; --neg: #b32828; --warn: #fab219;
+    /* Cores das marcas comparativas (mapa, dispersão). NÃO usar verde/vermelho:
+       para deuteranopia esse par mede ΔE 1,0 — indistinguível, e o padrão
+       geográfico desaparece por completo. Este par azul/laranja mede 24,7 e
+       passa todas as verificações do validador em ambos os temas. A semântica
+       fica na legenda, não na cor. */
+    --cmp-bom: #2a78d6; --cmp-mau: #eb6834;
+    --chip-on: #0b0b0b; --chip-on-ink: #fcfcfb;
+
+    /* Escala fluida, idêntica à de site/src/styles/global.css. O painel tinha
+       corpos fixos em píxeis e por isso não acompanhava o ecrã como o resto do
+       sítio — a mesma queixa que já tinha sido corrigida nas outras páginas.
+       Os valores não são inventados aqui: são copiados, para que uma alteração
+       à escala se faça num sítio e se veja nos dois. */
+    --t-3xs: clamp(12.5px, 12.02px + 0.124vw, 14px);
+    --t-2xs: clamp(13px, 12.36px + 0.165vw, 15px);
+    --t-xs: clamp(14px, 13.36px + 0.165vw, 16px);
+    --t-sm: clamp(15px, 14.36px + 0.165vw, 17px);
+    --t-md: clamp(16px, 15.36px + 0.165vw, 18px);
+    --t-lg: clamp(18px, 16.71px + 0.331vw, 22px);
+    --t-xl: clamp(21px, 18.42px + 0.661vw, 29px);
+    --gutter: clamp(20px, 3vw, 64px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --page: #0d0d0d; --surface: #1a1a19; --surface-2: #232321;
+      --ink: #fff; --ink-2: #c3c2b7; --muted: #918d7e;
+      --grid: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,.10);
+      --accent: #3987e5; --accent-soft: #184f95; --brand: #3987e5;
+      --accent-texto: #5598e7;
+      --pos: #0ca30c; --neg: #e87070; --warn: #fab219;
+      --cmp-bom: #3987e5; --cmp-mau: #d95926;
+      --chip-on: #fff; --chip-on-ink: #0d0d0d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0d0d0d; --surface: #1a1a19; --surface-2: #232321;
+    --ink: #fff; --ink-2: #c3c2b7; --muted: #918d7e;
+    --grid: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,.10);
+    --accent: #3987e5; --accent-soft: #184f95; --brand: #3987e5;
+      --accent-texto: #5598e7;
+    --pos: #0ca30c; --neg: #e87070; --warn: #fab219;
+    --cmp-bom: #3987e5; --cmp-mau: #d95926;
+    --chip-on: #fff; --chip-on-ink: #0d0d0d;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--page); color: var(--ink);
+    font: var(--t-md)/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  /* Sem serifas. O painel herdou de csmRadar uma serifada para títulos e
+     números, mas o sítio decidiu system-ui em todo o lado — e o painel é uma
+     página do sítio, não um documento à parte. Era esta a diferença que mais
+     saltava à vista ao passar de /painel/ para qualquer outra página. */
+  h1, h2, h3 { font-family: inherit; font-weight: 750; line-height: 1.15;
+    margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+  a { color: var(--accent-texto); text-underline-offset: .18em;
+    text-decoration-color: color-mix(in srgb, var(--accent-texto) 40%, transparent); }
+  a:hover { text-decoration-color: var(--accent-texto); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  .num { font-variant-numeric: tabular-nums; }
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  .wrap { max-width: none; margin: 0 auto; padding: 0 var(--gutter) 72px; }
+
+  /* Cabeçalho, âncoras e controlos: mesmas medidas de site/src/styles/global.css.
+     A marca à esquerda, a proveniência alinhada à direita, e a barra de secções
+     logo a seguir — no painel a barra estava depois dos filtros, o que a punha
+     num sítio diferente de todas as outras páginas. */
+  .masthead { display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 24px; flex-wrap: wrap; padding: 30px 0 18px; }
+  .brand { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit; }
+  .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: var(--t-3xs);
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .masthead h1 { font-size: clamp(26px, 4.4vw, 34px); margin: 0; }
+  .masthead h1 .thin { color: var(--muted); font-weight: 400; }
+  .fonte { color: var(--muted); font-size: var(--t-xs); max-width: 42ch;
+    text-align: right; margin: 0; }
+  @media (max-width: 700px) { .fonte { text-align: left; } }
+  .naooficial { color: var(--ink-2); font-weight: 600; }
+
+  .intro-painel { color: var(--ink-2); font-size: var(--t-sm); max-width: 78ch;
+    margin: 16px 0 0; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    padding: 14px 0; margin-top: 8px; border-block: 1px solid var(--grid); }
+  .anchors { position: sticky; top: 0; z-index: 20; display: flex; gap: 2px;
+    align-items: center; overflow-x: auto; scrollbar-width: none;
+    padding: 8px var(--gutter); margin: 0 calc(-1 * var(--gutter));
+    border-block: 1px solid var(--grid); font-size: var(--t-xs);
+    background: color-mix(in srgb, var(--page) 86%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .anchors::-webkit-scrollbar { display: none; }
+  .anchors a { color: var(--ink-2); text-decoration: none; white-space: nowrap;
+    padding: 6px 11px; border-radius: 999px; border: 1px solid transparent; }
+  .anchors a:hover, .anchors a[aria-current="page"] { color: var(--ink); border-color: var(--baseline); }
+  .anchors .fim { margin-left: 8px; }
+
+  .flabel { font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: .1em;
+    color: var(--muted); font-weight: 600; }
+  .chip { font: 600 var(--t-xs)/1 system-ui, sans-serif; padding: 7px 12px; cursor: pointer;
+    background: transparent; color: var(--ink-2);
+    border: 1px solid var(--baseline); border-radius: 999px; }
+  .chip:hover { color: var(--ink); border-color: var(--ink-2); }
+  .chip[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink);
+    border-color: var(--chip-on); }
+  select { font: inherit; font-size: var(--t-xs); padding: 7px 10px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--baseline); border-radius: 6px; max-width: 100%; }
+  .sep { width: 1px; height: 18px; background: var(--grid); }
+  /* O tema não é um filtro; encostado à direita deixa de se ler como mais um
+     chip de região. No resto do sítio ocupa a mesma posição, no fim da fila. */
+  #btn-tema { margin-left: auto; }
+
+  /* Ligações do sítio, dentro da mesma barra fixa das secções: uma só linha
+     persistente, como nas restantes páginas. Presentes apenas na cópia servida
+     em /painel/ — no ficheiro autónomo iriam a lado nenhum. */
+  .nav-sitio-link { font-weight: 600; }
+  .nav-sep {
+    flex: none; width: 1px; height: 18px; background: var(--grid); margin: 0 8px;
+  }
+
+  .stats { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+    padding: 26px 0 6px; }
+  .stat { border-top: 2px solid var(--brand); padding-top: 9px; }
+  /* O ícone substitui a régua de acento no topo do cartão: duas marcas a
+     disputar o mesmo canto é uma a mais. Mesma regra da homepage. */
+  .stat { border-top: none; padding-top: 0; }
+  .stat .icone { display: block; width: 25px; height: 25px; margin-bottom: 9px; color: var(--ink-2); }
+  .stat .icone svg, .stat > svg { display: block; }
+  .stat b { display: block; font-weight: 750;
+    font-size: clamp(23px, 3.2vw, 32px); line-height: 1; letter-spacing: -.02em; }
+  .stat span { display: block; font-size: var(--t-xs); color: var(--ink-2); margin-top: 5px; font-weight: 600; }
+  .stat em { display: block; font-style: normal; font-size: var(--t-2xs); color: var(--muted); margin-top: 2px; }
+
+  .destaques { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
+    margin: 26px 0 6px; }
+  .dst { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .dst i { font-style: normal; font-size: var(--t-3xs); letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; }
+  .dst b { display: block; font-weight: 750; font-size: var(--t-xl);
+    line-height: 1.05; margin: 6px 0 4px; letter-spacing: -.02em; }
+  .dst p { margin: 0; font-size: var(--t-xs); color: var(--ink-2); }
+  .dst a { color: var(--accent); }
+
+  .sec-band { display: flex; align-items: baseline; gap: 14px; grid-column: 1 / -1;
+    padding: 30px 0 0; margin: 0 0 2px; scroll-margin-top: 56px; }
+  .sec-band h2 { margin: 0; font-size: var(--t-xs); font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+  .sec-band .ln { flex: 1; height: 1px; background: var(--grid); }
+  .sec-band p { margin: 0; font-size: var(--t-3xs); color: var(--muted); }
+
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 20px 20px; position: relative; min-width: 0; }
+  .card.full { grid-column: 1 / -1; }
+  .card h3 { font-family: inherit; font-size: var(--t-md); font-weight: 700; letter-spacing: 0;
+    padding-right: 46px; }
+  .desc { font-size: var(--t-xs); color: var(--muted); margin: 6px 0 14px; max-width: 110ch; }
+  .cautela { font-size: var(--t-xs); color: var(--ink-2);
+    border-left: 2px solid var(--warn); padding: 2px 0 2px 12px; margin: 14px 0 0; }
+  .fonte-lin { font-size: var(--t-2xs); color: var(--muted); margin: 12px 0 0; }
+  .png { position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 3px 8px;
+    opacity: 0; transition: opacity .15s; }
+  .card:hover .png, .png:focus-visible { opacity: 1; }
+
+  svg { display: block; width: 100%; overflow: visible; }
+  .ax { fill: var(--muted); font-size: 10px; }
+  .gl { stroke: var(--grid); stroke-width: 1; }
+  .bl { stroke: var(--baseline); stroke-width: 1; stroke-dasharray: 3 3; }
+  .qb { stroke: var(--brand); stroke-width: 1; stroke-dasharray: 2 2; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+    font-weight: 700; cursor: pointer; user-select: none; white-space: nowrap; }
+  th:hover { color: var(--accent); }
+  tbody tr { cursor: pointer; }
+  tbody tr:hover { background: var(--surface-2); }
+  .tw { overflow-x: auto; max-height: 460px; }
+
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted);
+    margin-top: 10px; align-items: center; }
+  .legend i { width: 11px; height: 11px; border-radius: 3px; display: inline-block;
+    margin-right: 5px; vertical-align: -1px; font-style: normal; }
+
+  .tip { position: fixed; pointer-events: none; z-index: 90; background: var(--chip-on);
+    color: var(--chip-on-ink); font-size: 12px; padding: 7px 9px; border-radius: 6px;
+    opacity: 0; transition: opacity .1s; max-width: 270px; line-height: 1.4; }
+  .tip.on { opacity: .97; }
+  .tip b { display: block; font-size: 12.5px; margin-bottom: 2px; }
+
+  .gloss { display: grid; gap: 14px 26px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+  .gloss dt { font-weight: 700; font-size: 13.5px; }
+  .gloss dd { margin: 2px 0 0; font-size: 13px; color: var(--ink-2); }
+
+  .fichagrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); }
+  .mini { border-top: 1px solid var(--border); padding-top: 9px; }
+  .mini h4 { margin: 0; font-size: 12px; font-weight: 700; color: var(--ink-2); }
+  .mini b { display: block; font-weight: 750; font-size: var(--t-xl);
+    line-height: 1.05; margin: 4px 0 1px; letter-spacing: -.02em; }
+  .mini .cmp { font-size: 11.5px; font-weight: 600; }
+  .mini .cmp.pos { color: var(--pos); } .mini .cmp.neg { color: var(--neg); }
+  .mini .cmp.neu { color: var(--muted); }
+  .mini .frac { font-size: 11px; color: var(--muted); }
+
+  footer { border-top: 1px solid var(--border); margin-top: 46px; padding: 26px 0 50px;
+    font-size: 13px; color: var(--ink-2); }
+  footer .cols { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  footer h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted);
+    margin: 0 0 6px; }
+  footer p { margin: 0; }
+  .aviso { border-left: 3px solid var(--brand); padding-left: 11px; }
+
+  html.js .reveal { opacity: 0; transform: translateY(8px); transition: opacity .5s, transform .5s; }
+  html.js .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+    html.js .reveal { opacity: 1; transform: none; }
+  }
+</style>
+
+<!--SPRITE-ICONES-->
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brand">
+      <span class="kicker"><span class="dot" aria-hidden="true"></span>snsRadar · Observatório do Serviço Nacional de Saúde</span>
+      <h1>O SNS, hospital a hospital <span class="thin">· 2013–2026</span></h1>
+    </div>
+    <p class="fonte">
+      Dados do <a href="https://transparencia.sns.gov.pt/" target="_blank" rel="noopener">Portal da Transparência do SNS</a>,
+      publicados pela ACSS, DE-SNS, INFARMED, SPMS e INEM, e do registo de contratos públicos do
+      <a href="https://dados.gov.pt/pt/organizations/impic/" target="_blank" rel="noopener">IMPIC</a>
+      (domínio público). Reutilizados ao abrigo da Lei n.º 68/2021.
+      <span class="naooficial">Não é um serviço oficial do SNS.</span>
+    </p>
+  </header>
+
+  <!-- A barra de secções vem antes dos filtros, como em todas as outras
+       páginas do sítio. É ela que fica fixa ao topo; os filtros pertencem ao
+       conteúdo do painel e rolam com ele. O botão de tema fecha a barra, à
+       direita, no mesmo sítio onde está no resto do sítio. -->
+  <nav class="anchors" aria-label="Secções">
+    <!--NAV-SITIO-->
+    <a href="#sec-panorama">Panorama</a><a href="#sec-acesso">Acesso</a>
+    <a href="#sec-qualidade">Qualidade</a><a href="#sec-capacidade">Capacidade</a>
+    <a href="#sec-dinheiro">Dinheiro</a><a href="#sec-mapa">Mapa</a>
+    <a href="#sec-hospital">O meu hospital</a><a href="#sec-glossario">Glossário</a>
+  </nav>
+
+  <p class="intro-painel">
+    22 indicadores em 44 unidades de saúde, com as séries des-acumuladas e as
+    identidades reconciliadas através da reforma das ULS de 2024.
+  </p>
+
+  <nav class="filters" aria-label="Filtros">
+    <span class="flabel">Período</span>
+    <button class="chip" data-range="0,0" aria-pressed="true">Tudo</button>
+    <button class="chip" data-range="2013,2023" aria-pressed="false">Antes das ULS</button>
+    <button class="chip" data-range="2024,2026" aria-pressed="false">Depois das ULS</button>
+    <label class="flabel" for="sel-de">De</label><select id="sel-de"></select>
+    <label class="flabel" for="sel-ate">Até</label><select id="sel-ate"></select>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="flabel">Região</span><span id="chips-regiao"></span>
+    <span class="sep" aria-hidden="true"></span>
+    <button class="chip" id="btn-tema" type="button"
+      aria-label="Alternar entre tema claro e escuro">Tema</button>
+  </nav>
+
+  <section class="stats" id="stats" aria-label="Indicadores principais"></section>
+  <section class="destaques" id="destaques" aria-label="Conclusões em números"></section>
+
+  <noscript>
+    <div class="card" style="margin-top:22px">
+      <h3>Este painel precisa de JavaScript</h3>
+      <p class="desc">Os gráficos são calculados no seu navegador a partir dos dados
+        embebidos nesta página — nada é pedido a nenhum servidor, e por isso a página
+        funciona offline. Sem JavaScript não há gráficos, mas o glossário e a metodologia
+        abaixo continuam legíveis.</p>
+    </div>
+  </noscript>
+
+  <div class="grid">
+    <div class="sec-band" id="sec-panorama"><h2>Panorama</h2><span class="ln"></span><p>o país num relance</p></div>
+
+    <section class="card full reveal">
+      <button class="chip png" data-png="evo">PNG</button>
+      <h3>Evolução nacional</h3>
+      <p class="desc">Cada indicador agregado para todo o SNS, mês a mês. As taxas são sempre
+        a soma dos numeradores a dividir pela soma dos denominadores — nunca a média das
+        percentagens de cada hospital. A vertical marca janeiro de 2024, quando a reforma
+        das ULS mudou o perímetro das instituições.</p>
+      <div id="evo-chips" class="legend" style="margin:0 0 12px"></div>
+      <div id="evo"></div>
+      <p class="fonte-lin" id="evo-fonte"></p>
+    </section>
+
+    <section class="card full reveal">
+      <button class="chip png" data-png="disp">PNG</button>
+      <h3>Onde está cada unidade</h3>
+      <p class="desc">Cada ponto é uma unidade de saúde no período selecionado; a linha é a
+        mediana nacional. Passe o rato para identificar, clique para abrir a ficha.</p>
+      <div id="disp-chips" class="legend" style="margin:0 0 12px"></div>
+      <div id="disp"></div>
+      <p class="cautela" id="disp-cautela" hidden></p>
+    </section>
+
+    <div class="sec-band" id="sec-acesso"><h2>Acesso</h2><span class="ln"></span><p>quanto se espera para ser atendido</p></div>
+    <div id="g-acesso" style="display:contents"></div>
+    <div class="sec-band" id="sec-qualidade"><h2>Qualidade</h2><span class="ln"></span><p>resultados dos cuidados prestados</p></div>
+    <div id="g-qualidade" style="display:contents"></div>
+    <div class="sec-band" id="sec-capacidade"><h2>Capacidade</h2><span class="ln"></span><p>meios humanos e atividade</p></div>
+    <div id="g-capacidade" style="display:contents"></div>
+    <div class="sec-band" id="sec-dinheiro"><h2>Dinheiro</h2><span class="ln"></span><p>contas e pagamentos a fornecedores</p></div>
+    <div id="g-dinheiro" style="display:contents"></div>
+
+    <div class="sec-band" id="sec-mapa"><h2>Mapa</h2><span class="ln"></span><p>o indicador no território</p></div>
+
+    <section class="card reveal">
+      <button class="chip png" data-png="mapa">PNG</button>
+      <h3>Portugal continental</h3>
+      <p class="desc">Tamanho da bolha conforme o volume; cor conforme a posição face à
+        mediana, na direção em que o indicador é bom. As regiões autónomas têm serviços de
+        saúde próprios e não constam desta fonte.</p>
+      <div id="mapa-sel" style="margin-bottom:10px"></div>
+      <div id="mapa"></div>
+      <div class="legend" id="mapa-legenda"></div>
+    </section>
+
+    <section class="card reveal">
+      <h3>Tabela</h3>
+      <p class="desc">Todas as unidades no período selecionado. Clique num cabeçalho para
+        ordenar, numa linha para abrir a ficha.</p>
+      <div class="tw" tabindex="0" role="region" aria-label="Tabela de unidades de saúde"><table id="tab"><thead></thead><tbody></tbody></table></div>
+    </section>
+
+    <div class="sec-band" id="sec-hospital"><h2>O meu hospital</h2><span class="ln"></span><p>ligação partilhável</p></div>
+
+    <section class="card full reveal">
+      <h3>Ficha da unidade</h3>
+      <p class="desc">Escolha uma unidade. O endereço da página passa a incluir a escolha,
+        pelo que a ligação pode ser partilhada tal como está.</p>
+      <div style="margin-bottom:14px">
+        <label class="flabel" for="sel-inst">Unidade</label> <select id="sel-inst"></select>
+      </div>
+      <div id="ficha"></div>
+    </section>
+
+    <div class="sec-band" id="sec-glossario"><h2>Glossário</h2><span class="ln"></span><p>o que significam os termos</p></div>
+
+    <section class="card full reveal">
+      <h3>Termos do Serviço Nacional de Saúde</h3>
+      <dl class="gloss">
+        <div><dt>ULS — Unidade Local de Saúde</dt><dd>Entidade que junta num só organismo os
+          hospitais e os centros de saúde de uma região. Em janeiro de 2024 o Decreto-Lei
+          n.º 102/2023 converteu 32 hospitais e centros hospitalares em ULS, sete deles por
+          fusão de várias entidades.</dd></div>
+        <div><dt>TMRG — Tempo Máximo de Resposta Garantida</dt><dd>Prazo legal dentro do qual o
+          SNS se obriga a responder, conforme a gravidade. Estar «dentro do TMRG» não
+          significa ter sido operado: significa que a espera ainda não ultrapassou o prazo.</dd></div>
+        <div><dt>LIC — Lista de Inscritos para Cirurgia</dt><dd>Registo dos doentes com indicação
+          cirúrgica à espera de serem operados.</dd></div>
+        <div><dt>Triagem de Manchester</dt><dd>Prioridades da urgência por cores: vermelho
+          (emergente), laranja (muito urgente), amarelo (urgente), verde (pouco urgente),
+          azul (não urgente). Mede gravidade à chegada, não qualidade do atendimento.</dd></div>
+        <div><dt>GDH — Grupos de Diagnósticos Homogéneos</dt><dd>Classificação dos episódios
+          hospitalares por tipo de doente e consumo de recursos. Serve para comparar
+          atividade e financiar hospitais.</dd></div>
+        <div><dt>Cirurgia de ambulatório</dt><dd>Intervenção sem passar a noite internado.
+          Entre os procedimentos que o permitem, uma proporção alta é boa prática.</dd></div>
+        <div><dt>Lotação praticada</dt><dd>Camas efetivamente abertas e equipadas, que variam
+          ao longo do ano. Não é a lotação legal do hospital.</dd></div>
+        <div><dt>Dívida vencida</dt><dd>Montante já em atraso perante fornecedores, num dado
+          mês. É um saldo, não uma despesa: somar meses contaria a mesma dívida vezes sem conta.</dd></div>
+        <div><dt>Ajuste ao risco</dt><dd>Correção que tem em conta a gravidade dos doentes de
+          cada hospital. <strong>Nenhum indicador aqui está ajustado ao risco</strong>, e por
+          isso um hospital com piores resultados pode simplesmente receber doentes mais graves.</dd></div>
+        <div><dt>Série acumulada</dt><dd>Como esta fonte publica a maioria dos dados: cada mês
+          traz o total desde janeiro, não o valor daquele mês. Somar os doze meses daria cerca
+          de cinco vezes o valor real.</dd></div>
+      </dl>
+    </section>
+
+    <section class="card full reveal">
+      <h3>Como estes números são calculados</h3>
+      <p class="desc">Três correções separam este painel de qualquer soma direta dos ficheiros do portal.</p>
+      <dl class="gloss">
+        <div><dt>1. As séries são des-acumuladas</dt><dd>Somar os doze meses de partos daria
+          413 728 nascimentos em 2024, quando Portugal teve cerca de 85 mil. O valor correto no
+          SNS é 64 505. Quando a diferença entre dois meses não é fiável, o mês fica vazio —
+          nunca a zero.</dd></div>
+        <div><dt>2. As identidades são reconciliadas</dt><dd>Uma tabela construída à mão contra o
+          Decreto-Lei n.º 102/2023 liga cada nome antigo à entidade atual, o que permite séries
+          contínuas desde 2013. Nas sete fusões somam-se as antecessoras — e o painel avisa,
+          porque a organização de hoje não é a mesma de há dez anos.</dd></div>
+        <div><dt>3. As taxas somam-se pelos totais</dt><dd>Sempre Σnumerador ÷ Σdenominador. A
+          média das percentagens daria o mesmo peso a um mês com 12 partos e a um com 1200.
+          Abaixo de <span id="lim-txt">20</span> casos no denominador não se apresenta taxa.</dd></div>
+        <div><dt>Verificado por fora</dt><dd>Os partos do SNS em 2025 dão aqui 63 854 contra os
+          63 897 da ACSS (−0,07 %), e as cesarianas 21 158 contra 21 224 (−0,3 %). A unidade com
+          a taxa mais alta do país coincide, ao decimal, com a apontada pela ACSS.</dd></div>
+      </dl>
+    </section>
+  </div>
+
+  <footer>
+    <div class="cols">
+      <div class="aviso"><h4>O que isto não é</h4>
+        <p>O snsRadar não é um serviço oficial do SNS nem tem qualquer ligação ao Ministério da
+          Saúde. É um trabalho independente sobre dados já públicos.</p></div>
+      <div><h4>Antes de comparar hospitais</h4>
+        <p>Nenhum destes indicadores está ajustado ao risco. Um hospital que recebe doentes mais
+          graves terá piores resultados sem que isso signifique piores cuidados. Servem para
+          levantar perguntas, não para as responder.</p></div>
+      <div><h4>Origem</h4>
+        <p>Portal da Transparência do SNS (ACSS, DE-SNS, INFARMED, SPMS, INEM). Reconciliação de
+          entidades verificada contra o Decreto-Lei n.º 102/2023. Esta página funciona offline:
+          os dados estão embebidos nela.</p></div>
+    </div>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+document.documentElement.classList.add('js');
+(() => { const t = localStorage.getItem('snsradar-tema'); if (t) document.documentElement.dataset.theme = t; })();
+const DADOS = __DATA_JSON__;
+</script>
+<script src="app.js"></script>
+</html>

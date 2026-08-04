@@ -1,0 +1,426 @@
+# Definição dos indicadores da ficha de instituição — snsRadar
+#
+# Cada indicador declara de onde vem e como se calcula. A regra central:
+# quando existe um par numerador/denominador, a taxa é SEMPRE
+# soma(numerador) / soma(denominador) sobre o período agregado. Nunca a média
+# das percentagens mensais — essa daria peso igual a um mês com 12 partos e a
+# um mês com 1200.
+#
+# Campos:
+#   id           identificador estável, usado nas URLs e no JSON de saída
+#   dataset      dataset de origem em data/raw
+#   numerador    coluna a somar (obrigatório)
+#   denominador  coluna a somar; ausente = o indicador é uma contagem
+#   publicado    coluna onde a fonte publica a taxa já calculada; usada apenas
+#                para verificar a nossa aritmética, nunca para apresentar
+#   unidade      percentagem | contagem | dias | euros
+#   polaridade   subir_e_bom | subir_e_mau | neutro
+#   referencia   valor externo de comparação, com fonte
+#   cautela      texto obrigatório sempre que a comparação entre instituições
+#                puder induzir em erro. Aparece junto ao número no site.
+
+- id: lic-dentro-tmrg
+  titulo: Doentes em lista de espera cirúrgica dentro do tempo máximo garantido
+  grupo: acesso
+  dataset: inscritos-em-lic-dentro-do-tmrg-180-dias
+  numerador: no_de_doentes_inscritos_dentro_do_tmrg_sigic
+  denominador: no_de_doentes_inscritos_sigic
+  publicado: de_inscritos_em_lic_dentro_do_tmrg
+  unidade: percentagem
+  polaridade: subir_e_bom
+  descricao: >-
+    Percentagem de doentes inscritos para cirurgia cuja espera ainda não
+    ultrapassou o Tempo Máximo de Resposta Garantida.
+
+- id: consultas-tempo-adequado
+  titulo: Primeiras consultas realizadas em tempo adequado
+  grupo: acesso
+  dataset: consultas-em-tempo-real
+  acumulado_no_ano: true
+  numerador: no_primeiras_ce_prestadas_dentro_do_tmrg
+  denominador: no_primeiras_ce_realizadas_com_registo_no_cth
+  publicado: 1as_consultas_realizadas_em_tempo_adequado
+  unidade: percentagem
+  polaridade: subir_e_bom
+  cautela: >-
+    Conta apenas as consultas com registo no CTH. Consultas fora desse circuito
+    não entram no denominador.
+
+- id: demora-antes-cirurgia
+  titulo: Dias de espera no internamento antes da cirurgia programada
+  grupo: acesso
+  dataset: demora-media-antes-da-cirurgia
+  acumulado_no_ano: true
+  numerador: no_de_dias_ate_cirurgia_em_episodios_de_gdh_cirurgicos_programados
+  denominador: no_de_episodios_em_gdh_cirurgicos_de_internamento_programados_com_exclusoes
+  publicado: demora_media_antes_da_cirurgia
+  unidade: dias
+  polaridade: subir_e_mau
+  descricao: >-
+    Tempo entre a admissão e a cirurgia, em episódios cirúrgicos programados.
+    Mede dias de cama ocupados antes de operar, não a espera em lista.
+
+- id: urgencia-atendimentos
+  titulo: Atendimentos em urgência
+  grupo: acesso
+  dataset: atendimentos-em-urgencia-triagem-manchester
+  acumulado_no_ano: true
+  numerador: no_de_atendimentos_em_urgencia_su_triagem_manchester_vermelha
+  soma_tambem:
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_laranja
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_amarela
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_verde
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_azul
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_branca
+    - no_de_atendimentos_em_sem_triagem_manchester
+  unidade: contagem
+  polaridade: neutro
+
+- id: urgencia-prioritarios
+  titulo: Atendimentos em urgência com prioridade alta (vermelho e laranja)
+  grupo: acesso
+  dataset: atendimentos-em-urgencia-triagem-manchester
+  acumulado_no_ano: true
+  numerador: no_de_atendimentos_em_urgencia_su_triagem_manchester_vermelha
+  soma_tambem: [no_de_atendimentos_em_urgencia_su_triagem_manchester_laranja]
+  denominador: no_de_atendimentos_em_urgencia_su_triagem_manchester_vermelha
+  denominador_soma_tambem:
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_laranja
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_amarela
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_verde
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_azul
+    - no_de_atendimentos_em_urgencia_su_triagem_manchester_branca
+    - no_de_atendimentos_em_sem_triagem_manchester
+  unidade: percentagem
+  polaridade: neutro
+  cautela: >-
+    Uma proporção alta de prioridades urgentes pode indicar boa filtragem da
+    procura não urgente, ou uma população mais doente. Não é, por si, medida
+    de qualidade.
+
+- id: consultas-hospitalares
+  titulo: Consultas médicas hospitalares
+  grupo: acesso
+  dataset: 01_sica_evolucao-mensal-das-consultas-medicas-hospitalares
+  acumulado_no_ano: true
+  numerador: no_de_consultas_medicas_total
+  unidade: contagem
+  polaridade: neutro
+
+- id: fratura-anca-48h
+  titulo: Fraturas da anca operadas nas primeiras 48 horas
+  grupo: qualidade
+  dataset: fraturas-da-anca-cirurgias-nas-primeiras-48h
+  acumulado_no_ano: true
+  numerador: no_episodios_utentes_idade_sup_65_anos_com_diag_princ_820_com_cir_realiz_nas_1as_48h_apos_admissao
+  denominador: n_episodios_utentes_idade_sup_65_anos_com_diag_princ_820_com_cirurgia_realizada
+  publicado: fraturas_anca_com_cirurgia_realizada_nas_primeiras_48_horas
+  unidade: percentagem
+  polaridade: subir_e_bom
+  descricao: >-
+    Doentes com mais de 65 anos. Operar nas primeiras 48 horas está associado a
+    menor mortalidade e menor perda de autonomia.
+
+- id: cesarianas
+  titulo: Partos por cesariana
+  grupo: qualidade
+  dataset: partos-e-cesarianas
+  acumulado_no_ano: true
+  numerador: no_de_cesarianas
+  denominador: no_de_partos
+  unidade: percentagem
+  polaridade: neutro
+  referencia:
+    valor: 15
+    rotulo: Limiar de referência da OMS (10–15%)
+    fonte: >-
+      Organização Mundial da Saúde, Declaração sobre taxas de cesarianas, 2015.
+  cautela: >-
+    Não ajustado ao risco. Maternidades que recebem gravidezes de alto risco,
+    ou que servem populações mais velhas, têm taxas legitimamente mais altas.
+    Uma taxa acima da referência não indica, por si só, má prática.
+
+- id: mortalidade-avc-isquemico
+  titulo: Mortalidade a 30 dias por AVC isquémico
+  grupo: qualidade
+  dataset: taxa-de-mortalidade-por-avc-isquemico-e-hemorragico
+  numerador: mortalidade_avc_isquemico_30_dias
+  ja_e_taxa: true
+  unidade: percentagem
+  polaridade: subir_e_mau
+  cautela: >-
+    A fonte publica apenas a taxa, sem numerador nem denominador. Não é
+    possível agregar corretamente vários meses nem ajustar ao risco: mostramos
+    o valor mensal tal como publicado, sem o somar a outros períodos.
+
+- id: mortalidade-avc-hemorragico
+  titulo: Mortalidade a 30 dias por AVC hemorrágico
+  grupo: qualidade
+  dataset: taxa-de-mortalidade-por-avc-isquemico-e-hemorragico
+  numerador: mortalidade_avc_hemorragico_30_dias
+  ja_e_taxa: true
+  unidade: percentagem
+  polaridade: subir_e_mau
+  cautela: >-
+    A fonte publica apenas a taxa, sem numerador nem denominador. Não é
+    possível agregar corretamente vários meses nem ajustar ao risco.
+
+- id: cirurgia-ambulatorio
+  titulo: Cirurgias em ambulatório, entre as que o poderiam ser
+  grupo: qualidade
+  dataset: cirurgias-em-ambulatorio
+  acumulado_no_ano: true
+  numerador: no_episodios_cirurgicos_ambulat_com_procedimentos_ambulatorizaveis
+  denominador: no_episodios_cirurgicos_ambulat_e_intern_com_proced_ambulatorizaveis
+  publicado: cir_ambulatorio_gdh_para_procedimentos_ambulatorizaveis
+  unidade: percentagem
+  polaridade: subir_e_bom
+  descricao: >-
+    Entre os procedimentos que podem ser feitos sem internamento, a proporção
+    que efetivamente o foi. Evita noites de internamento desnecessárias.
+
+- id: ocupacao-internamento
+  titulo: Taxa de ocupação do internamento
+  grupo: capacidade
+  dataset: ocupacao-do-internamento
+  acumulado_no_ano: true
+  denominador_acumulado_no_ano: false
+  denominador_x_dias_do_mes: true
+  numerador: no_de_dias_de_internamento
+  denominador: lotacao_praticada
+  publicado: taxa_anual_de_ocupacao_em_internamento
+  unidade: percentagem
+  polaridade: neutro
+  # Único indicador de percentagem que pode legitimamente passar dos 100 %: os
+  # dias de internamento podem exceder as camas disponíveis quando se abrem
+  # camas extra. Nos restantes, o numerador está contido no denominador e um
+  # valor acima de 100 % só pode ser erro de cálculo.
+  pode_exceder_100: true
+  # Mas não sem limite. A lotação praticada vem errada em 632 meses de 13
+  # unidades — a ULS da Lezíria aparece com 10 camas em janeiro de 2014, quando
+  # tem cerca de 382, o que produz uma ocupação de 3 684%. Um hospital
+  # genuinamente cheio chega aos 130%; acima de 200% o denominador está errado,
+  # não o hospital. Nesses meses não se apresenta taxa — as contagens ficam.
+  maximo_plausivel: 200
+  cautela: >-
+    O denominador é a lotação praticada, que varia com camas abertas e
+    encerradas. Ocupação alta pode significar eficiência ou pressão excessiva;
+    ocupação baixa pode significar folga ou camas encerradas por falta de
+    pessoal.
+
+- id: intervencoes-cirurgicas
+  titulo: Intervenções cirúrgicas realizadas
+  grupo: capacidade
+  dataset: intervencoes-cirurgicas
+  acumulado_no_ano: true
+  numerador: no_intervencoes_cirurgicas_programadas
+  soma_tambem: [no_intervencoes_cirurgicas_urgentes]
+  unidade: contagem
+  polaridade: neutro
+
+- id: cirurgias-urgentes-proporcao
+  titulo: Proporção de cirurgias urgentes no total
+  grupo: capacidade
+  dataset: intervencoes-cirurgicas
+  acumulado_no_ano: true
+  numerador: no_intervencoes_cirurgicas_urgentes
+  denominador: no_intervencoes_cirurgicas_programadas
+  denominador_soma_tambem: [no_intervencoes_cirurgicas_urgentes]
+  unidade: percentagem
+  polaridade: neutro
+
+- id: consultas-telemedicina
+  titulo: Consultas em telemedicina
+  grupo: capacidade
+  dataset: consultas-em-telemedicina
+  acumulado_no_ano: true
+  numerador: total_consultas_telemedicina
+  unidade: contagem
+  polaridade: neutro
+
+- id: trabalhadores
+  titulo: Trabalhadores
+  grupo: capacidade
+  dataset: trabalhadores-por-grupo-profissional
+  coluna_tempo: periodo
+  numerador: total_geral
+  unidade: contagem
+  polaridade: neutro
+  agregacao_temporal: ultimo
+  cautela: >-
+    É um efetivo num momento, não um fluxo: somar meses não faz sentido — a
+    ficha mostra o último período. Descontinuidade em janeiro de 2024: a
+    reforma ULS integrou os centros de saúde nas mesmas entidades, e os
+    efetivos saltam +21 % (médicos +33 %) sem que ninguém tenha sido
+    contratado. Ver reference/VALIDACAO-EXTERNA.md.
+
+- id: medicos
+  titulo: Médicos (excluindo internos)
+  grupo: capacidade
+  dataset: trabalhadores-por-grupo-profissional
+  coluna_tempo: periodo
+  numerador: medicos_s_internos
+  unidade: contagem
+  polaridade: neutro
+  agregacao_temporal: ultimo
+  cautela: >-
+    Descontinuidade em janeiro de 2024: a reforma ULS integrou os agrupamentos
+    de centros de saúde nas mesmas entidades, e os efetivos saltam +21 %
+    (médicos +33 %) de dezembro de 2023 para dezembro de 2024. Não é
+    contratação — é mudança de perímetro. Confirmado contra o INE em
+    reference/VALIDACAO-EXTERNA.md.
+
+- id: enfermeiros
+  titulo: Enfermeiros
+  grupo: capacidade
+  dataset: trabalhadores-por-grupo-profissional
+  coluna_tempo: periodo
+  numerador: enfermeiros
+  unidade: contagem
+  polaridade: neutro
+  agregacao_temporal: ultimo
+  cautela: >-
+    Descontinuidade em janeiro de 2024: a reforma ULS integrou os agrupamentos
+    de centros de saúde nas mesmas entidades, e os efetivos saltam +21 %
+    (médicos +33 %) de dezembro de 2023 para dezembro de 2024. Não é
+    contratação — é mudança de perímetro. Confirmado contra o INE em
+    reference/VALIDACAO-EXTERNA.md.
+
+- id: divida-vencida
+  titulo: Dívida vencida a fornecedores externos
+  grupo: dinheiro
+  dataset: divida-total-vencida-e-pagamentos
+  coluna_entidade: entidade
+  coluna_tempo: periodo
+  numerador: divida_vencida_fornecedores_externos
+  unidade: euros
+  polaridade: subir_e_mau
+  agregacao_temporal: ultimo
+  cautela: >-
+    É um saldo em dívida numa data, não uma despesa do período: somar meses
+    contaria a mesma dívida vezes sem conta. A ficha mostra o último período.
+
+- id: divida-total
+  titulo: Dívida total a fornecedores externos
+  grupo: dinheiro
+  dataset: divida-total-vencida-e-pagamentos
+  coluna_entidade: entidade
+  coluna_tempo: periodo
+  numerador: divida_total_fornecedores_externos
+  unidade: euros
+  polaridade: subir_e_mau
+  agregacao_temporal: ultimo
+
+- id: prazo-medio-pagamento
+  titulo: Prazo médio de pagamento a fornecedores
+  grupo: dinheiro
+  dataset: tempo-medio-de-pagamento-das-instituicoes-do-sns-a-fornecedores
+  numerador: prazo_medio_de_pagamento
+  unidade: dias
+  polaridade: subir_e_mau
+  agregacao_temporal: ultimo
+  descricao: >-
+    Dias que a instituição demora, em média, a pagar aos seus fornecedores.
+
+- id: gastos-trabalho-extraordinario
+  titulo: Peso do trabalho extraordinário e suplementos nos gastos com pessoal
+  grupo: dinheiro
+  dataset: percentagem-de-gastos-com-te-e-suplementos-no-total-gastos-com-pessoal
+  acumulado_no_ano: true
+  numerador: gastos_com_te_e_suplementos
+  denominador: gastos_com_pessoal
+  publicado: gastos_com_te_e_suplementos_no_total_gastos_com_pessoal
+  unidade: percentagem
+  polaridade: subir_e_mau
+  descricao: >-
+    Proporção da despesa com pessoal que vai para horas extraordinárias e
+    suplementos. Um peso elevado costuma sinalizar falta de quadros próprios.
+
+# ---------------------------------------------------------------------------
+# Uso de antibióticos — INFARMED
+#
+# Três classes com significado próprio na resistência antimicrobiana, cada uma
+# em proporção do total de antibióticos consumidos no hospital, em DDD (dose
+# diária definida). São os únicos indicadores desta ficha que falam da prática
+# clínica e não da atividade ou das contas.
+#
+# Três notas sobre a fonte, todas verificadas:
+#   · **Não é acumulada no ano** — ao contrário da maioria das séries do SNS,
+#     estes são fluxos mensais. Não leva `acumulado_no_ano`.
+#   · O denominador não existe como coluna: o total é a classe mais o resto,
+#     construído com `denominador_soma_tambem`.
+#   · A fonte publica o rácio em `peso`, mas como **fração** (0,0503) e não em
+#     pontos percentuais. Daí `publicado_escala: 100`.
+# ---------------------------------------------------------------------------
+
+- id: antibioticos-carbapenemes
+  titulo: Peso dos carbapenemes no consumo de antibióticos
+  grupo: qualidade
+  dataset: antibioticos-carbapenemes
+  coluna_entidade: nome_hospital
+  coluna_tempo: periodo
+  exigir_mes_completo: true
+  numerador: ddd_consumidas_carbapenemes
+  denominador: ddd_consumidas_carbapenemes
+  denominador_soma_tambem: [ddd_consumidas_restantes_antibioticos]
+  publicado: peso
+  publicado_escala: 100
+  unidade: percentagem
+  polaridade: subir_e_mau
+  descricao: >-
+    Proporção do consumo hospitalar de antibióticos que corresponde a
+    carbapenemes, medida em dose diária definida. São antibióticos de última
+    linha para bactérias multirresistentes: quanto mais se usam, mais depressa
+    se perde a única arma que resta contra elas.
+  cautela: >-
+    Não está ajustado ao doente. Um centro oncológico, de transplantação ou com
+    muitos cuidados intensivos usa legitimamente mais carbapenemes, porque trata
+    doentes imunodeprimidos e com infeções mais graves. É uma proporção, não um
+    volume: um hospital que reduza todos os antibióticos por igual mantém o
+    mesmo valor. A fonte atribui a cada hospital um grupo de comparação da ACSS
+    (A a F, mais psiquiátricos), que seria a base justa para comparar — o
+    snsRadar mostra por agora a mediana de todas as unidades.
+
+- id: antibioticos-fluoroquinolonas
+  titulo: Peso das fluoroquinolonas no consumo de antibióticos
+  grupo: qualidade
+  dataset: antibioticos-fluoroquinolonas
+  coluna_entidade: nome_hospital
+  coluna_tempo: periodo
+  exigir_mes_completo: true
+  numerador: ddd_consumidas_fluoroquinolonas
+  denominador: ddd_consumidas_fluoroquinolonas
+  denominador_soma_tambem: [ddd_consumidas_restantes_antibioticos]
+  publicado: peso
+  publicado_escala: 100
+  unidade: percentagem
+  polaridade: subir_e_mau
+  descricao: >-
+    Proporção do consumo hospitalar de antibióticos que corresponde a
+    fluoroquinolonas. São um alvo clássico dos programas de uso responsável:
+    selecionam resistências com rapidez e estão associadas à infeção por
+    Clostridioides difficile.
+  cautela: >-
+    Não está ajustado ao doente nem ao perfil de infeções tratadas. É uma
+    proporção do total de antibióticos, não um volume por doente.
+
+- id: antibioticos-cefalosporinas
+  titulo: Peso das cefalosporinas no consumo de antibióticos
+  grupo: qualidade
+  dataset: antibioticos-cefalosporinas
+  coluna_entidade: nome_hospital
+  coluna_tempo: periodo
+  exigir_mes_completo: true
+  numerador: ddd_consumidas_cefalosporinas
+  denominador: ddd_consumidas_cefalosporinas
+  denominador_soma_tambem: [ddd_consumidas_restantes_antibioticos]
+  publicado: peso
+  publicado_escala: 100
+  unidade: percentagem
+  polaridade: subir_e_mau
+  descricao: >-
+    Proporção do consumo hospitalar de antibióticos que corresponde a
+    cefalosporinas, em dose diária definida.
+  cautela: >-
+    Não está ajustado ao doente. É uma proporção do total de antibióticos, não
+    um volume por doente.

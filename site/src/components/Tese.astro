@@ -1,0 +1,270 @@
+---
+/**
+ * A tese do projeto, em figura.
+ *
+ * O sítio inteiro existe por causa de uma discrepância de arrumação: o Estado
+ * publica **por ficheiro** e as pessoas pensam **por hospital**. Dizê-lo em
+ * prosa é uma frase que se lê e se esquece; mostrá-lo são três filas de traços
+ * que se reorganizam à frente de quem chega.
+ *
+ * Cada traço é uma coisa real e contada, nunca decoração: 144 conjuntos no
+ * catálogo da fonte, os indicadores que sobreviveram ao tratamento, as fichas
+ * publicadas. Os dois últimos números vêm dos dados, não de texto escrito à
+ * mão — se o pipeline mudar, a figura muda com ele.
+ *
+ * Um movimento só, à entrada: os traços surgem em cascata da esquerda. Não
+ * depende de JavaScript (é animação CSS) e `prefers-reduced-motion` desliga-a
+ * por completo, deixando a figura no estado final.
+ *
+ * A banda de triagem continua a ser a assinatura da página; esta figura fica
+ * deliberadamente em filete e cinzento para a enquadrar, não para competir.
+ */
+import { indice, nacional, ligacao } from "../lib/dados";
+
+/* Do catálogo da fonte. É o único número desta figura que não sai de `data/out`
+   — o sítio não lê `data/raw` — e é o mesmo que a prosa da página já cita. */
+const CONJUNTOS_PUBLICADOS = 144;
+
+const unidades = indice().length;
+const indicadores = Object.keys(nacional()).length;
+
+const FILAS = [
+  {
+    n: CONJUNTOS_PUBLICADOS,
+    classe: "bruto",
+    rotulo: "conjuntos de dados publicados",
+    nota: "arrumados por ficheiro, cada um com o seu formato",
+  },
+  {
+    n: indicadores,
+    classe: "indic",
+    rotulo: "indicadores reconstruídos",
+    nota: "des-acumulados, com denominador, data e fonte",
+  },
+  {
+    n: unidades,
+    classe: "ficha",
+    rotulo: "fichas, uma por unidade de saúde",
+    nota: "arrumadas por hospital — como as pessoas procuram",
+  },
+];
+
+const nf = new Intl.NumberFormat("pt-PT");
+---
+
+<section class="tese" aria-labelledby="tese-titulo">
+  <div class="tese__texto">
+    <p class="tese__kicker">O que este sítio faz</p>
+    <h2 id="tese-titulo" class="tese__titulo">
+      O Estado publica por ficheiro.<br />As pessoas pensam por hospital.
+    </h2>
+    <p class="tese__prosa">
+      Ninguém quer o ficheiro <span class="tese__mono">partos-e-cesarianas</span>.
+      As pessoas querem saber se a maternidade onde vão ter um filho tem uma taxa
+      de cesarianas de 22 % ou de 45 %. Entre uma coisa e a outra há
+      des-acumulação de séries, reconciliação de entidades através da reforma de
+      2024 e um denominador para cada número.
+    </p>
+    <a class="tese__cta" href={ligacao("/instituicoes/#achar")}>
+      Procurar a minha unidade
+      <span class="tese__seta" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  {/* A figura é redundante face ao texto das filas, que é lido em voz alta na
+      ordem certa. Os traços em si não acrescentam nada a quem não os vê. */}
+  <figure class="tese__figura" style={`--max:${CONJUNTOS_PUBLICADOS}`}>
+    {
+      FILAS.map((f, ordem) => (
+        /* Cada fila varre em ~300 ms, e as filas entram encadeadas de cima
+           para baixo. Com um passo igual para todos os traços, a fila de 144
+           demorava três vezes mais do que as outras e acabava depois delas — a
+           figura lia-se ao contrário da ordem em que está escrita. */
+        <div
+          class="tese__fila"
+          style={`--n:${f.n}; --base:${ordem * 190}ms; --passo:${(300 / f.n).toFixed(2)}ms`}
+        >
+          <div class={`tese__tracos tese__tracos--${f.classe}`} aria-hidden="true">
+            {Array.from({ length: f.n }, (_, i) => (
+              <span class="tese__traco" style={`--i:${i}`} />
+            ))}
+          </div>
+          <p class="tese__linha">
+            <b class="num">{nf.format(f.n)}</b>
+            <span class="tese__rotulo">{f.rotulo}</span>
+            <span class="tese__nota">{f.nota}</span>
+          </p>
+        </div>
+      ))
+    }
+    <figcaption class="sr">
+      Três filas de traços, uma por etapa: {FILAS.map((f) => `${f.n} ${f.rotulo}`).join("; ")}.
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .tese {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: center;
+    padding: clamp(18px, 3vw, 38px) 0 clamp(20px, 3vw, 34px);
+    border-bottom: 1px solid var(--grid);
+  }
+  @media (max-width: 60rem) {
+    .tese {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+  }
+
+  .tese__kicker {
+    margin: 0 0 10px;
+    font-size: var(--t-3xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* Maior do que o h1 do cabeçalho de propósito: o h1 é a marca, isto é o
+     argumento. A escala fluida trava aos 46 px para não roubar a banda de
+     triagem, que é a assinatura da página. */
+  .tese__titulo {
+    font-size: clamp(27px, 4.4vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .tese__prosa {
+    margin: 14px 0 0;
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+  .tese__mono {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-size: 0.92em;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+    padding: 1px 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .tese__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 9px 16px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    font-size: var(--t-xs);
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+  .tese__cta:hover {
+    background: var(--ink);
+    color: var(--page);
+  }
+  .tese__seta {
+    transition: transform 0.28s cubic-bezier(0.22, 0.8, 0.25, 1);
+  }
+  .tese__cta:hover .tese__seta,
+  .tese__cta:focus-visible .tese__seta {
+    transform: translateX(3px);
+  }
+
+  .tese__figura {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vw, 22px);
+  }
+  .tese__fila {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  /* O traço tem sempre a mesma espessura nas três filas; o que muda é o
+     comprimento da fila, que é o próprio número. Se todas enchessem a largura,
+     144 e 25 desenhavam a mesma barra e a figura não dizia nada — seria
+     decoração com legenda. Assim vê-se 144 encolher para 25 e voltar a abrir
+     em 43. A largura sai de `--n / --max`, e `--max` é a maior das três. */
+  .tese__tracos {
+    display: flex;
+    align-items: flex-end;
+    gap: 1px;
+    width: calc(var(--n) / var(--max) * 100%);
+    height: 30px;
+    border-bottom: 1px solid var(--grid);
+    padding-bottom: 4px;
+  }
+  .tese__traco {
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: 1px;
+    transform-origin: bottom;
+    animation: tese-surgir 0.45s cubic-bezier(0.22, 0.8, 0.25, 1) both;
+    animation-delay: calc(var(--base, 0ms) + var(--i) * var(--passo, 3ms));
+  }
+  @keyframes tese-surgir {
+    from {
+      opacity: 0;
+      transform: scaleY(0.12);
+    }
+  }
+
+  .tese__tracos--bruto .tese__traco {
+    height: 13px;
+    background: var(--baseline);
+  }
+  .tese__tracos--indic .tese__traco {
+    height: 21px;
+    background: var(--ink-2);
+  }
+  .tese__tracos--ficha .tese__traco {
+    height: 30px;
+    background: var(--accent);
+  }
+
+  .tese__linha {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tese__linha b {
+    font-size: var(--t-lg);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+  .tese__rotulo {
+    font-size: var(--t-xs);
+    color: var(--ink-2);
+  }
+  .tese__nota {
+    font-size: var(--t-2xs);
+    color: var(--muted);
+    flex-basis: 100%;
+  }
+
+  /* Sem movimento: a figura fica no estado final, que é o que interessa. */
+  @media (prefers-reduced-motion: reduce) {
+    .tese__traco {
+      animation: none;
+    }
+    .tese__cta,
+    .tese__seta {
+      transition: none;
+    }
+  }
+</style>

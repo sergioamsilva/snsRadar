@@ -1,0 +1,332 @@
+---
+/**
+ * Um indicador, apresentado como linha de boletim de análises.
+ *
+ * A ideia que organiza esta ficha: um número de saúde nunca se lê sozinho.
+ * Como num boletim clínico, cada valor aparece com a sua escala e o seu
+ * intervalo de referência — aqui, a mediana das instituições do país e, quando
+ * existe, uma referência externa (por exemplo, o limiar da OMS para cesarianas).
+ */
+import Serie from "./Serie.astro";
+import {
+  comparar,
+  descreverPeriodo,
+  formatar,
+  formatarData,
+  type Indicador as TIndicador,
+} from "../lib/dados";
+
+interface Props {
+  id: string;
+  dados: TIndicador;
+  mediana: number | null;
+  descontinuidade: string | null;
+  /** Valor por mil habitantes servidos, quando o indicador é uma contagem. */
+  porMil?: number | null;
+  medianaPorMil?: number | null;
+  /** Percentis nacionais por mês, para a faixa de fundo do gráfico. */
+  faixa?: { mes: string; p25: number; p50: number; p75: number }[];
+}
+const { id, dados, mediana, descontinuidade, porMil = null, medianaPorMil = null,
+  faixa = [] } = Astro.props;
+
+/* A forma do desenho segue a natureza do dado, não a conveniência: uma taxa
+   compara-se com o país, uma contagem é um volume discreto, e um saldo
+   mantém-se até mudar. */
+const forma: "taxa" | "contagem" | "saldo" =
+  dados.denominador !== null || dados.unidade === "percentagem"
+    ? "taxa"
+    : dados.meses_usados === 1
+      ? "saldo"
+      : "contagem";
+
+/* Primeiro mês da janela que produziu o valor grande, para o gráfico realçar. */
+const janelaDe = dados.periodo.includes("..") ? dados.periodo.split("..")[0] : null;
+
+const cmp = comparar(dados.valor, mediana, dados.polaridade, dados.unidade);
+
+/* Escala: posiciona o valor e a mediana num eixo comum. Os limites vêm da
+   própria série, para que a régua reflita a dispersão real do indicador. */
+const valores = dados.serie
+  .map((p) => p.valor)
+  .filter((v): v is number => v !== null);
+const candidatos = [
+  ...valores,
+  ...(dados.valor !== null ? [dados.valor] : []),
+  ...(mediana !== null ? [mediana] : []),
+  ...(dados.referencia ? [dados.referencia.valor] : []),
+];
+let lo = Math.min(...candidatos);
+let hi = Math.max(...candidatos);
+if (hi === lo) hi = lo + 1;
+const folga = (hi - lo) * 0.08;
+lo -= folga;
+hi += folga;
+if (dados.unidade === "percentagem") {
+  // A folga tem de ser aparada depois de aplicada: caso contrário a régua
+  // anuncia extremos impossíveis, como 103 %. A ocupação é a exceção — pode
+  // passar dos 100 % com camas abertas além da lotação.
+  lo = Math.max(0, lo);
+  if (!dados.pode_exceder_100) hi = Math.min(100, hi);
+}
+/* Preso ao intervalo: um marcador fora da régua empurraria a página para fora
+   do ecrã em vez de sinalizar o valor. */
+const pos = (v: number) =>
+  Math.max(0, Math.min(100, ((v - lo) / (hi - lo)) * 100));
+
+/* A régua só faz sentido quando o valor agregado vive na mesma escala da
+   série. Numa contagem, o agregado é a soma de doze meses e não se compara com
+   um ponto mensal — nesses casos a régua enganaria em vez de situar. */
+const escalaComparavel =
+  dados.unidade === "percentagem" ||
+  dados.unidade === "dias" ||
+  dados.meses_usados === 1;
+const temEscala = dados.valor !== null && valores.length > 1 && escalaComparavel;
+
+/* Unidades cuja formatação é linear e por isso se deixa interpolar. */
+const contavel =
+  dados.valor !== null && ["percentagem", "contagem"].includes(dados.unidade);
+const dataFonte = dados.fonte.atualizado
+  ? formatarData(dados.fonte.atualizado.slice(0, 10))
+  : "";
+---
+
+{/* O estado vai para o cartão, não só para a linha de texto. Numa ficha de 25
+    cartões todos iguais, saber quais estão fora do intervalo obrigava a ler os
+    25 — que é exatamente o que um boletim de análises resolve com uma marca na
+    margem. A cor nunca carrega sozinha o significado: a comparação continua
+    escrita por extenso ao lado do valor. */}
+<article
+  class={`card ind ind--${cmp?.estado ?? "neutro"}`}
+  id={id}
+  data-entrada
+>
+  <header class="ind__topo">
+    <h3 class="ind__titulo">{dados.titulo}</h3>
+    <p class="ind__periodo num">{descreverPeriodo(dados.periodo, dados.meses_usados)}</p>
+  </header>
+
+  <div class="ind__leitura">
+    {/* Só percentagens e contagens contam. Dias e euros passam por `formatar`,
+        que lhes muda a unidade a meio da escala — «3,81 mil M€» não se
+        interpola sem inventar textos que a fonte não tem. */}
+    <p
+      class="ind__valor num"
+      data-valor
+      data-contar={contavel ? dados.valor : undefined}
+      data-contar-casas={dados.unidade === "percentagem" ? 1 : 0}
+      data-contar-sufixo={dados.unidade === "percentagem" ? " %" : ""}
+    >
+      {formatar(dados.valor, dados.unidade)}
+    </p>
+    {
+      cmp && (
+        <p class={`ind__cmp ind__cmp--${cmp.estado}`}>
+          <span class="ind__sinal" aria-hidden="true">
+            {cmp.seta}
+          </span>
+          {cmp.texto}
+        </p>
+      )
+    }
+    {
+      !cmp && mediana !== null && dados.valor !== null && (
+        <p class="ind__cmp ind__cmp--neutro">
+          mediana nacional: {formatar(mediana, dados.unidade)}
+        </p>
+      )
+    }
+  </div>
+
+  {
+    porMil !== null && (
+      <p class="ind__percapita num">
+        <strong>{new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(porMil)}</strong>
+        {" "}por mil utentes inscritos
+        {medianaPorMil !== null && (
+          <span class="ind__percapita-med">
+            {" · mediana nacional "}
+            {new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(medianaPorMil)}
+          </span>
+        )}
+      </p>
+    )
+  }
+
+  {
+    dados.denominador !== null && dados.valor !== null && (
+      <p class="ind__fracao num">
+        {new Intl.NumberFormat("pt-PT").format(Math.round(dados.numerador))} em{" "}
+        {new Intl.NumberFormat("pt-PT").format(Math.round(dados.denominador))}
+      </p>
+    )
+  }
+
+  {
+    temEscala && (
+      <div class="escala" role="img" aria-label={
+        `Posição nesta escala: ${formatar(dados.valor, dados.unidade)}` +
+        (mediana !== null ? `; mediana nacional ${formatar(mediana, dados.unidade)}` : "")
+      }>
+        <div class="escala__eixo" />
+        {mediana !== null && (
+          <div class="escala__mediana" style={`left:${pos(mediana)}%`}>
+            <span class="escala__rotulo">mediana</span>
+          </div>
+        )}
+        {dados.referencia && (
+          <div class="escala__ref" style={`left:${pos(dados.referencia.valor)}%`}>
+            <span class="escala__rotulo">OMS</span>
+          </div>
+        )}
+        {/* A posição vai numa variável, não em `left` direto: assim o CSS pode
+            partir do extremo esquerdo e deslizar até ela quando a régua entra
+            no ecrã. Sem JavaScript, `left` assume já `--pos`. */}
+        <div class="escala__valor" data-escala style={`--pos:${pos(dados.valor!)}%`} />
+        <span class="escala__extremo escala__extremo--min num">
+          {formatar(lo, dados.unidade)}
+        </span>
+        <span class="escala__extremo escala__extremo--max num">
+          {formatar(hi, dados.unidade)}
+        </span>
+      </div>
+    )
+  }
+
+  {dados.descricao && <p class="ind__desc">{dados.descricao}</p>}
+
+  <Serie
+    serie={dados.serie}
+    unidade={dados.unidade}
+    titulo={dados.titulo}
+    referencia={forma === "taxa" ? mediana : null}
+    rotuloReferencia="mediana nacional"
+    descontinuidade={descontinuidade}
+    podeExceder100={dados.pode_exceder_100}
+    forma={forma}
+    faixa={faixa}
+    janelaDe={janelaDe}
+  />
+
+  {
+    dados.cautela && (
+      <p class="ind__cautela">
+        <strong>Cautela.</strong> {dados.cautela}
+      </p>
+    )
+  }
+
+  {
+    dados.referencia && (
+      <p class="ind__ref">
+        {dados.referencia.rotulo}. <cite>{dados.referencia.fonte}</cite>
+      </p>
+    )
+  }
+
+  <p class="ind__fonte">
+    <a href={dados.fonte.url} rel="nofollow noopener" target="_blank">
+      Ver este número na fonte
+    </a>
+    <span aria-hidden="true"> · </span>
+    <span>{dados.fonte.publisher}</span>
+    {dataFonte && (
+      <>
+        <span aria-hidden="true"> · </span>
+        <span class="num">atualizado {dataFonte}</span>
+      </>
+    )}
+  </p>
+</article>
+
+{/* A ponta da série vive dentro do componente Serie, com escopo próprio. Esta
+    regra é global mas presa a `.ind`, que só este ficheiro emite. */}
+<style is:global>
+  .ind .serie__ponta {
+    stroke: var(--cor-estado, var(--accent));
+  }
+</style>
+
+<style>
+  /* Uma cor de estado por cartão, herdada por tudo o que está dentro: a marca
+     na margem, o marcador da régua e a ponta da série. */
+  .ind--melhor { --cor-estado: var(--pos); }
+  .ind--pior { --cor-estado: var(--neg); }
+  .ind--semelhante,
+  .ind--neutro { --cor-estado: var(--baseline); }
+
+  /* Filete na margem esquerda, por dentro do contorno para acompanhar o raio
+     do cartão. É a marca de «fora do intervalo de referência» do boletim. */
+  .ind {
+    box-shadow: inset 3px 0 0 0 var(--cor-estado);
+  }
+  .ind__topo {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 12px; flex-wrap: wrap;
+  }
+  .ind__titulo { font-size: var(--t-md); font-weight: 700; letter-spacing: 0; }
+  .ind__periodo { margin: 0; font-size: var(--t-2xs); color: var(--muted); white-space: nowrap; }
+
+  .ind__leitura { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+  .ind__valor {
+    font-size: clamp(30px, 5vw, 40px); font-weight: 750;
+    letter-spacing: -0.02em; line-height: 1.05; margin: 0;
+  }
+  .ind__cmp { margin: 0; font-size: var(--t-xs); font-weight: 600; }
+  /* Glifo decorativo, mas com piso: a 0,75em caía para 10,5 px no telemóvel. */
+  .ind__sinal { font-size: max(11.5px, 0.78em); margin-right: 0.15em; }
+  .ind__cmp--melhor { color: var(--pos-texto); }
+  .ind__cmp--pior { color: var(--neg-texto); }
+  .ind__cmp--semelhante, .ind__cmp--neutro { color: var(--muted); }
+
+  .ind__percapita { margin: 8px 0 0; font-size: var(--t-xs); color: var(--ink); }
+  .ind__percapita strong { font-size: var(--t-lg); font-weight: 700; }
+  .ind__percapita-med { color: var(--muted); font-size: var(--t-2xs); }
+  .ind__fracao { margin: 4px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+
+  /* Régua de referência: o valor situado entre a mediana e o limiar externo. */
+  .escala { position: relative; height: 46px; margin: 16px 0 4px; }
+  .escala__eixo {
+    position: absolute; inset-inline: 0; top: 9px; height: 3px;
+    border-radius: 2px; background: var(--grid);
+  }
+  .escala__valor {
+    position: absolute; top: 2px; width: 3px; height: 17px;
+    margin-left: -1.5px; background: var(--cor-estado, var(--accent));
+    border-radius: 2px;
+    left: var(--pos);
+  }
+  /* O marcador percorre a régua até ao seu lugar — é o gesto que mostra onde
+     esta unidade cai entre todas as outras, em vez de o afirmar. Parte do
+     extremo esquerdo, que é o mínimo nacional, e não de um ponto arbitrário. */
+  html.js .escala__valor {
+    left: 0;
+    transition: left 0.85s cubic-bezier(0.22, 0.75, 0.2, 1);
+  }
+  html.js .escala__valor.entrou { left: var(--pos); }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .escala__valor { left: var(--pos); transition: none; }
+  }
+  .escala__mediana, .escala__ref {
+    position: absolute; top: 3px; width: 1px; height: 15px;
+    margin-left: -0.5px; background: var(--ink-2);
+  }
+  .escala__ref { background: var(--cat3); }
+  .escala__rotulo {
+    position: absolute; top: 19px; left: 50%; transform: translateX(-50%);
+    font-size: var(--t-3xs); color: var(--muted); white-space: nowrap;
+  }
+  .escala__ref .escala__rotulo { color: var(--cat3-texto); }
+  .escala__extremo { position: absolute; top: 33px; font-size: var(--t-3xs); color: var(--muted); }
+  .escala__extremo--min { left: 0; }
+  .escala__extremo--max { right: 0; }
+
+  .ind__desc { font-size: var(--t-xs); color: var(--muted); margin: 12px 0 0; max-width: 110ch; }
+  .ind__cautela {
+    font-size: var(--t-xs); color: var(--ink-2);
+    border-left: 2px solid var(--warn); padding: 2px 0 2px 12px; margin: 14px 0 0;
+  }
+  .ind__ref { font-size: var(--t-2xs); color: var(--muted); margin: 10px 0 0; }
+  .ind__ref cite { font-style: normal; }
+  .ind__fonte { font-size: var(--t-2xs); color: var(--muted); margin: 12px 0 0; }
+</style>

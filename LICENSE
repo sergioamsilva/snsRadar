@@ -1,0 +1,34 @@
+MIT License
+
+Copyright (c) 2026 snsRadar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Esta licença cobre o código e os ficheiros de referência construídos neste
+projeto, incluindo `reference/instituicoes.yaml` — a correspondência de
+entidades curada à mão contra o Decreto-Lei n.º 102/2023, que não existe
+publicada em lado nenhum.
+
+Não cobre os dados originais. Esses permanecem dos organismos que os publicam
+— ACSS, DE-SNS, INFARMED, SPMS e INEM, através do Portal da Transparência do
+SNS, e IMPIC através do dados.gov.pt. Os ficheiros em `data/` são trabalho
+derivado desses dados; ver ATRIBUICAO.md para a base legal adotada e para o que
+continua por confirmar.

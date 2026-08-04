@@ -1,0 +1,140 @@
+---
+/**
+ * Coreografia partilhada: números que contam, séries que se desenham, cartões
+ * que entram em cascata.
+ *
+ * Três regras que este ficheiro respeita e que não são negociáveis num portal
+ * público:
+ *
+ *   1. **Sem JavaScript nada se perde.** Os estados iniciais escondidos só se
+ *      aplicam sob `html.js`; a página servida é a completa.
+ *   2. **`prefers-reduced-motion` desliga tudo**, incluindo o count-up — que
+ *      para quem tem sensibilidade vestibular é dos gestos mais incómodos.
+ *   3. **Um movimento por elemento.** Nenhum nó recebe reveal e count-up ao
+ *      mesmo tempo.
+ *
+ * O count-up preserva a formatação pt-PT do valor final: interpola o número e
+ * volta a formatá-lo, em vez de mexer no texto já composto.
+ */
+---
+
+<script>
+  const parado = matchMedia("(prefers-reduced-motion: reduce)");
+
+  /* ── números que contam ──────────────────────────────────────────────── */
+
+  function contar(el: HTMLElement) {
+    const alvo = Number(el.dataset.contar);
+    if (!Number.isFinite(alvo)) return;
+    const casas = Number(el.dataset.contarCasas ?? 0);
+    const sufixo = el.dataset.contarSufixo ?? "";
+    const fmt = new Intl.NumberFormat("pt-PT", {
+      minimumFractionDigits: casas,
+      maximumFractionDigits: casas,
+    });
+
+    // Números grandes levam mais tempo, mas nunca mais de 1,1 s: passado isso
+    // deixa de ser informação a chegar e passa a ser espera.
+    const duracao = Math.min(1100, 420 + Math.log10(Math.max(alvo, 10)) * 130);
+    const inicio = performance.now();
+
+    const passo = (agora: number) => {
+      const t = Math.min(1, (agora - inicio) / duracao);
+      // easeOutExpo: quase todo o movimento acontece cedo, o fim assenta.
+      const e = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      el.textContent = fmt.format(alvo * e) + sufixo;
+      if (t < 1) requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  }
+
+  /* ── séries que se desenham ──────────────────────────────────────────── */
+
+  function desenhar(svg: SVGElement) {
+    // Gráficos de colunas não têm linha a desenhar: crescem da base. A classe
+    // no `svg` dispara todas as colunas de uma vez, cada uma com o seu atraso.
+    if (svg.querySelector(".serie__coluna")) {
+      svg.classList.add("entrou");
+      return;
+    }
+    const linha = svg.querySelector<SVGPathElement>(".serie__linha");
+    if (!linha) return;
+    const c = linha.getTotalLength?.() ?? 0;
+    if (!c) return;
+    linha.style.strokeDasharray = String(c);
+    linha.style.strokeDashoffset = String(c);
+    // Reflow para que a transição parta do estado escondido.
+    void linha.getBoundingClientRect();
+    linha.style.transition = "stroke-dashoffset 1s cubic-bezier(.3,.7,.2,1)";
+    linha.style.strokeDashoffset = "0";
+
+    const area = svg.querySelector<SVGPathElement>(".serie__area");
+    const ponta = svg.querySelector<SVGElement>(".serie__ponta");
+    for (const e of [area, ponta]) {
+      if (!e) continue;
+      e.style.opacity = "0";
+      e.style.transition = "opacity .5s ease .55s";
+      requestAnimationFrame(() => (e.style.opacity = ""));
+    }
+  }
+
+  /* ── um observador para tudo, que se liberta ao disparar ─────────────── */
+
+  if (!parado.matches) {
+    const obs = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (!e.isIntersecting) continue;
+          const el = e.target as HTMLElement;
+          obs.unobserve(el);
+          if (el.dataset.contar !== undefined) contar(el);
+          else if (el.tagName === "svg" || el instanceof SVGElement) desenhar(el as SVGElement);
+          else el.classList.add("entrou");
+          // A régua do mesmo cartão parte com o resto: são nós diferentes, e o
+          // marcador tem de deslizar enquanto o cartão ainda está a entrar,
+          // senão lê-se como dois momentos em vez de um.
+          for (const m of el.querySelectorAll?.("[data-escala]") ?? [])
+            m.classList.add("entrou");
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.15 },
+    );
+
+    for (const el of document.querySelectorAll<HTMLElement>("[data-contar]")) obs.observe(el);
+    for (const el of document.querySelectorAll<SVGElement>(".serie svg")) obs.observe(el);
+    document.querySelectorAll<HTMLElement>("[data-entrada]").forEach((el, i) => {
+      // A cascata é curta de propósito: um cartão que demora a aparecer lê-se
+      // como página lenta, não como intenção.
+      el.style.setProperty("--atraso", `${Math.min(i, 6) * 55}ms`);
+      obs.observe(el);
+    });
+  } else {
+    // Com movimento reduzido, tudo assume já o estado final.
+    for (const e of document.querySelectorAll<HTMLElement>(
+      "[data-entrada], [data-escala], .serie svg",
+    ))
+      e.classList.add("entrou");
+  }
+</script>
+
+<style is:global>
+  html.js [data-entrada] {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.5s ease var(--atraso, 0ms),
+      transform 0.5s cubic-bezier(0.22, 0.7, 0.2, 1) var(--atraso, 0ms);
+  }
+  html.js [data-entrada].entrou {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js [data-entrada] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

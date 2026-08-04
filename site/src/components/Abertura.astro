@@ -1,0 +1,371 @@
+---
+/**
+ * A abertura: o país feito dos seus hospitais, a sangrar a largura toda.
+ *
+ * O mapa estava a meio da página, numa coluna estreita, com um terço da altura
+ * que merece — e é a peça com mais força do projeto: quarenta e três pontos que
+ * desenham Portugal sem que ninguém tenha traçado a fronteira. Passa a abrir.
+ *
+ * A banda é escura nos dois temas. Não é gosto: o mapa é uma constelação, e uma
+ * constelação lê-se sobre fundo escuro. A banda redefine os tokens de cor para
+ * o seu interior, de modo que o mapa, a procura e o mostrador — que continuam a
+ * usar `--ink`, `--page` e `--accent` — se adaptam sem saber que estão dentro
+ * dela.
+ *
+ * O movimento é o que o mapa já tinha: uma varredura do Minho ao Algarve. Aqui
+ * ganha escala. As manchetes contam por baixo, na mesma banda, porque o número
+ * grande e o mapa dizem a mesma coisa por vias diferentes.
+ *
+ * Sem JavaScript: aparece tudo no lugar, o mostrador mostra o resumo do país e
+ * a procura desaparece — um campo que não filtra nada seria uma promessa falsa.
+ */
+import { indice, nacional, enriquecimento, formatar, formatarMesPorExtenso, ligacao } from "../lib/dados";
+import Mapa from "./Mapa.astro";
+import Icone from "./Icone.astro";
+import type { IconeNome } from "./Icone.astro";
+
+const lista = indice();
+const nac = nacional();
+
+const ESCOLHIDAS: { id: string; icone: IconeNome; nota: string }[] = [
+  { id: "cesarianas", icone: "nascimento", nota: "recomendação da OMS: 10 a 15 %" },
+  { id: "lic-dentro-tmrg", icone: "relogio", nota: "à espera de cirurgia dentro do prazo" },
+  { id: "fratura-anca-48h", icone: "osso", nota: "operar cedo reduz a mortalidade" },
+  { id: "urgencia-atendimentos", icone: "pulso", nota: "num ano, nos hospitais do SNS" },
+];
+const manchetes = ESCOLHIDAS.map((m) => ({ ...m, dados: nac[m.id] })).filter(
+  (m) => m.dados && m.dados.valor !== null,
+);
+const janela = manchetes[0]?.dados.janela;
+
+const pop = enriquecimento().populacao;
+const inscritos = pop.por_instituicao;
+const totalInscritos = Object.values(inscritos).reduce((s, p) => s + p.inscritos, 0);
+const semMedico = Object.values(inscritos).reduce((s, p) => s + p.sem_medico_familia, 0);
+const pctSemMedico = (100 * semMedico) / totalInscritos;
+const totalIndicadores = lista.reduce((s, i) => s + i.n_indicadores, 0);
+---
+
+<section class="abr" aria-labelledby="abr-titulo">
+  <div class="abr__grelha">
+    <div class="abr__texto">
+      <p class="abr__kicker">
+        <span class="abr__pisca" aria-hidden="true"></span>
+        Observatório independente · 2013–2026
+      </p>
+      {/* O título mudou quando o mapa ganhou contorno. Antes prometia que os
+          pontos desenhavam o país — com os distritos traçados por baixo, isso
+          deixou de ser verdade, e um título que descreve mal a figura que tem
+          ao lado é pior do que um título fraco. Este promete o que a página
+          faz mesmo: encontrar o hospital de quem chega. */}
+      <h2 id="abr-titulo" class="abr__titulo">
+        Cada ponto é um hospital.<br />Um deles é o seu.
+      </h2>
+      <p class="abr__lede">
+        As <strong class="num">{lista.length}</strong> unidades do Serviço
+        Nacional de Saúde, no sítio onde estão, com a dimensão da população por
+        que respondem. Os distritos por baixo são referência; o dado são os
+        pontos.
+      </p>
+
+      <div class="abr__procura">
+        <label for="q">Procurar por nome, distrito ou região</label>
+        <div class="abr__campo">
+          <Icone nome="lupa" tamanho={19} class="abr__lupa" />
+          <input
+            id="q"
+            type="search"
+            placeholder="Coimbra, Algarve, Trás-os-Montes…"
+            autocomplete="off"
+            data-procura
+          />
+        </div>
+        <p class="abr__contagem" data-contagem aria-live="polite"></p>
+      </div>
+
+      {/* Mostrador. Em repouso é o resumo do país — informação verdadeira, e
+          não um espaço à espera de ser preenchido pelo rato. */}
+      <div class="abr__mostrador" data-mostrador>
+        <p class="abr__rot"><span data-mostrador-rot>No conjunto do país</span></p>
+        <p class="abr__nome" data-mostrador-nome>{lista.length} unidades de saúde</p>
+        <dl class="abr__grelha-dados">
+          <div>
+            <dt>Utentes inscritos</dt>
+            <dd class="num" data-mostrador-pop>{formatar(totalInscritos, "contagem")}</dd>
+          </div>
+          <div>
+            <dt>Sem médico de família</dt>
+            <dd class="num" data-mostrador-sm>{formatar(pctSemMedico, "percentagem")}</dd>
+          </div>
+          <div>
+            <dt>Indicadores</dt>
+            <dd class="num" data-mostrador-ind>{totalIndicadores}</dd>
+          </div>
+        </dl>
+        <p class="abr__dica">
+          Aponte para um ponto — com o dedo, o rato ou o teclado. Abra-o para ver
+          a ficha completa.
+        </p>
+      </div>
+    </div>
+
+    <div class="abr__mapa">
+      <Mapa contorno />
+    </div>
+  </div>
+
+  <ul class="abr__manchetes">
+    {
+      manchetes.map((m) => (
+        <li>
+          <Icone nome={m.icone} tamanho={22} class="abr__icone" />
+          <p
+            class="abr__valor num"
+            data-contar={m.dados.valor}
+            data-contar-casas={m.dados.unidade === "percentagem" ? 1 : 0}
+            data-contar-sufixo={m.dados.unidade === "percentagem" ? " %" : ""}
+          >
+            {formatar(m.dados.valor, m.dados.unidade)}
+          </p>
+          <p class="abr__titulo-m">{m.dados.titulo}</p>
+          <p class="abr__nota">{m.nota}</p>
+        </li>
+      ))
+    }
+  </ul>
+  {
+    janela && (
+      <p class="abr__janela num">
+        12 meses até {formatarMesPorExtenso(janela.a)} · agregados por soma dos
+        numeradores a dividir pela soma dos denominadores, nunca pela média das
+        percentagens de cada hospital. <a href={ligacao("/metodologia/")}>Como isto é calculado</a>
+      </p>
+    )
+  }
+</section>
+
+<style is:global>
+  /* Os SVG vêm de dentro do componente Icone e o estilo com escopo não lhes
+     chega. Presos a um antecessor da banda para não vazarem. */
+  .abr__manchetes .icone { color: var(--accent); margin-bottom: 9px; }
+  .abr__campo .icone {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none;
+  }
+  .abr__campo:focus-within .icone { color: var(--accent); }
+  /* O mapa dentro da banda: mais alto do que na coluna estreita de onde veio.
+     A altura manda e a largura segue-a. Com `width: 100%` e a altura travada
+     pelo máximo, o SVG ficava numa caixa mais larga do que o desenho e o
+     `preserveAspectRatio` centrava Portugal no meio de dois vazios. */
+  .abr__mapa .mapa__svg {
+    height: min(72vh, 600px);
+    width: auto;
+    max-width: 100%;
+    max-height: none;
+  }
+  .abr__mapa .mapa { align-items: center; }
+  .abr__mapa .mapa__legenda { color: var(--muted); max-width: 42ch; }
+</style>
+
+<style>
+  /* ── a banda ─────────────────────────────────────────────────────────────
+     Escura nos dois temas, com os tokens redefinidos para dentro: tudo o que
+     está cá dentro continua a pedir `--ink` e `--accent` e recebe a versão que
+     funciona sobre preto. No tema escuro sobe um tom, senão desaparecia contra
+     a página. */
+  .abr {
+    --page: #0b0b0c;
+    --ink: #f6f5f1;
+    --ink-2: #c9c7bd;
+    --muted: #9c9a8f;
+    --grid: #2a2a2c;
+    --baseline: #3a3a3c;
+    --accent: #4d94ea;
+    --accent-texto: #7fb2f0;
+
+    margin-inline: calc(-1 * var(--gutter));
+    padding: clamp(26px, 4vw, 54px) var(--gutter) clamp(20px, 2.6vw, 30px);
+    background:
+      radial-gradient(
+        120% 90% at 78% 8%,
+        color-mix(in srgb, var(--accent) 16%, transparent) 0%,
+        transparent 58%
+      ),
+      linear-gradient(168deg, #0b0b0c 0%, #101216 62%, #0b0b0c 100%);
+    color: var(--ink);
+    border-bottom: 1px solid var(--grid);
+  }
+  :global(:root[data-theme="dark"]) .abr,
+  :global(:root:where(:not([data-theme="light"]))) .abr {
+    border-bottom-color: #23232a;
+  }
+
+  .abr__grelha {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    gap: clamp(24px, 4vw, 60px);
+    align-items: center;
+  }
+  @media (max-width: 62rem) {
+    .abr__grelha { grid-template-columns: 1fr; gap: 22px; }
+  }
+
+  .abr__kicker {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 14px;
+    font-size: var(--t-3xs);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  /* O ponto do radar. Um pulso lento, um só elemento — a marca do projeto a
+     dizer que os dados estão vivos. */
+  .abr__pisca {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
+    animation: abr-pulso 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+    flex: none;
+  }
+  @keyframes abr-pulso {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); }
+    60%, 100% { box-shadow: 0 0 0 11px transparent; }
+  }
+
+  .abr__titulo {
+    margin: 0;
+    font-size: clamp(30px, 5.4vw, 62px);
+    line-height: 1.03;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+  .abr__lede {
+    margin: 16px 0 0;
+    font-size: var(--t-md);
+    color: var(--ink-2);
+    max-width: 54ch;
+  }
+  .abr__lede strong { color: var(--ink); font-weight: 700; }
+
+  .abr__procura { margin: 22px 0 0; }
+  .abr__procura label {
+    display: block;
+    font-size: var(--t-3xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  .abr__campo { position: relative; max-width: 30rem; }
+  .abr__procura input {
+    width: 100%;
+    font-size: var(--t-md);
+    padding: 11px 12px 11px 40px;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--baseline);
+    border-radius: 8px;
+  }
+  .abr__procura input::placeholder { color: var(--muted); }
+  .abr__contagem {
+    margin: 7px 0 0;
+    font-size: var(--t-2xs);
+    color: var(--ink-2);
+    min-height: 1.2em;
+  }
+  /* Sem JavaScript o campo não filtra nada: mais vale não o prometer. */
+  :global(html:not(.js)) .abr__procura { display: none; }
+
+  .abr__mostrador {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 2px solid var(--accent);
+    max-width: 34rem;
+  }
+  .abr__rot {
+    margin: 0;
+    font-size: var(--t-3xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .abr__nome {
+    margin: 4px 0 0;
+    font-size: clamp(19px, 2.2vw, 26px);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    /* Duas linhas fixas: sem reserva, a caixa saltava a cada ponto sob o rato. */
+    min-height: 2.24em;
+  }
+  .abr__grelha-dados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+    gap: 0 20px;
+    margin: 8px 0 0;
+  }
+  .abr__grelha-dados dt {
+    font-size: var(--t-3xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+    line-height: 1.35;
+    min-height: 2.7em;
+  }
+  .abr__grelha-dados dd {
+    margin: 2px 0 0;
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .abr__dica { margin: 12px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+  :global(html:not(.js)) .abr__dica { display: none; }
+
+  /* ── manchetes, na mesma banda ───────────────────────────────────────────
+     O número grande e o mapa dizem a mesma coisa por vias diferentes: um é o
+     país como forma, o outro é o país como magnitude. */
+  .abr__manchetes {
+    list-style: none;
+    margin: clamp(24px, 3vw, 40px) 0 0;
+    padding: clamp(18px, 2vw, 26px) 0 0;
+    border-top: 1px solid var(--grid);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 22px 26px;
+  }
+  .abr__valor {
+    margin: 0 0 6px;
+    font-size: clamp(34px, 5vw, 58px);
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .abr__titulo-m {
+    margin: 0;
+    font-size: var(--t-xs);
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .abr__nota { margin: 3px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+
+  .abr__janela {
+    margin: 16px 0 0;
+    font-size: var(--t-2xs);
+    color: var(--muted);
+    max-width: 96ch;
+  }
+  .abr__janela a { color: var(--accent-texto); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .abr__pisca { animation: none; }
+  }
+</style>

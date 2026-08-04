@@ -1,0 +1,229 @@
+---
+/**
+ * Portugal na Europa: uma linha, 29 países, um facto.
+ *
+ * Todo o resto deste portal compara Portugal com Portugal. Quem lê «33 % de
+ * cesarianas» tem como única referência a recomendação da OMS — 10 a 15 % —
+ * e não sabe se está longe dela sozinho ou acompanhado.
+ *
+ * A resposta é o desenho: **a faixa da OMS aparece vazia**. Nenhum dos 29
+ * países europeus com dados a cumpre, e o mais baixo (Islândia, 14,2 %) mal lhe
+ * toca o bordo. Não é preciso afirmar que a recomendação é irrealista na
+ * Europa — vê-se.
+ *
+ * **Forma.** Um eixo, um ponto por país. Vinte e nove barras seriam uma parede;
+ * a distribuição num eixo lê-se de uma vez e mostra onde Portugal cai *dentro*
+ * dela, que é a pergunta. Rótulos só nos extremos e em Portugal — um nome em
+ * cada ponto tornaria a linha ilegível.
+ *
+ * **Sem JavaScript** o desenho é o mesmo: é SVG estático. A lista completa vai
+ * num `<details>`, que também serve de tabela para quem lê por leitor de ecrã.
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+const CAMINHO = path.resolve(process.cwd(), "..", "data", "out", "europa.json");
+const dados = fs.existsSync(CAMINHO)
+  ? JSON.parse(fs.readFileSync(CAMINHO, "utf-8")).cesarianas
+  : null;
+
+/* Recomendação da Organização Mundial da Saúde, a mesma que a ficha usa. */
+const OMS = { de: 10, a: 15 };
+
+const paises: { codigo: string; nome: string; valor: number }[] = dados?.paises ?? [];
+const valores = paises.map((p) => p.valor);
+const lo = Math.min(OMS.de, ...valores) - 2;
+const hi = Math.max(...valores) + 3;
+const x = (v: number) => ((v - lo) / (hi - lo)) * 100;
+
+const pt = paises.find((p) => p.codigo === "PT");
+const posicao = pt ? paises.indexOf(pt) + 1 : null;
+const maior = paises[0];
+const menor = paises[paises.length - 1];
+
+/* Traduções dos nomes que o Eurostat devolve em inglês. Só os que aparecem
+   rotulados no desenho — a lista completa fica como a fonte a publica. */
+const PT_NOME: Record<string, string> = {
+  Cyprus: "Chipre",
+  Iceland: "Islândia",
+  Portugal: "Portugal",
+  Greece: "Grécia",
+  Netherlands: "Países Baixos",
+};
+const nomePt = (n: string) => PT_NOME[n] ?? n;
+
+const nf = (n: number) =>
+  new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(n);
+---
+
+{
+  dados && pt && (
+    <section class="eu" aria-labelledby="eu-titulo">
+      <div class="sec-band">
+        <h2 id="eu-titulo">Portugal na Europa</h2>
+        <span class="ln" />
+        <span class="n">{dados.ano}</span>
+      </div>
+
+      <p class="eu__sub">
+        Cesarianas em percentagem dos nascimentos, nos {paises.length} países
+        europeus com dados. Portugal é o{" "}
+        <strong class="num">{posicao}.º mais alto</strong>.
+      </p>
+
+      <figure class="eu__fig">
+        <svg
+          viewBox="0 0 100 22"
+          preserveAspectRatio="none"
+          class="eu__svg"
+          role="img"
+          aria-label={
+            `Distribuição das taxas de cesarianas em ${paises.length} países europeus em ${dados.ano}: ` +
+            `de ${nf(menor.valor)} por cento em ${nomePt(menor.nome)} a ${nf(maior.valor)} por cento em ${nomePt(maior.nome)}. ` +
+            `Portugal tem ${nf(pt.valor)} por cento, o ${posicao}.º mais alto. ` +
+            `Nenhum país está dentro da recomendação da Organização Mundial da Saúde, de 10 a 15 por cento.`
+          }
+        >
+          {/* A faixa da OMS. Fica vazia, e é esse o ponto. */}
+          <rect
+            x={x(OMS.de)}
+            y="3"
+            width={x(OMS.a) - x(OMS.de)}
+            height="10"
+            class="eu__oms"
+          />
+          <line x1="0" x2="100" y1="8" y2="8" class="eu__eixo" vector-effect="non-scaling-stroke" />
+          {paises.map((p) => (
+            <circle
+              cx={x(p.valor)}
+              cy="8"
+              r={p.codigo === "PT" ? 1.15 : 0.62}
+              class={p.codigo === "PT" ? "eu__pt" : "eu__pais"}
+              vector-effect="non-scaling-stroke"
+            />
+          ))}
+        </svg>
+
+        {/* Os rótulos vão em HTML posicionado, não em <text> do SVG: com
+            `preserveAspectRatio="none"` o texto esticaria com o eixo. */}
+        <div class="eu__rotulos" aria-hidden="true">
+          <span class="eu__rot eu__rot--oms" style={`left:${x((OMS.de + OMS.a) / 2)}%`}>
+            OMS <span class="num">{OMS.de}–{OMS.a} %</span>
+          </span>
+          <span class="eu__rot eu__rot--menor" style={`left:${x(menor.valor)}%`}>
+            {nomePt(menor.nome)} <span class="num">{nf(menor.valor)} %</span>
+          </span>
+          <span class="eu__rot eu__rot--pt" style={`left:${x(pt.valor)}%`}>
+            Portugal <span class="num">{nf(pt.valor)} %</span>
+          </span>
+          <span class="eu__rot eu__rot--maior" style={`left:${x(maior.valor)}%`}>
+            {nomePt(maior.nome)} <span class="num">{nf(maior.valor)} %</span>
+          </span>
+        </div>
+      </figure>
+
+      <p class="eu__leitura">
+        <strong>Nenhum país europeu cumpre a recomendação da OMS.</strong> O mais
+        baixo é {nomePt(menor.nome)}, com <span class="num">{nf(menor.valor)} %</span>,
+        já acima do limite de {OMS.a} %.
+      </p>
+
+      <details class="eu__lista">
+        <summary>Os {paises.length} países</summary>
+        <table>
+          <thead>
+            <tr><th>País</th><th class="dir">Cesarianas</th></tr>
+          </thead>
+          <tbody>
+            {paises.map((p) => (
+              <tr class={p.codigo === "PT" ? "eu__linha-pt" : undefined}>
+                <td>{nomePt(p.nome)}</td>
+                <td class="dir num">{nf(p.valor)} %</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+
+      <p class="eu__nota">
+        {dados.nota} Fonte: <a href={dados.url} target="_blank" rel="noopener">{dados.fonte}</a>.
+      </p>
+    </section>
+  )
+}
+
+<style>
+  .eu { margin: 4px 0 0; }
+  .eu__sub {
+    margin: 10px 0 0;
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+    max-width: 78ch;
+  }
+  .eu__sub strong { color: var(--ink); font-weight: 750; }
+
+  .eu__fig { margin: 22px 0 0; position: relative; }
+  .eu__svg { width: 100%; height: 56px; display: block; overflow: visible; }
+  .eu__eixo { stroke: var(--baseline); stroke-width: 1; }
+  .eu__oms { fill: var(--accent); fill-opacity: 0.13; }
+  .eu__pais {
+    fill: var(--ink-2);
+    fill-opacity: 0.55;
+    stroke: var(--page);
+    stroke-width: 0.6;
+  }
+  .eu__pt { fill: var(--accent); stroke: var(--page); stroke-width: 0.8; }
+
+  .eu__rotulos { position: relative; height: 42px; margin-top: -6px; }
+  .eu__rot {
+    position: absolute;
+    font-size: var(--t-3xs);
+    color: var(--muted);
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+  .eu__rot .num { font-weight: 650; }
+  /* Os extremos encostam-se ao bordo: centrá-los deitá-los-ia para fora. */
+  .eu__rot--menor { transform: none; }
+  .eu__rot--maior { transform: translateX(-100%); }
+  .eu__rot--oms { top: 0; color: var(--accent-texto); }
+  .eu__rot--menor,
+  .eu__rot--maior { top: 20px; }
+  .eu__rot--pt {
+    top: 20px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .eu__leitura {
+    margin: 16px 0 0;
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+    max-width: 78ch;
+  }
+  .eu__leitura strong { color: var(--ink); font-weight: 750; }
+
+  .eu__lista { margin: 14px 0 0; font-size: var(--t-xs); }
+  .eu__lista summary {
+    cursor: pointer;
+    color: var(--ink-2);
+    padding: 4px 0;
+  }
+  .eu__lista table { margin-top: 8px; max-width: 32rem; }
+  .eu__lista .dir { text-align: right; }
+  .eu__linha-pt { font-weight: 700; }
+
+  .eu__nota {
+    margin: 14px 0 0;
+    font-size: var(--t-2xs);
+    color: var(--muted);
+    max-width: 90ch;
+  }
+
+  @media (max-width: 640px) {
+    /* Com quatro rótulos numa linha estreita, Portugal e o vizinho colidem;
+       o de menor valor cai para baixo e o eixo continua a ler-se. */
+    .eu__rotulos { height: 58px; }
+    .eu__rot--menor { top: 36px; }
+  }
+</style>

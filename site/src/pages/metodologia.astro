@@ -1,0 +1,488 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import Base from "../layouts/Base.astro";
+import {
+  indice,
+  nacional,
+  enriquecimento,
+  formatarMesPorExtenso,
+  formatarData,
+} from "../lib/dados";
+import Icone from "../components/Icone.astro";
+
+const n = indice().length;
+const nac = nacional();
+const indicadores = Object.keys(nac).length;
+
+const REPOSITORIO = "https://github.com/sergioamsilva/snsRadar";
+
+/* ── atualidade dos dados ────────────────────────────────────────────────────
+   Nenhuma destas datas é escrita à mão. Saem dos ficheiros que o pipeline
+   produziu, por isso não podem ficar velhas sem que os dados também tenham
+   ficado — que é o defeito de qualquer «última atualização» mantida à mão. */
+const RAIZ_DADOS = path.resolve(process.cwd(), "..", "data");
+
+const manifesto = JSON.parse(
+  fs.readFileSync(path.join(RAIZ_DADOS, "snapshots", "manifesto-atual.json"), "utf-8"),
+) as { capturado_em: string; datasets: Record<string, unknown> };
+const extracao = formatarData(manifesto.capturado_em.slice(0, 10));
+const conjuntosEspelhados = Object.keys(manifesto.datasets).length;
+const conjuntosCatalogo = Object.keys(
+  JSON.parse(fs.readFileSync(path.join(RAIZ_DADOS, "raw", "_catalogo.json"), "utf-8")),
+).length;
+
+const enr = enriquecimento() as any;
+const mesesSerie = [
+  ...new Set(Object.values(nac).flatMap((i: any) => (i.faixa ?? []).map((f: any) => f.mes))),
+].sort();
+const janela = Object.values(nac).find((i: any) => i.janela)?.janela ?? null;
+const mortalidade = enr.mortalidade_ajustada?.meses_usados ?? [];
+const contratos = Object.values(enr.contratos ?? {})[0] as any;
+const anoEuropa = (() => {
+  const eu = JSON.parse(
+    fs.readFileSync(path.join(RAIZ_DADOS, "out", "europa.json"), "utf-8"),
+  ) as Record<string, { ano?: string }>;
+  return Object.values(eu)[0]?.ano ?? null;
+})();
+
+const de = (a: string, b: string) =>
+  `${formatarMesPorExtenso(a)} a ${formatarMesPorExtenso(b)}`;
+
+const CAMADAS: { camada: string; cobertura: string; nota: string }[] = [
+  {
+    camada: "Séries mensais",
+    cobertura: mesesSerie.length
+      ? de(mesesSerie[0] as string, mesesSerie[mesesSerie.length - 1] as string)
+      : "—",
+    nota: "o gráfico de cada indicador",
+  },
+  {
+    camada: "Valor grande de cada indicador",
+    cobertura: janela ? `12 meses até ${formatarMesPorExtenso(janela.a)}` : "—",
+    nota: "a janela que produz o número em destaque",
+  },
+  {
+    camada: "Triagem das urgências",
+    cobertura: enr.triagem_nacional?.periodo
+      ? de(...(enr.triagem_nacional.periodo.split(" a ") as [string, string]))
+      : "—",
+    nota: "a banda de cores da página inicial",
+  },
+  {
+    camada: "População servida",
+    cobertura: enr.populacao?.periodo ? formatarMesPorExtenso(enr.populacao.periodo) : "—",
+    nota: "o denominador das taxas por mil habitantes",
+  },
+  {
+    camada: "Contratos públicos",
+    cobertura: contratos ? `${contratos.desde} a ${contratos.ate}` : "—",
+    nota: "registo do IMPIC, atualizado ao dia",
+  },
+  {
+    camada: "Mortalidade ajustada ao risco",
+    cobertura: mortalidade.length
+      ? de(mortalidade[0], mortalidade[mortalidade.length - 1])
+      : "—",
+    nota: "depende do registo de morbilidade, que a fonte publica mais tarde",
+  },
+  {
+    camada: "Contexto europeu",
+    cobertura: anoEuropa ?? "—",
+    nota: "Eurostat, que consolida os países com anos de desfasamento",
+  },
+];
+
+/* Índice desta página. Os rótulos são curtos de propósito: na margem competem
+   com o texto, e um índice que se lê a custo não serve de índice. */
+const SECCOES = [
+  { id: "acumuladas", rotulo: "Séries acumuladas" },
+  { id: "reforma", rotulo: "A reforma de 2024" },
+  { id: "totais", rotulo: "Somar pelos totais" },
+  { id: "nunca", rotulo: "O que nunca fazemos" },
+  { id: "comparacao", rotulo: "Comparação e limites" },
+  { id: "estado", rotulo: "Estado do projeto" },
+  { id: "atualizacao", rotulo: "Atualização" },
+  { id: "citar", rotulo: "Como citar" },
+  { id: "erros", rotulo: "Erros" },
+];
+---
+
+<Base
+  titulo="Metodologia"
+  descricao="Como os números do snsRadar são calculados, e porque diferem de somar os ficheiros do portal do SNS."
+>
+  <div class="pagina">
+    <div class="texto">
+    <p class="sobretitulo">Metodologia</p>
+    <h1>Porque é que estes números diferem da fonte</h1>
+
+    <p class="destaque">
+      Os dados são os do Portal da Transparência do SNS, sem alterações. O que
+      muda é o tratamento. Três correções separam estes números dos que se
+      obtêm somando os ficheiros — e sem elas os resultados são errados por
+      margens grandes.
+    </p>
+
+    <h2 id="acumuladas"><Icone nome="camadas" tamanho={21} />1. As séries são acumuladas no ano, não mensais</h2>
+    <p>
+      A maior parte dos conjuntos de dados, incluindo os designados «evolução
+      mensal», publica em cada mês o total acumulado desde janeiro — e não o
+      valor daquele mês. A ULS de Coimbra aparece em 2025 com 394 partos em
+      janeiro, 759 em fevereiro, 1160 em março.
+    </p>
+    <p>
+      Quem somar os doze meses de <code>partos-e-cesarianas</code> obtém
+      <strong>413 728 partos em 2024</strong>. Portugal tem cerca de 85 mil
+      nascimentos por ano. O valor correto, depois de converter os acumulados
+      em fluxos mensais, é <strong>64 505</strong> partos em hospitais do SNS.
+    </p>
+    <p class="nota">
+      Nada nos metadados do portal indica que estas séries são acumuladas. É um
+      erro fácil de cometer e difícil de detetar.
+    </p>
+
+    <h2 id="reforma"><Icone nome="fusao" tamanho={21} />2. A reforma de 2024 parte todas as séries</h2>
+    <p>
+      A 1 de janeiro de 2024, o Decreto-Lei n.º 102/2023 renomeou 32
+      instituições, transformando centros hospitalares em Unidades Locais de
+      Saúde. Nos dados, os nomes antigos desaparecem e surgem nomes novos: sem
+      uma tabela de correspondência, nenhum gráfico atravessa essa data.
+    </p>
+    <p>
+      Sete dessas mudanças foram fusões de várias entidades numa só. A ULS de
+      Coimbra reúne o Centro Hospitalar e Universitário de Coimbra, o Hospital
+      Arcebispo João Crisóstomo e o Centro de Medicina de Reabilitação Rovisco
+      Pais. Para que a série não se parta, somamos as antecessoras — mas
+      dizemo-lo em cada ficha, porque a organização de hoje não é a mesma de
+      há dez anos.
+    </p>
+    <p>
+      A correspondência foi construída à mão, verificada contra o texto do
+      decreto-lei, e está publicada no repositório do projeto para que possa
+      ser corrigida por quem encontre um erro.
+    </p>
+
+    <h2 id="totais"><Icone nome="divisao" tamanho={21} />3. As taxas somam-se pelos totais, nunca pelas percentagens</h2>
+    <p>
+      Uma taxa é sempre a soma dos numeradores a dividir pela soma dos
+      denominadores. Fazer a média das percentagens mensais daria o mesmo peso
+      a um mês com 12 partos e a um mês com 1200 — e produziria um número que
+      não corresponde a doente nenhum.
+    </p>
+
+    <h2 id="nunca"><Icone nome="proibido" tamanho={21} />O que o site nunca faz</h2>
+    <ul class="regras">
+      <li>
+        <Icone nome="cruz" tamanho={15} />
+        <strong>Não mostra percentagens sem as contagens que as originam.</strong>
+        Cada taxa vem acompanhada do «tantos em tantos».
+      </li>
+      <li>
+        <Icone nome="cruz" tamanho={15} />
+        <strong>Não calcula taxas sobre denominadores pequenos.</strong> Abaixo
+        de 20 casos, uma percentagem é ruído: num mês com 8 partos, uma
+        cesariana a mais move a taxa 12 pontos.
+      </li>
+      <li>
+        <Icone nome="cruz" tamanho={15} />
+        <strong>Não preenche lacunas.</strong> Um mês em falta fica em falta.
+        Quando a conversão de acumulado para mensal não é fiável, não há valor.
+      </li>
+      <li>
+        <Icone nome="cruz" tamanho={15} />
+        <strong>Não ordena hospitais do melhor para o pior.</strong> Estes
+        indicadores não estão ajustados ao risco.
+      </li>
+      <li>
+        <Icone nome="cruz" tamanho={15} />
+        <strong>Não apresenta um número sem a sua proveniência.</strong> Cada
+        valor liga à consulta da API do SNS que o reproduz.
+      </li>
+    </ul>
+
+    <h2 id="comparacao"><Icone nome="balanca" tamanho={21} />A comparação que o site faz, e os seus limites</h2>
+    <p>
+      Cada indicador é comparado com a <strong>mediana das instituições</strong>,
+      e não com a média — a mediana não é arrastada por um ou dois casos
+      extremos. Onde existe uma referência externa reconhecida, como o limiar
+      da Organização Mundial da Saúde para cesarianas, ela aparece na escala.
+    </p>
+    <p class="aviso">
+      <strong>Um hospital com piores resultados não é, por isso, um pior
+      hospital.</strong> Um serviço que recebe os doentes mais graves de uma
+      região terá mais mortalidade e mais cesarianas do que um que os
+      transfere. Estes dados não permitem distinguir as duas coisas. Servem
+      para levantar perguntas, não para as responder.
+    </p>
+
+    <h2 id="estado"><Icone nome="lista" tamanho={21} />Estado do projeto</h2>
+    <p>
+      {n} unidades de saúde, {indicadores} indicadores, séries mensais desde 2013 onde a
+      fonte as publica. Os dados são reingeridos periodicamente e cada ingestão
+      fica registada com uma impressão digital, para que se detete quando a
+      fonte revê valores em silêncio.
+    </p>
+
+    <h2 id="atualizacao"><Icone nome="calendario" tamanho={21} />Atualização</h2>
+    <p>
+      Última extração de dados: <strong class="num">{extracao}</strong>. O
+      catálogo do portal tem <span class="num">{conjuntosCatalogo}</span>{" "}
+      conjuntos; destes, <span class="num">{conjuntosEspelhados}</span> são
+      descarregados e guardados com a sua impressão digital, para que se detete
+      quando a fonte revê valores sem mudar a data.
+    </p>
+    <p>
+      As camadas não cobrem todas o mesmo período, porque as fontes não
+      publicam ao mesmo ritmo. Apresentá-las como se fossem do mesmo dia seria
+      enganador — <strong>a mortalidade ajustada ao risco é a que fica mais
+      atrás</strong>, e é o único indicador desta página que permite comparar
+      hospitais.
+    </p>
+    {/* Uma região que rola tem de poder receber foco, senão quem navega por
+        teclado não lhe chega ao conteúdo cortado — é a regra
+        `scrollable-region-focusable` do axe, e apanhou esta tabela mal ela
+        passou a rolar. */}
+    <div class="tabela" tabindex="0" role="region" aria-label="Cobertura de cada camada de dados">
+      <table>
+        <thead>
+          <tr><th>Camada</th><th>Cobertura</th><th>Onde aparece</th></tr>
+        </thead>
+        <tbody>
+          {CAMADAS.map((c) => (
+            <tr>
+              <td>{c.camada}</td>
+              <td class="num">{c.cobertura}</td>
+              <td class="nota">{c.nota}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      A publicação não é automática: atualizar os números é correr o pipeline e
+      registar a alteração no <a href={REPOSITORIO}>repositório</a>. Num portal
+      que publica indicadores de saúde, a revisão humana fica no meio do
+      caminho de propósito.
+    </p>
+
+    <h2 id="citar"><Icone nome="origem" tamanho={21} />Como citar</h2>
+    <blockquote class="citacao">
+      snsRadar — O SNS, hospital a hospital, 2013–2026. Compilação a partir do
+      Portal da Transparência do SNS (ACSS, DE-SNS, INFARMED, SPMS e INEM), do
+      registo de contratos públicos do IMPIC, do INE e do Eurostat. Disponível
+      em https://sergioamsilva.github.io/snsRadar/ (consultado em [data]).
+    </blockquote>
+    <p>
+      Para citar um número em concreto, vale mais a ligação «ver este número na
+      fonte» que acompanha cada indicador: reproduz a consulta que lhe deu
+      origem, e permite a quem o ler verificá-lo sem passar por aqui. Todo o
+      código e os dados tratados estão no{" "}
+      <a href={REPOSITORIO}>repositório do projeto</a>, sob licença MIT.
+    </p>
+
+    <h2 id="erros"><Icone nome="aviso" tamanho={21} />Erros</h2>
+    <p>
+      Se encontrar um número que não bate certo, o caminho mais rápido é seguir
+      a ligação «ver este número na fonte» que acompanha cada indicador: mostra
+      exatamente que consulta foi feita. Correções são bem-vindas.
+    </p>
+    </div>
+
+    {/* A prosa fica na sua medida de leitura — esticá-la até aos 1354 px do
+        contentor tornaria a página mais larga e menos legível. O que faltava
+        era **usar** a margem que sobrava, e não encher a coluna: aqui vai o
+        índice, fixo ao rolar, com a secção atual marcada. Em ecrã estreito
+        volta a ser uma fila de chips por cima do texto, como em /perguntas/. */}
+    <nav class="indice" aria-label="Nesta página">
+      <p class="flabel">Nesta página</p>
+      <ul>
+        {SECCOES.map((s) => (
+          <li>
+            <a href={`#${s.id}`} data-atalho={s.id}>{s.rotulo}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</Base>
+
+<script>
+  /* Scrollspy: marca no índice a secção que está a ser lida. Sem JavaScript o
+     índice continua a ser um índice — só não acompanha. */
+  const atalhos = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>("[data-atalho]")].map((a) => [
+      a.dataset.atalho!,
+      a,
+    ]),
+  );
+  const seccoes = [...atalhos.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((e): e is HTMLElement => e !== null);
+
+  if (seccoes.length) {
+    let atual: string | null = null;
+    const marcar = () => {
+      // A secção ativa é a última cujo título já passou a linha de leitura, a
+      // um terço do ecrã. Escolher «a que está visível» faria o índice saltar
+      // para trás e para a frente quando duas cabem no mesmo ecrã.
+      const linha = window.innerHeight / 3;
+      let candidata = seccoes[0].id;
+      for (const s of seccoes) {
+        if (s.getBoundingClientRect().top <= linha) candidata = s.id;
+      }
+      // No fim da página as últimas secções nunca chegam a cruzar a linha —
+      // não há scroll que chegue para as lá pôr. Sem esta exceção o índice
+      // ficava preso em «Comparação e limites» com «Erros» à vista.
+      const fim = document.documentElement.scrollHeight - window.innerHeight;
+      if (fim - window.scrollY < 4) candidata = seccoes[seccoes.length - 1].id;
+      if (candidata === atual) return;
+      if (atual) atalhos.get(atual)?.removeAttribute("aria-current");
+      atalhos.get(candidata)?.setAttribute("aria-current", "true");
+      atual = candidata;
+    };
+    marcar();
+    addEventListener("scroll", marcar, { passive: true });
+  }
+</script>
+
+{/* Os SVG saem de dentro do componente Icone e o estilo com escopo desta
+    página não lhes chega — presos a um antecessor para não vazarem. */}
+<style is:global>
+  /* O ícone vai dentro do h2 para acompanhar o título quando este quebra de
+     linha. `align-self: baseline` com um recuo alinha-o pelo texto e não pelo
+     centro da caixa, que num título de duas linhas ficaria a meio do vazio. */
+  .texto h2 .icone {
+    display: inline-block;
+    vertical-align: -0.16em;
+    margin-right: 10px;
+    color: var(--muted);
+  }
+  /* Nas regras, a cruz ocupa a coluna do marcador da lista. Mais pequena e mais
+     apagada do que o ícone da secção, para não competir com ele. */
+  .regras .icone {
+    position: absolute;
+    left: 0;
+    top: 0.28em;
+    color: var(--muted);
+  }
+</style>
+
+<style>
+  /* Tabela de cobertura: numa página de prosa, as três colunas precisam de
+     poder rolar sozinhas em ecrã estreito — a alternativa era encolher os
+     períodos até deixarem de se ler. */
+  /* `overflow-x: auto` não chega: `.texto` é item de grelha e um item de
+     grelha não encolhe abaixo do seu conteúdo sem `min-width: 0`. Sem isso a
+     largura mínima da tabela empurrava a página inteira, e a 390 px o portal
+     transbordava — o `verificar.mjs` apanhou-o. */
+  .tabela { overflow-x: auto; max-width: 100%; margin: 14px 0 18px; }
+  .tabela table { min-width: 30rem; }
+  .tabela td { vertical-align: top; }
+  .tabela .nota { color: var(--muted); font-size: var(--t-2xs); }
+
+  .citacao {
+    margin: 14px 0 16px;
+    padding: 2px 0 2px 14px;
+    border-left: 3px solid var(--accent);
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* A coluna de leitura mantém a sua medida; a segunda coluna leva o índice.
+     `minmax(0, 82ch)` e não `82ch` fixo: com a unidade rígida, uma janela
+     estreita não conseguia encolher a prosa e a página transbordava. */
+  .pagina {
+    display: grid;
+    grid-template-columns: minmax(0, 82ch) minmax(180px, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: start;
+  }
+  .texto { padding: 10px 0 0; min-width: 0; }
+  .texto h1 { margin-bottom: 18px; }
+  .texto h2 {
+    font-size: var(--t-lg);
+    margin: 32px 0 8px;
+    /* Sob a barra fixa: sem isto, saltar por uma âncora esconde o título. */
+    scroll-margin-top: 62px;
+  }
+
+  .indice {
+    position: sticky;
+    top: 62px;
+    padding-top: 14px;
+    border-top: 2px solid var(--ink);
+  }
+  .indice .flabel {
+    display: block;
+    font-size: var(--t-3xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .indice ul { list-style: none; margin: 0; padding: 0; }
+  .indice li { margin-bottom: 2px; }
+  .indice a {
+    display: block;
+    font-size: var(--t-xs);
+    text-decoration: none;
+    color: var(--muted);
+    padding: 5px 0 5px 12px;
+    border-left: 2px solid var(--grid);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .indice a:hover { color: var(--ink-2); border-color: var(--baseline); }
+  .indice a[aria-current] { color: var(--ink); border-color: var(--accent); font-weight: 650; }
+  @media (prefers-reduced-motion: reduce) {
+    .indice a { transition: none; }
+  }
+
+  /* Abaixo de 1000px a margem deixa de existir: o índice volta a ser a fila de
+     chips por cima do texto, como em /perguntas/. */
+  @media (max-width: 1000px) {
+    .pagina { grid-template-columns: 1fr; gap: 0; }
+    .indice {
+      position: static;
+      order: -1;
+      border-top: none;
+      border-bottom: 1px solid var(--grid);
+      padding: 0 0 16px;
+      margin-bottom: 4px;
+    }
+    .indice ul { display: flex; flex-wrap: wrap; gap: 8px; }
+    .indice li { margin: 0; }
+    .indice a {
+      border: 1px solid var(--baseline);
+      border-radius: 999px;
+      padding: 6px 12px;
+      color: var(--ink-2);
+    }
+    .indice a[aria-current] { border-color: var(--ink); }
+  }
+  .sobretitulo {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+  }
+  .destaque {
+    font-size: var(--t-md); color: var(--ink-2);
+    border-left: 2px solid var(--accent); padding-left: 14px;
+  }
+  .nota { font-size: var(--t-xs); color: var(--muted); }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.9em;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 0.1em 0.35em; border-radius: 4px;
+  }
+  /* A cruz substitui o marcador da lista: são cinco proibições, e um ponto
+     redondo diz o contrário do que a lista afirma. */
+  .regras { list-style: none; padding: 0; margin: 0; }
+  .regras li { position: relative; padding-left: 26px; margin-bottom: 10px; }
+  .aviso {
+    border-left: 2px solid var(--warn); padding: 2px 0 2px 14px; color: var(--ink-2);
+  }
+</style>

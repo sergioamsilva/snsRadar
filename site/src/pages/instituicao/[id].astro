@@ -1,0 +1,383 @@
+---
+import Base from "../../layouts/Base.astro";
+import Indicador from "../../components/Indicador.astro";
+import Contexto from "../../components/Contexto.astro";
+import Movimento from "../../components/Movimento.astro";
+import Veredito from "../../components/Veredito.astro";
+import { ficha, indice, nacional, comparacoes, GRUPOS, formatar, ligacao } from "../../lib/dados";
+
+export function getStaticPaths() {
+  return indice().map((i) => ({ params: { id: i.id } }));
+}
+
+const { id } = Astro.params;
+const f = ficha(id!);
+const nac = nacional();
+
+const porGrupo = GRUPOS.map((g) => ({
+  ...g,
+  itens: Object.entries(f.indicadores)
+    .filter(([, d]) => d.grupo === g.id)
+    .sort(([a], [b]) => a.localeCompare(b)),
+})).filter((g) => g.itens.length > 0);
+
+const totalIndicadores = Object.values(f.indicadores).filter(
+  (d) => d.valor !== null,
+).length;
+
+/* Mediana nacional das taxas por mil, para que a comparação per capita tenha
+   referência. Calculada aqui porque é a única página que a usa. */
+const todasFichas = indice().map((i) => ficha(i.id));
+const medianasPorMil: Record<string, number> = {};
+for (const iid of Object.keys(f.per_capita?.por_mil ?? {})) {
+  const vals = todasFichas
+    .map((x) => x.per_capita?.por_mil?.[iid])
+    .filter((v): v is number => typeof v === "number")
+    .sort((a, b) => a - b);
+  if (vals.length) medianasPorMil[iid] = vals[Math.floor(vals.length / 2)];
+}
+
+/* Amplitude da série mais longa — a prova de que o crosswalk fez o seu
+   trabalho, e o argumento para o leitor confiar no gráfico. */
+const meses = Object.values(f.indicadores).flatMap((d) =>
+  d.serie.filter((p) => p.valor !== null).map((p) => p.mes),
+);
+const desde = meses.length ? meses.reduce((a, b) => (a < b ? a : b)) : null;
+
+const descricao = `Indicadores de acesso, qualidade, capacidade e contas da ${f.nome_curto}, comparados com o conjunto do país.`;
+
+/* Índice da página. Montado a partir do que esta ficha tem mesmo — uma unidade
+   sem contratos nem população não leva entrada de contexto, e uma sem qualquer
+   indicador comparável não leva leitura de conjunto. */
+const temContexto = Boolean(
+  f.mortalidade_ajustada || f.populacao || f.contratos,
+);
+const temVeredito = comparacoes(f, nac).linhas.length > 0;
+
+const SECCOES = [
+  ...(temContexto ? [{ id: "contexto", rotulo: "Contexto" }] : []),
+  ...(temVeredito ? [{ id: "veredito", rotulo: "Leitura de conjunto" }] : []),
+  ...porGrupo.map((g) => ({ id: `g-${g.id}`, rotulo: g.titulo })),
+];
+---
+
+<Base titulo={f.nome_curto} descricao={descricao}>
+  <div class="ficha">
+   <div class="ficha__corpo">
+    <nav class="migalhas" aria-label="Percurso">
+      <a href={ligacao("/instituicoes/")}>Instituições</a>
+      <span aria-hidden="true">›</span>
+      <span>{f.regiao}</span>
+    </nav>
+
+    <header class="ficha__topo">
+      <p class="sobretitulo">
+        {f.distrito} · {f.regiao}
+      </p>
+      <h1>{f.nome_curto}</h1>
+      <p class="ficha__oficial">{f.nome}</p>
+
+      <dl class="ficha__resumo">
+        <div>
+          <dt>Indicadores</dt>
+          <dd class="num">{totalIndicadores}</dd>
+        </div>
+        {
+          desde && (
+            <div>
+              <dt>Dados desde</dt>
+              <dd class="num">{desde.slice(0, 4)}</dd>
+            </div>
+          )
+        }
+        <div>
+          <dt>Natureza</dt>
+          <dd>
+            {f.tipo === "uls"
+              ? "Unidade Local de Saúde"
+              : f.tipo === "oncologico"
+                ? "Instituto de oncologia"
+                : f.tipo === "ppp"
+                  ? "Parceria público-privada"
+                  : f.tipo}
+          </dd>
+        </div>
+      </dl>
+    </header>
+
+    {
+      f.descontinuidade && (
+        <aside class="historia">
+          <h2>Esta instituição mudou de identidade</h2>
+          {f.descontinuidade.sucessao.map((s) => (
+            <div class="historia__evento">
+              <p class="historia__data num">{s.data}</p>
+              <div>
+                <p class="historia__texto">
+                  {s.de.length > 1 ? (
+                    <>
+                      Resultou da fusão de <strong>{s.de.length} entidades</strong>:{" "}
+                      {s.de.join("; ")}.
+                    </>
+                  ) : (
+                    <>Sucedeu a {s.de[0]}.</>
+                  )}
+                </p>
+                {s.nota && <p class="historia__nota">{s.nota}</p>}
+                <p class="historia__lei">{s.base_legal}</p>
+              </div>
+            </div>
+          ))}
+          <p class="historia__aviso">
+            Os gráficos desta página somam as entidades antecessoras para que a
+            série não se parta. É o tratamento correto, mas significa que
+            {" "}<strong>a organização de hoje não é a mesma de há dez anos</strong>.
+          </p>
+        </aside>
+      )
+    }
+
+    {f.nota && <p class="ficha__nota">{f.nota}</p>}
+
+    {
+      temContexto && (
+        <div id="contexto" data-seccao>
+          <Contexto ficha={f} />
+        </div>
+      )
+    }
+
+    <Veredito ficha={f} nac={nac} />
+
+    {/* Em ecrã estreito não há coluna onde pousar o índice; fica aqui, na
+        forma de sempre. A partir dos 68rem passa a régua fixa ao lado. */}
+    <nav class="indice" aria-label="Nesta página">
+      <p class="sobretitulo">Nesta página</p>
+      <ul>
+        {SECCOES.map((s) => <li><a href={`#${s.id}`}>{s.rotulo}</a></li>)}
+      </ul>
+    </nav>
+
+    {
+      porGrupo.map((g) => (
+        <section class="grupo" id={`g-${g.id}`} data-seccao>
+          <div class="sec-band"><h2>{g.titulo}</h2><span class="ln" /><span class="n">{g.legenda}</span></div>
+          {g.itens.map(([iid, d]) => (
+            <Indicador
+              id={iid}
+              dados={d}
+              mediana={nac[iid]?.mediana_instituicoes ?? null}
+              descontinuidade={f.descontinuidade?.data ?? null}
+              porMil={f.per_capita?.por_mil?.[iid] ?? null}
+              medianaPorMil={medianasPorMil[iid] ?? null}
+              faixa={nac[iid]?.faixa ?? []}
+            />
+          ))}
+        </section>
+      ))
+    }
+   </div>
+
+   {/* A régua. Segue a secção que está a ser lida — numa página de catorze mil
+       píxeis, saber onde se está é metade da orientação. Sem JavaScript é uma
+       lista de ligações que continua a levar aos sítios certos. */}
+   <nav class="rail" aria-label="Secções desta ficha">
+     <p class="rail__rot">Nesta página</p>
+     <ul>
+       {
+         SECCOES.map((s) => (
+           <li>
+             <a href={`#${s.id}`} data-espia={s.id}>
+               <span class="rail__marca" aria-hidden="true" />
+               {s.rotulo}
+             </a>
+           </li>
+         ))
+       }
+     </ul>
+     <a class="rail__topo" href="#conteudo">
+       <span aria-hidden="true">↑</span> Voltar ao topo
+     </a>
+   </nav>
+  </div>
+  <Movimento />
+</Base>
+
+<script>
+  /* Scrollspy do índice lateral.
+   *
+   * Mantém o conjunto das secções visíveis e marca a primeira pela ordem do
+   * documento — com um limiar só, a secção seguinte roubava a marca assim que
+   * assomava no fundo do ecrã, e a régua saltava para a frente do que se estava
+   * a ler. Quando nenhuma está visível (entre secções longas), mantém-se a
+   * última: a régua nunca fica vazia.
+   */
+  const seccoes = [...document.querySelectorAll<HTMLElement>("[data-seccao]")];
+  const ligacoes = new Map<string, HTMLElement>();
+  for (const a of document.querySelectorAll<HTMLElement>("[data-espia]"))
+    ligacoes.set(a.dataset.espia!, a);
+
+  if (seccoes.length && ligacoes.size) {
+    const ordem = seccoes.map((s) => s.id);
+    const visiveis = new Set<string>();
+    let atual = "";
+
+    const marcar = () => {
+      const proxima = ordem.find((id) => visiveis.has(id));
+      if (!proxima || proxima === atual) return;
+      ligacoes.get(atual)?.removeAttribute("aria-current");
+      ligacoes.get(proxima)?.setAttribute("aria-current", "true");
+      atual = proxima;
+    };
+
+    const obs = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (e.isIntersecting) visiveis.add(e.target.id);
+          else visiveis.delete(e.target.id);
+        }
+        marcar();
+      },
+      // Recorta a barra fixa em cima e dois terços do ecrã em baixo: a secção
+      // ativa é a que ocupa a faixa onde os olhos estão, não a que se avista.
+      { rootMargin: "-58px 0px -66% 0px" },
+    );
+    for (const s of seccoes) obs.observe(s);
+  }
+</script>
+
+<style>
+  .migalhas { display: flex; gap: 8px; font-size: var(--t-2xs); color: var(--muted); padding-top: 14px; }
+  .migalhas a { color: var(--muted); }
+
+  .ficha__topo { padding: 14px 0 4px; }
+  .ficha__topo h1 { font-size: clamp(24px, 4vw, 32px); }
+  .ficha__oficial { color: var(--muted); font-size: var(--t-xs); margin: 6px 0 0; }
+  .sobretitulo {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 6px;
+  }
+
+  .ficha__resumo {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border-block: 1px solid var(--grid); margin: 18px 0 0;
+  }
+  .ficha__resumo div { padding: 18px 22px 16px 0; }
+  .ficha__resumo dt {
+    font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+  }
+  .ficha__resumo dd { margin: 4px 0 0; font-size: var(--t-xl); font-weight: 750; letter-spacing: -0.02em; }
+
+  .historia {
+    border: 1px solid var(--border); background: var(--surface);
+    border-radius: 10px; padding: 16px 18px; margin: 18px 0 0;
+  }
+  .historia h2 { font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 12px; }
+  .historia__evento { display: grid; grid-template-columns: 6.5rem 1fr; gap: 12px; padding-bottom: 12px; }
+  @media (max-width: 34rem) { .historia__evento { grid-template-columns: 1fr; gap: 4px; } }
+  .historia__data { font-size: var(--t-2xs); color: var(--accent-texto); font-weight: 700; margin: 0; font-variant-numeric: tabular-nums; }
+  .historia__texto { margin: 0; font-size: var(--t-xs); }
+  .historia__nota { margin: 4px 0 0; font-size: var(--t-xs); color: var(--ink-2); }
+  .historia__lei { margin: 4px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+  .historia__aviso {
+    margin: 0; padding-top: 12px; border-top: 1px solid var(--grid);
+    font-size: var(--t-xs); color: var(--ink-2);
+  }
+
+  .ficha__nota {
+    font-size: var(--t-xs); color: var(--ink-2);
+    border-left: 2px solid var(--baseline); padding-left: 12px; margin: 18px 0 0;
+  }
+
+  .indice { padding: 18px 0 0; }
+  .indice ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .indice a {
+    font-size: var(--t-xs); text-decoration: none; color: var(--ink-2);
+    border: 1px solid var(--baseline); border-radius: 999px; padding: 5px 11px;
+  }
+  .indice a:hover { color: var(--ink); border-color: var(--ink-2); }
+
+  .grupo .card { margin-top: 20px; }
+  [data-seccao] { scroll-margin-top: 62px; }
+
+  /* ── coluna do índice ────────────────────────────────────────────────────
+     Abaixo dos 68 rem não há largura para uma coluna ao lado sem estreitar os
+     gráficos, que são o conteúdo. Aí o índice fica no fluxo, em fichas — a
+     forma que já tinha. */
+  .ficha { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .rail { display: none; }
+
+  @media (min-width: 68rem) {
+    .ficha {
+      grid-template-columns: minmax(0, 1fr) 13.5rem;
+      column-gap: clamp(28px, 3vw, 56px);
+      align-items: start;
+    }
+    .indice { display: none; }
+    .rail {
+      display: block;
+      position: sticky;
+      top: 58px;
+      align-self: start;
+      padding-top: 26px;
+    }
+  }
+
+  .rail__rot {
+    font-size: var(--t-3xs);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--grid);
+  }
+  .rail ul { list-style: none; margin: 0; padding: 0; }
+  .rail a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: var(--t-2xs);
+    line-height: 1.3;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .rail a:hover { color: var(--ink-2); }
+
+  /* A régua de acento: o mesmo gesto que corre por baixo das 43 ligações da
+     página inicial, aqui de pé e a marcar onde se está a ler. */
+  .rail__marca {
+    flex: none;
+    width: 2px;
+    height: 15px;
+    border-radius: 1px;
+    background: var(--grid);
+    transform: scaleY(0.4);
+    transition:
+      transform 0.3s cubic-bezier(0.22, 0.8, 0.25, 1),
+      background-color 0.3s ease;
+  }
+  .rail a:hover .rail__marca { background: var(--baseline); transform: scaleY(0.7); }
+  .rail a[aria-current] { color: var(--ink); font-weight: 650; }
+  .rail a[aria-current] .rail__marca {
+    background: var(--accent);
+    transform: scaleY(1);
+  }
+
+  .rail__topo {
+    display: inline-block;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--grid);
+    font-size: var(--t-3xs);
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .rail__topo:hover { color: var(--ink-2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail__marca { transition: none; }
+  }
+</style>

@@ -1,0 +1,135 @@
+{
+  "capturado_em": "2026-08-02T14:54:46+00:00",
+  "datasets": {
+    "01_sica_evolucao-mensal-das-consultas-medicas-hospitalares": {
+      "bytes_comprimidos": 120571,
+      "registos": 7728,
+      "sha256": "d96428238dc74fa1db0352753c8fe1748accb3130b40673face902b115956235"
+    },
+    "atendimentos-em-urgencia-triagem-manchester": {
+      "bytes_comprimidos": 142154,
+      "registos": 6380,
+      "sha256": "341cf2c8912bd024f396b10f8af1af0a396a59817ca5f2801f7e84a9ff889c48"
+    },
+    "atendimentos-por-tipo-de-urgencia-hospitalar-link": {
+      "bytes_comprimidos": 115540,
+      "registos": 6441,
+      "sha256": "1ec5d2a5d2d9fdc8c786fd91866cc0d17fb7c1d6778801f596a873902f7cdc73"
+    },
+    "atividade-de-internamento-hospitalar": {
+      "bytes_comprimidos": 183710,
+      "registos": 17868,
+      "sha256": "65a498534060c41a28dd5039ed956b83d2675530834ca7ef575915751f9fcb96"
+    },
+    "cirurgias-em-ambulatorio": {
+      "bytes_comprimidos": 87690,
+      "registos": 7728,
+      "sha256": "528748e245bc6f15975a0f66c70237bfb113e0c0f5d0e0e5543a495fe8a700f5"
+    },
+    "consultas-em-telemedicina": {
+      "bytes_comprimidos": 44467,
+      "registos": 4455,
+      "sha256": "430a08588a102838ccfac0ae4194b46e64bd2f4b1c0da78417710114e3ce6276"
+    },
+    "consultas-em-tempo-real": {
+      "bytes_comprimidos": 99006,
+      "registos": 7728,
+      "sha256": "1c799be3a9078f670336be614e8a94815edac3d1e075ed8367f0aadd9aa7ebfa"
+    },
+    "demora-media-antes-da-cirurgia": {
+      "bytes_comprimidos": 84872,
+      "registos": 7728,
+      "sha256": "7a53a0daaed44b31cd2d8fa9a6bf86542128c3d468f5dc5e3d6544c4299bcf72"
+    },
+    "divida-total-vencida-e-pagamentos": {
+      "bytes_comprimidos": 180136,
+      "registos": 7990,
+      "sha256": "5e73a19ebefe930be4b88ad10f57d0013056025a52a5ae816843effe3a7fce18"
+    },
+    "evolucao-mensal-das-consultas-de-nutricao": {
+      "bytes_comprimidos": 55496,
+      "registos": 4609,
+      "sha256": "2ac4192a9186851682480d1eb4f155ad8c40bc8c95bdab3078ea8196333f6068"
+    },
+    "evolucao-mensal-das-consultas-de-psicologia": {
+      "bytes_comprimidos": 56428,
+      "registos": 4609,
+      "sha256": "08edc2fae1b0e8074260caaf9d43195b8f9823be07992c342f639c8cd2b28f51"
+    },
+    "fraturas-da-anca-cirurgias-nas-primeiras-48h": {
+      "bytes_comprimidos": 78130,
+      "registos": 7728,
+      "sha256": "59540c736a39fbdc0611d8e197325d3779e51128217c26825c84853b291ad250"
+    },
+    "inscritos-em-lic-dentro-do-tmrg-180-dias": {
+      "bytes_comprimidos": 55101,
+      "registos": 4559,
+      "sha256": "6f933e1f3192fe287030ddff1135cd71f8eaebe7cb812ed457a673952554bdba"
+    },
+    "inscritos-lic-dentro-tmrg": {
+      "bytes_comprimidos": 23124,
+      "registos": 1890,
+      "sha256": "5ef36603e55c9754352144796d81f7c2ad57f28b45dde33c2272df4c91c639a0"
+    },
+    "intervencoes-cirurgicas": {
+      "bytes_comprimidos": 110638,
+      "registos": 7343,
+      "sha256": "71501f49daf6591d143abebf2b07043c6ebf48eba34488473716c7b41b58d136"
+    },
+    "lotacao-praticada-por-tipo-de-cama": {
+      "bytes_comprimidos": 83501,
+      "registos": 18672,
+      "sha256": "fec67a9dd0efdd6e929e850849e43351b9ff504f32ba0086f478ad9caf550427"
+    },
+    "morbilidade-e-mortalidade-hospitalar": {
+      "bytes_comprimidos": 693732,
+      "registos": 55502,
+      "sha256": "ba479c44598c142ac65827ecffce5c20314b019078c0ebe539846b5b2e766262"
+    },
+    "morbilidade_mortalidade_hospit": {
+      "bytes_comprimidos": 4059148,
+      "registos": 420372,
+      "sha256": "047cb2dcab7b71f6a6aefd627d77e1e5aa2497f80ce0cd4462dd00b9746be423"
+    },
+    "ocupacao-do-internamento": {
+      "bytes_comprimidos": 90984,
+      "registos": 7513,
+      "sha256": "d23d5beddfdd1a29f157cbd0ddf66ec6d34fd9ffa581dc5c5ee33d76f22c75bd"
+    },
+    "partos-e-cesarianas": {
+      "bytes_comprimidos": 55036,
+      "registos": 6151,
+      "sha256": "fb8da63f30e4a9a9e59f0361e2a2a8813c8b8b78d4c976f72a8ec6ded02c245f"
+    },
+    "percentagem-de-gastos-com-te-e-suplementos-no-total-gastos-com-pessoal": {
+      "bytes_comprimidos": 58420,
+      "registos": 4549,
+      "sha256": "29bdc0131c2c8815face27141ee5c5caaae6812d04ed7b4bf976260981a9961f"
+    },
+    "portal-base": {
+      "bytes_comprimidos": 2050963,
+      "registos": 44015,
+      "sha256": "2750a9c03dbcd0188ea737d06853ac79ec439fa223639689309703290904eb30"
+    },
+    "taxa-de-mortalidade-por-avc-isquemico-e-hemorragico": {
+      "bytes_comprimidos": 63119,
+      "registos": 6914,
+      "sha256": "93adc770fe02294863a4badd74b97aee265628ceaf5d2c08ed03b211a221bcc3"
+    },
+    "tempo-medio-de-pagamento-das-instituicoes-do-sns-a-fornecedores": {
+      "bytes_comprimidos": 17669,
+      "registos": 2674,
+      "sha256": "d35c491f53ab33e16569892776f7e8671eea5431cb8ac0d0cb2e26bb04f71bea"
+    },
+    "trabalhadores-por-grupo-profissional": {
+      "bytes_comprimidos": 156723,
+      "registos": 8450,
+      "sha256": "00da628ad71be1958aaa97f0512beda7b605bb3252f742b7198d7306c1c64656"
+    },
+    "utentes-inscritos-em-cuidados-de-saude-primarios": {
+      "bytes_comprimidos": 190007,
+      "registos": 6450,
+      "sha256": "8ce80080ece5780fe9a84ca675734dbeaa2f5f9ed0c88588fba024d36e338f0d"
+    }
+  }
+}

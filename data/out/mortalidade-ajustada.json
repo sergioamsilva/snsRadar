@@ -1,0 +1,510 @@
+{
+  "smr": {
+    "uls-arrabida": {
+      "smr": 1.156,
+      "ic95": [
+        1.127,
+        1.184
+      ],
+      "observados": 6309,
+      "esperados": 5459.5,
+      "internamentos": 73640,
+      "significativo": true
+    },
+    "uls-algarve": {
+      "smr": 1.52,
+      "ic95": [
+        1.495,
+        1.545
+      ],
+      "observados": 14659,
+      "esperados": 9644.0,
+      "internamentos": 154486,
+      "significativo": true
+    },
+    "uls-amadora-sintra": {
+      "smr": 1.143,
+      "ic95": [
+        1.12,
+        1.166
+      ],
+      "observados": 9699,
+      "esperados": 8486.1,
+      "internamentos": 130155,
+      "significativo": true
+    },
+    "uls-alto-minho": {
+      "smr": 0.911,
+      "ic95": [
+        0.886,
+        0.935
+      ],
+      "observados": 5314,
+      "esperados": 5835.6,
+      "internamentos": 83369,
+      "significativo": true
+    },
+    "uls-almada-seixal": {
+      "smr": 1.209,
+      "ic95": [
+        1.182,
+        1.237
+      ],
+      "observados": 7391,
+      "esperados": 6113.2,
+      "internamentos": 100701,
+      "significativo": true
+    },
+    "uls-alto-ave": {
+      "smr": 0.814,
+      "ic95": [
+        0.793,
+        0.836
+      ],
+      "observados": 5532,
+      "esperados": 6792.0,
+      "internamentos": 108754,
+      "significativo": true
+    },
+    "uls-alentejo-central": {
+      "smr": 0.975,
+      "ic95": [
+        0.941,
+        1.01
+      ],
+      "observados": 3131,
+      "esperados": 3211.2,
+      "internamentos": 53322,
+      "significativo": false
+    },
+    "uls-alto-alentejo": {
+      "smr": 1.456,
+      "ic95": [
+        1.415,
+        1.498
+      ],
+      "observados": 4778,
+      "esperados": 3280.5,
+      "internamentos": 37692,
+      "significativo": true
+    },
+    "uls-sao-joao": {
+      "smr": 0.752,
+      "ic95": [
+        0.737,
+        0.767
+      ],
+      "observados": 9875,
+      "esperados": 13130.2,
+      "internamentos": 215357,
+      "significativo": true
+    },
+    "uls-baixo-mondego": {
+      "smr": 0.978,
+      "ic95": [
+        0.94,
+        1.018
+      ],
+      "observados": 2429,
+      "esperados": 2482.7,
+      "internamentos": 24970,
+      "significativo": false
+    },
+    "uls-medio-tejo": {
+      "smr": 1.154,
+      "ic95": [
+        1.129,
+        1.18
+      ],
+      "observados": 7751,
+      "esperados": 6714.6,
+      "internamentos": 77670,
+      "significativo": true
+    },
+    "uls-litoral-alentejano": {
+      "smr": 1.342,
+      "ic95": [
+        1.295,
+        1.39
+      ],
+      "observados": 3092,
+      "esperados": 2303.7,
+      "internamentos": 24126,
+      "significativo": true
+    },
+    "uls-oeste": {
+      "smr": 1.098,
+      "ic95": [
+        1.07,
+        1.127
+      ],
+      "observados": 5871,
+      "esperados": 5346.3,
+      "internamentos": 67845,
+      "significativo": true
+    },
+    "hospital-cascais": {
+      "smr": 0.942,
+      "ic95": [
+        0.91,
+        0.976
+      ],
+      "observados": 3234,
+      "esperados": 3431.4,
+      "internamentos": 64936,
+      "significativo": true
+    },
+    "uls-tamega-sousa": {
+      "smr": 1.065,
+      "ic95": [
+        1.043,
+        1.087
+      ],
+      "observados": 8826,
+      "esperados": 8290.0,
+      "internamentos": 116645,
+      "significativo": true
+    },
+    "ipo-porto": {
+      "smr": 1.006,
+      "ic95": [
+        0.98,
+        1.034
+      ],
+      "observados": 5395,
+      "esperados": 5360.3,
+      "internamentos": 56358,
+      "significativo": false
+    },
+    "uls-guarda": {
+      "smr": 1.088,
+      "ic95": [
+        1.054,
+        1.122
+      ],
+      "observados": 3932,
+      "esperados": 3615.4,
+      "internamentos": 39542,
+      "significativo": true
+    },
+    "uls-leziria": {
+      "smr": 1.242,
+      "ic95": [
+        1.214,
+        1.272
+      ],
+      "observados": 7207,
+      "esperados": 5800.4,
+      "internamentos": 71065,
+      "significativo": true
+    },
+    "uls-lisboa-ocidental": {
+      "smr": 0.935,
+      "ic95": [
+        0.911,
+        0.959
+      ],
+      "observados": 5945,
+      "esperados": 6360.9,
+      "internamentos": 105426,
+      "significativo": true
+    },
+    "uls-regiao-aveiro": {
+      "smr": 1.113,
+      "ic95": [
+        1.086,
+        1.141
+      ],
+      "observados": 6480,
+      "esperados": 5820.7,
+      "internamentos": 88541,
+      "significativo": true
+    },
+    "uls-regiao-leiria": {
+      "smr": 1.154,
+      "ic95": [
+        1.129,
+        1.178
+      ],
+      "observados": 8561,
+      "esperados": 7421.0,
+      "internamentos": 97417,
+      "significativo": true
+    },
+    "uls-braga": {
+      "smr": 0.878,
+      "ic95": [
+        0.858,
+        0.897
+      ],
+      "observados": 7771,
+      "esperados": 8855.2,
+      "internamentos": 146057,
+      "significativo": true
+    },
+    "uls-coimbra": {
+      "smr": 0.828,
+      "ic95": [
+        0.814,
+        0.842
+      ],
+      "observados": 13371,
+      "esperados": 16152.5,
+      "internamentos": 250296,
+      "significativo": true
+    },
+    "uls-entre-douro-vouga": {
+      "smr": 0.904,
+      "ic95": [
+        0.882,
+        0.926
+      ],
+      "observados": 6420,
+      "esperados": 7104.5,
+      "internamentos": 95756,
+      "significativo": true
+    },
+    "uls-gaia-espinho": {
+      "smr": 0.882,
+      "ic95": [
+        0.862,
+        0.902
+      ],
+      "observados": 7663,
+      "esperados": 8688.5,
+      "internamentos": 130534,
+      "significativo": true
+    },
+    "uls-barcelos-esposende": {
+      "smr": 0.897,
+      "ic95": [
+        0.86,
+        0.935
+      ],
+      "observados": 2221,
+      "esperados": 2476.4,
+      "internamentos": 24166,
+      "significativo": true
+    },
+    "uls-dao-lafoes": {
+      "smr": 1.111,
+      "ic95": [
+        1.088,
+        1.134
+      ],
+      "observados": 9026,
+      "esperados": 8124.7,
+      "internamentos": 108794,
+      "significativo": true
+    },
+    "uls-santa-maria": {
+      "smr": 0.873,
+      "ic95": [
+        0.854,
+        0.892
+      ],
+      "observados": 8275,
+      "esperados": 9476.7,
+      "internamentos": 141589,
+      "significativo": true
+    },
+    "uls-tras-os-montes-alto-douro": {
+      "smr": 0.937,
+      "ic95": [
+        0.918,
+        0.956
+      ],
+      "observados": 9482,
+      "esperados": 10122.1,
+      "internamentos": 115091,
+      "significativo": true
+    },
+    "uls-santo-antonio": {
+      "smr": 0.812,
+      "ic95": [
+        0.794,
+        0.831
+      ],
+      "observados": 7240,
+      "esperados": 8912.3,
+      "internamentos": 158545,
+      "significativo": true
+    },
+    "uls-medio-ave": {
+      "smr": 1.089,
+      "ic95": [
+        1.054,
+        1.125
+      ],
+      "observados": 3572,
+      "esperados": 3279.7,
+      "internamentos": 50793,
+      "significativo": true
+    },
+    "uls-arco-ribeirinho": {
+      "smr": 1.495,
+      "ic95": [
+        1.459,
+        1.533
+      ],
+      "observados": 6320,
+      "esperados": 4226.0,
+      "internamentos": 63827,
+      "significativo": true
+    },
+    "uls-estuario-tejo": {
+      "smr": 1.241,
+      "ic95": [
+        1.208,
+        1.275
+      ],
+      "observados": 5389,
+      "esperados": 4342.3,
+      "internamentos": 59830,
+      "significativo": true
+    },
+    "ipo-lisboa": {
+      "smr": 0.708,
+      "ic95": [
+        0.683,
+        0.733
+      ],
+      "observados": 3041,
+      "esperados": 4297.4,
+      "internamentos": 50425,
+      "significativo": true
+    },
+    "uls-cova-beira": {
+      "smr": 0.853,
+      "ic95": [
+        0.823,
+        0.884
+      ],
+      "observados": 3060,
+      "esperados": 3585.9,
+      "internamentos": 45804,
+      "significativo": true
+    },
+    "uls-povoa-varzim-vila-conde": {
+      "smr": 0.894,
+      "ic95": [
+        0.857,
+        0.932
+      ],
+      "observados": 2197,
+      "esperados": 2457.1,
+      "internamentos": 42588,
+      "significativo": true
+    },
+    "uls-castelo-branco": {
+      "smr": 0.977,
+      "ic95": [
+        0.942,
+        1.013
+      ],
+      "observados": 2919,
+      "esperados": 2987.8,
+      "internamentos": 37136,
+      "significativo": false
+    },
+    "uls-nordeste": {
+      "smr": 1.058,
+      "ic95": [
+        1.029,
+        1.089
+      ],
+      "observados": 4798,
+      "esperados": 4533.9,
+      "internamentos": 50300,
+      "significativo": true
+    },
+    "uls-matosinhos": {
+      "smr": 0.895,
+      "ic95": [
+        0.868,
+        0.922
+      ],
+      "observados": 4231,
+      "esperados": 4727.7,
+      "internamentos": 67814,
+      "significativo": true
+    }
+  },
+  "meses_usados": [
+    "2021-01",
+    "2021-02",
+    "2021-03",
+    "2021-04",
+    "2021-05",
+    "2021-06",
+    "2021-07",
+    "2021-08",
+    "2021-09",
+    "2021-10",
+    "2021-11",
+    "2021-12",
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12",
+    "2023-01",
+    "2023-02",
+    "2023-03",
+    "2023-04",
+    "2023-05",
+    "2023-06",
+    "2023-07",
+    "2023-08",
+    "2023-09",
+    "2023-10",
+    "2023-11",
+    "2023-12",
+    "2024-01",
+    "2024-02",
+    "2024-03",
+    "2024-04",
+    "2024-05",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2024-11",
+    "2024-12",
+    "2025-01",
+    "2025-02",
+    "2025-03",
+    "2025-04",
+    "2025-05",
+    "2025-06",
+    "2025-07",
+    "2025-08",
+    "2025-09",
+    "2025-10"
+  ],
+  "meses_excluidos_por_incompletude": [
+    "2025-11",
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05",
+    "2026-06"
+  ],
+  "instituicoes_sem_smr": {
+    "uls-loures-odivelas": "letalidade caiu de 7.7% em 2021 para 4.4% em 2025",
+    "uls-sao-jose": "letalidade caiu de 4.9% em 2021 para 1.4% em 2025",
+    "uls-baixo-alentejo": "letalidade caiu de 7.7% em 2021 para 4.6% em 2025",
+    "ipo-coimbra": "letalidade caiu de 6.6% em 2021 para 0.3% em 2025"
+  },
+  "metodo": "Padronização indireta por capítulo CID, faixa etária e sexo. SMR = óbitos observados ÷ esperados dada a casuística do hospital. Intervalo de confiança de 95% pela aproximação de Byar."
+}
