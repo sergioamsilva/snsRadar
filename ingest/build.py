@@ -581,6 +581,7 @@ def construir(con, cw, indicadores, catalogo):
             "descricao": ind.get("descricao"),
             "cautela": ind.get("cautela"),
             "referencia": ind.get("referencia"),
+            "evidencia": ind.get("evidencia"),
             "janela": {"de": janela[0], "a": janela[-1]} if janela else None,
             "valor": valor_nac,
             "sintese": (
@@ -669,7 +670,7 @@ def escrever(cw, fichas, nacional, por_indicador):
                 iid: {**dados, **{
                     k: por_indicador[iid].get(k)
                     for k in ("titulo", "grupo", "unidade", "polaridade",
-                              "descricao", "cautela", "referencia",
+                              "descricao", "cautela", "referencia", "evidencia",
                               "pode_exceder_100", "maximo_plausivel")
                 }}
                 for iid, dados in indicadores_inst.items()

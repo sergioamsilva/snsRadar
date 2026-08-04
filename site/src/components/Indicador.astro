@@ -206,6 +206,23 @@ const dataFonte = dados.fonte.atualizado
 
   {dados.descricao && <p class="ind__desc">{dados.descricao}</p>}
 
+  {/* A descrição acima afirma alguma coisa sobre o mundo — que operar cedo
+      salva vidas, que estes antibióticos selecionam resistências. O portal
+      exige proveniência a cada número; exigi-la também a cada afirmação é a
+      mesma regra, aplicada ao texto. */}
+  {
+    dados.evidencia && dados.evidencia.length > 0 && (
+      <ul class="ind__evidencia">
+        {dados.evidencia.map((e) => (
+          <li>
+            <a href={e.url} rel="noopener" target="_blank">{e.citacao}</a>
+            {e.nota && <span class="ind__evidencia-nota">{e.nota}</span>}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
   <Serie
     serie={dados.serie}
     unidade={dados.unidade}
@@ -348,6 +365,22 @@ const dataFonte = dados.fonte.atualizado
   .escala__extremo--max { right: 0; }
 
   .ind__desc { font-size: var(--t-xs); color: var(--muted); margin: 12px 0 0; max-width: 110ch; }
+
+  /* A evidência cola-se à descrição que sustenta — daí a margem curta e o
+     traço vertical que as junta em vez de as separar. Fica no tamanho mais
+     pequeno da escala: quem lê o cartão não tropeça nela, quem a procura
+     encontra-a onde a afirmação está. */
+  .ind__evidencia {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0 0 0 12px;
+    border-left: 1px solid var(--grid);
+    max-width: 110ch;
+  }
+  .ind__evidencia li { font-size: var(--t-2xs); color: var(--muted); margin: 5px 0 0; }
+  .ind__evidencia a { color: var(--muted); }
+  .ind__evidencia a:hover { color: var(--accent-texto); }
+  .ind__evidencia-nota { display: block; margin-top: 2px; }
   .ind__cautela {
     font-size: var(--t-xs); color: var(--ink-2);
     border-left: 2px solid var(--warn); padding: 2px 0 2px 12px; margin: 14px 0 0;

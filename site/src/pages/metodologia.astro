@@ -95,12 +95,28 @@ const CAMADAS: { camada: string; cobertura: string; nota: string }[] = [
 
 /* Índice desta página. Os rótulos são curtos de propósito: na margem competem
    com o texto, e um índice que se lê a custo não serve de índice. */
+/* A lista de literatura não é escrita aqui: sai do mesmo `indicadores.yaml`
+   que alimenta as fichas. Uma bibliografia mantida à mão ao lado das citações
+   dos cartões acabaria a divergir delas — e seria o portal a contradizer-se
+   sobre aquilo em que se apoia. */
+const comEvidencia = Object.entries(nac)
+  .filter(([, i]: [string, any]) => (i.evidencia ?? []).length > 0)
+  .map(([id, i]: [string, any]) => ({ id, titulo: i.titulo, evidencia: i.evidencia }));
+
+/* A referência da OMS para as cesarianas vive noutro campo — é um limiar
+   desenhado na escala, não uma afirmação da descrição —, mas para quem procura
+   as fontes do portal é uma delas. */
+const comReferencia = Object.entries(nac)
+  .filter(([, i]: [string, any]) => i.referencia)
+  .map(([id, i]: [string, any]) => ({ id, titulo: i.titulo, fonte: i.referencia.fonte }));
+
 const SECCOES = [
   { id: "acumuladas", rotulo: "Séries acumuladas" },
   { id: "reforma", rotulo: "A reforma de 2024" },
   { id: "totais", rotulo: "Somar pelos totais" },
   { id: "nunca", rotulo: "O que nunca fazemos" },
   { id: "comparacao", rotulo: "Comparação e limites" },
+  { id: "evidencia", rotulo: "O que sustenta as afirmações" },
   { id: "estado", rotulo: "Estado do projeto" },
   { id: "atualizacao", rotulo: "Atualização" },
   { id: "citar", rotulo: "Como citar" },
@@ -233,6 +249,62 @@ const SECCOES = [
       transfere. Estes dados não permitem distinguir as duas coisas. Servem
       para levantar perguntas, não para as responder.
     </p>
+
+    <h2 id="evidencia"><Icone nome="livro" tamanho={21} />O que sustenta as afirmações do portal</h2>
+    <p>
+      Cada número liga à consulta da API que o reproduz. As frases que
+      acompanham os números — que operar cedo uma fratura da anca está
+      associado a menos mortes, que as fluoroquinolonas selecionam resistências
+      — são afirmações sobre o mundo, e essas não se verificam numa API. Ficam
+      aqui as fontes que as sustentam, as mesmas que aparecem no cartão de cada
+      indicador.
+    </p>
+    <ul class="literatura">
+      {comEvidencia.map((i) => (
+        <li>
+          <span class="literatura__ind">{i.titulo}</span>
+          <ul>
+            {i.evidencia.map((e: any) => (
+              <li>
+                <a href={e.url} rel="noopener" target="_blank">{e.citacao}</a>
+                {e.nota && <span class="literatura__nota">{e.nota}</span>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+      <li>
+        <span class="literatura__ind">Mortalidade ajustada ao risco</span>
+        <ul>
+          <li>
+            <a href="https://doi.org/10.1136/bmj.c2016" rel="noopener" target="_blank">
+              Lilford R. &amp; Pronovost P., «Using hospital mortality rates to
+              judge hospital performance: a bad idea that just won't go away»,
+              BMJ, 2010;340:c2016.
+            </a>
+            <span class="literatura__nota">
+              A crítica de onde vem a regra deste portal: só se afirma diferença
+              quando o intervalo de confiança não contém 1.
+            </span>
+          </li>
+          <li>
+            <a href="https://doi.org/10.1056/NEJMsa1006396" rel="noopener" target="_blank">
+              Shahian D. M. et al., «Variability in the measurement of
+              hospital-wide mortality rates», New England Journal of Medicine,
+              2010;363:2530–9.
+            </a>
+          </li>
+        </ul>
+      </li>
+      {comReferencia.map((i) => (
+        <li>
+          <span class="literatura__ind">{i.titulo}</span>
+          <ul>
+            <li>{i.fonte}</li>
+          </ul>
+        </li>
+      ))}
+    </ul>
 
     <h2 id="estado"><Icone nome="lista" tamanho={21} />Estado do projeto</h2>
     <p>
@@ -503,4 +575,25 @@ const SECCOES = [
   .aviso {
     border-left: 2px solid var(--warn); padding: 2px 0 2px 14px; color: var(--ink-2);
   }
+
+  /* Bibliografia agrupada por indicador. Sem marcas: o nome do indicador já
+     separa os blocos, e sete pontos negros numa página de prosa pesavam mais
+     do que organizavam. */
+  .literatura { list-style: none; padding: 0; margin: 18px 0 0; }
+  .literatura > li { margin-bottom: 16px; }
+  .literatura ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .literatura ul li {
+    font-size: var(--t-xs);
+    color: var(--muted);
+    margin-top: 6px;
+    padding-left: 12px;
+    border-left: 1px solid var(--grid);
+  }
+  .literatura__ind {
+    font-weight: 650;
+    color: var(--ink);
+    font-size: var(--t-sm);
+  }
+  .literatura ul a { color: var(--ink-2); }
+  .literatura__nota { display: block; margin-top: 2px; }
 </style>

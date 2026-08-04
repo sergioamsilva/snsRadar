@@ -51,6 +51,21 @@ const classe = !smr?.significativo ? "neutro" : smr.smr! > 1 ? "acima" : "abaixo
             página que permite comparar mortalidade entre hospitais.
             {smr.periodo && <> Período: {smr.periodo}.</>}
           </p>
+          {/* O método tem crítica publicada, e é dela que vem a regra de só
+              afirmar diferença quando o intervalo não contém 1. Citá-la aqui,
+              no cartão, é mais honesto do que deixá-la para a metodologia. */}
+          <p class="ctx__evidencia">
+            Padronização indireta. Sobre os limites de comparar hospitais por
+            mortalidade:{" "}
+            <a href="https://doi.org/10.1136/bmj.c2016" rel="noopener" target="_blank">
+              Lilford &amp; Pronovost, BMJ, 2010;340:c2016
+            </a>{" "}
+            e{" "}
+            <a href="https://doi.org/10.1056/NEJMsa1006396" rel="noopener" target="_blank">
+              Shahian D. M. et al., New England Journal of Medicine,
+              2010;363:2530–9
+            </a>.
+          </p>
         </article>
       )}
 
@@ -166,6 +181,11 @@ const classe = !smr?.significativo ? "neutro" : smr.smr! > 1 ? "acima" : "abaixo
   .ctx__cartao--abaixo .ctx__leitura { color: var(--pos-texto); }
   .ctx__detalhe { margin: 4px 0 0; font-size: var(--t-2xs); color: var(--muted); }
   .ctx__nota { margin: 10px 0 0; font-size: var(--t-2xs); color: var(--ink-2); line-height: 1.5; }
+  .ctx__evidencia {
+    margin: 8px 0 0; font-size: var(--t-2xs); color: var(--muted); line-height: 1.5;
+  }
+  .ctx__evidencia a { color: var(--muted); }
+  .ctx__evidencia a:hover { color: var(--accent-texto); }
 
   /* O que a unidade compra, em três linhas. Sem gráfico: são três valores, e
      três valores lêem-se melhor numa lista alinhada do que numa barra. */
