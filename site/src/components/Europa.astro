@@ -3,13 +3,18 @@
  * Portugal na Europa: uma linha, 29 países, um facto.
  *
  * Todo o resto deste portal compara Portugal com Portugal. Quem lê «33 % de
- * cesarianas» tem como única referência a recomendação da OMS — 10 a 15 % —
- * e não sabe se está longe dela sozinho ou acompanhado.
+ * cesarianas» tem como única referência os 10 a 15 % da OMS e não sabe se está
+ * longe deles sozinho ou acompanhado.
  *
- * A resposta é o desenho: **a faixa da OMS aparece vazia**. Nenhum dos 29
- * países europeus com dados a cumpre, e o mais baixo (Islândia, 14,2 %) mal lhe
- * toca o bordo. Não é preciso afirmar que a recomendação é irrealista na
- * Europa — vê-se.
+ * A resposta é o desenho: **a faixa da OMS está quase deserta**. Um único país
+ * dos 29 com dados cai lá dentro — a Islândia, com 14,2 %, encostada ao bordo
+ * de cima. Os outros 28 estão todos acima.
+ *
+ * **O que a faixa é, e não é.** Os 10 a 15 % são o consenso de 1985. Em 2015 a
+ * OMS deixou de fixar um alvo: a taxa ideal é desconhecida, e o que se sabe é
+ * que acima de 10 % subir não traz menos mortes. Por isso o desenho não diz que
+ * 28 países «não cumprem» — diz onde está cada um em relação a uma régua antiga
+ * que continua a ser a única que o público conhece.
  *
  * **Forma.** Um eixo, um ponto por país. Vinte e nove barras seriam uma parede;
  * a distribuição num eixo lê-se de uma vez e mostra onde Portugal cai *dentro*
@@ -27,8 +32,9 @@ const dados = fs.existsSync(CAMINHO)
   ? JSON.parse(fs.readFileSync(CAMINHO, "utf-8")).cesarianas
   : null;
 
-/* Recomendação da Organização Mundial da Saúde, a mesma que a ficha usa. */
-const OMS = { de: 10, a: 15 };
+/* A referência da Organização Mundial da Saúde, a mesma que a ficha usa: o
+   intervalo de 1985, que a declaração de 2015 já não apresenta como alvo. */
+const OMS = { de: 10, a: 15, ano: 1985, declaracao: 2015 };
 
 const paises: { codigo: string; nome: string; valor: number }[] = dados?.paises ?? [];
 const valores = paises.map((p) => p.valor);
@@ -41,6 +47,13 @@ const posicao = pt ? paises.indexOf(pt) + 1 : null;
 const maior = paises[0];
 const menor = paises[paises.length - 1];
 
+/* Quem cai dentro da faixa e quem fica acima. Contado dos dados, não escrito
+   à mão: a frase de leitura tem de continuar verdadeira quando o Eurostat
+   publicar o ano seguinte. */
+const dentro = paises.filter((p) => p.valor >= OMS.de && p.valor <= OMS.a);
+const acima = paises.filter((p) => p.valor > OMS.a);
+const naFaixa = new Set(dentro.map((p) => p.codigo));
+
 /* Traduções dos nomes que o Eurostat devolve em inglês. Só os que aparecem
    rotulados no desenho — a lista completa fica como a fonte a publica. */
 const PT_NOME: Record<string, string> = {
@@ -52,8 +65,30 @@ const PT_NOME: Record<string, string> = {
 };
 const nomePt = (n: string) => PT_NOME[n] ?? n;
 
+/* «Só Islândia» não é português; «Portugal» com artigo também não. O artigo
+   vive à parte do nome porque a tabela lista os países sem ele. */
+const ARTIGO: Record<string, string> = { Islândia: "a", Grécia: "a", "Países Baixos": "os" };
+const comArtigo = (n: string) => {
+  const artigo = ARTIGO[nomePt(n)];
+  return artigo ? `${artigo} ${nomePt(n)}` : nomePt(n);
+};
+const emPais = (n: string) => {
+  const artigo = ARTIGO[nomePt(n)];
+  const prep: Record<string, string> = { a: "na", o: "no", os: "nos", as: "nas" };
+  return `${artigo ? prep[artigo] : "em"} ${nomePt(n)}`;
+};
+
 const nf = (n: number) =>
   new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(n);
+
+/* A mesma contagem, dita por extenso para quem ouve o desenho. */
+const resumoOms =
+  dentro.length === 0
+    ? `Nenhum país está dentro da faixa de referência da Organização Mundial da Saúde, de ${OMS.de} a ${OMS.a} por cento, fixada em ${OMS.ano}.`
+    : `${acima.length} dos ${paises.length} países estão acima da faixa de referência da Organização Mundial da Saúde, de ${OMS.de} a ${OMS.a} por cento, fixada em ${OMS.ano}; ` +
+      (dentro.length === 1
+        ? `só ${comArtigo(dentro[0].nome)}, com ${nf(dentro[0].valor)} por cento, fica dentro dela.`
+        : `${dentro.length} ficam dentro dela.`);
 ---
 
 {
@@ -79,12 +114,12 @@ const nf = (n: number) =>
           role="img"
           aria-label={
             `Distribuição das taxas de cesarianas em ${paises.length} países europeus em ${dados.ano}: ` +
-            `de ${nf(menor.valor)} por cento em ${nomePt(menor.nome)} a ${nf(maior.valor)} por cento em ${nomePt(maior.nome)}. ` +
+            `de ${nf(menor.valor)} por cento ${emPais(menor.nome)} a ${nf(maior.valor)} por cento ${emPais(maior.nome)}. ` +
             `Portugal tem ${nf(pt.valor)} por cento, o ${posicao}.º mais alto. ` +
-            `Nenhum país está dentro da recomendação da Organização Mundial da Saúde, de 10 a 15 por cento.`
+            resumoOms
           }
         >
-          {/* A faixa da OMS. Fica vazia, e é esse o ponto. */}
+          {/* A faixa da OMS. Fica quase vazia, e é esse o ponto. */}
           <rect
             x={x(OMS.de)}
             y="3"
@@ -97,8 +132,10 @@ const nf = (n: number) =>
             <circle
               cx={x(p.valor)}
               cy="8"
-              r={p.codigo === "PT" ? 1.15 : 0.62}
-              class={p.codigo === "PT" ? "eu__pt" : "eu__pais"}
+              r={p.codigo === "PT" ? 1.15 : naFaixa.has(p.codigo) ? 0.9 : 0.62}
+              class={
+                p.codigo === "PT" ? "eu__pt" : naFaixa.has(p.codigo) ? "eu__dentro" : "eu__pais"
+              }
               vector-effect="non-scaling-stroke"
             />
           ))}
@@ -108,9 +145,12 @@ const nf = (n: number) =>
             `preserveAspectRatio="none"` o texto esticaria com o eixo. */}
         <div class="eu__rotulos" aria-hidden="true">
           <span class="eu__rot eu__rot--oms" style={`left:${x((OMS.de + OMS.a) / 2)}%`}>
-            OMS <span class="num">{OMS.de}–{OMS.a} %</span>
+            OMS {OMS.ano} <span class="num">{OMS.de}–{OMS.a} %</span>
           </span>
-          <span class="eu__rot eu__rot--menor" style={`left:${x(menor.valor)}%`}>
+          <span
+            class={`eu__rot eu__rot--menor${naFaixa.has(menor.codigo) ? " eu__rot--faixa" : ""}`}
+            style={`left:${x(menor.valor)}%`}
+          >
             {nomePt(menor.nome)} <span class="num">{nf(menor.valor)} %</span>
           </span>
           <span class="eu__rot eu__rot--pt" style={`left:${x(pt.valor)}%`}>
@@ -123,9 +163,36 @@ const nf = (n: number) =>
       </figure>
 
       <p class="eu__leitura">
-        <strong>Nenhum país europeu cumpre a recomendação da OMS.</strong> O mais
-        baixo é {nomePt(menor.nome)}, com <span class="num">{nf(menor.valor)} %</span>,
-        já acima do limite de {OMS.a} %.
+        <strong>
+          {acima.length} dos {paises.length} países europeus estão acima da faixa
+          de referência da OMS.
+        </strong>{" "}
+        {dentro.length === 0 ? (
+          <>A faixa dos {OMS.de} a {OMS.a} % fica vazia.</>
+        ) : dentro.length === 1 ? (
+          <>
+            Só {comArtigo(dentro[0].nome)} fica dentro da faixa dos {OMS.de} a {OMS.a} %,
+            com <span class="num">{nf(dentro[0].valor)} %</span> — encostada ao
+            limite de cima.
+          </>
+        ) : (
+          <>
+            Apenas {dentro.length} ficam dentro da faixa dos {OMS.de} a {OMS.a} %; o
+            mais baixo é {nomePt(menor.nome)}, com{" "}
+            <span class="num">{nf(menor.valor)} %</span>.
+          </>
+        )}{" "}
+        Portugal, com <span class="num">{nf(pt.valor)} %</span>, está a{" "}
+        <span class="num">{nf(pt.valor / OMS.a)} vezes</span> esse limite.
+      </p>
+
+      <p class="eu__ressalva">
+        <strong>A faixa não é uma meta.</strong> Os {OMS.de} a {OMS.a} % são um
+        consenso de peritos de {OMS.ano}. Em {OMS.declaracao} a Organização
+        Mundial da Saúde deixou de fixar um alvo: a taxa ideal é desconhecida e,
+        acima de {OMS.de} %, mais cesarianas não aparecem associadas a menos
+        mortes de mães ou de recém-nascidos. O que a OMS pede é que tenha
+        cesariana quem precisa — não que se persiga uma percentagem.
       </p>
 
       <details class="eu__lista">
@@ -173,6 +240,9 @@ const nf = (n: number) =>
     stroke-width: 0.6;
   }
   .eu__pt { fill: var(--accent); stroke: var(--page); stroke-width: 0.8; }
+  /* Quem cumpre a recomendação. Um ponto só, mas o desenho tem de o distinguir
+     dos 28 que estão fora — senão a faixa lê-se como vazia, e não está. */
+  .eu__dentro { fill: var(--pos); stroke: var(--page); stroke-width: 0.7; }
 
   .eu__rotulos { position: relative; height: 42px; margin-top: -6px; }
   .eu__rot {
@@ -189,6 +259,7 @@ const nf = (n: number) =>
   .eu__rot--oms { top: 0; color: var(--accent-texto); }
   .eu__rot--menor,
   .eu__rot--maior { top: 20px; }
+  .eu__rot--faixa { color: var(--pos-texto); }
   .eu__rot--pt {
     top: 20px;
     color: var(--ink);
@@ -202,6 +273,16 @@ const nf = (n: number) =>
     max-width: 78ch;
   }
   .eu__leitura strong { color: var(--ink); font-weight: 750; }
+
+  /* A ressalva vive um degrau abaixo da leitura: quem passa os olhos fica com
+     o facto, quem lê a sério fica a saber o que a régua vale. */
+  .eu__ressalva {
+    margin: 10px 0 0;
+    font-size: var(--t-xs);
+    color: var(--muted);
+    max-width: 78ch;
+  }
+  .eu__ressalva strong { color: var(--ink-2); font-weight: 700; }
 
   .eu__lista { margin: 14px 0 0; font-size: var(--t-xs); }
   .eu__lista summary {

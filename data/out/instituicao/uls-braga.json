@@ -7683,8 +7683,8 @@
       "cautela": "Não ajustado ao risco. Maternidades que recebem gravidezes de alto risco, ou que servem populações mais velhas, têm taxas legitimamente mais altas. Uma taxa acima da referência não indica, por si só, má prática.",
       "referencia": {
         "valor": 15,
-        "rotulo": "Limiar de referência da OMS (10–15%)",
-        "fonte": "Organização Mundial da Saúde, Declaração sobre taxas de cesarianas, 2015."
+        "rotulo": "Referência histórica da OMS: 10 a 15 %. É o consenso de 1985 — em 2015 a OMS deixou de fixar um alvo, por concluir que a taxa ideal é desconhecida e que, acima de 10 %, mais cesarianas não estão associadas a menos mortes de mães ou de recém-nascidos. Está na escala como marco de leitura, não como meta a atingir",
+        "fonte": "Organização Mundial da Saúde, Declaração sobre taxas de cesarianas, 2015 (WHO/RHR/15.02)."
       },
       "pode_exceder_100": null,
       "maximo_plausivel": null
