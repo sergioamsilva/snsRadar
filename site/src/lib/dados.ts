@@ -18,6 +18,8 @@ export type Indicador = {
   descricao: string | null;
   cautela: string | null;
   referencia: { valor: number; rotulo: string; fonte: string } | null;
+  /** Literatura que sustenta o que a descrição afirma. Ver a metodologia. */
+  evidencia?: { citacao: string; url: string; nota?: string }[] | null;
   /** Percentagem que pode legitimamente passar dos 100 %. */
   pode_exceder_100?: boolean;
   valor: number | null;

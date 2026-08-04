@@ -801,6 +801,7 @@
       "descricao": "Percentagem de doentes inscritos para cirurgia cuja espera ainda não ultrapassou o Tempo Máximo de Resposta Garantida.",
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -1793,6 +1794,7 @@
       "descricao": null,
       "cautela": "Conta apenas as consultas com registo no CTH. Consultas fora desse circuito não entram no denominador.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -2785,6 +2787,7 @@
       "descricao": "Tempo entre a admissão e a cirurgia, em episódios cirúrgicos programados. Mede dias de cama ocupados antes de operar, não a espera em lista.",
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -3519,6 +3522,7 @@
       "descricao": null,
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -4253,6 +4257,7 @@
       "descricao": null,
       "cautela": "Uma proporção alta de prioridades urgentes pode indicar boa filtragem da procura não urgente, ou uma população mais doente. Não é, por si, medida de qualidade.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -5245,6 +5250,7 @@
       "descricao": null,
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -6237,6 +6243,17 @@
       "descricao": "Doentes com mais de 65 anos. Operar nas primeiras 48 horas está associado a menor mortalidade e menor perda de autonomia.",
       "cautela": null,
       "referencia": null,
+      "evidencia": [
+        {
+          "citacao": "Simunovic N. et al., «Effect of early surgery after hip fracture on mortality and complications: systematic review and meta-analysis», CMAJ, 2010;182(15):1609–16.",
+          "url": "https://doi.org/10.1503/cmaj.092220",
+          "nota": "Revisão de estudos observacionais: operar cedo associa-se a menos óbitos, menos pneumonia e menos úlceras de pressão. O ensaio aleatorizado HIP ATTACK (Lancet, 2020) testou operar em seis horas e não encontrou diferença na mortalidade — o que sustenta o prazo das 48 horas como norma de organização, não a corrida ao relógio."
+        },
+        {
+          "citacao": "NICE, «Hip fracture: management», guia clínico CG124, 2011, revisto em 2023: operar no dia da admissão ou no dia seguinte.",
+          "url": "https://www.nice.org.uk/guidance/cg124"
+        }
+      ],
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -7233,6 +7250,7 @@
         "rotulo": "Referência histórica da OMS: 10 a 15 %. É o consenso de 1985 — em 2015 a OMS deixou de fixar um alvo, por concluir que a taxa ideal é desconhecida e que, acima de 10 %, mais cesarianas não estão associadas a menos mortes de mães ou de recém-nascidos. Está na escala como marco de leitura, não como meta a atingir",
         "fonte": "Organização Mundial da Saúde, Declaração sobre taxas de cesarianas, 2015 (WHO/RHR/15.02)."
       },
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -8213,6 +8231,7 @@
       "descricao": null,
       "cautela": "A fonte publica apenas a taxa, sem numerador nem denominador. Não é possível agregar corretamente vários meses nem ajustar ao risco: mostramos o valor mensal tal como publicado, sem o somar a outros períodos.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -9175,6 +9194,7 @@
       "descricao": null,
       "cautela": "A fonte publica apenas a taxa, sem numerador nem denominador. Não é possível agregar corretamente vários meses nem ajustar ao risco.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -10167,6 +10187,7 @@
       "descricao": "Entre os procedimentos que podem ser feitos sem internamento, a proporção que efetivamente o foi. Evita noites de internamento desnecessárias.",
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -11159,6 +11180,7 @@
       "descricao": null,
       "cautela": "O denominador é a lotação praticada, que varia com camas abertas e encerradas. Ocupação alta pode significar eficiência ou pressão excessiva; ocupação baixa pode significar folga ou camas encerradas por falta de pessoal.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": true,
       "maximo_plausivel": 200
     },
@@ -12151,6 +12173,7 @@
       "descricao": null,
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -13143,6 +13166,7 @@
       "descricao": null,
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -14002,6 +14026,7 @@
       "descricao": null,
       "cautela": "É um efetivo num momento, não um fluxo: somar meses não faz sentido — a ficha mostra o último período. Descontinuidade em janeiro de 2024: a reforma ULS integrou os centros de saúde nas mesmas entidades, e os efetivos saltam +21 % (médicos +33 %) sem que ninguém tenha sido contratado. Ver reference/VALIDACAO-EXTERNA.md.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -14861,6 +14886,7 @@
       "descricao": null,
       "cautela": "Descontinuidade em janeiro de 2024: a reforma ULS integrou os agrupamentos de centros de saúde nas mesmas entidades, e os efetivos saltam +21 % (médicos +33 %) de dezembro de 2023 para dezembro de 2024. Não é contratação — é mudança de perímetro. Confirmado contra o INE em reference/VALIDACAO-EXTERNA.md.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -15720,6 +15746,7 @@
       "descricao": null,
       "cautela": "Descontinuidade em janeiro de 2024: a reforma ULS integrou os agrupamentos de centros de saúde nas mesmas entidades, e os efetivos saltam +21 % (médicos +33 %) de dezembro de 2023 para dezembro de 2024. Não é contratação — é mudança de perímetro. Confirmado contra o INE em reference/VALIDACAO-EXTERNA.md.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -16633,6 +16660,7 @@
       "descricao": null,
       "cautela": "É um saldo em dívida numa data, não uma despesa do período: somar meses contaria a mesma dívida vezes sem conta. A ficha mostra o último período.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -17546,6 +17574,7 @@
       "descricao": null,
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -17865,6 +17894,7 @@
       "descricao": "Dias que a instituição demora, em média, a pagar aos seus fornecedores.",
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -18488,9 +18518,10 @@
       "grupo": "dinheiro",
       "unidade": "percentagem",
       "polaridade": "subir_e_mau",
-      "descricao": "Proporção da despesa com pessoal que vai para horas extraordinárias e suplementos. Um peso elevado costuma sinalizar falta de quadros próprios.",
+      "descricao": "Proporção da despesa com pessoal que vai para horas extraordinárias e suplementos: quanto da atividade é assegurado fora do horário normal. A causa — falta de quadros, escalas de urgência, opção de gestão — não vem nos dados, e o número por si não a distingue.",
       "cautela": null,
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -19303,6 +19334,17 @@
       "descricao": "Proporção do consumo hospitalar de antibióticos que corresponde a carbapenemes, medida em dose diária definida. São antibióticos de última linha para bactérias multirresistentes: quanto mais se usam, mais depressa se perde a única arma que resta contra elas.",
       "cautela": "Não está ajustado ao doente. Um centro oncológico, de transplantação ou com muitos cuidados intensivos usa legitimamente mais carbapenemes, porque trata doentes imunodeprimidos e com infeções mais graves. É uma proporção, não um volume: um hospital que reduza todos os antibióticos por igual mantém o mesmo valor. A fonte atribui a cada hospital um grupo de comparação da ACSS (A a F, mais psiquiátricos), que seria a base justa para comparar — o snsRadar mostra por agora a mediana de todas as unidades.",
       "referencia": null,
+      "evidencia": [
+        {
+          "citacao": "Organização Mundial da Saúde, «Bacterial priority pathogens list, 2024»: as enterobactérias resistentes aos carbapenemes encabeçam a lista de prioridade crítica.",
+          "url": "https://www.who.int/publications/i/item/9789240093461"
+        },
+        {
+          "citacao": "Bell B. G. et al., «A systematic review and meta-analysis of the effects of antibiotic consumption on antibiotic resistance», BMC Infectious Diseases, 2014;14:13.",
+          "url": "https://doi.org/10.1186/1471-2334-14-13",
+          "nota": "A revisão mede a relação entre consumo e resistência sobretudo na comunidade; o sentido do efeito é o mesmo no hospital, a magnitude não é transponível."
+        }
+      ],
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -20127,6 +20169,13 @@
       "descricao": "Proporção do consumo hospitalar de antibióticos que corresponde a fluoroquinolonas. São um alvo clássico dos programas de uso responsável: selecionam resistências com rapidez e estão associadas à infeção por Clostridioides difficile.",
       "cautela": "Não está ajustado ao doente nem ao perfil de infeções tratadas. É uma proporção do total de antibióticos, não um volume por doente.",
       "referencia": null,
+      "evidencia": [
+        {
+          "citacao": "Dingle K. E. et al., «Effects of control interventions on Clostridium difficile infection in England: an observational study», The Lancet Infectious Diseases, 2017;17(4):411–21.",
+          "url": "https://doi.org/10.1016/S1473-3099(16)30514-X",
+          "nota": "A queda das infeções por C. difficile em Inglaterra acompanhou a restrição das fluoroquinolonas, e não as medidas de controlo de infeção — que já estavam em vigor antes."
+        }
+      ],
       "pode_exceder_100": null,
       "maximo_plausivel": null
     },
@@ -20951,6 +21000,7 @@
       "descricao": "Proporção do consumo hospitalar de antibióticos que corresponde a cefalosporinas, em dose diária definida.",
       "cautela": "Não está ajustado ao doente. É uma proporção do total de antibióticos, não um volume por doente.",
       "referencia": null,
+      "evidencia": null,
       "pode_exceder_100": null,
       "maximo_plausivel": null
     }
