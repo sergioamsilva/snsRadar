@@ -3,8 +3,9 @@
 ## Porquê
 
 Tudo o resto neste portal compara Portugal com Portugal. Quem lê «33 % de
-cesarianas» só tem como referência a recomendação da OMS — 10 a 15 % — que
-nenhum país europeu cumpre. É uma régua que não informa: diz que estamos longe,
+cesarianas» só tem como referência os 10 a 15 % da OMS — um consenso de 1985 que
+a própria OMS deixou de apresentar como alvo em 2015, e que hoje quase nenhum
+país europeu respeita. É uma régua que informa pouco: diz que estamos longe,
 não diz se estamos longe como os outros ou sozinhos.
 
 ## O que entra, e o que ficou de fora
