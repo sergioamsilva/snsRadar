@@ -8,7 +8,7 @@
 ![snsRadar](og.png)
 
 A raiz do portal é o painel de página única — `index.html` neste repositório,
-2,8 MB com os dados embebidos, que abre offline e não faz um único pedido de
+4,9 MB com os dados embebidos, que abre offline e não faz um único pedido de
 rede. [`dist/painel.html`](dist/painel.html) é o mesmo painel sem a navegação
 do portal, para descarregar e abrir do disco.
 
@@ -22,10 +22,10 @@ pensam **por instituição**.
 Ninguém quer o dataset `partos-e-cesarianas`. As pessoas querem saber se a
 maternidade onde vão ter um filho tem uma taxa de cesarianas de 22% ou de 45%.
 
-O snsRadar constrói **uma página por instituição**, reunindo 25 indicadores
-hoje dispersos por 22 conjuntos de dados, cada número com o seu denominador, a
-sua data, a sua fonte e a sua comparação com o país e com a mediana das
-instituições.
+O snsRadar constrói **uma página por instituição**, reunindo 49 indicadores hoje
+dispersos por 22 conjuntos de dados e por um painel da ACSS sem API, cada número
+com o seu denominador, a sua data, a sua fonte, e a sua comparação com o país e
+com as unidades que lhe são semelhantes.
 
 **Não é um site oficial do SNS.** É um trabalho independente sobre dados
 públicos.
@@ -35,14 +35,22 @@ públicos.
 Fases 0 e 1 concluídas e verificadas.
 
 - 44 entidades canónicas, 122 chaves de nome resolvidas
-- 43 fichas de instituição, 25 indicadores, 46 páginas estáticas
+- 43 fichas de instituição, 49 indicadores, 46 páginas estáticas
 - as 43 instituições com série contínua de 2013 a 2026 **atravessando a reforma
   ULS de 2024**, que parte todas as séries na fonte
-- 13 verificações de integridade, todas a passar — incluindo confronto com o
-  INE e a ACSS ([`reference/VALIDACAO-EXTERNA.md`](reference/VALIDACAO-EXTERNA.md))
+- 16 verificações de integridade, todas a passar — incluindo o confronto do
+  snsRadar com a ACSS **instituição a instituição e mês a mês**, em que cinco de
+  sete indicadores coincidem a 100 %
+  ([`reference/VALIDACAO-EXTERNA.md`](reference/VALIDACAO-EXTERNA.md))
+- **segurança do doente** em seis indicadores — úlceras de pressão, sépsis e
+  embolia pós-operatórias, infeção por cateter, lacerações no parto — uma
+  dimensão que o Portal da Transparência não publica
+- **grupos de comparação da ACSS**: cada unidade lida contra as que lhe são
+  semelhantes em custo, e não só contra a mediana que junta um IPO a uma ULS
+  distrital
 - WCAG 2.1 AA sem violações em tema claro e escuro a 390 px; sem transbordo
   horizontal; conteúdo e gráficos legíveis sem JavaScript
-- painel de página única na raiz do portal (2,8 MB, abre offline, sem CDN)
+- painel de página única na raiz do portal (4,9 MB, abre offline, sem CDN)
 - **mortalidade ajustada ao risco** em 39 unidades (padronização indireta por
   capítulo CID, idade e sexo, com intervalo de confiança)
 - **população servida** em 39 unidades, que converte contagens em taxas
@@ -67,9 +75,13 @@ documentadas em detalhe, com verificação, em [`reference/NOTAS.md`](reference/
    percentagens mensais — que daria o mesmo peso a um mês com 12 partos e a um
    mês com 1200.
 
-Que o tratamento está certo não é afirmação nossa: os partos do SNS em 2025 dão
-63 854 contra os 63 897 da ACSS (−0,07 %), e as cesarianas 21 158 contra 21 224
-(−0,3 %). Ver [`reference/VALIDACAO-EXTERNA.md`](reference/VALIDACAO-EXTERNA.md).
+Que o tratamento está certo não é afirmação nossa. A ACSS publica, no seu
+Benchmarking Hospitalar, os mesmos factos **mês a mês** — sem a acumulação que
+obriga a esta correção. Confrontados os dois, unidade a unidade: **5 691 pares
+(instituição, mês) de cesarianas, 100 % coincidentes**, numerador e denominador
+incluídos. O mesmo nas fraturas da anca, na cirurgia de ambulatório, na lista de
+espera e na demora antes da cirurgia. Ver
+[`reference/VALIDACAO-EXTERNA.md`](reference/VALIDACAO-EXTERNA.md).
 
 ## Como correr
 
@@ -136,6 +148,7 @@ scripts/atualizacao_agendada.sh   atualização periódica, com deteção de rev
 ingest/
   catalog.py            espelha o catálogo; deteta contagens erradas na fonte
   fetch.py              descarrega via /exports/csv (contorna o limite de 10k)
+  benchmarking_acss.py  a segunda fonte: 45 indicadores e os grupos, sem API
   snapshot.py           SHA-256 por dataset; deteta revisões silenciosas
   semear_crosswalk.py   rascunho do crosswalk para revisão humana
   instituicoes.py       resolução de nomes para entidades canónicas
@@ -158,11 +171,15 @@ tests/
   test_build.py                aritmética, des-acumulação, cautelas, fonte por valor
   test_crosswalk.py            cobertura de nomes e continuidade através de 2024
   test_validacao_externa.py    confronto com a ACSS e o INE/ERS
+  test_benchmarking_acss.py    confronto com a ACSS unidade a unidade, mês a mês
 data/{raw,out,snapshots,mapa}/
 site/
   src/lib/dados.ts               leitura de data/out e formatação pt-PT
   src/components/Indicador.astro  o indicador como linha de boletim de análises
   src/components/Serie.astro      série mensal em SVG, renderizada no servidor
+  src/components/Funil.astro      funnel plot: distingue o desempenho do acaso
+  src/components/Declive.astro    duas medidas ligadas, unidade a unidade
+  src/components/Ranking.astro    volume cirúrgico, ordenado, país inteiro
   src/components/Mapa.astro       o continente, em SVG
   src/components/Contexto.astro   comparação com a Europa (Eurostat)
   src/components/Movimento.astro  contratos: volume, via e modificações
@@ -230,6 +247,13 @@ Não são recomendações; falham o build ou os testes.
 8. Cobertura insuficiente declara-se, não se disfarça. Uma unidade que reporte
    mal os seus contratos não aparece como uma unidade que gasta pouco: o total
    fica escondido e a razão fica escrita.
+9. Quando a fonte se contradiz, o período fica declarado no indicador e impresso
+   pelo teste — nunca dissolvido numa tolerância maior para todos. É o caso dos
+   internamentos longos em 2013 e 2014, em que a ACSS publica uma taxa que não
+   bate com as contagens que publica ao lado.
+10. Uma mediana de grupo com menos de cinco unidades não se publica. Numa
+    mediana de três, cada unidade é um terço da referência contra a qual está a
+    ser lida.
 
 ## Fontes
 
@@ -237,9 +261,20 @@ Dados de `transparencia.sns.gov.pt`, publicados por ACSS, DE-SNS, INFARMED,
 SPMS e INEM. Correspondência de entidades verificada contra o Decreto-Lei
 n.º 102/2023, de 7 de novembro (Diário da República, 1.ª série, n.º 215).
 
-Fora do portal: contratos públicos do **IMPIC** via `dados.gov.pt`, em domínio
-público declarado (`other-pd`); população residente do **INE**; contexto
-europeu da API aberta do **Eurostat**.
+Fora do portal: o **Benchmarking Hospitalar da ACSS**
+(`benchmarking-acss.min-saude.pt`), de onde vêm a segurança do doente, o volume
+cirúrgico, as métricas por doente padrão e os grupos de comparação; contratos
+públicos do **IMPIC** via `dados.gov.pt`, em domínio público declarado
+(`other-pd`); população residente do **INE**; contexto europeu da API aberta do
+**Eurostat**.
+
+O Benchmarking não tem API nem licença declarada, e a sua situação jurídica é
+**mais frágil** do que a do portal de transparência — a posição adotada e o que
+a distingue estão em [`ATRIBUICAO.md`](ATRIBUICAO.md). O que se aprendeu a ler
+uma fonte sem contrato de leitura está na secção final de
+[`reference/NOTAS.md`](reference/NOTAS.md): a rota de exportação que varia por
+indicador e devolve ficheiros vazios em vez de erros, o ano que vinha a dobrar
+sob dois nomes, e os meses que a fonte serve sem os anunciar.
 
 A situação jurídica da reutilização dos dados do portal do SNS está por
 resolver — ver [`ATRIBUICAO.md`](ATRIBUICAO.md) para a posição adotada e a
@@ -260,6 +295,8 @@ mentir por omissão:
 |---|---|
 | Séries mensais | janeiro de 2013 a junho de 2026 |
 | Valor grande de cada indicador | 12 meses até maio de 2026 |
+| Benchmarking da ACSS | janeiro de 2013 a maio de 2026 |
+| Gastos por doente padrão (SNC-AP) | janeiro de 2018 a maio de 2026 |
 | Triagem das urgências | junho de 2025 a maio de 2026 |
 | População servida | junho de 2026 |
 | Contratos públicos (IMPIC) | 2012 a 2026 |

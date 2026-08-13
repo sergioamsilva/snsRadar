@@ -45,7 +45,11 @@ def teste_aritmetica(con, indicadores) -> list[str]:
         col_tempo = ind.get("coluna_tempo", "tempo")
         num = _soma(ind["numerador"], ind.get("soma_tambem", []))
         den = _soma(ind["denominador"], ind.get("denominador_soma_tambem", []))
-        escala = 100.0 if ind["unidade"] == "percentagem" else 1.0
+        # A mesma regra que build._valor aplica: `fator` existe para as taxas
+        # por 100 000 episódios da ACSS, que não são percentagens nem rácios
+        # simples. Repetir a regra com outra formulação era garantir que as duas
+        # divergiriam.
+        escala = float(ind.get("fator", 100.0 if ind["unidade"] == "percentagem" else 1.0))
         # Nem toda a fonte publica a taxa nas mesmas unidades em que a
         # apresentamos: o registo de antibióticos publica `peso` como fração
         # (0,0503) e não em pontos percentuais. `publicado_escala` põe os dois
@@ -53,11 +57,25 @@ def teste_aritmetica(con, indicadores) -> list[str]:
         # divergência em todas as linhas destes indicadores.
         escala_publicado = float(ind.get("publicado_escala", 1))
 
+        # Há fontes que se contradizem a si próprias durante um período: no
+        # Benchmarking da ACSS, os internamentos com mais de 30 dias trazem, em
+        # 2013 e 2014, uma taxa publicada que não corresponde ao numerador e ao
+        # denominador da mesma linha — e as duas exportações que descrevem esses
+        # meses concordam uma com a outra e discordam de si mesmas. O período
+        # fica declarado em reference/indicadores.yaml e impresso aqui, em vez de
+        # ser dissolvido numa tolerância maior para todos.
+        desde = ind.get("publicado_reconcilia_desde")
+        filtro_data = f' and "{col_tempo}" >= \'{desde}\'' if desde else ""
+
         linhas = con.execute(
             f'select "{col_ent}", "{col_tempo}", {num}, {den}, "{ind["publicado"]}" '
             f"from {_rel(ind['dataset'])} "
             f'where "{ind["publicado"]}" is not null and {den} >= {LIMIAR_DENOMINADOR}'
+            f"{filtro_data}"
         ).fetchall()
+        if desde:
+            print(f"    {ind['id']}: taxa publicada só confrontada a partir de "
+                  f"{desde} — a fonte não a reconcilia com as suas contagens antes disso")
 
         divergentes = 0
         exemplo = None

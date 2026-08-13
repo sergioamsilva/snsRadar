@@ -1,0 +1,107 @@
+---
+/**
+ * Volume de um procedimento, unidade a unidade, ordenado.
+ *
+ * Para uma cirurgia de alto risco, o número que interessa a quem vai ser operado
+ * não é uma taxa: é quantas vezes por ano aquela equipa faz aquela operação. A
+ * literatura documenta relação entre o volume do centro e o risco de morrer — e
+ * o volume é, das coisas que se podem saber antes, das poucas que se sabem.
+ *
+ * O país concentra: três centros fazem 43 % das resseções do pâncreas e 59 % das
+ * do esófago. Há unidades com um caso por ano. Uma escala de posição entre a
+ * mediana e uma referência externa — a forma que a ficha usa para as taxas — não
+ * diz nada disto; um ordenamento diz tudo.
+ *
+ * Ênfase: esta unidade a cheio, as outras em cinzento. Sem eixo de valor: a
+ * barra é a quantidade e o número está ao lado dela.
+ */
+import type { Barra } from "../lib/dados";
+
+interface Props {
+  barras: Barra[];
+  destaque: string;
+  titulo: string;
+  /** Quantas unidades mostrar por extenso antes de resumir a cauda. */
+  maximo?: number;
+}
+const { barras, destaque, titulo, maximo = 12 } = Astro.props;
+
+const ordenadas = [...barras].sort((a, b) => b.valor - a.valor);
+const total = ordenadas.reduce((a, b) => a + b.valor, 0);
+const topo = ordenadas.slice(0, 3).reduce((a, b) => a + b.valor, 0);
+const maior = ordenadas[0]?.valor || 1;
+const posicao = ordenadas.findIndex((b) => b.id === destaque);
+
+/* A cauda só é dobrada quando a unidade da ficha não está lá dentro — quem abre
+   esta página tem de encontrar a sua unidade no desenho, esteja onde estiver. */
+const visiveis =
+  posicao < maximo ? ordenadas.slice(0, maximo) : [...ordenadas.slice(0, maximo - 1), ordenadas[posicao]];
+const escondidas = ordenadas.length - visiveis.length;
+const nf = new Intl.NumberFormat("pt-PT");
+const eu = ordenadas[posicao];
+---
+
+<figure class="rank">
+  <figcaption class="rank__tit">{titulo} — {nf.format(total)} no país, {ordenadas.length} unidades</figcaption>
+
+  {/* Lista a sério, sem `role="img"`. Pôr o papel de imagem no <ol> apagava a
+      semântica de lista e deixava 69 <li> órfãos — uma violação séria de WCAG
+      que o verificador apanhou. Aqui a acessibilidade não precisa de um rótulo
+      alternativo: o conteúdo já é texto, nome e número, linha a linha. */}
+  <ol class="rank__lista">
+    {
+      visiveis.map((b, i) => {
+        const salto = posicao >= maximo && i === visiveis.length - 1;
+        return (
+          <>
+            {salto && <li class="rank__salto">⋯ mais {escondidas} unidades</li>}
+            <li class={`rank__linha${b.id === destaque ? " rank__linha--eu" : ""}`}>
+              <span class="rank__nome">{b.nome_curto}</span>
+              <span class="rank__barra-caixa">
+                <span class="rank__barra" style={`width:${Math.max(2, (100 * b.valor) / maior)}%`} />
+              </span>
+              <span class="rank__valor num">{nf.format(b.valor)}</span>
+            </li>
+          </>
+        );
+      })
+    }
+  </ol>
+
+  <p class="rank__nota">
+    As três maiores fazem <strong>{Math.round((100 * topo) / (total || 1))} %</strong> do
+    total do país.{" "}
+    {eu && `Esta unidade faz ${nf.format(eu.valor)} por ano — ${posicao + 1}.ª de ${ordenadas.length}.`}
+    {" "}É uma contagem, não uma medida de resultado.
+  </p>
+</figure>
+
+<style>
+  .rank { margin: 14px 0 0; }
+  .rank__tit { font-size: var(--t-2xs); color: var(--ink-2); font-weight: 600; margin-bottom: 8px; }
+  .rank__lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+  .rank__linha {
+    display: grid;
+    grid-template-columns: minmax(0, 8.5rem) 1fr 2.6rem;
+    align-items: center; gap: 8px;
+    font-size: var(--t-3xs); color: var(--muted);
+  }
+  @media (max-width: 30rem) {
+    .rank__linha { grid-template-columns: minmax(0, 6.5rem) 1fr 2.4rem; }
+  }
+  .rank__nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rank__barra-caixa { height: 9px; display: block; }
+  .rank__barra {
+    display: block; height: 100%;
+    background: var(--ink-2); opacity: 0.35;
+    /* Extremidade arredondada do lado do dado, quadrada na linha de base. */
+    border-radius: 0 4px 4px 0;
+  }
+  .rank__valor { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .rank__linha--eu { color: var(--ink); font-weight: 700; }
+  .rank__linha--eu .rank__barra { background: var(--accent); opacity: 1; }
+
+  .rank__salto { font-size: var(--t-3xs); color: var(--muted); padding: 2px 0; }
+  .rank__nota { margin: 8px 0 0; font-size: var(--t-3xs); color: var(--muted); }
+</style>

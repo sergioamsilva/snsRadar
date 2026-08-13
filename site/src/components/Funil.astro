@@ -1,0 +1,273 @@
+---
+/**
+ * Funnel plot — a forma correta de comparar acontecimentos raros.
+ *
+ * Os indicadores de segurança do doente têm denominadores que variam por um
+ * fator de duzentos entre a maior e a menor unidade, e numeradores com mediana
+ * de dois casos. Ordenar 43 hospitais por uma taxa destas produz um ranking de
+ * ruído: o hospital com duas sépsis em 95 episódios sobe ao topo por aritmética,
+ * não por desempenho.
+ *
+ * O funnel plot resolve isto pondo a dimensão no eixo horizontal e a taxa no
+ * vertical. Os limites de controlo — o «funil» — abrem-se onde há poucos casos e
+ * fecham-se onde há muitos, porque é isso que a variação aleatória faz. Uma
+ * unidade só é distinguível das outras quando sai do funil; dentro dele, a
+ * distância à mediana não significa nada.
+ *
+ * Limites calculados sobre a proporção global do país, com aproximação normal:
+ *     θ ± z · √(θ(1−θ)/n),  z = 1,96 (95 %) e 3,09 (99,8 %)
+ *
+ * É a mesma família de método que ingest/mortalidade.py já usa para o SMR: a
+ * pergunta não é «qual é o valor», é «este valor distingue-se do acaso».
+ *
+ * Sem JavaScript, como o resto da ficha: SVG gerado no servidor.
+ */
+import { formatar, type PontoFunil } from "../lib/dados";
+
+interface Props {
+  pontos: PontoFunil[];
+  destaque: string;
+  unidade: string;
+  /** Multiplicador da taxa: 1000 por mil episódios, 100000 por cem mil. */
+  fator: number;
+  titulo: string;
+}
+const { pontos, destaque, unidade, fator, titulo } = Astro.props;
+
+/* Coordenadas em unidades grandes de propósito. O SVG é escalado para a largura
+   da coluna: num viewBox de 320 o desenho é ampliado 2,1 vezes e um rótulo de
+   8 px chega ao ecrã com 17 — tipografia do tamanho de um título dentro de um
+   gráfico. Com o dobro das unidades, a escala fica perto de 1:1 e os tamanhos
+   que se escrevem aqui são os que se veem. */
+const L = 62, R = 14, T = 18, B = 50, W = 640, H = 340;
+const px = W - L - R, py = H - T - B;
+
+/* Taxa global do país: soma dos numeradores sobre soma dos denominadores. A
+   mesma regra de agregação do resto do projeto — nunca a média das taxas. */
+const somaNum = pontos.reduce((a, p) => a + p.numerador, 0);
+const somaDen = pontos.reduce((a, p) => a + p.denominador, 0);
+const theta = somaDen > 0 ? somaNum / somaDen : 0;
+
+const dens = pontos.map((p) => p.denominador).filter((d) => d > 0);
+const minN = Math.max(10, Math.min(...dens) * 0.8);
+const maxN = Math.max(...dens) * 1.25;
+
+/* Eixo horizontal em escala logarítmica: entre a menor e a maior unidade há
+   duas ordens de grandeza, e numa escala linear metade das unidades ficaria
+   esmagada contra a margem esquerda. */
+const lx = (n: number) =>
+  L + (px * (Math.log10(n) - Math.log10(minN))) / (Math.log10(maxN) - Math.log10(minN));
+
+const limite = (n: number, z: number) => {
+  const se = Math.sqrt((theta * (1 - theta)) / n);
+  return [Math.max(0, theta - z * se) * fator, (theta + z * se) * fator];
+};
+
+/* Teto do eixo vertical: o maior entre o que se observa e o limite superior no
+   extremo pequeno, para que o funil caiba inteiro no desenho. */
+const taxas = pontos.map((p) => (p.numerador / p.denominador) * fator);
+const teto = Math.max(...taxas, limite(minN, 3.09)[1]) * 1.08 || 1;
+const ly = (v: number) => T + py - (py * Math.min(v, teto)) / teto;
+
+/* Os dois funis, amostrados em passos logarítmicos regulares. */
+const amostras = Array.from({ length: 40 }, (_, i) =>
+  Math.pow(10, Math.log10(minN) + ((Math.log10(maxN) - Math.log10(minN)) * i) / 39),
+);
+const banda = (z: number) => {
+  const cima = amostras.map((n) => `${lx(n).toFixed(1)},${ly(limite(n, z)[1]).toFixed(1)}`);
+  const baixo = amostras
+    .map((n) => `${lx(n).toFixed(1)},${ly(limite(n, z)[0]).toFixed(1)}`)
+    .reverse();
+  return `M${cima.join("L")}L${baixo.join("L")}Z`;
+};
+
+const z998 = 3.09;
+const marcas = pontos
+  .filter((p) => p.denominador > 0)
+  .map((p) => {
+    const taxa = (p.numerador / p.denominador) * fator;
+    const se = Math.sqrt((theta * (1 - theta)) / p.denominador);
+    const desvio = se > 0 ? p.numerador / p.denominador - theta : 0;
+    return {
+      ...p,
+      taxa,
+      x: lx(p.denominador),
+      y: ly(taxa),
+      fora: se > 0 && Math.abs(desvio / se) > z998,
+      acima: desvio > 0,
+      eu: p.id === destaque,
+    };
+  })
+  .sort((a, b) => Number(a.eu) - Number(b.eu));
+
+const eu = marcas.find((m) => m.eu);
+const foraDoFunil = marcas.filter((m) => m.fora);
+
+/* Rótulos diretos apenas onde dizem alguma coisa: a unidade da ficha primeiro,
+   depois as que saem do funil. Um nome por cada um dos 43 pontos seria
+   ilegível, e o valor de cada unidade continua no cartão do indicador.
+   Quatro é o limite: acima disso não há como os afastar sem os descolar do
+   ponto que descrevem, e a nota por baixo do gráfico nomeia-os todos. */
+const candidatos = [
+  ...marcas.filter((m) => m.eu),
+  ...marcas.filter((m) => m.fora && !m.eu),
+].slice(0, 4);
+
+/* Empurra os rótulos que se sobreponham. Sem isto, dois pontos próximos no
+   eixo vertical escrevem um por cima do outro — foi o que aconteceu com o
+   Algarve e o Alto Ave na primeira versão. */
+const ALTURA_ROTULO = 17;
+const rotulados = candidatos
+  .slice()
+  .sort((a, b) => a.y - b.y)
+  .map((m) => ({ ...m, ry: m.y - 9 }))
+  .reduce<Array<(typeof candidatos)[0] & { ry: number }>>((acc, m) => {
+    const anterior = acc[acc.length - 1];
+    if (anterior && m.ry - anterior.ry < ALTURA_ROTULO) {
+      m.ry = anterior.ry + ALTURA_ROTULO;
+    }
+    return [...acc, m];
+  }, []);
+
+const ticks = [10, 100, 1000, 10000, 100000].filter((n) => n >= minN && n <= maxN);
+const nf = new Intl.NumberFormat("pt-PT");
+const fmtEixo = (v: number) =>
+  new Intl.NumberFormat("pt-PT", {
+    maximumFractionDigits: v >= 100 ? 0 : v >= 10 ? 1 : 2,
+  }).format(v);
+
+const leitura = eu
+  ? eu.fora
+    ? `Fora do funil: ${eu.nome_curto} está ${eu.acima ? "acima" : "abaixo"} do que a variação aleatória explica.`
+    : `Dentro do funil: com ${nf.format(Math.round(eu.denominador))} episódios, este valor não se distingue do resto do país.`
+  : "";
+---
+
+<figure class="funil">
+  <figcaption class="funil__tit">
+    {titulo} — cada unidade contra a sua dimensão
+  </figcaption>
+
+  <svg
+    class="funil__svg"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    preserveAspectRatio="xMidYMid meet"
+    aria-label={
+      `Gráfico de funil. Taxa nacional ${formatar(theta * fator, unidade)}. ` +
+      `${marcas.length} unidades; ${foraDoFunil.length} fora dos limites de 99,8 %. ` +
+      (eu ? `${eu.nome_curto}: ${formatar(eu.taxa, unidade)} com ${nf.format(Math.round(eu.denominador))} episódios. ${leitura}` : "")
+    }
+  >
+    <path class="funil__banda funil__banda--998" d={banda(z998)} />
+    <path class="funil__banda funil__banda--95" d={banda(1.96)} />
+
+    <line class="funil__media" x1={L} x2={W - R} y1={ly(theta * fator)} y2={ly(theta * fator)} />
+
+    <line class="funil__eixo" x1={L} x2={W - R} y1={T + py} y2={T + py} />
+    {
+      ticks.map((n) => (
+        <text class="funil__tick" x={lx(n)} y={T + py + 16} text-anchor="middle">
+          {nf.format(n)}
+        </text>
+      ))
+    }
+    <text class="funil__tick funil__tick--eixo" x={L + px / 2} y={T + py + 36} text-anchor="middle">
+      episódios no período
+    </text>
+
+    <text class="funil__tick" x={L - 8} y={ly(0) + 4} text-anchor="end">0</text>
+    <text class="funil__tick" x={L - 8} y={ly(theta * fator) + 4} text-anchor="end">
+      {fmtEixo(theta * fator)}
+    </text>
+    <text class="funil__tick" x={L - 8} y={T + 10} text-anchor="end">{fmtEixo(teto)}</text>
+
+    {
+      marcas.map((m) => (
+        <circle
+          class={`funil__ponto${m.eu ? " funil__ponto--eu" : m.fora ? " funil__ponto--fora" : ""}`}
+          cx={m.x}
+          cy={m.y}
+          r={m.eu ? 6 : 4}
+        />
+      ))
+    }
+    {
+      rotulados.map((m) => {
+        const aDireita = m.x > L + px * 0.62;
+        return (
+          <>
+            {/* Linha de chamada: o rótulo desviado continua preso ao seu ponto. */}
+            <line
+              class="funil__chamada"
+              x1={m.x}
+              y1={m.y}
+              x2={m.x + (aDireita ? -9 : 9)}
+              y2={m.ry - 3}
+            />
+            <text
+              class={`funil__rotulo${m.eu ? " funil__rotulo--eu" : ""}`}
+              x={m.x + (aDireita ? -12 : 12)}
+              y={m.ry}
+              text-anchor={aDireita ? "end" : "start"}
+            >
+              {m.nome_curto}
+            </text>
+          </>
+        );
+      })
+    }
+  </svg>
+
+  <p class="funil__chaves">
+    <span class="chave chave--funil">limites de 95 % e 99,8 %</span>
+    <span class="chave chave--media">taxa nacional</span>
+  </p>
+
+  <p class="funil__nota">
+    Dentro do funil, a distância à taxa nacional é acaso: com poucos episódios,
+    um caso a mais move muito a taxa. {
+      foraDoFunil.length === 0
+        ? "Nenhuma unidade do país sai dos limites neste indicador."
+        : `${foraDoFunil.length} ${foraDoFunil.length === 1 ? "unidade sai" : "unidades saem"} dos limites — ${foraDoFunil.map((m) => m.nome_curto).join(", ")}.`
+    } {leitura}
+  </p>
+</figure>
+
+<style>
+  .funil { margin: 14px 0 0; }
+  .funil__tit {
+    font-size: var(--t-2xs); color: var(--ink-2); font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .funil__svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  /* As duas bandas são o mesmo tom em duas opacidades — uma escala ordenada de
+     uma só cor, não duas categorias. Na primeira versão levavam 0,07 e 0,08 e
+     eram indistinguíveis: o limite de 95 % desaparecia dentro do de 99,8 %. */
+  .funil__banda { fill: var(--ink-2); stroke: none; }
+  .funil__banda--998 { fill-opacity: 0.06; }
+  .funil__banda--95 { fill-opacity: 0.13; }
+
+  .funil__media { stroke: var(--ink-2); stroke-width: 1; opacity: 0.55; }
+  .funil__eixo { stroke: var(--border); stroke-width: 1; }
+  .funil__chamada { stroke: var(--muted); stroke-width: 1; opacity: 0.5; }
+
+  .funil__ponto { fill: var(--ink-2); fill-opacity: 0.45; }
+  /* Anel da cor da superfície, para o ponto se ler onde há sobreposição. */
+  .funil__ponto--fora { fill: var(--ink); fill-opacity: 0.75; stroke: var(--surface); stroke-width: 2; }
+  .funil__ponto--eu { fill: var(--accent); fill-opacity: 1; stroke: var(--surface); stroke-width: 2.5; }
+
+  .funil__rotulo { font-size: 11px; fill: var(--muted); }
+  .funil__rotulo--eu { fill: var(--accent-texto); font-weight: 700; }
+  .funil__tick { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+  .funil__tick--eixo { font-variant-numeric: normal; }
+
+  .funil__chaves { display: flex; flex-wrap: wrap; gap: 12px; margin: 6px 0 0; }
+  .chave { font-size: var(--t-3xs); color: var(--muted); display: inline-flex; align-items: center; gap: 5px; }
+  .chave::before { content: ""; width: 14px; height: 0; border-top: 1px solid; display: inline-block; }
+  .chave--funil::before { border-top: 8px solid color-mix(in srgb, var(--ink-2) 15%, transparent); }
+  .chave--media::before { border-top-color: var(--ink-2); }
+
+  .funil__nota { margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted); }
+</style>

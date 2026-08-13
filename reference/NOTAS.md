@@ -321,3 +321,182 @@ incompleto com numerador completo não se vê olhando só para o numerador.
 **Nota sobre esta fonte, ao contrário das outras:** não é acumulada no ano. São
 fluxos mensais, verificados. É das poucas séries do portal em que somar os meses
 diretamente está correto.
+
+---
+
+# Benchmarking Hospitalar da ACSS
+
+Segunda fonte, ligada em agosto de 2026. Traz o que o Portal da Transparência
+não publica: segurança do doente, volume cirúrgico, métricas ajustadas pelo
+case-mix e os grupos de comparação entre instituições. Não tem API — o que se
+segue foi apurado a ler o painel por dentro, e cada ponto custou pelo menos um
+erro.
+
+## 15. A rota de exportação é por indicador, não por painel
+
+O painel declara em `layoutActionUrls` uma rota de exportação **por indicador**,
+e dentro do mesmo painel há mais do que uma. No Económico-Financeiro, os gastos
+por doente padrão saem por `ExportDataToExcel_3Evolution_3AditionalValuesAsync` e
+as percentagens de gastos por `ExportDataToExcel_3EvolutionAsync`; na
+Produtividade, os doentes padrão por profissional e a demora média antes da
+cirurgia saem por rotas diferentes.
+
+Assumir uma rota por painel — que foi a primeira tentativa — produz dois
+comportamentos, e o segundo é o perigoso:
+
+- **500 Internal Server Error**, que se vê;
+- **um ficheiro Excel válido e vazio**, que não se vê. Dois indicadores ficaram
+  com 116 bytes: cabeçalho e nada mais. Sem uma verificação de cobertura,
+  passariam por «a ACSS não tem estes dados».
+
+A rota passou a ser lida de `layoutActionUrls`, e a descoberta falha alto se
+algum indicador não a declarar.
+
+## 16. Cada mês tem de vir de uma só exportação
+
+Cada exportação devolve o mês pedido e os 23 anteriores. Pedir os dezembros
+cobre a série toda com um ano de sobreposição — o que é bom, porque duas
+descrições do mesmo mês têm de coincidir e a discordância denuncia uma revisão
+silenciosa da fonte.
+
+Mas há uma armadilha. A exportação de dezembro de 2024 traz 2023 como **ano
+homólogo, com os nomes de 2024**; a de dezembro de 2023 traz o mesmo 2023 com os
+nomes de então. Fundir as duas por nome de instituição deixa o ano inteiro
+representado **duas vezes**, sob duas designações que o crosswalk resolve — e
+resolve bem — para a mesma entidade.
+
+O resultado foi 2023 com 40 562 cesarianas no país em vez de 21 436: quase o
+dobro, sem um único nome repetido que denunciasse o problema. Foi o confronto de
+totais anuais com a ACSS que o apanhou (`tests/test_benchmarking_acss.py`), e
+não haveria outra forma de o ver.
+
+Regra em vigor: **manda, para cada mês, a âncora do próprio ano**; na falta
+dela, a mais recente que o cubra. A linha guarda a âncora de onde saiu.
+
+## 17. Precisão diferente conforme a âncora
+
+A exportação do próprio ano traz o valor completo (0,32432432432432434); a do
+ano homólogo traz-o arredondado a quatro casas (0,3243). Comparar as cadeias
+acusava dezenas de revisões inexistentes. A comparação é feita ao arredondamento
+com que a fonte publica, e a precedência prefere sempre a âncora mais precisa.
+
+## 18. Meses que a fonte não anuncia vêm na mesma — e vêm mal
+
+A janela de 24 meses avança um ano para trás do que o filtro do painel declara:
+a âncora de dezembro de 2013 traz 2012, que a fonte não anuncia ter. Esses meses
+de bónus vêm com as folhas desalinhadas — nos internamentos com mais de 30 dias,
+1 271 linhas de 2012 em que a taxa publicada não corresponde ao numerador e ao
+denominador da mesma linha.
+
+Descartados: só entra o que a fonte declara ter.
+
+## 19. A fonte contradiz-se a si própria em 2013 e 2014
+
+Feita a limpeza anterior, sobraram 185 linhas em 6 858 no mesmo indicador — «%
+de Internamentos com Demora Superior a 30 Dias» — todas em 2013 e 2014, em que a
+taxa publicada não bate com as contagens publicadas ao lado. Exemplo: Centro
+Hospitalar Barreiro/Montijo, agosto de 2013, valor 3,95 % com 46 episódios em
+969, que dão 4,75 %.
+
+Não é ruído de extração: **duas exportações diferentes trazem exatamente os
+mesmos números**, e concordam uma com a outra ao mesmo tempo que discordam de si
+mesmas. A partir de 2015 reconciliam.
+
+Mantém-se a regra da casa — a taxa é Σnumerador ÷ Σdenominador — e deixa-se de
+confrontar o valor publicado antes de 2015, com o período declarado em
+`indicadores.yaml` (`publicado_reconcilia_desde`) e impresso pelo teste. A
+alternativa seria alargar a tolerância para todos os indicadores, que é como se
+esconde um defeito da fonte.
+
+## 20. A ocupação usa um mês de 30,4375 dias
+
+A fórmula que a ACSS publica para a taxa anual de ocupação é
+
+    (dias de internamento de agudos) / (camas × 30,4375 × meses acumulados)
+
+— 30,4375 é 365,25 ÷ 12. O snsRadar usa os dias reais de cada mês, o que é mais
+exato ao mês e converge com a ACSS ao ano. Verificado: 33 424 dias sobre 1 172
+camas dá 93,7 % com a constante da ACSS, que é exatamente o valor que publica.
+
+## 21. Escalas que a exportação não aplica
+
+As úlceras de pressão e as infeções por cateter venoso central são definidas por
+**mil** episódios, e a sépsis e a embolia pós-operatórias por **cem mil** — está
+nas fórmulas que a ACSS publica. A coluna exportada traz, em todas, a proporção
+em bruto. O `fator` de cada indicador põe o valor na escala da definição; sem
+ele, uma taxa de sépsis apareceria como 0,0004.
+
+Os doentes padrão por médico e por enfermeiro são caso à parte: a ACSS divide o
+doente padrão pelos profissionais **ETC**, mas exporta as horas semanais. O
+quociente entre os dois varia de 7 a 35 horas por ETC, porque os regimes de
+horário convivem. Sem constante defensável, fica a taxa que a fonte publica.
+
+## 22. O indicador de primeiras cesarianas não é publicável
+
+«% de Primeiras Cesarianas em Gestações Unifetais, Cefálicas, a Termo» seria o
+indicador mais valioso do conjunto: a taxa de cesarianas no grupo em que a
+decisão depende da prática da equipa e não do risco que a grávida já trazia — o
+equivalente português da medida PC-02 da Joint Commission.
+
+Não é o que a exportação traz. A fórmula publicada declara como denominador o
+«Nº de Partos em Gestações Unifetais, Cefálicas, a Termo, **sem Cesariana
+Anterior**». Na ULS de São João, junho de 2025:
+
+| Grandeza | Valor |
+|---|---:|
+| Partos unifetais, cefálicos, de termo | 118 |
+| Dos quais, com cesariana anterior | 14 |
+| Denominador que a fórmula descreve | ≈ 104 |
+| **Denominador que a exportação traz** | **29** |
+| Numerador (primeiras cesarianas) | 28 |
+
+O quociente dá 96,6 %, e a mediana nacional 97,6 %. Nenhuma leitura razoável de
+«primeiras cesarianas» produz 97,6 %: o denominador exportado não são os partos
+sem cesariana anterior, são as cesarianas dessas mulheres — e a razão entre uma
+coisa e quase ela própria não informa ninguém.
+
+O valor publicado pela ACSS coincide com o quociente que ela exporta, pelo que a
+incoerência é entre a fórmula declarada e os dados, não um erro de extração
+nosso.
+
+Indicador retirado da ficha. Os dados continuam em `data/raw` — se a ACSS
+corrigir o denominador, volta a entrar mudando uma linha em `indicadores.yaml`.
+
+**O que se perde, e o que se percebe na mesma.** Sem ele, a taxa de cesarianas
+ajustada ao risco não existe para Portugal. Mas os três indicadores que
+sobraram contam a história toda: a taxa global é de 33,7 %; restringida às
+gravidezes de termo, unifetais e cefálicas **sobe** para 37,9 % — em 35 das 37
+maternidades; e a taxa de parto vaginal depois de uma cesariana tem mediana
+**zero**. A subida não é um paradoxo: é a consequência aritmética da última
+linha. Quem teve uma cesariana volta a tê-la, e esses partos são quase todos de
+termo, unifetais e cefálicos.
+
+## 23. Formas que os dados novos obrigaram a inventar
+
+Três indicadores novos não cabiam na forma que a ficha usava para tudo — uma
+série mensal com a faixa interquartil do país e uma régua de posição. A forma
+segue o dado, e estes dados pedem outra coisa.
+
+**Segurança do doente → funnel plot.** Os denominadores variam por um fator de
+228 entre a maior e a menor unidade, e o numerador tem mediana de dois casos.
+Ordenar 43 hospitais por uma taxa destas é publicar ruído com aparência de
+ranking. O funil põe a dimensão no eixo horizontal e abre os limites de controlo
+onde há poucos casos: com os limites de 99,8 %, entre duas e sete unidades por
+indicador são distinguíveis do acaso, e as restantes não. A alternativa — uma
+tabela ordenada — teria posto no topo hospitais com dois eventos em noventa
+episódios.
+
+**Cesarianas → gráfico de declive.** A taxa restrita a gestações de termo,
+unifetais e cefálicas é *mais alta* do que a global em 35 das 37 maternidades.
+Nenhum dos dois números explica o outro; a ligação entre eles explica os dois, e
+a explicação está num terceiro indicador (parto vaginal após cesariana, mediana
+zero).
+
+**Volume cirúrgico → ordenamento do país.** Para uma resseção do pâncreas, a
+pergunta de quem vai ser operado não é uma taxa: é quantas aquela equipa faz por
+ano. Três centros fazem 43 % das do país; há unidades com um caso anual.
+
+**Dispersão do painel → repartida por grupo.** A lista das 43 unidades ordenadas
+por valor punha o IPO do Porto a três linhas da ULS da Guarda. Passou a pequenos
+múltiplos por grupo de financiamento, com o mesmo eixo em todos e a mediana de
+cada grupo ao lado da nacional.

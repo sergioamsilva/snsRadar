@@ -42,6 +42,25 @@ agregados_regionais:
   - regiao saude lvt
   - regiao saude norte
 
+agregados_do_benchmarking_acss:
+  # O Benchmarking Hospitalar publica, nas mesmas folhas das instituições, os
+  # totais que apura para o conjunto e por região. A ingestão separa-os para
+  # data/raw/bh-acss-_nacional.csv.gz — são a referência nacional oficial, e por
+  # isso guardam-se; o que não podem é entrar numa ficha como se fossem um
+  # hospital.
+  - total instituicoes
+  - total instituicoes alentejo
+  - total instituicoes algarve
+  - total instituicoes centro
+  - total instituicoes lvt
+  - total instituicoes norte
+  - total sns
+  - ars alentejo
+  - ars algarve
+  - ars centro
+  - ars lvt
+  - ars norte
+
 corrompidos_na_fonte:
   # A fonte aplicou uma substituição automática de «EPE» por «E. P. E.» que
   # corrompeu palavras onde essa sequência de letras ocorre por acaso:

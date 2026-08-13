@@ -48,6 +48,45 @@ registada neste ficheiro.
 
 **Estado do pedido:** minuta redigida; por enviar.
 
+## Benchmarking Hospitalar da ACSS — fonte com estatuto diferente
+
+Desde agosto de 2026 o snsRadar usa também o **Benchmarking Hospitalar**
+(`benchmarking-acss.min-saude.pt`), de onde vêm a dimensão de segurança do
+doente, o volume cirúrgico, as métricas por doente padrão e os grupos de
+comparação. A situação desta fonte **não é a mesma** do Portal da Transparência,
+e a diferença fica registada aqui em vez de ser diluída na posição geral.
+
+**O que é diferente, e é pior:**
+- Não tem API, nem catálogo, nem metadados de licença. Os dados saem pela
+  exportação para Excel que o próprio painel oferece a quem o usa.
+- O rodapé declara «© 2025 Todos os Direitos Reservados ao Governo da República
+  Portuguesa — Ministério da Saúde». Não há aqui, ao contrário do portal de
+  transparência, nenhum sinal de plataforma de dados abertos: nem endpoints de
+  exportação em massa documentados, nem `robots.txt`, nem publicação espelhada
+  em `dados.gov.pt`.
+
+**O que é igual, e sustenta a mesma conclusão:**
+- É informação do setor público, produzida por um organismo do Estado no
+  exercício da sua missão, e cai no âmbito da Lei n.º 68/2021 pelos mesmos
+  fundamentos da secção anterior.
+- São dados agregados por instituição e por mês. Nenhum dado pessoal.
+- A ACSS publica-os para serem consultados e comparados — é literalmente o
+  objetivo declarado do painel — e disponibiliza a exportação sem autenticação.
+
+**Como o snsRadar se comporta perante isso:**
+- Só se pede o que se usa, uma vez por mês por indicador, com pausa entre
+  pedidos e cache local das exportações — reprocessar não custa um pedido novo à
+  ACSS.
+- Cada valor traz a ligação para a exportação que o reproduz, e a fórmula de
+  cálculo tal como a ACSS a publica.
+- Onde a fonte se contradiz, fica escrito em [`reference/NOTAS.md`](reference/NOTAS.md)
+  com o período exato, em vez de corrigido em silêncio.
+
+**Estado:** o pedido de confirmação a enviar à SPMS e à DE-SNS passa a incluir
+também a ACSS, e a pergunta sobre esta fonte em concreto. Enquanto não houver
+resposta, esta secção é a declaração do que se sabe — que é menos do que se
+gostaria.
+
 ## Formato de atribuição
 
 Cada valor apresentado no snsRadar identifica o conjunto de dados de origem, o

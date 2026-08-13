@@ -17,6 +17,7 @@ Regras impostas aqui, não apenas documentadas:
 from __future__ import annotations
 
 import json
+import re
 import statistics
 import sys
 from collections import defaultdict
@@ -26,6 +27,7 @@ import yaml
 
 from common import API, DIR_BRUTO, DIR_REFERENCIA, DIR_SAIDA, garantir_dirs
 from catalog import FICHEIRO_CATALOGO
+from benchmarking_acss import FICHEIRO_CATALOGO_ACSS, FICHEIRO_GRUPOS
 from instituicoes import carregar
 
 # Abaixo deste denominador uma percentagem é ruído: num hospital com 8 partos
@@ -95,6 +97,89 @@ def carregar_indicadores() -> list[dict]:
     return yaml.safe_load(
         (DIR_REFERENCIA / "indicadores.yaml").read_text(encoding="utf-8")
     )
+
+
+def _data_acss(carimbo: str | None) -> str | None:
+    """«27/07/2026 12:40» — o formato em que a ACSS data as suas publicações."""
+    if not carimbo:
+        return None
+    m = re.match(r"(\d{2})/(\d{2})/(\d{4})(?:\s+(\d{2}):(\d{2}))?", carimbo)
+    if not m:
+        return None
+    dia, mes, ano, hora, minuto = m.groups()
+    return f"{ano}-{mes}-{dia}" + (f"T{hora}:{minuto}:00" if hora else "")
+
+
+def carregar_catalogo() -> dict:
+    """O catálogo das duas fontes, na mesma forma.
+
+    O Portal da Transparência e o Benchmarking da ACSS descrevem-se de maneiras
+    diferentes — um tem `modificado` em ISO, o outro data as publicações em
+    «27/07/2026 12:40». A tradução acontece aqui, uma vez, para que o resto do
+    build não tenha de saber de que fonte veio cada indicador.
+    """
+    catalogo = json.loads(FICHEIRO_CATALOGO.read_text(encoding="utf-8"))
+    if not FICHEIRO_CATALOGO_ACSS.exists():
+        return catalogo
+
+    for entrada in json.loads(FICHEIRO_CATALOGO_ACSS.read_text(encoding="utf-8")).values():
+        catalogo[entrada["slug"]] = {
+            "titulo": entrada["titulo"],
+            "publisher": entrada.get("publisher", "ACSS"),
+            "modificado": _data_acss(entrada.get("publicado_em")),
+            # A exportação que reproduz o ficheiro de onde o valor saiu. Ao
+            # contrário da API do portal, não se deixa filtrar por instituição:
+            # o painel exporta sempre o país inteiro.
+            "url": entrada.get("url"),
+            "formula": entrada.get("formula"),
+            "fonte_declarada": entrada.get("fonte_declarada"),
+            "dimensao": entrada.get("dimensao"),
+        }
+    return catalogo
+
+
+def carregar_grupos(cw) -> dict:
+    """O grupo de comparação de cada entidade canónica.
+
+    A ficha compara sempre com a mediana de todas as unidades, e essa mediana
+    junta o IPO do Porto com a ULS da Guarda. A ACSS resolve o mesmo problema
+    agrupando as instituições por clustering sobre variáveis explicativas do
+    custo, e é esse agrupamento que se lê aqui: um segundo termo de comparação,
+    entre pares, ao lado do nacional.
+
+    Os nomes vêm da ACSS e são resolvidos pelo mesmo crosswalk que tudo o resto.
+    Um nome que não resolva não é ignorado em silêncio: fica na lista de
+    ausências, que o build imprime.
+    """
+    if not FICHEIRO_GRUPOS.exists():
+        return {"por_instituicao": {}, "membros": {}, "definicao": None, "sem_resolucao": []}
+
+    dados = json.loads(FICHEIRO_GRUPOS.read_text(encoding="utf-8"))
+    por_instituicao: dict[str, dict] = {}
+    sem_resolucao: list[str] = []
+    for nome, info in dados.get("por_instituicao", {}).items():
+        inst = cw.resolver(nome)
+        if inst is None:
+            sem_resolucao.append(nome)
+            continue
+        # Duas grafias da mesma entidade (antes e depois de 2024) trazem o mesmo
+        # grupo atual; fica a que declara o ano mais recente.
+        anterior = por_instituicao.get(inst.id)
+        if anterior and max(anterior["por_ano"]) >= max(info["por_ano"]):
+            continue
+        por_instituicao[inst.id] = info
+
+    membros: dict[str, list[str]] = defaultdict(list)
+    for inst_id, info in por_instituicao.items():
+        membros[info["atual"]].append(inst_id)
+
+    return {
+        "por_instituicao": por_instituicao,
+        "membros": {g: sorted(ids) for g, ids in membros.items()},
+        "definicao": dados.get("definicao"),
+        "fonte": dados.get("fonte"),
+        "sem_resolucao": sorted(sem_resolucao),
+    }
 
 
 def _dias_do_mes(mes: str) -> int:
@@ -309,7 +394,11 @@ def _valor(ind: dict, num: float, den: float | None) -> float | None:
         return num
     if den is None or den < LIMIAR_DENOMINADOR:
         return None
-    v = 100.0 * num / den if ind["unidade"] == "percentagem" else num / den
+    # `fator` existe para as taxas que a ACSS publica por 100 000 episódios —
+    # sépsis e embolia pós-operatórias. Sem ele sairiam como proporções de
+    # 0,0004, que não se leem nem se comparam com nada.
+    fator = ind.get("fator", 100.0 if ind["unidade"] == "percentagem" else 1.0)
+    v = fator * num / den
     # Um valor acima do máximo fisicamente plausível diz que o denominador está
     # errado, não que a unidade atingiu aquele desempenho. Ver
     # `maximo_plausivel` em reference/indicadores.yaml.
@@ -419,12 +508,18 @@ def _agregar(ind: dict, meses: dict, janela: list[str]) -> dict | None:
     }
 
 
-def _url_fonte(ind: dict, nomes: set[str]) -> str:
-    """URL da API que reproduz o número apresentado.
+def _url_fonte(ind: dict, nomes: set[str], catalogo: dict) -> str:
+    """URL que reproduz o número apresentado.
 
-    A prova de cada valor. Usa os nomes que a fonte deu à instituição ao longo
-    do tempo — que é precisamente o que o crosswalk resolve.
+    A prova de cada valor. No portal é uma consulta à API filtrada pelos nomes
+    que a fonte deu à instituição ao longo do tempo — que é precisamente o que o
+    crosswalk resolve. No Benchmarking da ACSS não há API nem filtro: a prova é
+    a mesma exportação que descarregámos, com o país inteiro lá dentro.
     """
+    do_catalogo = catalogo.get(ind["dataset"], {}).get("url")
+    if do_catalogo:
+        return do_catalogo
+
     col_ent = ind.get("coluna_entidade", "instituicao")
     condicao = " or ".join(f'{col_ent}:"{n}"' for n in sorted(nomes))
     num = ind["numerador"]
@@ -465,7 +560,7 @@ def _faixa_nacional(ind: dict, series_ind: dict, meses: list[str]) -> list[dict]
     return saida
 
 
-def construir(con, cw, indicadores, catalogo):
+def construir(con, cw, indicadores, catalogo, grupos):
     series, nomes_fonte = extrair_series(con, cw, indicadores, catalogo)
 
     # Janela: os últimos MESES_JANELA meses com dados, por indicador. Calculada
@@ -531,7 +626,7 @@ def construir(con, cw, indicadores, catalogo):
                 "titulo": catalogo.get(ind["dataset"], {}).get("titulo"),
                 "publisher": catalogo.get(ind["dataset"], {}).get("publisher"),
                 "atualizado": catalogo.get(ind["dataset"], {}).get("modificado"),
-                "url": _url_fonte(ind, nomes_fonte[(iid, inst_id)]),
+                "url": _url_fonte(ind, nomes_fonte[(iid, inst_id)], catalogo),
             }
             agg["serie"] = [
                 {
@@ -565,6 +660,20 @@ def construir(con, cw, indicadores, catalogo):
         ordenados = sorted(valores_inst.values())
         mediana = ordenados[len(ordenados) // 2] if ordenados else None
 
+        # A mesma mediana, dentro de cada grupo de comparação da ACSS. Abaixo de
+        # cinco unidades com valor não se publica: numa mediana de três, cada
+        # unidade é um terço da referência contra a qual está a ser lida.
+        por_grupo: dict[str, list[float]] = defaultdict(list)
+        for inst_id, valor in valores_inst.items():
+            grupo = grupos["por_instituicao"].get(inst_id, {}).get("atual")
+            if grupo:
+                por_grupo[grupo].append(valor)
+        mediana_grupo = {
+            g: {"mediana": sorted(v)[len(v) // 2], "n_instituicoes": len(v)}
+            for g, v in sorted(por_grupo.items())
+            if len(v) >= 5
+        }
+
         # Uma regra única, partilhada com web/app.js::soMediana. Ter esta
         # decisão em dois sítios com formulações diferentes foi o que produziu
         # 901,9 % de mortalidade por AVC no painel; agora a formulação é a mesma
@@ -594,6 +703,7 @@ def construir(con, cw, indicadores, catalogo):
             "numerador": num_nac,
             "denominador": den_nac,
             "mediana_instituicoes": mediana,
+            "mediana_por_grupo": mediana_grupo,
             "n_instituicoes": len(valores_inst),
         }
 
@@ -614,7 +724,32 @@ def _enriquecimento() -> dict:
     return json.loads(caminho.read_text(encoding="utf-8"))
 
 
-def escrever(cw, fichas, nacional, por_indicador):
+def _grupo_da_ficha(cw, grupos, inst_id: str) -> dict | None:
+    """O grupo de comparação da unidade, com os pares que o compõem.
+
+    Os pares vão por nome curto porque é o que a página mostra: dizer «Grupo C»
+    não informa ninguém; dizer com que dezasseis unidades a sua está a ser
+    comparada, sim.
+    """
+    info = grupos["por_instituicao"].get(inst_id)
+    if not info:
+        return None
+    pares = [i for i in grupos["membros"].get(info["atual"], []) if i != inst_id]
+    return {
+        "grupo": info["atual"],
+        "n_pares": len(pares),
+        "pares": [
+            {"id": i, "nome_curto": cw.por_id(i).nome_curto}
+            for i in pares
+            if cw.por_id(i) is not None
+        ],
+        "historico": info["por_ano"],
+        "definicao": grupos["definicao"],
+        "fonte": grupos["fonte"],
+    }
+
+
+def escrever(cw, fichas, nacional, por_indicador, grupos):
     dir_inst = DIR_SAIDA / "instituicao"
     dir_inst.mkdir(parents=True, exist_ok=True)
     extra = _enriquecimento()
@@ -663,6 +798,7 @@ def escrever(cw, fichas, nacional, por_indicador):
                 {"indisponivel": smr.get("instituicoes_sem_smr", {}).get(inst.id)}
                 if inst.id in smr.get("instituicoes_sem_smr", {}) else None
             ),
+            "grupo_comparacao": _grupo_da_ficha(cw, grupos, inst.id),
             "populacao": extra.get("populacao", {}).get("por_instituicao", {}).get(inst.id),
             "per_capita": extra.get("per_capita", {}).get(inst.id),
             "contratos": extra.get("contratos", {}).get(inst.id),
@@ -690,6 +826,9 @@ def escrever(cw, fichas, nacional, por_indicador):
                 # homepage desenha com elas o mapa do país; sem isto ficariam
                 # a servir apenas a ficha individual.
                 "geo": inst.geo,
+                # O grupo vai também para o índice: é por ele que o painel
+                # filtra e ordena sem ter de abrir as 43 fichas.
+                "grupo_acss": grupos["por_instituicao"].get(inst.id, {}).get("atual"),
                 "n_indicadores": sum(
                     1 for d in indicadores_inst.values() if d["valor"] is not None
                 ),
@@ -712,14 +851,22 @@ def main() -> int:
     con = duckdb.connect()
     cw = carregar()
     indicadores = carregar_indicadores()
-    catalogo = json.loads(FICHEIRO_CATALOGO.read_text(encoding="utf-8"))
+    catalogo = carregar_catalogo()
 
-    fichas, nacional, por_indicador = construir(con, cw, indicadores, catalogo)
-    indice = escrever(cw, fichas, nacional, por_indicador)
+    grupos = carregar_grupos(cw)
+
+    fichas, nacional, por_indicador = construir(con, cw, indicadores, catalogo, grupos)
+    indice = escrever(cw, fichas, nacional, por_indicador, grupos)
 
     print(f"{len(indice)} fichas de instituição escritas em {DIR_SAIDA}")
     print(f"{len(indicadores)} indicadores; nacional.json com "
           f"{sum(1 for v in nacional.values() if v['valor'] is not None)} valores")
+    if grupos["por_instituicao"]:
+        print(f"  grupos de comparação da ACSS em {len(grupos['por_instituicao'])} "
+              f"unidades, {len(grupos['membros'])} grupos")
+    if grupos["sem_resolucao"]:
+        print(f"  {len(grupos['sem_resolucao'])} nomes da ACSS sem entidade canónica: "
+              f"{', '.join(grupos['sem_resolucao'][:3])}")
     sem_dados = [i.id for i in cw.instituicoes if i.id not in fichas]
     if sem_dados:
         print(f"  {len(sem_dados)} entidades sem indicadores: {', '.join(sem_dados)}")

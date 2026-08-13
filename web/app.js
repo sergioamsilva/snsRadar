@@ -29,6 +29,11 @@ function fmt(v, unidade) {
   switch (unidade) {
     case "percentagem": return nf(1, 1).format(v) + " %";
     case "dias": return nf(0, 1).format(v) + " dias";
+    // Taxas de segurança do doente. A escala faz parte da leitura: «1,8 por mil
+    // internamentos» diz o que «0,2 %» esconde — e é a unidade em que a ACSS
+    // define o indicador.
+    case "por_1000": return nf(1, 2).format(v) + " ‰";
+    case "por_100000": return nf(0, 0).format(v) + " por 100 mil";
     case "euros":
       return Math.abs(v) >= 1e6 ? nf(1, 1).format(v / 1e6) + " M€"
            : Math.abs(v) >= 1e3 ? nf(0, 0).format(v / 1e3) + " mil €"
@@ -115,7 +120,11 @@ function agregar(i, j) {
 function valorDe(meta, num, den) {
   if (den === null || den === undefined) return meta.taxa && !meta.soma ? num : num;
   if (den < LIMIAR) return null;               // denominador pequeno: a taxa seria ruído
-  const v = meta.u === "percentagem" ? (100 * num) / den : num / den;
+  // `fat` é o multiplicador da taxa, e vem do indicador. As taxas de segurança
+  // da ACSS são por mil ou por cem mil episódios, não percentagens. Mesma regra
+  // do lado Python — ver ingest/build.py::_valor.
+  const fator = meta.fat != null ? meta.fat : (meta.u === "percentagem" ? 100 : 1);
+  const v = (fator * num) / den;
   // Acima do máximo plausível o denominador está errado, não o hospital: a
   // lotação da ULS da Lezíria em janeiro de 2014 dá 3 684% de ocupação. Mesma
   // regra do lado Python — ver ingest/build.py::_valor.
@@ -257,12 +266,45 @@ function linha(cont, pontos, meta, opts = {}) {
   cont.append(svg);
 }
 
-/** Dispersão: uma unidade por ponto, ordenada. */
+/** A mediana de um conjunto de valores. */
+const medianaDe = (vals) => {
+  const s = [...vals].sort((a, b) => a - b);
+  return s.length ? s[Math.floor(s.length / 2)] : null;
+};
+
+/**
+ * Dispersão: uma unidade por ponto, ordenada — e repartida pelos grupos de
+ * comparação da ACSS.
+ *
+ * Uma lista única das 43 unidades ordenadas por valor põe o IPO do Porto três
+ * linhas acima da ULS da Guarda e convida a lê-las como concorrentes. Não são:
+ * a ACSS agrupa-as por semelhança de custo, e é dentro do grupo que a
+ * comparação se aguenta. O eixo é o mesmo em todos os grupos — são pequenos
+ * múltiplos, não escalas diferentes —, e cada grupo traz a sua mediana ao lado
+ * da nacional.
+ */
 function dispersao(cont, linhas, meta, mediana) {
   cont.textContent = "";
   if (!linhas.length) { cont.innerHTML = '<p class="desc">Sem unidades com dados no período.</p>'; return; }
-  const ord = [...linhas].sort((a, b) => b.valor - a.valor);
-  const W = 1000, LH = 21, TOPO = 10, H = ord.length * LH + TOPO + 30, M = { l: 220, r: 60 };
+
+  // Agrupa só quando toda a gente tem grupo; senão, a lista corrida de sempre.
+  const porGrupo = new Map();
+  const temGrupos = linhas.every((d) => d.inst.gr);
+  if (temGrupos) {
+    for (const d of linhas) {
+      if (!porGrupo.has(d.inst.gr)) porGrupo.set(d.inst.gr, []);
+      porGrupo.get(d.inst.gr).push(d);
+    }
+  }
+  const blocos = temGrupos
+    ? [...porGrupo.entries()].sort(([a], [b]) => a.localeCompare(b))
+        .map(([nome, ds]) => ({ nome, ds: ds.sort((a, b) => b.valor - a.valor) }))
+    : [{ nome: null, ds: [...linhas].sort((a, b) => b.valor - a.valor) }];
+
+  const ord = blocos.flatMap((b) => b.ds);
+  const CAB = 26;  // altura da faixa que abre cada grupo
+  const W = 1000, LH = 21, TOPO = 22, M = { l: 220, r: 60 };
+  const H = ord.length * LH + blocos.filter((b) => b.nome).length * CAB + TOPO + 30;
   const vals = ord.map((d) => d.valor);
   if (meta.ref) {
     const amp = Math.max(...vals) - Math.min(...vals);
@@ -273,8 +315,6 @@ function dispersao(cont, linhas, meta, mediana) {
   }
   const [lo, hi] = escala(vals, meta.u);
   const x = (v) => M.l + ((v - lo) / (hi - lo)) * (W - M.l - M.r);
-  const bom = (v) => meta.p === "neutro" ? null
-    : (meta.p === "subir_e_bom" ? v >= mediana : v <= mediana);
 
   const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
   svg.setAttribute("aria-label",
@@ -293,8 +333,41 @@ function dispersao(cont, linhas, meta, mediana) {
     r.textContent = meta.ref.rotulo || "referência"; svg.append(r);
   }
 
+  let linha = 0;
+  for (const bloco of blocos) {
+    if (bloco.nome) {
+      const yCab = TOPO + linha * LH + 14;
+      const cab = svgEl("text", { x: 0, y: yCab, class: "ax" });
+      cab.setAttribute("font-weight", "700");
+      cab.textContent = `${bloco.nome} · ${bloco.ds.length} unidades`;
+      svg.append(cab);
+      const med = medianaDe(bloco.ds.map((d) => d.valor));
+      if (med !== null) {
+        // Mediana do grupo: um segmento que abrange só as linhas do grupo, para
+        // não se confundir com a nacional, que atravessa o gráfico todo.
+        svg.append(svgEl("line", {
+          x1: x(med), x2: x(med),
+          y1: yCab + 6, y2: yCab + 6 + bloco.ds.length * LH,
+          stroke: "var(--accent)", "stroke-width": 2, opacity: 0.55,
+        }));
+        const t = svgEl("text", { x: x(med) + 6, y: yCab, class: "ax", fill: "var(--accent)" });
+        t.textContent = "mediana do grupo " + fmt(med, meta.u);
+        svg.append(t);
+      }
+      linha += CAB / LH;
+    }
+    dispersaoLinhas(svg, bloco.ds, { x, meta, mediana, W, M, LH, TOPO, base: linha });
+    linha += bloco.ds.length;
+  }
+  cont.append(svg);
+}
+
+/** As linhas de um bloco da dispersão. Extraído para o desenho não repetir. */
+function dispersaoLinhas(svg, ord, { x, meta, mediana, W, M, LH, TOPO, base }) {
+  const bom = (v) => meta.p === "neutro" ? null
+    : (meta.p === "subir_e_bom" ? v >= mediana : v <= mediana);
   ord.forEach((d, k) => {
-    const yy = TOPO + k * LH + 12;
+    const yy = TOPO + (base + k) * LH + 12;
     const nome = svgEl("text", { x: M.l - 10, y: yy + 4, class: "ax", "text-anchor": "end" });
     nome.textContent = d.inst.n.length > 34 ? d.inst.n.slice(0, 33) + "…" : d.inst.n;
     svg.append(nome);
@@ -314,7 +387,6 @@ function dispersao(cont, linhas, meta, mediana) {
       $("#sec-hospital").scrollIntoView({ behavior: "smooth" }); });
     svg.append(g);
   });
-  cont.append(svg);
 }
 
 /* ── dica ───────────────────────────────────────────────────────────────── */

@@ -9,13 +9,17 @@
  * cesarianas — uma régua de leitura, não uma meta: ver a nota que a acompanha).
  */
 import Serie from "./Serie.astro";
+import Funil from "./Funil.astro";
+import Ranking from "./Ranking.astro";
 import {
   comparar,
   descreverPeriodo,
   formatar,
   formatarData,
   formatarMes,
+  type Barra,
   type Indicador as TIndicador,
+  type PontoFunil,
 } from "../lib/dados";
 
 interface Props {
@@ -28,9 +32,24 @@ interface Props {
   medianaPorMil?: number | null;
   /** Percentis nacionais por mês, para a faixa de fundo do gráfico. */
   faixa?: { mes: string; p25: number; p50: number; p75: number }[];
+  /**
+   * Mediana do grupo de comparação da ACSS a que a unidade pertence. É a
+   * comparação mais justa das duas: a mediana nacional põe um IPO ao lado de
+   * uma ULS distrital, e nenhuma das duas devia ser lida contra a outra.
+   */
+  medianaGrupo?: { grupo: string; mediana: number; n_instituicoes: number } | null;
+  /** Id da instituição desta ficha — o ponto a destacar nos gráficos de conjunto. */
+  id_instituicao?: string;
+  /** Numerador e denominador de todas as unidades, para o gráfico de funil. */
+  funil?: PontoFunil[] | null;
+  /** Volume de todas as unidades, para o ordenamento. */
+  ranking?: Barra[] | null;
+  /** Multiplicador da taxa; o funil precisa dele para desenhar na mesma escala. */
+  fator?: number | null;
 }
 const { id, dados, mediana, descontinuidade, porMil = null, medianaPorMil = null,
-  faixa = [] } = Astro.props;
+  faixa = [], medianaGrupo = null, id_instituicao = "", funil = null,
+  ranking = null, fator = null } = Astro.props;
 
 /* A forma do desenho segue a natureza do dado, não a conveniência: uma taxa
    compara-se com o país, uma contagem é um volume discreto, e um saldo
@@ -46,6 +65,18 @@ const forma: "taxa" | "contagem" | "saldo" =
 const janelaDe = dados.periodo.includes("..") ? dados.periodo.split("..")[0] : null;
 
 const cmp = comparar(dados.valor, mediana, dados.polaridade, dados.unidade);
+
+/* A mesma comparação, contra os pares do grupo de financiamento. Só aparece
+   quando diz algo que a nacional não diz — se as duas medianas coincidem, uma
+   segunda linha com o mesmo veredito é ruído. */
+const cmpGrupo = medianaGrupo
+  ? comparar(dados.valor, medianaGrupo.mediana, dados.polaridade, dados.unidade)
+  : null;
+const grupoAcrescenta =
+  cmpGrupo !== null &&
+  medianaGrupo !== null &&
+  mediana !== null &&
+  Math.abs(medianaGrupo.mediana - mediana) > Math.abs(mediana) * 0.03;
 
 /* Meses que a fonte publicou a zero sem os ter apurado. Quando levam a janela
    toda, o cartão fica sem valor — e é a nota que explica porquê, em vez de um
@@ -147,6 +178,18 @@ const dataFonte = dados.fonte.atualizado
         </p>
       )
     }
+    {
+      grupoAcrescenta && medianaGrupo !== null && (
+        <p class={`ind__cmp ind__cmp--${cmpGrupo!.estado} ind__cmp--grupo`}>
+          <span class="ind__sinal" aria-hidden="true">{cmpGrupo!.seta}</span>
+          {cmpGrupo!.texto.replace("da mediana nacional", "")}
+          {`da mediana do ${medianaGrupo.grupo}`}
+          <span class="ind__cmp-nota">
+            {` (${medianaGrupo.n_instituicoes} unidades semelhantes: ${formatar(medianaGrupo.mediana, dados.unidade)})`}
+          </span>
+        </p>
+      )
+    }
   </div>
 
   {
@@ -236,6 +279,23 @@ const dataFonte = dados.fonte.atualizado
     janelaDe={janelaDe}
   />
 
+  {/* Formas que a série mensal não substitui. O funil responde a «este valor
+      distingue-se do acaso?», que é a única pergunta legítima num indicador de
+      acontecimentos raros; o ordenamento responde a «quantas destas se fazem
+      aqui?», que é a única legítima num volume cirúrgico. */}
+  {funil && funil.length >= 8 && (
+    <Funil
+      pontos={funil}
+      destaque={id_instituicao}
+      unidade={dados.unidade}
+      fator={fator ?? 100}
+      titulo={dados.titulo}
+    />
+  )}
+  {ranking && ranking.length >= 3 && (
+    <Ranking barras={ranking} destaque={id_instituicao} titulo={dados.titulo} />
+  )}
+
   {
     lacuna && (
       <p class="ind__lacuna">
@@ -321,6 +381,11 @@ const dataFonte = dados.fonte.atualizado
   .ind__cmp--melhor { color: var(--pos-texto); }
   .ind__cmp--pior { color: var(--neg-texto); }
   .ind__cmp--semelhante, .ind__cmp--neutro { color: var(--muted); }
+  /* A comparação entre pares vem a seguir à nacional e um degrau abaixo dela:
+     é a mais justa das duas, mas é também a que precisa de contexto para se
+     perceber, e não deve competir com o número grande. */
+  .ind__cmp--grupo { margin-top: 3px; font-size: var(--t-2xs); font-weight: 600; }
+  .ind__cmp-nota { color: var(--muted); font-weight: 400; }
 
   .ind__percapita { margin: 8px 0 0; font-size: var(--t-xs); color: var(--ink); }
   .ind__percapita strong { font-size: var(--t-lg); font-weight: 700; }

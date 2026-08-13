@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Indicador from "../../components/Indicador.astro";
+import Declive from "../../components/Declive.astro";
 import Contexto from "../../components/Contexto.astro";
 import Movimento from "../../components/Movimento.astro";
 import Veredito from "../../components/Veredito.astro";
@@ -36,6 +37,75 @@ for (const iid of Object.keys(f.per_capita?.por_mil ?? {})) {
     .sort((a, b) => a - b);
   if (vals.length) medianasPorMil[iid] = vals[Math.floor(vals.length / 2)];
 }
+
+/* Formas de conjunto: os indicadores em que a série mensal e a régua não
+   respondem à pergunta certa.
+
+   · Segurança — acontecimentos raros com denominadores muito desiguais. A
+     pergunta é «isto distingue-se do acaso?», e a resposta é um funil.
+   · Volume cirúrgico — a pergunta é «quantas destas se fazem aqui, por ano?»,
+     e a resposta é um ordenamento do país inteiro.
+
+   Ambas precisam de todas as unidades, e não só desta; `todasFichas` já está
+   carregada acima para as medianas per capita. */
+const COM_FUNIL = new Set(
+  Object.entries(nac)
+    .filter(([, n]) => n.grupo === "seguranca")
+    .map(([iid]) => iid),
+);
+const COM_RANKING = new Set(
+  Object.keys(nac).filter((iid) => iid.startsWith("volume-")),
+);
+const FATOR: Record<string, number> = {
+  por_1000: 1000,
+  por_100000: 100000,
+  percentagem: 100,
+};
+
+const pontosFunil = (iid: string) =>
+  todasFichas
+    .map((x) => ({
+      id: x.id,
+      nome_curto: x.nome_curto,
+      numerador: x.indicadores[iid]?.numerador ?? 0,
+      denominador: x.indicadores[iid]?.denominador ?? 0,
+    }))
+    .filter((p) => p.denominador > 0);
+
+const barrasRanking = (iid: string) =>
+  todasFichas
+    .filter((x) => (x.indicadores[iid]?.valor ?? 0) > 0)
+    .map((x) => ({
+      id: x.id,
+      nome_curto: x.nome_curto,
+      valor: x.indicadores[iid]!.valor as number,
+    }));
+
+/* O declive das cesarianas. Aparece uma só vez, no fim da secção de qualidade,
+   porque o que mostra não é um indicador — é a relação entre dois. */
+const paresCesarianas = todasFichas
+  .filter(
+    (x) =>
+      x.indicadores["cesarianas"]?.valor != null &&
+      x.indicadores["cesarianas-unifetal-termo"]?.valor != null,
+  )
+  .map((x) => ({
+    id: x.id,
+    nome_curto: x.nome_curto,
+    de: x.indicadores["cesarianas"]!.valor as number,
+    para: x.indicadores["cesarianas-unifetal-termo"]!.valor as number,
+  }));
+
+/* Mediana do grupo de comparação da ACSS, para o indicador pedido. Só existe
+   onde o grupo tem cinco unidades com valor — abaixo disso a mediana seria uma
+   referência feita de duas ou três unidades, e cada uma pesaria demasiado na
+   régua contra a qual está a ser lida. */
+const grupoDaUnidade = f.grupo_comparacao?.grupo ?? null;
+const medianaDoGrupo = (iid: string) => {
+  if (!grupoDaUnidade) return null;
+  const m = nac[iid]?.mediana_por_grupo?.[grupoDaUnidade];
+  return m ? { grupo: grupoDaUnidade, ...m } : null;
+};
 
 /* Amplitude da série mais longa — a prova de que o crosswalk fez o seu
    trabalho, e o argumento para o leitor confiar no gráfico. */
@@ -102,8 +172,39 @@ const SECCOES = [
                   : f.tipo}
           </dd>
         </div>
+        {
+          f.grupo_comparacao && (
+            <div>
+              <dt>Compara-se com</dt>
+              <dd class="num">{f.grupo_comparacao.n_pares} unidades</dd>
+            </div>
+          )
+        }
       </dl>
     </header>
+
+    {
+      f.grupo_comparacao && (
+        <aside class="pares">
+          <h2>{f.grupo_comparacao.grupo} — com quem esta unidade se compara</h2>
+          <p class="pares__texto">
+            A mediana de todas as instituições do país põe um instituto de
+            oncologia ao lado de uma unidade local, e nenhuma das duas devia ser
+            lida contra a outra. A ACSS agrupa as instituições por semelhança de
+            custo, e é dentro do {f.grupo_comparacao.grupo} que esta unidade tem
+            pares: {f.grupo_comparacao.pares.map((p) => p.nome_curto).join(", ")}.
+          </p>
+          <p class="pares__nota">
+            {f.grupo_comparacao.definicao}{" "}
+            {f.grupo_comparacao.fonte && (
+              <a href={f.grupo_comparacao.fonte} rel="nofollow noopener">
+                Benchmarking Hospitalar da ACSS
+              </a>
+            )}
+          </p>
+        </aside>
+      )
+    }
 
     {
       f.descontinuidade && (
@@ -171,8 +272,23 @@ const SECCOES = [
               porMil={f.per_capita?.por_mil?.[iid] ?? null}
               medianaPorMil={medianasPorMil[iid] ?? null}
               faixa={nac[iid]?.faixa ?? []}
+              medianaGrupo={medianaDoGrupo(iid)}
+              id_instituicao={f.id}
+              funil={COM_FUNIL.has(iid) ? pontosFunil(iid) : null}
+              ranking={COM_RANKING.has(iid) ? barrasRanking(iid) : null}
+              fator={FATOR[d.unidade] ?? null}
             />
           ))}
+          {g.id === "qualidade" && paresCesarianas.some((p) => p.id === f.id) && (
+            <Declive
+              pares={paresCesarianas}
+              destaque={f.id}
+              rotuloDe="todos os partos"
+              rotuloPara="termo, feto único, cefálico"
+              titulo="Porque é que a taxa sobe quando se olha para o grupo de menor risco"
+              nota="A causa está no indicador de partos vaginais após cesariana, acima: quem já teve uma cesariana volta quase sempre a tê-la, e esses partos são de termo, unifetais e cefálicos."
+            />
+          )}
         </section>
       ))
     }
@@ -279,6 +395,14 @@ const SECCOES = [
   .historia__texto { margin: 0; font-size: var(--t-xs); }
   .historia__nota { margin: 4px 0 0; font-size: var(--t-xs); color: var(--ink-2); }
   .historia__lei { margin: 4px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+
+  .pares {
+    border: 1px solid var(--border); background: var(--surface);
+    border-radius: 10px; padding: 16px 18px; margin: 18px 0 0;
+  }
+  .pares h2 { font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 12px; }
+  .pares__texto { margin: 0; font-size: var(--t-xs); }
+  .pares__nota { margin: 8px 0 0; font-size: var(--t-2xs); color: var(--muted); }
   .historia__aviso {
     margin: 0; padding-top: 12px; border-top: 1px solid var(--grid);
     font-size: var(--t-xs); color: var(--ink-2);

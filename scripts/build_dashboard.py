@@ -32,10 +32,11 @@ import duckdb  # noqa: E402
 from build import (  # noqa: E402
     LIMIAR_DENOMINADOR,
     _nao_somavel,
+    carregar_catalogo,
+    carregar_grupos,
     carregar_indicadores,
     extrair_series,
 )
-from catalog import FICHEIRO_CATALOGO  # noqa: E402
 from instituicoes import carregar  # noqa: E402
 
 # Prefixo do sítio publicado. O portal vive numa subpasta do GitHub Pages, e não
@@ -85,7 +86,8 @@ def construir_payload():
     con = duckdb.connect()
     cw = carregar()
     indicadores = carregar_indicadores()
-    catalogo = json.loads(FICHEIRO_CATALOGO.read_text(encoding="utf-8"))
+    catalogo = carregar_catalogo()
+    grupos = carregar_grupos(cw)
 
     series, _ = extrair_series(con, cw, indicadores, catalogo)
 
@@ -147,6 +149,9 @@ def construir_payload():
                 # os gráficos marcam-na e as comparações têm de a respeitar.
                 "q": i.data_descontinuidade,
                 "fus": i.e_fusao,
+                # Grupo de comparação da ACSS: é por ele que o painel oferece a
+                # comparação entre pares, ao lado da comparação com o país.
+                "gr": grupos["por_instituicao"].get(i.id, {}).get("atual"),
                 "sucessao": [
                     {"data": str(x["data"]), "lei": x["base_legal"], "de": x.get("de", [])}
                     for x in i.sucessao
@@ -161,6 +166,10 @@ def construir_payload():
                 "g": ind["grupo"],
                 "u": ind["unidade"],
                 "p": ind["polaridade"],
+                # Multiplicador da taxa. Tem de acompanhar build._valor: se as
+                # duas implementações divergirem aqui, o painel mostra sépsis a
+                # 0,0004 e o sítio a 42, e verificar_coerencia.mjs falha.
+                "fat": ind.get("fator"),
                 "desc": ind.get("descricao"),
                 "cau": ind.get("cautela"),
                 "ref": ind.get("referencia"),

@@ -12,8 +12,14 @@ export type Ponto = {
 
 export type Indicador = {
   titulo: string;
-  grupo: "acesso" | "qualidade" | "capacidade" | "dinheiro";
-  unidade: "percentagem" | "contagem" | "dias" | "euros";
+  grupo: "acesso" | "qualidade" | "seguranca" | "capacidade" | "dinheiro";
+  unidade:
+    | "percentagem"
+    | "contagem"
+    | "dias"
+    | "euros"
+    | "por_1000"
+    | "por_100000";
   polaridade: "subir_e_bom" | "subir_e_mau" | "neutro";
   descricao: string | null;
   cautela: string | null;
@@ -37,6 +43,25 @@ export type Indicador = {
     atualizado: string;
     url: string;
   };
+};
+
+/** Uma unidade num gráfico de funil: a taxa lê-se contra a sua própria dimensão. */
+export type PontoFunil = {
+  id: string;
+  nome_curto: string;
+  numerador: number;
+  denominador: number;
+};
+
+/** Uma unidade num ordenamento por volume. */
+export type Barra = { id: string; nome_curto: string; valor: number };
+
+/** Uma unidade num gráfico de declive, entre duas medidas relacionadas. */
+export type ParDeclive = {
+  id: string;
+  nome_curto: string;
+  de: number;
+  para: number;
 };
 
 export type Sucessao = {
@@ -70,6 +95,19 @@ export type Ficha = {
     data: string;
     e_fusao: boolean;
     sucessao: Sucessao[];
+  } | null;
+  /**
+   * Grupo de financiamento da ACSS, e as unidades com que esta é comparada
+   * dentro dele. É o segundo termo de comparação da ficha: a mediana nacional
+   * junta o IPO do Porto com a ULS da Guarda, esta não.
+   */
+  grupo_comparacao: {
+    grupo: string;
+    n_pares: number;
+    pares: { id: string; nome_curto: string }[];
+    historico: Record<string, string>;
+    definicao: string | null;
+    fonte: string | null;
   } | null;
   indicadores: Record<string, Indicador>;
   mortalidade_ajustada: MortalidadeAjustada | null;
@@ -120,6 +158,11 @@ export type Nacional = Record<
     numerador: number;
     denominador: number | null;
     mediana_instituicoes: number | null;
+    /** A mesma mediana dentro de cada grupo da ACSS, quando há 5 ou mais. */
+    mediana_por_grupo: Record<
+      string,
+      { mediana: number; n_instituicoes: number }
+    >;
     n_instituicoes: number;
     /** Percentis 25/50/75 entre as unidades, mês a mês. */
     faixa: { mes: string; p25: number; p50: number; p75: number }[];
@@ -149,6 +192,8 @@ export const indice = (): {
   tipo: string;
   /** Coordenadas curadas à mão; todas as unidades do SNS são do continente. */
   geo: { lat: number; lon: number } | null;
+  /** Grupo de financiamento da ACSS, para agrupar sem abrir cada ficha. */
+  grupo_acss: string | null;
   n_indicadores: number;
 }[] => ler("instituicoes.json");
 
@@ -173,6 +218,11 @@ export const ficha = (id: string): Ficha => ler(`instituicao/${id}.json`);
 export const GRUPOS = [
   { id: "acesso", titulo: "Acesso", legenda: "Quanto se espera para ser atendido" },
   { id: "qualidade", titulo: "Qualidade", legenda: "Resultados dos cuidados prestados" },
+  {
+    id: "seguranca",
+    titulo: "Segurança",
+    legenda: "Danos que o internamento causou, e não a doença",
+  },
   { id: "capacidade", titulo: "Capacidade", legenda: "Meios humanos e atividade" },
   { id: "dinheiro", titulo: "Dinheiro", legenda: "Contas e pagamentos a fornecedores" },
 ] as const;
@@ -190,6 +240,12 @@ export function formatar(valor: number | null, unidade: string): string {
       return `${nf(1, 1).format(valor)} %`;
     case "dias":
       return `${nf(0, 1).format(valor)} dias`;
+    // Taxas de segurança do doente, na escala em que a ACSS as define. «1,8 por
+    // mil internamentos» diz o que «0,2 %» esconde.
+    case "por_1000":
+      return `${nf(1, 2).format(valor)} ‰`;
+    case "por_100000":
+      return `${nf(0, 0).format(valor)} por 100 mil`;
     case "euros":
       // «3806,0 M€» obriga a contar os dígitos para perceber a ordem de
       // grandeza. Com o registo completo do IMPIC os totais por instituição

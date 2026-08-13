@@ -1,0 +1,136 @@
+---
+/**
+ * Gráfico de declive: a mesma unidade em duas medidas relacionadas.
+ *
+ * Existe para uma pergunta concreta, que nenhum dos dois números responde
+ * sozinho. A taxa de cesarianas em gravidezes de termo, com um só feto de cabeça
+ * para baixo — o grupo que se esperaria ser o de menor risco — é **mais alta**
+ * do que a taxa global em 35 das 37 maternidades do país.
+ *
+ * Não é um paradoxo, é aritmética: quem já teve uma cesariana volta quase sempre
+ * a tê-la, e esses partos são de termo, unifetais e cefálicos — caem todos
+ * dentro do segundo grupo. A mediana nacional de partos vaginais após cesariana
+ * é zero.
+ *
+ * Todas as unidades desenhadas, esta em destaque e as outras em cinzento: é a
+ * forma de ênfase, e o que ela mostra é que a subida não é desta maternidade, é
+ * do país.
+ */
+import type { ParDeclive } from "../lib/dados";
+
+interface Props {
+  pares: ParDeclive[];
+  destaque: string;
+  rotuloDe: string;
+  rotuloPara: string;
+  titulo: string;
+  nota?: string;
+}
+const { pares, destaque, rotuloDe, rotuloPara, titulo, nota = "" } = Astro.props;
+
+/* Unidades grandes pela mesma razão do funil: o SVG é escalado à largura da
+   coluna, e num viewBox pequeno a tipografia chega ao ecrã ampliada. */
+const L = 12, R = 12, T = 32, B = 30, W = 640, H = 340;
+const px = W - L - R, py = H - T - B;
+const x1 = L + px * 0.26, x2 = L + px * 0.74;
+
+const vals = pares.flatMap((p) => [p.de, p.para]);
+const lo = Math.max(0, Math.min(...vals) - 3);
+const hi = Math.max(...vals) + 3;
+const ly = (v: number) => T + py - (py * (v - lo)) / (hi - lo || 1);
+
+const eu = pares.find((p) => p.id === destaque);
+const outros = pares.filter((p) => p.id !== destaque);
+
+const mediana = (xs: number[]) => {
+  const s = [...xs].sort((a, b) => a - b);
+  return s.length ? s[Math.floor(s.length / 2)] : 0;
+};
+const medDe = mediana(pares.map((p) => p.de));
+const medPara = mediana(pares.map((p) => p.para));
+const sobem = pares.filter((p) => p.para > p.de).length;
+
+const pc = (v: number) =>
+  `${new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(v)} %`;
+---
+
+<figure class="declive">
+  <figcaption class="declive__tit">{titulo}</figcaption>
+
+  <svg
+    class="declive__svg"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    preserveAspectRatio="xMidYMid meet"
+    aria-label={
+      `Gráfico de declive entre ${rotuloDe} e ${rotuloPara}, ${pares.length} unidades. ` +
+      `Mediana nacional: ${pc(medDe)} e ${pc(medPara)}. Sobe em ${sobem} das ${pares.length} unidades. ` +
+      (eu ? `Esta unidade: ${pc(eu.de)} e ${pc(eu.para)}.` : "")
+    }
+  >
+    <line class="declive__eixo" x1={x1} x2={x1} y1={T} y2={T + py} />
+    <line class="declive__eixo" x1={x2} x2={x2} y1={T} y2={T + py} />
+
+    {
+      outros.map((p) => (
+        <line
+          class="declive__linha"
+          x1={x1} y1={ly(p.de)} x2={x2} y2={ly(p.para)}
+        />
+      ))
+    }
+
+    <line
+      class="declive__linha declive__linha--mediana"
+      x1={x1} y1={ly(medDe)} x2={x2} y2={ly(medPara)}
+    />
+
+    {
+      eu && (
+        <>
+          <line class="declive__linha declive__linha--eu" x1={x1} y1={ly(eu.de)} x2={x2} y2={ly(eu.para)} />
+          <circle class="declive__ponto" cx={x1} cy={ly(eu.de)} r="6" />
+          <circle class="declive__ponto" cx={x2} cy={ly(eu.para)} r="6" />
+          <text class="declive__valor" x={x1 - 12} y={ly(eu.de) + 4} text-anchor="end">{pc(eu.de)}</text>
+          <text class="declive__valor" x={x2 + 12} y={ly(eu.para) + 4} text-anchor="start">{pc(eu.para)}</text>
+        </>
+      )
+    }
+
+    <text class="declive__eixo-rot" x={x1} y={T - 10} text-anchor="middle">{rotuloDe}</text>
+    <text class="declive__eixo-rot" x={x2} y={T - 10} text-anchor="middle">{rotuloPara}</text>
+    {/* O rótulo da mediana só entra se não bater no valor da unidade em
+        destaque. Quando as duas linhas quase coincidem — e coincidem, porque a
+        maioria das maternidades está perto da mediana — dois rótulos no mesmo
+        sítio leem-se como um só, ilegível. A mediana está escrita na nota. */}
+    {(!eu || Math.abs(ly(medPara) - ly(eu.para)) > 16) && (
+      <text class="declive__mediana-rot" x={x2 + 12} y={ly(medPara) + 4} text-anchor="start">
+        mediana
+      </text>
+    )}
+  </svg>
+
+  <p class="declive__nota">
+    Sobe em <strong>{sobem} das {pares.length}</strong> maternidades do país: a
+    mediana passa de {pc(medDe)} para {pc(medPara)}. {nota}
+  </p>
+</figure>
+
+<style>
+  .declive { margin: 14px 0 0; }
+  .declive__tit { font-size: var(--t-2xs); color: var(--ink-2); font-weight: 600; margin-bottom: 6px; }
+  .declive__svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  .declive__eixo { stroke: var(--border); stroke-width: 1; }
+  /* Contexto: todas as outras unidades, recuadas. O peso é do dado em destaque. */
+  .declive__linha { stroke: var(--ink-2); stroke-width: 1; opacity: 0.25; }
+  .declive__linha--mediana { stroke: var(--ink-2); stroke-width: 2; opacity: 0.75; }
+  .declive__linha--eu { stroke: var(--accent); stroke-width: 2; opacity: 1; }
+  .declive__ponto { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+
+  .declive__valor { font-size: 13px; fill: var(--accent-texto); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .declive__mediana-rot { font-size: 11px; fill: var(--muted); }
+  .declive__eixo-rot { font-size: 12px; fill: var(--muted); }
+
+  .declive__nota { margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted); }
+</style>

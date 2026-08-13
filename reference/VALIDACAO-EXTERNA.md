@@ -117,3 +117,71 @@ cautela correspondente na ficha.
 - INE / ERS, dados de partos e cesarianas por setor, 2024.
 - ACSS, dados de partos no SNS em 2025, citados pela imprensa em fevereiro de 2026.
 - INE / PORDATA, *SNS: pessoal ao serviço nos hospitais — Continente*, 2023.
+
+---
+
+## Benchmarking Hospitalar da ACSS — o confronto mais fundo que existe
+
+As âncoras acima confrontam **totais nacionais** com números que terceiros
+publicaram. Este confronto é de outra ordem: compara **cada instituição em cada
+mês** com a mesma realidade apurada por outro caminho.
+
+A razão pela qual isto vale mais do que qualquer outra verificação: o Portal da
+Transparência publica séries **acumuladas no ano** e a ACSS publica os mesmos
+factos **mês a mês**. A des-acumulação — a correção de que tudo depende, e que
+transformaria 64 505 partos em 413 728 se estivesse errada — é exatamente a
+operação que liga uma série à outra. Se falhasse, não falharia um valor:
+falhariam todos.
+
+Automatizado em `tests/test_benchmarking_acss.py`.
+
+### Resultado, a perímetro igual
+
+| Indicador | Pares (unidade, mês) | Coincidem |
+|---|---:|---:|
+| Partos por cesariana | 5 691 | **100,0 %** |
+| Fratura da anca operada em 48 h | 3 345 | **100,0 %** |
+| Cirurgia de ambulatório | 5 988 | **100,0 %** |
+| Lista de espera dentro do TMRG | 3 636 | **100,0 %** |
+| Demora média antes da cirurgia | 6 014 | **100,0 %** |
+| 1.as consultas em tempo adequado | 6 043 | 99,4 % |
+
+Não é só a taxa que coincide: nas cesarianas e na fratura da anca, o
+**numerador e o denominador de cada mês** coincidem a 100 %.
+
+### O que «a perímetro igual» quer dizer
+
+Contando tudo, os números descem para 94,9 % a 100 %. A diferença tem uma
+explicação única, e verificável: seis unidades em que o snsRadar soma rótulos
+que a ACSS nunca benchmarkou.
+
+O Benchmarking cobre entidades hospitalares EPE e PPP. A reforma de 2024 fez as
+ULS absorverem também unidades que nunca lá estiveram:
+
+| Entidade | O que o snsRadar soma a mais, antes de 2024 |
+|---|---|
+| ULS de São José | Centro Hospitalar Psiquiátrico de Lisboa, Instituto Gama Pinto |
+| ULS de Coimbra | Rovisco Pais, Hospital Arcebispo João Crisóstomo |
+| ULS da Região de Aveiro | Hospital Dr. Francisco Zagalo |
+
+Nenhum dos dois lados está errado. O snsRadar reconstrói o perímetro **de hoje**
+para trás no tempo, que é o que responde à pergunta de quem lê — «o meu
+hospital»; a ACSS mostra a entidade que benchmarkava então. O nosso número é
+legitimamente maior, e o teste separa as duas coisas em vez de as somar numa
+tolerância.
+
+### Totais anuais de cesarianas
+
+| Ano | snsRadar | ACSS | Razão |
+|---|---:|---:|---:|
+| 2019 | 20 550 | 20 630 | 0,996 |
+| 2023 | 20 998 | 21 436 | 0,980 |
+| 2025 | 21 983 | 22 035 | 0,998 |
+
+### Universo de instituições
+
+Os **85 nomes** que a ACSS usa ao longo de treze anos resolvem, pelo crosswalk,
+para as **43 entidades canónicas** do snsRadar — e a lista de grupos que a ACSS
+publica tem exatamente essas 43 unidades. É a verificação que faltava ao
+crosswalk: até aqui sabia-se que resolvia os nomes do portal, não que conhecia
+as mesmas instituições que o organismo que financia o SNS.

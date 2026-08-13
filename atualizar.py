@@ -65,6 +65,14 @@ def main() -> int:
         tempos.append(("contratos IMPIC", passo(
             "Descarregar o registo de contratos do IMPIC",
             [str(PY), "ingest/impic.py", "--descarregar"])))
+        # O Benchmarking da ACSS é a segunda fonte de indicadores: traz a
+        # dimensão de segurança do doente, o volume cirúrgico e as métricas por
+        # doente padrão, que o portal não publica — e os grupos de comparação.
+        # As exportações já descarregadas ficam em cache; só se pedem de novo as
+        # que faltam.
+        tempos.append(("benchmarking ACSS", passo(
+            "Descarregar o Benchmarking Hospitalar da ACSS",
+            [str(PY), "ingest/benchmarking_acss.py"])))
         tempos.append(("snapshot", passo(
             "Registar hashes e validar contra a fonte",
             [str(PY), "ingest/snapshot.py"])))
@@ -99,7 +107,8 @@ def main() -> int:
             ["npx", "astro", "build"], cwd=RAIZ / "site")))
 
     if not args.sem_testes:
-        for nome in ("test_crosswalk", "test_build", "test_validacao_externa"):
+        for nome in ("test_crosswalk", "test_build", "test_validacao_externa",
+                     "test_benchmarking_acss"):
             tempos.append((nome, passo(
                 f"Verificar: {nome}", [str(PY), f"tests/{nome}.py"])))
 
