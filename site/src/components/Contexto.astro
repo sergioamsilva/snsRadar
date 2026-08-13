@@ -14,6 +14,7 @@ interface Props {
 }
 const { ficha } = Astro.props;
 const { mortalidade_ajustada: smr, populacao, contratos } = ficha;
+const poupancas = ficha.poupancas_estimadas;
 
 const nf = (min: number, max: number) =>
   new Intl.NumberFormat("pt-PT", { minimumFractionDigits: min, maximumFractionDigits: max });
@@ -31,7 +32,7 @@ const classe = !smr?.significativo ? "neutro" : smr.smr! > 1 ? "acima" : "abaixo
 ---
 
 {
-  (smr || populacao || contratos) && (
+  (smr || populacao || contratos || poupancas) && (
     <section class="ctx">
       {smr && smr.smr !== undefined && (
         <article class={`ctx__cartao ctx__cartao--${classe}`}>
@@ -98,6 +99,62 @@ const classe = !smr?.significativo ? "neutro" : smr.smr! > 1 ? "acima" : "abaixo
             É a população pela qual esta unidade é responsável, e o denominador
             que torna as contagens comparáveis entre unidades de dimensão
             diferente.
+          </p>
+        </article>
+      )}
+
+      {/* A estimativa é da ACSS e diz-se de quem é logo no título do cartão. O
+          cálculo assume que a unidade mais eficiente do grupo é alvo atingível
+          para as outras — uma escolha de política, não um facto que os dados
+          imponham. E está datado no próprio texto porque a ACSS deixou de o
+          fazer para as ULS depois da reforma. */}
+      {poupancas && (
+        <article class="ctx__cartao">
+          <h3>Poupança estimada pela ACSS</h3>
+          {/* Poupança zero não é ausência de dado: é a unidade que serve de
+              metro ao seu grupo. Anunciar «0 €» como número grande dizia o
+              contrário do que o valor significa. */}
+          {poupancas.poupanca_estimada === 0 ? (
+            <>
+              <p class="ctx__valor">A mais eficiente</p>
+              <p class="ctx__leitura">
+                do {poupancas.grupo}, em gastos operacionais por doente padrão,
+                em {poupancas.ano}. É contra esta unidade que a ACSS calcula a
+                poupança possível das outras do grupo
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="ctx__valor num">
+                {formatar(poupancas.poupanca_estimada, "euros")}
+              </p>
+              <p class="ctx__leitura">
+                é o que a ACSS estimava, em {poupancas.ano}, que esta unidade
+                pouparia em gastos operacionais se igualasse a mais eficiente do
+                {" "}{poupancas.grupo}
+              </p>
+            </>
+          )}
+          {poupancas.poupanca_estimada !== 0 &&
+            poupancas.resultado_operacional !== null &&
+            poupancas.resultado_potencial !== null && (
+            <p class="ctx__detalhe num">
+              resultado operacional de {formatar(poupancas.resultado_operacional, "euros")},
+              que passaria a {formatar(poupancas.resultado_potencial, "euros")}
+            </p>
+          )}
+          <p class="ctx__nota">
+            Estimativa da ACSS, indicativa e não cumulativa: reflete o
+            posicionamento face à unidade mais eficiente do grupo, não uma
+            medida de desperdício. A unidade mais eficiente tem, por construção,
+            poupança zero.
+            {poupancas.descontinuado_desde && (
+              <>
+                {" "}A ACSS deixou de fazer este cálculo para as Unidades Locais
+                de Saúde depois da reforma de 2024 — {poupancas.ano} é o último
+                ano em que cobriu o sistema.
+              </>
+            )}
           </p>
         </article>
       )}

@@ -133,6 +133,20 @@ export type Ficha = {
    * conjunto. Serve para confrontar segurança com mortalidade ajustada, que são
    * dois métodos independentes de medir resultado.
    */
+  /**
+   * O que a ACSS estima que esta unidade pouparia se igualasse a mais eficiente
+   * do seu grupo. É uma afirmação da ACSS, não do snsRadar — e a ACSS deixou de
+   * a calcular para as ULS depois da reforma de 2024.
+   */
+  poupancas_estimadas: {
+    ano: string;
+    grupo: string;
+    poupanca_estimada: number;
+    resultado_operacional: number | null;
+    resultado_potencial: number | null;
+    fonte: string;
+    descontinuado_desde: string | null;
+  } | null;
   indice_seguranca: {
     z_medio: number;
     n_indicadores: number;

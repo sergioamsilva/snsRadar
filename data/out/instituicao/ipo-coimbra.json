@@ -38,6 +38,15 @@
     "n_indicadores": 4,
     "fora_do_funil": 0
   },
+  "poupancas_estimadas": {
+    "ano": "2023",
+    "grupo": "Grupo F",
+    "poupanca_estimada": 7224375,
+    "resultado_operacional": -17054977,
+    "resultado_potencial": -9830602,
+    "fonte": "ACSS, Benchmarking Hospitalar — dimensão Económico-Financeira",
+    "descontinuado_desde": "2025-12"
+  },
   "contratos": {
     "fonte": "IMPIC · Portal BASE",
     "desde": "2013",

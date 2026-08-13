@@ -151,7 +151,7 @@ const descricao = `Indicadores de acesso, qualidade, capacidade e contas da ${f.
    sem contratos nem população não leva entrada de contexto, e uma sem qualquer
    indicador comparável não leva leitura de conjunto. */
 const temContexto = Boolean(
-  f.mortalidade_ajustada || f.populacao || f.contratos,
+  f.mortalidade_ajustada || f.populacao || f.contratos || f.poupancas_estimadas,
 );
 const temVeredito = comparacoes(f, nac).linhas.length > 0;
 

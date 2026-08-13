@@ -500,3 +500,47 @@ ano. Três centros fazem 43 % das do país; há unidades com um caso anual.
 por valor punha o IPO do Porto a três linhas da ULS da Guarda. Passou a pequenos
 múltiplos por grupo de financiamento, com o mesmo eixo em todos e a mediana de
 cada grupo ao lado da nacional.
+
+## 24. A ACSS deixou de estimar poupanças para as ULS
+
+A exportação económico-financeira traz, ao lado do valor de cada indicador, três
+colunas que o painel mostra mas que ninguém publica em série: **poupanças
+estimadas**, resultado operacional e resultado operacional potencial. É o
+cálculo da própria ACSS do que cada instituição pouparia se igualasse a mais
+eficiente do seu grupo.
+
+Ao ligá-lo, a cobertura revelou-se descontínua:
+
+| Ano | Unidades com poupança estimada |
+|---|---:|
+| 2020 a 2023 | 33 a 34 |
+| **2024** | **3** |
+| **2025** | **3** |
+| 2026 (até maio) | 3 |
+
+As três são os institutos de oncologia — as únicas entidades que a reforma de
+2024 não transformou em ULS. Para as restantes quarenta, a ACSS deixou de
+publicar o cálculo, e a razão está escrita na sua própria abordagem
+metodológica: com a integração dos cuidados de saúde primários, «os resultados
+dos indicadores Económico-Financeiros não são comparáveis com os anos
+anteriores».
+
+Não é um defeito da exportação. É a fonte a suspender um cálculo, e a suspensão
+é ela própria uma perda de transparência que vale a pena registar: entre 2020 e
+2023 era possível saber quanto a ACSS estimava que cada hospital pudesse poupar;
+a partir de 2024 já não é, para 93 % das unidades.
+
+**O que o portal faz.** Publica o último ano em que o cálculo cobriu o sistema —
+2023, 34 unidades, 1 450 M€ no conjunto — com o ano no próprio texto do cartão e
+a descontinuação declarada a seguir. Publicar 2025 seria descrever o país com
+três unidades; não publicar nada seria deixar cair um dado que existiu.
+
+**O que não se faz.** Somar as poupanças das várias tipologias de custo. A ACSS
+avisa que são «indicativas e não cumulativas» — cada uma reflete o mesmo
+posicionamento medido por outra via, e somá-las contaria a mesma poupança
+várias vezes. Fica só a dos gastos operacionais, que é o total.
+
+**Nota sobre a série mensal.** A descontinuidade é só do cálculo anual das
+poupanças. O doente padrão mensal continua a ser publicado para as 43 unidades
+em 2024, 2025 e 2026 — é por isso que os contratos por doente padrão cobrem o
+sistema inteiro e as poupanças estimadas não.

@@ -87,6 +87,15 @@
     "n_indicadores": 6,
     "fora_do_funil": 1
   },
+  "poupancas_estimadas": {
+    "ano": "2023",
+    "grupo": "Grupo E",
+    "poupanca_estimada": 95922939,
+    "resultado_operacional": -62702780,
+    "resultado_potencial": 33220159,
+    "fonte": "ACSS, Benchmarking Hospitalar — dimensão Económico-Financeira",
+    "descontinuado_desde": "2025-12"
+  },
   "contratos": {
     "fonte": "IMPIC · Portal BASE",
     "desde": "2012",
@@ -164,7 +173,7 @@
       {
         "ano": "2025",
         "contratos": 5090,
-        "valor": 517768005
+        "valor": 517768004
       },
       {
         "ano": "2026",
@@ -228,7 +237,7 @@
       "acrescimo": -461756
     },
     "por_doente_padrao": {
-      "valor_contratado": 1452540414,
+      "valor_contratado": 1452540413,
       "doente_padrao": 354570,
       "euros_por_doente_padrao": 4096.6,
       "periodo": "2024..2026",

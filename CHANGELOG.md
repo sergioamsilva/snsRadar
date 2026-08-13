@@ -18,6 +18,28 @@ código que não mexem em valores ficam no histórico de commits, que neste proj
 
 ## 14 de agosto de 2026
 
+### Perguntas novas
+
+Três, na página de perguntas: **«já tive uma cesariana, posso ter parto
+normal?»**, **«vou ser operado a uma cirurgia complexa»** e **«o hospital onde
+vou ser internado é seguro?»**.
+
+A da segurança responde-se de forma diferente das outras: em vez de ordenar as
+unidades do distrito por uma taxa, conta **quantos dos seis indicadores de
+segurança saem dos limites de 99,8 %**. Ordenar hospitais por acontecimentos com
+mediana de dois casos produziria um ranking de ruído — é o que o gráfico de
+funil da ficha existe para evitar, e seria contraditório fazê-lo ali.
+
+### Camada nova: poupanças estimadas pela ACSS
+
+O cálculo da própria ACSS do que cada unidade pouparia se igualasse a mais
+eficiente do seu grupo, atribuído sem ambiguidade e datado. Publica-se **2023**,
+o último ano em que cobriu o sistema: a partir de 2024 a ACSS só o mantém para
+os três institutos de oncologia, porque com a integração dos cuidados primários
+os indicadores económico-financeiros deixaram de ser comparáveis. A
+descontinuação está registada em [`reference/NOTAS.md`](reference/NOTAS.md),
+secção 24 — é ela própria uma perda de transparência.
+
 ### Correções a números que estiveram publicados
 
 - **Gastos operacionais por utente inscrito** — o cartão mostrava `118 €` com o

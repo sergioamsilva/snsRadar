@@ -880,6 +880,7 @@ def escrever(cw, fichas, nacional, por_indicador, grupos):
             "populacao": extra.get("populacao", {}).get("por_instituicao", {}).get(inst.id),
             "per_capita": extra.get("per_capita", {}).get(inst.id),
             "indice_seguranca": extra.get("indice_seguranca", {}).get(inst.id),
+            "poupancas_estimadas": extra.get("poupancas_estimadas", {}).get(inst.id),
             # As compras por doente padrão vão dentro do bloco dos contratos, e
             # não ao lado: é a mesma coisa noutra escala, e separá-las convidava
             # a lê-las como grandezas independentes.

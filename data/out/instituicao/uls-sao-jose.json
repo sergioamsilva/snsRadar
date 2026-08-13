@@ -79,6 +79,15 @@
     "n_indicadores": 6,
     "fora_do_funil": 2
   },
+  "poupancas_estimadas": {
+    "ano": "2023",
+    "grupo": "Grupo E",
+    "poupanca_estimada": 128454833,
+    "resultado_operacional": -46856855,
+    "resultado_potencial": 81597978,
+    "fonte": "ACSS, Benchmarking Hospitalar — dimensão Económico-Financeira",
+    "descontinuado_desde": "2025-12"
+  },
   "contratos": {
     "fonte": "IMPIC · Portal BASE",
     "desde": "2012",
@@ -17287,8 +17296,8 @@
         },
         {
           "mes": "2020-01",
-          "valor": 41598656.85,
-          "numerador": 41598656.85,
+          "valor": 41598656.849999994,
+          "numerador": 41598656.849999994,
           "denominador": null
         },
         {
@@ -17347,8 +17356,8 @@
         },
         {
           "mes": "2020-11",
-          "valor": 51111320.64,
-          "numerador": 51111320.64,
+          "valor": 51111320.64000001,
+          "numerador": 51111320.64000001,
           "denominador": null
         },
         {
@@ -17371,8 +17380,8 @@
         },
         {
           "mes": "2021-03",
-          "valor": 51958004.38,
-          "numerador": 51958004.38,
+          "valor": 51958004.379999995,
+          "numerador": 51958004.379999995,
           "denominador": null
         },
         {
@@ -17383,8 +17392,8 @@
         },
         {
           "mes": "2021-05",
-          "valor": 66280908.83,
-          "numerador": 66280908.83,
+          "valor": 66280908.830000006,
+          "numerador": 66280908.830000006,
           "denominador": null
         },
         {
@@ -17425,8 +17434,8 @@
         },
         {
           "mes": "2021-12",
-          "valor": 40683202.12,
-          "numerador": 40683202.12,
+          "valor": 40683202.120000005,
+          "numerador": 40683202.120000005,
           "denominador": null
         },
         {
@@ -17437,14 +17446,14 @@
         },
         {
           "mes": "2022-02",
-          "valor": 31194745.540000003,
-          "numerador": 31194745.540000003,
+          "valor": 31194745.54,
+          "numerador": 31194745.54,
           "denominador": null
         },
         {
           "mes": "2022-03",
-          "valor": 32870729.790000003,
-          "numerador": 32870729.790000003,
+          "valor": 32870729.79,
+          "numerador": 32870729.79,
           "denominador": null
         },
         {
@@ -17461,8 +17470,8 @@
         },
         {
           "mes": "2022-06",
-          "valor": 71354802.14,
-          "numerador": 71354802.14,
+          "valor": 71354802.13999999,
+          "numerador": 71354802.13999999,
           "denominador": null
         },
         {
@@ -17497,8 +17506,8 @@
         },
         {
           "mes": "2022-12",
-          "valor": -4265941.71,
-          "numerador": -4265941.71,
+          "valor": -4265941.709999999,
+          "numerador": -4265941.709999999,
           "denominador": null
         },
         {
@@ -17539,8 +17548,8 @@
         },
         {
           "mes": "2023-07",
-          "valor": 53728268.18,
-          "numerador": 53728268.18,
+          "valor": 53728268.18000001,
+          "numerador": 53728268.18000001,
           "denominador": null
         },
         {
@@ -17551,14 +17560,14 @@
         },
         {
           "mes": "2023-09",
-          "valor": 55132001.70999999,
-          "numerador": 55132001.70999999,
+          "valor": 55132001.71,
+          "numerador": 55132001.71,
           "denominador": null
         },
         {
           "mes": "2023-10",
-          "valor": 105727878.32000001,
-          "numerador": 105727878.32000001,
+          "valor": 105727878.32,
+          "numerador": 105727878.32,
           "denominador": null
         },
         {
@@ -17569,8 +17578,8 @@
         },
         {
           "mes": "2023-12",
-          "valor": 8705926.21,
-          "numerador": 8705926.21,
+          "valor": 8705926.209999999,
+          "numerador": 8705926.209999999,
           "denominador": null
         },
         {
@@ -18207,8 +18216,8 @@
         },
         {
           "mes": "2020-02",
-          "valor": 103649723.32,
-          "numerador": 103649723.32,
+          "valor": 103649723.32000001,
+          "numerador": 103649723.32000001,
           "denominador": null
         },
         {
@@ -18225,14 +18234,14 @@
         },
         {
           "mes": "2020-05",
-          "valor": 95012648.8,
-          "numerador": 95012648.8,
+          "valor": 95012648.80000001,
+          "numerador": 95012648.80000001,
           "denominador": null
         },
         {
           "mes": "2020-06",
-          "valor": 103110462.38000001,
-          "numerador": 103110462.38000001,
+          "valor": 103110462.38,
+          "numerador": 103110462.38,
           "denominador": null
         },
         {
@@ -18249,14 +18258,14 @@
         },
         {
           "mes": "2020-09",
-          "valor": 111544017.17999999,
-          "numerador": 111544017.17999999,
+          "valor": 111544017.18,
+          "numerador": 111544017.18,
           "denominador": null
         },
         {
           "mes": "2020-10",
-          "valor": 107321251.12,
-          "numerador": 107321251.12,
+          "valor": 107321251.11999999,
+          "numerador": 107321251.11999999,
           "denominador": null
         },
         {
@@ -18273,8 +18282,8 @@
         },
         {
           "mes": "2021-01",
-          "valor": 101744380.84,
-          "numerador": 101744380.84,
+          "valor": 101744380.83999999,
+          "numerador": 101744380.83999999,
           "denominador": null
         },
         {
@@ -18297,14 +18306,14 @@
         },
         {
           "mes": "2021-05",
-          "valor": 117181159.0,
-          "numerador": 117181159.0,
+          "valor": 117181159.00000001,
+          "numerador": 117181159.00000001,
           "denominador": null
         },
         {
           "mes": "2021-06",
-          "valor": 124349419.66999999,
-          "numerador": 124349419.66999999,
+          "valor": 124349419.67,
+          "numerador": 124349419.67,
           "denominador": null
         },
         {
@@ -18357,8 +18366,8 @@
         },
         {
           "mes": "2022-03",
-          "valor": 91614320.78,
-          "numerador": 91614320.78,
+          "valor": 91614320.77999999,
+          "numerador": 91614320.77999999,
           "denominador": null
         },
         {
@@ -18375,8 +18384,8 @@
         },
         {
           "mes": "2022-06",
-          "valor": 111376031.38,
-          "numerador": 111376031.38,
+          "valor": 111376031.38000001,
+          "numerador": 111376031.38000001,
           "denominador": null
         },
         {
@@ -18387,14 +18396,14 @@
         },
         {
           "mes": "2022-08",
-          "valor": 83596986.3,
-          "numerador": 83596986.3,
+          "valor": 83596986.30000001,
+          "numerador": 83596986.30000001,
           "denominador": null
         },
         {
           "mes": "2022-09",
-          "valor": 85621074.88000001,
-          "numerador": 85621074.88000001,
+          "valor": 85621074.88,
+          "numerador": 85621074.88,
           "denominador": null
         },
         {
@@ -18429,14 +18438,14 @@
         },
         {
           "mes": "2023-03",
-          "valor": 100813541.15,
-          "numerador": 100813541.15,
+          "valor": 100813541.14999999,
+          "numerador": 100813541.14999999,
           "denominador": null
         },
         {
           "mes": "2023-04",
-          "valor": 107118807.72,
-          "numerador": 107118807.72,
+          "valor": 107118807.71999998,
+          "numerador": 107118807.71999998,
           "denominador": null
         },
         {
@@ -18447,8 +18456,8 @@
         },
         {
           "mes": "2023-06",
-          "valor": 116356399.42,
-          "numerador": 116356399.42,
+          "valor": 116356399.41999999,
+          "numerador": 116356399.41999999,
           "denominador": null
         },
         {

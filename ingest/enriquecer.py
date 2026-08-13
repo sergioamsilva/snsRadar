@@ -300,6 +300,102 @@ def compras_por_doente_padrao(contratos: dict, doente_padrao: dict) -> dict:
     return saida
 
 
+def poupancas_estimadas(cw) -> dict[str, dict]:
+    """O que a ACSS estima que cada unidade pouparia igualando o melhor do grupo.
+
+    É uma afirmação da ACSS, não do snsRadar, e a distinção não é formalidade:
+    o cálculo assume que a instituição mais eficiente do grupo é um alvo
+    atingível para as outras, e isso é uma escolha de política — não um facto
+    que os dados imponham. Aqui reproduz-se com a atribuição à vista.
+
+    Três ressalvas, todas da própria ACSS ou verificáveis no ficheiro:
+
+      · **Não é cumulativa.** A exportação traz poupanças estimadas para várias
+        tipologias de custo, e somá-las contaria a mesma poupança várias vezes.
+        Fica só a dos gastos operacionais, que é o total.
+      · **Refletem posicionamento, não desperdício.** A ACSS escreve-o na sua
+        abordagem metodológica: são indicativas.
+      · **A unidade mais eficiente do grupo tem poupança zero por construção.**
+        Não quer dizer que não tenha margem; quer dizer que é o metro.
+
+    E uma quarta, que é da fonte e não do método: **a ACSS deixou de calcular
+    isto para as ULS.** Até 2023 publicava as poupanças estimadas para 34
+    unidades; a partir de 2024 só para os três institutos de oncologia — os
+    únicos que a reforma não transformou. A própria abordagem metodológica da
+    ACSS avisa que, com a integração dos cuidados primários, os indicadores
+    económico-financeiros deixaram de ser comparáveis com os anos anteriores.
+
+    Por isso publica-se o último ano em que o cálculo cobriu o sistema, e
+    não o mais recente: um valor apurado em três unidades não descreve o país.
+    O ano vai no próprio texto, porque três anos é tempo que chegue para o
+    leitor merecer sabê-lo.
+    """
+    caminho = DIR_BRUTO / "bh-acss-_anual.csv.gz"
+    if not caminho.exists():
+        return {}
+
+    import csv
+    import gzip
+
+    INDICADOR = "Cust_Opr_Doente_Padrao_SNCAP"
+    linhas = []
+    with gzip.open(caminho, "rt", encoding="utf-8", newline="") as f:
+        for linha in csv.DictReader(f, delimiter=";"):
+            if linha["indicador"] != INDICADOR or not linha["extra_g"]:
+                continue
+            linhas.append(linha)
+    if not linhas:
+        return {}
+
+    # O último dezembro em que o cálculo cobre o sistema, e não o último
+    # dezembro. Cobrir o sistema é, aqui, ter mais de metade das unidades que
+    # alguma vez tiveram este cálculo.
+    por_dezembro: dict[str, int] = {}
+    for l in linhas:
+        if l["tempo"][5:7] == "12":
+            por_dezembro[l["tempo"][:7]] = por_dezembro.get(l["tempo"][:7], 0) + 1
+    if not por_dezembro:
+        return {}
+    cobertura_maxima = max(por_dezembro.values())
+    completos = [m for m, n in por_dezembro.items() if n >= cobertura_maxima * 0.5]
+    if not completos:
+        return {}
+    periodo = max(completos)
+    descontinuado = max(por_dezembro) if max(por_dezembro) != periodo else None
+
+    def numero(v):
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            return None
+
+    saida = {}
+    for linha in linhas:
+        if linha["tempo"][:7] != periodo:
+            continue
+        inst = cw.resolver(linha["instituicao"])
+        if inst is None:
+            continue
+        poupanca = numero(linha["extra_g"])
+        resultado = numero(linha["extra_h"])
+        potencial = numero(linha["extra_i"])
+        if poupanca is None:
+            continue
+        saida[inst.id] = {
+            "ano": periodo[:4],
+            "grupo": linha["grupo"],
+            "poupanca_estimada": round(poupanca),
+            "resultado_operacional": round(resultado) if resultado is not None else None,
+            "resultado_potencial": round(potencial) if potencial is not None else None,
+            "fonte": "ACSS, Benchmarking Hospitalar — dimensão Económico-Financeira",
+            # Preenchido quando a ACSS continua a publicar o cálculo, mas só
+            # para uma minoria de unidades. Diz ao leitor que o número que está
+            # a ver é o último que descreveu o sistema, não o último que existe.
+            "descontinuado_desde": descontinuado,
+        }
+    return saida
+
+
 def indice_seguranca(fichas: list[dict]) -> dict[str, dict]:
     """Resume os seis indicadores de segurança do doente num só número.
 
@@ -373,6 +469,7 @@ def main() -> int:
     triagem = triagem_nacional(con, cw)
     verificacao_contratos = conferir_contratos(contratos, cw)
     doente_padrao = doente_padrao_por_instituicao(cw)
+    poupancas = poupancas_estimadas(cw)
     compras = compras_por_doente_padrao(contratos, doente_padrao)
 
     # Taxas por mil habitantes, a partir das fichas já construídas.
@@ -409,6 +506,7 @@ def main() -> int:
                 "contratos_verificacao": verificacao_contratos,
                 "compras_por_doente_padrao": compras,
                 "indice_seguranca": seguranca,
+                "poupancas_estimadas": poupancas,
                 "triagem_nacional": triagem,
             },
             ensure_ascii=False,
@@ -422,6 +520,14 @@ def main() -> int:
     print(f"população: {len(inscritos)} unidades, "
           f"{sum(v['inscritos'] for v in inscritos.values()):,} utentes inscritos")
     print(f"taxas per capita: {len(per_capita)} unidades")
+    if poupancas:
+        tot = sum(v["poupanca_estimada"] for v in poupancas.values())
+        ano = next(iter(poupancas.values()))["ano"]
+        desc = next(iter(poupancas.values()))["descontinuado_desde"]
+        print(f"poupanças estimadas pela ACSS em {ano}: {len(poupancas)} unidades, "
+              f"{tot / 1e6:,.0f} M€ no conjunto"
+              + (f" — a fonte deixou de as calcular para as ULS (último: {desc})"
+                 if desc else ""))
     if seguranca:
         fora = sum(1 for v in seguranca.values() if v["fora_do_funil"])
         print(f"índice de segurança: {len(seguranca)} unidades; "

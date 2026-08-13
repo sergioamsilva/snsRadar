@@ -52,6 +52,42 @@ const PERGUNTAS = [
     cautela:
       "Não é uma medida de espera nem de qualidade: uma proporção alta pode indicar boa filtragem da procura não urgente, ou uma população mais doente. Para saber a espera de agora, consulte o portal oficial de tempos de espera.",
   },
+  {
+    id: "vbac",
+    icone: "nascimento",
+    atalho: "Parto após cesariana",
+    pergunta: "Já tive uma cesariana. Posso ter parto normal?",
+    indicador: "parto-vaginal-apos-cesariana",
+    explica:
+      "Entre as grávidas de termo, com um só feto de cabeça para baixo e uma cesariana anterior, a proporção que teve parto vaginal. Em Portugal a mediana das maternidades é zero: na prática, a primeira cesariana decide todos os partos seguintes.",
+    cautela:
+      "Nem toda a mulher com cesariana anterior é candidata a parto vaginal, e a escolha informada da grávida é uma razão legítima para não o tentar. Um valor alto não é, por si, melhor cuidado — mas um valor de zero diz que a possibilidade não está a ser oferecida a ninguém.",
+  },
+  {
+    id: "alto-risco",
+    icone: "hospital",
+    atalho: "Cirurgia de alto risco",
+    pergunta: "Vou ser operado a uma cirurgia complexa.",
+    indicador: "volume-ressecao-pancreas",
+    explica:
+      "Quantas resseções do pâncreas cada unidade faz por ano. É das cirurgias com relação mais documentada entre o número de casos que um centro trata e o risco de morrer de quem lá é operado. Na ficha de cada instituição estão as outras cinco cirurgias de alto risco.",
+    cautela:
+      "É uma contagem, não uma medida de resultado: um volume baixo não diz que aquele hospital opera mal, diz que opera poucas vezes. E esta escolha raramente é do doente — é da referenciação. Serve para perguntar onde vai ser operado, e porquê.",
+  },
+  {
+    id: "seguranca",
+    icone: "aviso",
+    atalho: "Segurança",
+    pergunta: "O hospital onde vou ser internado é seguro?",
+    // Esta pergunta não se responde com um valor nem com um lugar numa lista.
+    // Ver `modo` mais abaixo, e a nota que acompanha a secção.
+    modo: "veredito",
+    indicador: "ulceras-pressao",
+    explica:
+      "Seis indicadores medem danos causados pelo internamento e não pela doença: úlceras de pressão, infeções por cateter, sépsis e tromboses depois de operar, lacerações graves no parto. São acontecimentos raros, e é isso que muda a forma da resposta.",
+    cautela:
+      "Um valor mais alto pode significar pior cuidado ou apenas melhor registo — um hospital que codifica as suas úlceras aparece pior do que um que as não regista. E a maior parte das diferenças entre unidades não se distingue do acaso: é por isso que aqui se conta quantos indicadores saem do esperado, em vez de ordenar hospitais por uma taxa.",
+  },
 ] as const;
 
 /** Unidades por distrito, com o valor de cada pergunta. */
@@ -67,6 +103,7 @@ const dados = distritos.map((distrito) => ({
       id: f.id,
       nome: f.nome_curto,
       semMedico: f.populacao?.percentagem_sem_medico ?? null,
+      seguranca: f.indice_seguranca ?? null,
       valores: Object.fromEntries(
         PERGUNTAS.map((q) => [q.id, f.indicadores[q.indicador]?.valor ?? null]),
       ),
@@ -132,13 +169,43 @@ const semMdfNacional = todas.reduce(
           <p class="q__explica">{q.explica}</p>
           <div class="q__resposta">
             {dados.map((d) => {
-              const com = d.unidades.filter((u) => u.valores[q.id] !== null);
+              /* A segurança é a única pergunta cuja resposta não é o valor do
+                 indicador. Ordenar 43 hospitais por acontecimentos que têm
+                 mediana de dois casos produz um ranking de ruído — é o que o
+                 gráfico de funil da ficha existe para evitar, e seria
+                 contraditório fazê-lo aqui. Conta-se, em vez disso, quantos dos
+                 seis indicadores saem dos limites de 99,8 %. */
+              const com =
+                q.modo === "veredito"
+                  ? d.unidades.filter((u) => u.seguranca !== null)
+                  : d.unidades.filter((u) => u.valores[q.id] !== null);
               return (
                 <div class="q__distrito" data-distrito-bloco={d.distrito}>
                   <h3 class="q__rotulo">{d.distrito}</h3>
                   {com.length ? (
                     <ul class="rs">
                       {com.map((u) => {
+                        if (q.modo === "veredito") {
+                          const s = u.seguranca!;
+                          const fora = s.fora_do_funil;
+                          return (
+                            <li class="r">
+                              <span class="r__nome">
+                                <a href={ligacao(`/instituicao/${u.id}/`)}>{u.nome}</a>
+                              </span>
+                              <span class={`r__valor num ${fora ? "neg" : "neu"}`}>
+                                {fora} de {s.n_indicadores}
+                              </span>
+                              <span class="r__nota">
+                                {fora === 0
+                                  ? "nenhum indicador fora do esperado"
+                                  : fora === 1
+                                    ? "um indicador fora do esperado"
+                                    : `${fora} indicadores fora do esperado`}
+                              </span>
+                            </li>
+                          );
+                        }
                         const v = u.valores[q.id]!;
                         const med = medianas[q.id];
                         const pol = polaridades[q.id];

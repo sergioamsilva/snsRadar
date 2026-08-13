@@ -96,6 +96,7 @@
     "n_indicadores": 6,
     "fora_do_funil": 0
   },
+  "poupancas_estimadas": null,
   "contratos": {
     "fonte": "IMPIC · Portal BASE",
     "desde": "2013",
@@ -148,7 +149,7 @@
       {
         "ano": "2021",
         "contratos": 429,
-        "valor": 14547153
+        "valor": 14547154
       },
       {
         "ano": "2022",
