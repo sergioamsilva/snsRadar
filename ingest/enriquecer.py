@@ -202,6 +202,166 @@ def triagem_nacional(con, cw, meses: int = 12) -> dict:
     }
 
 
+def doente_padrao_por_instituicao(cw, anos: int = 3) -> dict[str, dict]:
+    """Produção ajustada à complexidade, por unidade, nos últimos anos.
+
+    O «doente padrão» é a métrica com que a ACSS converte atividade heterogénea
+    — internamentos, consultas, urgências, ambulatório — numa unidade única de
+    produção. Aqui serve um propósito que a ACSS não lhe dá: pôr os contratos
+    públicos numa escala comparável.
+
+    Sem ele, o que o snsRadar sabia dizer sobre compras era o valor absoluto (um
+    hospital central compra mais do que uma unidade local — e depois?) ou o
+    valor por habitante inscrito (que ignora quem trata doentes de fora e quem
+    trata casos complexos). Por doente padrão, a pergunta passa a ser a certa:
+    quanto custa comprar por unidade de produção ajustada.
+
+    Vem do denominador dos gastos operacionais por doente padrão, que é a série
+    de doente padrão que a ACSS exporta mês a mês.
+    """
+    caminho = DIR_BRUTO / "bh-acss-cust-opr-doente-padrao-sncap.csv.gz"
+    if not caminho.exists():
+        return {}
+
+    import csv
+    import gzip
+
+    limite = None
+    linhas: list[tuple[str, str, float]] = []
+    with gzip.open(caminho, "rt", encoding="utf-8", newline="") as f:
+        for linha in csv.DictReader(f, delimiter=";"):
+            try:
+                dp = float(linha["denominador"])
+            except (TypeError, ValueError):
+                continue
+            # Um doente padrão negativo é uma correção contabilística lançada
+            # num mês, não produção. Somá-la subtrairia atividade que existiu.
+            if dp <= 0:
+                continue
+            inst = cw.resolver(linha["instituicao"])
+            if inst is None:
+                continue
+            mes = linha["tempo"][:7]
+            limite = max(limite or mes, mes)
+            linhas.append((inst.id, mes, dp))
+
+    if not limite:
+        return {}
+    primeiro = f"{int(limite[:4]) - anos + 1}-01"
+
+    saida: dict[str, dict] = {}
+    for inst_id, mes, dp in linhas:
+        if mes < primeiro:
+            continue
+        alvo = saida.setdefault(inst_id, {"doente_padrao": 0.0, "meses": set()})
+        alvo["doente_padrao"] += dp
+        alvo["meses"].add(mes)
+
+    return {
+        k: {
+            "doente_padrao": round(v["doente_padrao"]),
+            "meses": len(v["meses"]),
+            "de": min(v["meses"]),
+            "a": max(v["meses"]),
+        }
+        for k, v in saida.items()
+        if len(v["meses"]) >= 12
+    }
+
+
+def compras_por_doente_padrao(contratos: dict, doente_padrao: dict) -> dict:
+    """Junta o registo de contratos do IMPIC à produção ajustada da ACSS.
+
+    Duas fontes que nunca se encontraram: uma é o registo de contratação
+    pública, a outra é o painel de benchmarking hospitalar. O único sítio onde
+    se tocam é a entidade canónica do crosswalk.
+
+    Só se calcula sobre o mesmo período de que há doente padrão — comparar
+    catorze anos de contratos com três de produção daria um número sem sentido.
+    """
+    saida = {}
+    for inst_id, dp in doente_padrao.items():
+        c = contratos.get(inst_id)
+        if not c or not c.get("cobertura_suficiente"):
+            continue
+        anos = {a["ano"] for a in c.get("por_ano", [])} & {
+            str(x) for x in range(int(dp["de"][:4]), int(dp["a"][:4]) + 1)
+        }
+        valor = sum(a["valor"] for a in c.get("por_ano", []) if a["ano"] in anos)
+        if not valor or not dp["doente_padrao"]:
+            continue
+        saida[inst_id] = {
+            "valor_contratado": round(valor),
+            "doente_padrao": dp["doente_padrao"],
+            "euros_por_doente_padrao": round(valor / dp["doente_padrao"], 1),
+            "periodo": f"{min(anos)}..{max(anos)}",
+            "anos": len(anos),
+        }
+    return saida
+
+
+def indice_seguranca(fichas: list[dict]) -> dict[str, dict]:
+    """Resume os seis indicadores de segurança do doente num só número.
+
+    Cada indicador é um acontecimento raro com denominadores muito desiguais, e
+    é por isso que a ficha os desenha em funil: a pergunta não é «qual é a
+    taxa», é «este valor distingue-se do acaso». O resumo aplica a mesma régua a
+    todos e faz a média:
+
+        z = (p − θ) / √(θ(1−θ)/n)
+
+    onde θ é a proporção do país. Um z médio de zero é uma unidade indistinguível
+    do conjunto; positivo, mais eventos do que o acaso explica.
+
+    Serve para uma pergunta que nenhum indicador responde sozinho: as unidades
+    que se destacam na segurança são as mesmas que se destacam na mortalidade
+    ajustada ao risco? São dois métodos independentes, e concordarem ou não é,
+    em qualquer dos casos, informação.
+    """
+    import math
+
+    ids = [
+        iid
+        for iid in (
+            "ulceras-pressao",
+            "infecao-cateter-venoso-central",
+            "sepsis-pos-operatoria",
+            "embolia-trombose-pos-operatoria",
+            "laceracoes-parto-instrumentado",
+            "laceracoes-parto-nao-instrumentado",
+        )
+        if any(iid in f["indicadores"] for f in fichas)
+    ]
+
+    zs: dict[str, list[float]] = collections.defaultdict(list)
+    for iid in ids:
+        pontos = [
+            (f["id"], f["indicadores"][iid]["numerador"], f["indicadores"][iid]["denominador"])
+            for f in fichas
+            if iid in f["indicadores"] and f["indicadores"][iid].get("denominador")
+        ]
+        total_den = sum(d for _, _, d in pontos)
+        total_num = sum(n for _, n, _ in pontos)
+        if not total_den:
+            continue
+        theta = total_num / total_den
+        for inst_id, num, den in pontos:
+            se = math.sqrt(theta * (1 - theta) / den) if den else 0
+            if se:
+                zs[inst_id].append((num / den - theta) / se)
+
+    return {
+        inst_id: {
+            "z_medio": round(sum(v) / len(v), 2),
+            "n_indicadores": len(v),
+            # Fora do funil de 99,8 % — o mesmo limiar que a ficha desenha.
+            "fora_do_funil": sum(1 for z in v if abs(z) > 3.09),
+        }
+        for inst_id, v in zs.items()
+        if len(v) >= 3
+    }
+
+
 def main() -> int:
     garantir_dirs()
     con = duckdb.connect()
@@ -212,12 +372,18 @@ def main() -> int:
     contratos = contratos_por_instituicao(con, cw)
     triagem = triagem_nacional(con, cw)
     verificacao_contratos = conferir_contratos(contratos, cw)
+    doente_padrao = doente_padrao_por_instituicao(cw)
+    compras = compras_por_doente_padrao(contratos, doente_padrao)
 
     # Taxas por mil habitantes, a partir das fichas já construídas.
     dir_inst = DIR_SAIDA / "instituicao"
+    todas_fichas = [
+        json.loads(f.read_text(encoding="utf-8"))
+        for f in sorted(dir_inst.glob("*.json"))
+    ]
+    seguranca = indice_seguranca(todas_fichas)
     per_capita: dict[str, dict] = {}
-    for ficheiro in sorted(dir_inst.glob("*.json")):
-        ficha = json.loads(ficheiro.read_text(encoding="utf-8"))
+    for ficha in todas_fichas:
         pop = inscritos.get(ficha["id"], {}).get("inscritos")
         if not pop:
             continue
@@ -241,6 +407,8 @@ def main() -> int:
                 "per_capita": per_capita,
                 "contratos": contratos,
                 "contratos_verificacao": verificacao_contratos,
+                "compras_por_doente_padrao": compras,
+                "indice_seguranca": seguranca,
                 "triagem_nacional": triagem,
             },
             ensure_ascii=False,
@@ -254,6 +422,15 @@ def main() -> int:
     print(f"população: {len(inscritos)} unidades, "
           f"{sum(v['inscritos'] for v in inscritos.values()):,} utentes inscritos")
     print(f"taxas per capita: {len(per_capita)} unidades")
+    if seguranca:
+        fora = sum(1 for v in seguranca.values() if v["fora_do_funil"])
+        print(f"índice de segurança: {len(seguranca)} unidades; "
+              f"{fora} com pelo menos um indicador fora do funil")
+    if compras:
+        vals = sorted(v["euros_por_doente_padrao"] for v in compras.values())
+        print(f"compras por doente padrão: {len(compras)} unidades, "
+              f"mediana {vals[len(vals) // 2]:,.0f} € por doente padrão "
+              f"({vals[0]:,.0f} a {vals[-1]:,.0f})")
     if contratos:
         amostra = next(iter(contratos.values()))
         publicaveis = sum(1 for v in contratos.values() if v["cobertura_suficiente"])

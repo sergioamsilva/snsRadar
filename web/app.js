@@ -34,6 +34,8 @@ function fmt(v, unidade) {
     // define o indicador.
     case "por_1000": return nf(1, 2).format(v) + " ‰";
     case "por_100000": return nf(0, 0).format(v) + " por 100 mil";
+    case "por_1000_dias": return nf(0, 1).format(v) + " por 1000 dias";
+    case "racio": return nf(2, 2).format(v);
     case "euros":
       return Math.abs(v) >= 1e6 ? nf(1, 1).format(v / 1e6) + " M€"
            : Math.abs(v) >= 1e3 ? nf(0, 0).format(v / 1e3) + " mil €"

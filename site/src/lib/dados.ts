@@ -19,7 +19,8 @@ export type Indicador = {
     | "dias"
     | "euros"
     | "por_1000"
-    | "por_100000";
+    | "por_100000"
+    | "por_1000_dias";
   polaridade: "subir_e_bom" | "subir_e_mau" | "neutro";
   descricao: string | null;
   cautela: string | null;
@@ -62,6 +63,14 @@ export type ParDeclive = {
   nome_curto: string;
   de: number;
   para: number;
+};
+
+/** Uma unidade num cruzamento entre dois indicadores. */
+export type PontoCruzamento = {
+  id: string;
+  nome_curto: string;
+  x: number;
+  y: number;
 };
 
 export type Sucessao = {
@@ -118,6 +127,17 @@ export type Ficha = {
     periodo: string;
   } | null;
   per_capita: { populacao: number; por_mil: Record<string, number> } | null;
+  /**
+   * Os seis indicadores de segurança resumidos numa régua só: a média dos
+   * desvios padronizados face à taxa do país. Zero é indistinguível do
+   * conjunto. Serve para confrontar segurança com mortalidade ajustada, que são
+   * dois métodos independentes de medir resultado.
+   */
+  indice_seguranca: {
+    z_medio: number;
+    n_indicadores: number;
+    fora_do_funil: number;
+  } | null;
   contratos: {
     /** «IMPIC · Portal BASE» ou, em recurso, o espelho parcial do SNS. */
     fonte: string;
@@ -132,6 +152,18 @@ export type Ficha = {
     maiores_fornecedores: { nome: string; valor: number }[];
     /** Divisões de CPV — o que a unidade compra, não a quem. */
     maiores_areas: { divisao: string; rotulo: string; valor: number }[];
+    /**
+     * Compras por unidade de produção ajustada à complexidade. Liga o registo
+     * do IMPIC ao doente padrão da ACSS — a única escala em que a compra de um
+     * hospital central se compara com a de uma unidade local.
+     */
+    por_doente_padrao: {
+      valor_contratado: number;
+      doente_padrao: number;
+      euros_por_doente_padrao: number;
+      periodo: string;
+      anos: number;
+    } | null;
     /** Contratos alterados depois de assinados. `acrescimo` pode ser negativo. */
     modificacoes: {
       contratos_modificados: number;
@@ -213,6 +245,31 @@ export const enriquecimento = (): {
 
 export const nacional = (): Nacional => ler("nacional.json");
 
+/**
+ * A reforma de 2024, medida contra o grupo das ULS que já o eram.
+ * Ver ingest/reforma.py para o desenho e para os seus limites.
+ */
+export const reforma = (): {
+  corte: string;
+  n_transformadas: number;
+  n_controlo: number;
+  controlo: string[];
+  por_indicador: {
+    indicador: string;
+    titulo: string;
+    grupo: string;
+    unidade: string;
+    polaridade: string;
+    /** True quando a variação é sobretudo mudança de perímetro, não desempenho. */
+    mecanico: boolean;
+    n_transformadas: number;
+    n_controlo: number;
+    variacao_transformadas: number;
+    variacao_controlo: number;
+    diferenca: number;
+  }[];
+} => ler("reforma.json");
+
 export const ficha = (id: string): Ficha => ler(`instituicao/${id}.json`);
 
 export const GRUPOS = [
@@ -246,6 +303,14 @@ export function formatar(valor: number | null, unidade: string): string {
       return `${nf(1, 2).format(valor)} ‰`;
     case "por_100000":
       return `${nf(0, 0).format(valor)} por 100 mil`;
+    // Doses diárias definidas de antibiótico. A escala é a da ECDC, e sem ela o
+    // número não se compara com nada publicado.
+    case "por_1000_dias":
+      return `${nf(0, 1).format(valor)} por 1000 dias`;
+    // Rácios e desvios padronizados: sem casas decimais, um SMR de 0,75 e um de
+    // 1,29 aparecem os dois como «1».
+    case "racio":
+      return nf(2, 2).format(valor);
     case "euros":
       // «3806,0 M€» obriga a contar os dígitos para perceber a ordem de
       // grandeza. Com o registo completo do IMPIC os totais por instituição

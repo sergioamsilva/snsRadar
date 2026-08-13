@@ -261,6 +261,57 @@ def _rotulos_duplicados(cw, bruto: dict[str, dict[str, float]]) -> set[str]:
     return descartar
 
 
+def _denominador_externo(con, cw, ind: dict) -> dict[tuple[str, str], float]:
+    """Denominador vindo de outro dataset, já resolvido na entidade canónica.
+
+    Existe para uma pergunta que nenhuma fonte responde sozinha: quanto
+    antibiótico se consome por dia de internamento. O numerador é do INFARMED, o
+    denominador é do registo de ocupação, e os dois só se encontram depois de o
+    crosswalk os reduzir à mesma entidade — as duas fontes escrevem os nomes de
+    maneiras diferentes, e uma delas nem sequer usa a coluna `instituicao`.
+
+    Devolve (entidade, mês) → denominador, somado entre os rótulos que a fonte
+    usa para a mesma unidade.
+    """
+    dataset = ind["denominador_dataset"]
+    col_ent = ind.get("denominador_coluna_entidade", "instituicao")
+    col_tempo = ind.get("denominador_coluna_tempo", "tempo")
+    coluna = ind["denominador_coluna"]
+
+    linhas = con.execute(
+        f'select "{col_ent}", "{col_tempo}", sum(coalesce("{coluna}", 0)), count("{coluna}") '
+        f"from {_rel(dataset)} "
+        f'where "{col_ent}" is not null and "{col_tempo}" is not null '
+        f"group by 1, 2"
+    ).fetchall()
+
+    bruto: dict[str, dict[str, float]] = defaultdict(dict)
+    for nome, periodo, valor, n_reportado in linhas:
+        mes = str(periodo)[:7]
+        if len(mes) != 7 or not n_reportado:
+            continue
+        bruto[nome][mes] = valor or 0
+
+    for nome in _rotulos_duplicados(cw, bruto):
+        bruto.pop(nome, None)
+
+    saida: dict[tuple[str, str], float] = defaultdict(float)
+    for nome, meses in bruto.items():
+        inst = cw.resolver(nome)
+        if inst is None:
+            continue
+        vals = (
+            desacumular(meses)
+            if ind.get("denominador_acumulado_no_ano")
+            else meses
+        )
+        for mes, v in vals.items():
+            if v is None:
+                continue
+            saida[(inst.id, mes)] += v
+    return saida
+
+
 def extrair_series(con, cw, indicadores, catalogo) -> dict:
     """Constrói (indicador, instituicao, mês) -> {numerador, denominador}.
 
@@ -365,6 +416,23 @@ def extrair_series(con, cw, indicadores, catalogo) -> dict:
                 alvo["den"] += v_den
                 alvo["n_rotulos"] += 1
 
+        # Denominador de outro dataset: entra por atribuição e não por soma, e
+        # entra agora — depois de os rótulos da fonte estarem todos somados na
+        # entidade canónica. Somá-lo dentro do ciclo por rótulo contá-lo-ia
+        # tantas vezes quantos os nomes com que a fonte designa a mesma unidade.
+        if ind.get("denominador_dataset"):
+            externo = _denominador_externo(con, cw, ind)
+            for inst_id, meses in list(series[ind["id"]].items()):
+                for mes, d in list(meses.items()):
+                    den = externo.get((inst_id, mes))
+                    # Um mês sem denominador não gera taxa: a regra da casa é
+                    # que a ausência se declara, não se preenche.
+                    if den is None or den <= 0:
+                        del meses[mes]
+                        continue
+                    d["den"] = den
+                    d["tem_den"] = True
+
         # Uma taxa ou uma média não se soma entre as entidades que vieram a ser
         # fundidas: 115 + 193 + 8 não é um prazo médio de pagamento. Nestes
         # casos fazemos a média entre os rótulos. É uma aproximação — o correto
@@ -379,18 +447,28 @@ def extrair_series(con, cw, indicadores, catalogo) -> dict:
     return series, nomes_fonte
 
 
+def _tem_denominador(ind: dict) -> bool:
+    """True quando o indicador é uma taxa — venha o denominador de onde vier.
+
+    Um denominador de outro dataset conta tanto como uma coluna do próprio:
+    testar só `denominador` fazia os antibióticos por dia de internamento
+    saírem como contagem de DDD, sem divisão nenhuma.
+    """
+    return bool(ind.get("denominador") or ind.get("denominador_dataset"))
+
+
 def _nao_somavel(ind: dict) -> bool:
     """True quando somar o indicador entre instituições não faz sentido."""
     if ind.get("ja_e_taxa"):
         return True
-    return ind["unidade"] == "dias" and not ind.get("denominador")
+    return ind["unidade"] == "dias" and not _tem_denominador(ind)
 
 
 def _valor(ind: dict, num: float, den: float | None) -> float | None:
     """Aplica a regra de agregação. Devolve None quando não é apresentável."""
     if ind.get("ja_e_taxa"):
         return num
-    if not ind.get("denominador"):
+    if not _tem_denominador(ind):
         return num
     if den is None or den < LIMIAR_DENOMINADOR:
         return None
@@ -497,7 +575,7 @@ def _agregar(ind: dict, meses: dict, janela: list[str]) -> dict | None:
         }
 
     num = sum(meses[m]["num"] for m in presentes)
-    den = sum(meses[m]["den"] for m in presentes) if ind.get("denominador") else None
+    den = sum(meses[m]["den"] for m in presentes) if _tem_denominador(ind) else None
     return {
         "valor": _valor(ind, num, den),
         "numerador": num,
@@ -653,7 +731,7 @@ def construir(con, cw, indicadores, catalogo, grupos):
         num_nac = sum(a["numerador"] for a in agregados)
         den_nac = (
             sum(a["denominador"] for a in agregados if a["denominador"] is not None)
-            if ind.get("denominador")
+            if _tem_denominador(ind)
             else None
         )
 
@@ -678,7 +756,7 @@ def construir(con, cw, indicadores, catalogo, grupos):
         # decisão em dois sítios com formulações diferentes foi o que produziu
         # 901,9 % de mortalidade por AVC no painel; agora a formulação é a mesma
         # e site/scripts/verificar_coerencia.mjs verifica que assim continua.
-        so_mediana = not ind.get("denominador") and ind["unidade"] in ("percentagem", "dias")
+        so_mediana = not _tem_denominador(ind) and ind["unidade"] in ("percentagem", "dias")
         valor_nac = mediana if so_mediana else _valor(ind, num_nac, den_nac)
         todos_meses = sorted({m for inst in series[iid].values() for m in inst})
         nacional[iid] = {
@@ -697,7 +775,7 @@ def construir(con, cw, indicadores, catalogo, grupos):
                 "mediana entre unidades"
                 if so_mediana
                 else "soma dos numeradores ÷ soma dos denominadores"
-                if ind.get("denominador")
+                if _tem_denominador(ind)
                 else "soma das instituições"
             ),
             "numerador": num_nac,
@@ -801,7 +879,18 @@ def escrever(cw, fichas, nacional, por_indicador, grupos):
             "grupo_comparacao": _grupo_da_ficha(cw, grupos, inst.id),
             "populacao": extra.get("populacao", {}).get("por_instituicao", {}).get(inst.id),
             "per_capita": extra.get("per_capita", {}).get(inst.id),
-            "contratos": extra.get("contratos", {}).get(inst.id),
+            "indice_seguranca": extra.get("indice_seguranca", {}).get(inst.id),
+            # As compras por doente padrão vão dentro do bloco dos contratos, e
+            # não ao lado: é a mesma coisa noutra escala, e separá-las convidava
+            # a lê-las como grandezas independentes.
+            "contratos": (
+                {
+                    **extra["contratos"][inst.id],
+                    "por_doente_padrao": extra.get("compras_por_doente_padrao", {}).get(inst.id),
+                }
+                if inst.id in extra.get("contratos", {})
+                else None
+            ),
             "indicadores": {
                 iid: {**dados, **{
                     k: por_indicador[iid].get(k)

@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Indicador from "../../components/Indicador.astro";
 import Declive from "../../components/Declive.astro";
+import Cruzamento from "../../components/Cruzamento.astro";
 import Contexto from "../../components/Contexto.astro";
 import Movimento from "../../components/Movimento.astro";
 import Veredito from "../../components/Veredito.astro";
@@ -95,6 +96,36 @@ const paresCesarianas = todasFichas
     de: x.indicadores["cesarianas"]!.valor as number,
     para: x.indicadores["cesarianas-unifetal-termo"]!.valor as number,
   }));
+
+/* Cruzamentos: as duas perguntas que precisam de dois indicadores para terem
+   resposta, e que nenhum cartão sozinho responde. */
+const cruzamento = (
+  ix: string,
+  iy: string,
+  valorX?: (f: (typeof todasFichas)[0]) => number | null | undefined,
+) =>
+  todasFichas
+    .map((x) => ({
+      id: x.id,
+      nome_curto: x.nome_curto,
+      x: valorX ? valorX(x) : x.indicadores[ix]?.valor,
+      y: x.indicadores[iy]?.valor,
+    }))
+    .filter((p): p is { id: string; nome_curto: string; x: number; y: number } =>
+      typeof p.x === "number" && typeof p.y === "number",
+    );
+
+const enfermeirosUlceras = cruzamento("doentes-padrao-por-enfermeiro", "ulceras-pressao");
+const segurancaMortalidade = todasFichas
+  .map((x) => ({
+    id: x.id,
+    nome_curto: x.nome_curto,
+    x: x.indice_seguranca?.z_medio,
+    y: x.mortalidade_ajustada?.smr,
+  }))
+  .filter((p): p is { id: string; nome_curto: string; x: number; y: number } =>
+    typeof p.x === "number" && typeof p.y === "number",
+  );
 
 /* Mediana do grupo de comparação da ACSS, para o indicador pedido. Só existe
    onde o grupo tem cinco unidades com valor — abaixo disso a mediana seria uma
@@ -279,6 +310,30 @@ const SECCOES = [
               fator={FATOR[d.unidade] ?? null}
             />
           ))}
+          {g.id === "seguranca" && enfermeirosUlceras.some((p) => p.id === f.id) && (
+            <Cruzamento
+              pontos={enfermeirosUlceras}
+              destaque={f.id}
+              titulo="Enfermeiros e úlceras de pressão, unidade a unidade"
+              rotuloX="doentes padrão por enfermeiro"
+              rotuloY="úlceras de pressão"
+              unidadeX="contagem"
+              unidadeY="por_1000"
+              nota="É a relação mais documentada em investigação de serviços de saúde, e aparece nos dados portugueses — mas isto são 42 unidades, não 42 mil doentes. Uma associação entre hospitais não prova nada sobre um doente em concreto, e o que aqui se vê pode ser dotação de enfermagem, complexidade dos doentes, ou apenas hospitais que registam melhor as suas úlceras."
+            />
+          )}
+          {g.id === "seguranca" && segurancaMortalidade.some((p) => p.id === f.id) && (
+            <Cruzamento
+              pontos={segurancaMortalidade}
+              destaque={f.id}
+              titulo="Segurança e mortalidade ajustada ao risco — dois métodos independentes"
+              rotuloX="índice de segurança"
+              rotuloY="mortalidade ajustada"
+              unidadeX="racio"
+              unidadeY="racio"
+              nota="O eixo horizontal resume os seis indicadores de segurança em desvios face à taxa do país; o vertical é o rácio entre mortes observadas e esperadas, padronizado por capítulo de diagnóstico, idade e sexo. Medem coisas diferentes por caminhos diferentes: concordarem reforça ambos, discordarem diz que cada um vê o que o outro não vê. Nenhum dos dois mede a qualidade do cuidado diretamente."
+            />
+          )}
           {g.id === "qualidade" && paresCesarianas.some((p) => p.id === f.id) && (
             <Declive
               pares={paresCesarianas}

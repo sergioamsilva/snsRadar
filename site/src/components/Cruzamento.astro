@@ -1,0 +1,149 @@
+---
+/**
+ * Dispersão entre dois indicadores, uma unidade por ponto.
+ *
+ * É a única forma deste portal que faz uma afirmação sobre a **relação** entre
+ * duas coisas, e por isso é a que tem de ser mais contida. Duas regras, ambas
+ * visíveis no desenho:
+ *
+ *   1. **Não há linha de tendência.** Uma reta ajustada a 42 pontos sugere um
+ *      modelo que estes dados não sustentam. Há a correlação, escrita, e a
+ *      comparação entre os terços extremos — que é o que se pode ler sem
+ *      inventar.
+ *   2. **A cautela ecológica é obrigatória e não é rodapé.** Uma associação
+ *      entre unidades não diz nada sobre doentes: é a falácia ecológica, e num
+ *      portal de saúde escondê-la seria indefensável.
+ *
+ * Sem JavaScript, como o resto da ficha.
+ */
+import type { PontoCruzamento } from "../lib/dados";
+import { formatar } from "../lib/dados";
+
+interface Props {
+  pontos: PontoCruzamento[];
+  destaque: string;
+  titulo: string;
+  rotuloX: string;
+  rotuloY: string;
+  unidadeX: string;
+  unidadeY: string;
+  nota: string;
+}
+const { pontos, destaque, titulo, rotuloX, rotuloY, unidadeX, unidadeY, nota } =
+  Astro.props;
+
+const L = 58, R = 16, T = 18, B = 52, W = 640, H = 340;
+const px = W - L - R, py = H - T - B;
+
+const xs = pontos.map((p) => p.x);
+const ys = pontos.map((p) => p.y);
+const folga = (v: number[]) => (Math.max(...v) - Math.min(...v)) * 0.08 || 1;
+const x0 = Math.min(...xs) - folga(xs), x1 = Math.max(...xs) + folga(xs);
+const y0 = Math.min(...ys) - folga(ys), y1 = Math.max(...ys) + folga(ys);
+const lx = (v: number) => L + (px * (v - x0)) / (x1 - x0 || 1);
+const ly = (v: number) => T + py - (py * (v - y0)) / (y1 - y0 || 1);
+
+/* Pearson. Escrito por extenso porque é o número que sustenta — ou não — a
+   frase que acompanha o gráfico. */
+const media = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length;
+const mx = media(xs), my = media(ys);
+const cov = pontos.reduce((a, p) => a + (p.x - mx) * (p.y - my), 0);
+const dx = Math.sqrt(xs.reduce((a, v) => a + (v - mx) ** 2, 0));
+const dy = Math.sqrt(ys.reduce((a, v) => a + (v - my) ** 2, 0));
+const r = dx && dy ? cov / (dx * dy) : 0;
+
+/* Terços extremos: a leitura que não precisa de modelo nenhum. */
+const ordenados = [...pontos].sort((a, b) => a.x - b.x);
+const n = Math.max(1, Math.floor(ordenados.length / 3));
+const mediana = (v: number[]) => {
+  const s = [...v].sort((a, b) => a - b);
+  return s[Math.floor(s.length / 2)];
+};
+const baixo = mediana(ordenados.slice(0, n).map((p) => p.y));
+const alto = mediana(ordenados.slice(-n).map((p) => p.y));
+
+const eu = pontos.find((p) => p.id === destaque);
+const forca = Math.abs(r) < 0.2 ? "nenhuma relação visível"
+  : Math.abs(r) < 0.4 ? "uma relação fraca"
+  : Math.abs(r) < 0.6 ? "uma relação moderada" : "uma relação forte";
+const nf1 = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+---
+
+<figure class="cruz">
+  <figcaption class="cruz__tit">{titulo}</figcaption>
+
+  <svg
+    class="cruz__svg"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    preserveAspectRatio="xMidYMid meet"
+    aria-label={
+      `Dispersão de ${pontos.length} unidades entre ${rotuloX} e ${rotuloY}. ` +
+      `Correlação de Pearson ${nf1.format(r)} — ${forca}. ` +
+      `O terço com valores mais altos de ${rotuloX} tem mediana ${formatar(alto, unidadeY)} ` +
+      `de ${rotuloY}; o terço mais baixo, ${formatar(baixo, unidadeY)}. ` +
+      (eu ? `Esta unidade: ${formatar(eu.x, unidadeX)} e ${formatar(eu.y, unidadeY)}.` : "")
+    }
+  >
+    <line class="cruz__eixo" x1={L} x2={W - R} y1={T + py} y2={T + py} />
+    <line class="cruz__eixo" x1={L} x2={L} y1={T} y2={T + py} />
+
+    {[y0, (y0 + y1) / 2, y1].map((v) => (
+      <text class="cruz__tick" x={L - 8} y={ly(v) + 4} text-anchor="end">
+        {formatar(v, unidadeY).replace(/\s.*/, "")}
+      </text>
+    ))}
+    {[x0, (x0 + x1) / 2, x1].map((v) => (
+      <text class="cruz__tick" x={lx(v)} y={T + py + 16} text-anchor="middle">
+        {formatar(v, unidadeX).replace(/\s.*/, "")}
+      </text>
+    ))}
+    <text class="cruz__eixo-rot" x={L + px / 2} y={T + py + 36} text-anchor="middle">
+      {rotuloX}
+    </text>
+    <text class="cruz__eixo-rot" x={12} y={T + py / 2} text-anchor="middle"
+      transform={`rotate(-90 12 ${T + py / 2})`}>{rotuloY}</text>
+
+    {pontos.filter((p) => p.id !== destaque).map((p) => (
+      <circle class="cruz__ponto" cx={lx(p.x)} cy={ly(p.y)} r="4" />
+    ))}
+    {eu && (
+      <>
+        <circle class="cruz__ponto cruz__ponto--eu" cx={lx(eu.x)} cy={ly(eu.y)} r="6" />
+        <text
+          class="cruz__rotulo"
+          x={lx(eu.x) + (lx(eu.x) > L + px * 0.7 ? -12 : 12)}
+          y={ly(eu.y) + 4}
+          text-anchor={lx(eu.x) > L + px * 0.7 ? "end" : "start"}
+        >
+          {eu.nome_curto}
+        </text>
+      </>
+    )}
+  </svg>
+
+  <p class="cruz__leitura">
+    Nas {pontos.length} unidades com os dois valores, a correlação é{" "}
+    <strong>{nf1.format(r)}</strong> — {forca}. O terço com mais {rotuloX} tem
+    mediana de <strong>{formatar(alto, unidadeY)}</strong>; o terço com menos,{" "}
+    <strong>{formatar(baixo, unidadeY)}</strong>.
+  </p>
+  <p class="cruz__cautela">{nota}</p>
+</figure>
+
+<style>
+  .cruz { margin: 16px 0 0; }
+  .cruz__tit { font-size: var(--t-2xs); color: var(--ink-2); font-weight: 600; margin-bottom: 6px; }
+  .cruz__svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .cruz__eixo { stroke: var(--border); stroke-width: 1; }
+  .cruz__ponto { fill: var(--ink-2); fill-opacity: 0.45; }
+  .cruz__ponto--eu { fill: var(--accent); fill-opacity: 1; stroke: var(--surface); stroke-width: 2.5; }
+  .cruz__rotulo { font-size: 11px; fill: var(--accent-texto); font-weight: 700; }
+  .cruz__tick { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+  .cruz__eixo-rot { font-size: 11px; fill: var(--muted); }
+  .cruz__leitura { margin: 8px 0 0; font-size: var(--t-xs); }
+  .cruz__cautela {
+    margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted);
+    border-left: 2px solid var(--border); padding-left: 10px;
+  }
+</style>

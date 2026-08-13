@@ -957,7 +957,7 @@
     Ver os doentes padrão por médico: mede tanto produtividade como escassez.
 
 - id: gastos-operacionais-por-inscrito
-  titulo: Gastos operacionais por utente inscrito
+  titulo: Gastos operacionais por utente inscrito, por mês
   grupo: dinheiro
   dataset: bh-acss-gastos-opr-inscritos
   numerador: numerador
@@ -965,10 +965,18 @@
   publicado: valor
   unidade: euros
   polaridade: neutro
+  # «Por mês» não é um pormenor de redação: é o que o número é. Ao contrário de
+  # todos os outros denominadores desta casa, os inscritos são um *stock* e não
+  # um fluxo — a fonte repete a mesma população em cada mês, e a soma de doze
+  # meses dá doze vezes a população. Σnumerador ÷ Σdenominador é, por isso, o
+  # gasto de um mês médio, e não o do ano. Descoberto ao confrontar este
+  # denominador com a população que ingest/populacao.py apura do INE: dava
+  # +1 083 %, ou seja, exatamente doze vezes.
   descricao: >-
-    O que a unidade gasta por cada pessoa inscrita na sua área. Só existe a
-    partir de 2024, e só faz sentido a partir daí: antes da reforma das ULS um
-    hospital não tinha população inscrita, tinha doentes que lhe chegavam.
+    O que a unidade gasta, por mês, por cada pessoa inscrita na sua área.
+    Multiplicado por doze dá a despesa anual por pessoa. Só existe a partir de
+    2024, e só faz sentido a partir daí: antes da reforma das ULS um hospital
+    não tinha população inscrita, tinha doentes que lhe chegavam.
   cautela: >-
     Depende da estrutura etária e da doença da população servida, que o
     indicador não ajusta. Uma população envelhecida custa legitimamente mais.
@@ -989,3 +997,91 @@
   cautela: >-
     Uma unidade que contrate serviços a terceiros troca gastos com pessoal por
     gastos aqui. Ler os dois em conjunto diz mais do que qualquer um sozinho.
+
+# ---------------------------------------------------------------------------
+# Volume de antibióticos — INFARMED sobre dias de internamento
+#
+# Os três indicadores acima medem a *composição* do consumo: que fatia de todos
+# os antibióticos vai para cada classe. É útil e é insuficiente, e a cautela de
+# cada um di-lo: «um hospital que reduza todos os antibióticos por igual mantém
+# o mesmo valor». O que falta é o volume.
+#
+# O denominador que o torna comparável não está no registo do INFARMED — está no
+# de ocupação do internamento, noutra fonte, com outra grafia dos nomes e outra
+# coluna de entidade. `denominador_dataset` junta os dois depois de o crosswalk
+# os reduzir à mesma entidade canónica. É a métrica que a ECDC usa para comparar
+# hospitais e países.
+# ---------------------------------------------------------------------------
+
+- id: antibioticos-volume
+  titulo: Consumo total de antibióticos por 1000 dias de internamento
+  grupo: qualidade
+  dataset: antibioticos-carbapenemes
+  coluna_entidade: nome_hospital
+  coluna_tempo: periodo
+  exigir_mes_completo: true
+  numerador: ddd_consumidas_carbapenemes
+  soma_tambem: [ddd_consumidas_restantes_antibioticos]
+  denominador_dataset: ocupacao-do-internamento
+  denominador_coluna: no_de_dias_de_internamento
+  denominador_acumulado_no_ano: true
+  fator: 1000
+  unidade: por_1000_dias
+  polaridade: subir_e_mau
+  descricao: >-
+    Doses diárias definidas de antibiótico por cada mil dias de internamento. É
+    a medida com que a ECDC compara hospitais e países — e, ao contrário do peso
+    de cada classe, mede quanto se usa e não só o quê.
+  evidencia:
+    - citacao: >-
+        European Centre for Disease Prevention and Control, «Antimicrobial
+        consumption in the EU/EEA»: o consumo hospitalar exprime-se em DDD por
+        1000 doentes-dia, para ser comparável entre unidades de dimensão
+        diferente.
+      url: https://www.ecdc.europa.eu/en/antimicrobial-consumption/surveillance-and-disease-data
+  cautela: >-
+    Junta duas fontes com perímetros próprios: as DDD são de todo o hospital e
+    os dias de internamento só do internamento. Um hospital com muito ambulatório
+    ou hospital de dia aparece com consumo mais alto por dia de cama sem que isso
+    signifique prescrever pior. Também não está ajustado ao doente.
+
+- id: antibioticos-carbapenemes-volume
+  titulo: Carbapenemes por 1000 dias de internamento
+  grupo: qualidade
+  dataset: antibioticos-carbapenemes
+  coluna_entidade: nome_hospital
+  coluna_tempo: periodo
+  numerador: ddd_consumidas_carbapenemes
+  denominador_dataset: ocupacao-do-internamento
+  denominador_coluna: no_de_dias_de_internamento
+  denominador_acumulado_no_ano: true
+  fator: 1000
+  unidade: por_1000_dias
+  polaridade: subir_e_mau
+  descricao: >-
+    O mesmo, restrito aos carbapenemes — os antibióticos de última linha para
+    bactérias multirresistentes. Lido ao lado do peso dos carbapenemes, separa
+    duas coisas que a proporção confunde: usar muitos antibióticos e usar os
+    errados.
+  cautela: >-
+    Ver o consumo total. Um centro oncológico ou de transplantação usa
+    legitimamente mais carbapenemes.
+
+- id: antibioticos-fluoroquinolonas-volume
+  titulo: Fluoroquinolonas por 1000 dias de internamento
+  grupo: qualidade
+  dataset: antibioticos-fluoroquinolonas
+  coluna_entidade: nome_hospital
+  coluna_tempo: periodo
+  numerador: ddd_consumidas_fluoroquinolonas
+  denominador_dataset: ocupacao-do-internamento
+  denominador_coluna: no_de_dias_de_internamento
+  denominador_acumulado_no_ano: true
+  fator: 1000
+  unidade: por_1000_dias
+  polaridade: subir_e_mau
+  descricao: >-
+    Volume de fluoroquinolonas por mil dias de internamento. São um alvo
+    clássico dos programas de uso responsável de antibióticos.
+  cautela: >-
+    Ver o consumo total de antibióticos.

@@ -23,7 +23,7 @@
       "lon": -8.4265
     },
     "grupo_acss": "Grupo F",
-    "n_indicadores": 38
+    "n_indicadores": 41
   },
   {
     "id": "ipo-lisboa",
@@ -36,7 +36,7 @@
       "lon": -9.158
     },
     "grupo_acss": "Grupo F",
-    "n_indicadores": 38
+    "n_indicadores": 41
   },
   {
     "id": "ipo-porto",
@@ -49,7 +49,7 @@
       "lon": -8.6098
     },
     "grupo_acss": "Grupo F",
-    "n_indicadores": 40
+    "n_indicadores": 43
   },
   {
     "id": "uls-alentejo-central",
@@ -62,7 +62,7 @@
       "lon": -7.9135
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-algarve",
@@ -75,7 +75,7 @@
       "lon": -7.935
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-almada-seixal",
@@ -88,7 +88,7 @@
       "lon": -9.1583
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-alto-alentejo",
@@ -101,7 +101,7 @@
       "lon": -7.4281
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-alto-ave",
@@ -114,7 +114,7 @@
       "lon": -8.2918
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-alto-minho",
@@ -127,7 +127,7 @@
       "lon": -8.8344
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-amadora-sintra",
@@ -140,7 +140,7 @@
       "lon": -9.2306
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-arco-ribeirinho",
@@ -153,7 +153,7 @@
       "lon": -9.0722
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-arrabida",
@@ -166,7 +166,7 @@
       "lon": -8.8882
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-baixo-alentejo",
@@ -179,7 +179,7 @@
       "lon": -7.865
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-baixo-mondego",
@@ -192,7 +192,7 @@
       "lon": -8.86
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 43
+    "n_indicadores": 46
   },
   {
     "id": "uls-barcelos-esposende",
@@ -205,7 +205,7 @@
       "lon": -8.6151
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 42
+    "n_indicadores": 45
   },
   {
     "id": "uls-braga",
@@ -218,7 +218,7 @@
       "lon": -8.4201
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-castelo-branco",
@@ -231,7 +231,7 @@
       "lon": -7.4931
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 47
+    "n_indicadores": 50
   },
   {
     "id": "uls-coimbra",
@@ -244,7 +244,7 @@
       "lon": -8.427
     },
     "grupo_acss": "Grupo E",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-cova-beira",
@@ -257,7 +257,7 @@
       "lon": -7.5
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-entre-douro-vouga",
@@ -270,7 +270,7 @@
       "lon": -8.5439
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-estuario-tejo",
@@ -283,7 +283,7 @@
       "lon": -8.99
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-gaia-espinho",
@@ -296,7 +296,7 @@
       "lon": -8.6118
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-guarda",
@@ -309,7 +309,7 @@
       "lon": -7.2676
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 46
+    "n_indicadores": 49
   },
   {
     "id": "uls-leziria",
@@ -322,7 +322,7 @@
       "lon": -8.6859
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-lisboa-ocidental",
@@ -335,7 +335,7 @@
       "lon": -9.213
     },
     "grupo_acss": "Grupo E",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-litoral-alentejano",
@@ -348,7 +348,7 @@
       "lon": -8.695
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 43
+    "n_indicadores": 46
   },
   {
     "id": "uls-loures-odivelas",
@@ -361,7 +361,7 @@
       "lon": -9.168
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-matosinhos",
@@ -374,7 +374,7 @@
       "lon": -8.6797
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 46
+    "n_indicadores": 49
   },
   {
     "id": "uls-medio-ave",
@@ -387,7 +387,7 @@
       "lon": -8.4756
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-medio-tejo",
@@ -400,7 +400,7 @@
       "lon": -8.4103
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-nordeste",
@@ -413,7 +413,7 @@
       "lon": -6.7591
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 47
+    "n_indicadores": 50
   },
   {
     "id": "uls-oeste",
@@ -426,7 +426,7 @@
       "lon": -9.135
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-povoa-varzim-vila-conde",
@@ -439,7 +439,7 @@
       "lon": -8.7667
     },
     "grupo_acss": "Grupo B",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-regiao-aveiro",
@@ -452,7 +452,7 @@
       "lon": -8.6538
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-regiao-leiria",
@@ -465,7 +465,7 @@
       "lon": -8.8071
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-santa-maria",
@@ -478,7 +478,7 @@
       "lon": -9.16
     },
     "grupo_acss": "Grupo E",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-santo-antonio",
@@ -491,7 +491,7 @@
       "lon": -8.6167
     },
     "grupo_acss": "Grupo E",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-sao-jose",
@@ -504,7 +504,7 @@
       "lon": -9.1352
     },
     "grupo_acss": "Grupo E",
-    "n_indicadores": 47
+    "n_indicadores": 50
   },
   {
     "id": "uls-sao-joao",
@@ -517,7 +517,7 @@
       "lon": -8.6011
     },
     "grupo_acss": "Grupo E",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-tras-os-montes-alto-douro",
@@ -530,7 +530,7 @@
       "lon": -7.7463
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-tamega-sousa",
@@ -543,7 +543,7 @@
       "lon": -8.2841
     },
     "grupo_acss": "Grupo C",
-    "n_indicadores": 48
+    "n_indicadores": 51
   },
   {
     "id": "uls-dao-lafoes",
@@ -556,6 +556,6 @@
       "lon": -7.9125
     },
     "grupo_acss": "Grupo D",
-    "n_indicadores": 48
+    "n_indicadores": 51
   }
 ]

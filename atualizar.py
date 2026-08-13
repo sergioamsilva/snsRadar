@@ -97,6 +97,12 @@ def main() -> int:
         "Reconstruir as fichas já com o enriquecimento",
         [str(PY), "ingest/build.py"])))
 
+    # Depende das séries, não das fichas: podia correr antes, mas corre aqui
+    # para que o seu resultado apanhe já os indicadores enriquecidos.
+    tempos.append(("reforma de 2024", passo(
+        "Medir a reforma das ULS contra o grupo de controlo",
+        [str(PY), "ingest/reforma.py"])))
+
     tempos.append(("painel", passo(
         "Gerar o painel autónomo",
         [str(PY), "scripts/build_dashboard.py"])))

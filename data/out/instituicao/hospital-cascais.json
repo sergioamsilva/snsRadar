@@ -110,6 +110,11 @@
   },
   "populacao": null,
   "per_capita": null,
+  "indice_seguranca": {
+    "z_medio": 1.2,
+    "n_indicadores": 6,
+    "fora_do_funil": 1
+  },
   "contratos": null,
   "indicadores": {
     "lic-dentro-tmrg": {

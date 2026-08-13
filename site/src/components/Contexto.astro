@@ -116,6 +116,18 @@ const classe = !smr?.significativo ? "neutro" : smr.smr! > 1 ? "acima" : "abaixo
               ajuste direto
             </p>
           )}
+          {/* Compras por unidade de produção ajustada à complexidade. É a única
+              forma de pôr lado a lado o que compra um hospital central e o que
+              compra uma unidade local: o valor absoluto diz sobretudo o tamanho
+              da instituição, e o valor por habitante ignora quem trata doentes
+              vindos de fora. Junta o registo do IMPIC ao doente padrão da ACSS —
+              duas fontes que só se encontram na entidade canónica. */}
+          {contratos.por_doente_padrao && (
+            <p class="ctx__detalhe num">
+              {formatar(contratos.por_doente_padrao.euros_por_doente_padrao, "euros")}{" "}
+              contratados por doente padrão, em {contratos.por_doente_padrao.periodo.replace("..", "–")}
+            </p>
+          )}
           {/* A derrapagem é o dado que não existe em mais lado nenhum: as
               estatísticas de despesa contam o preço da adjudicação, e a
               modificação é publicada num registo à parte que ninguém junta. */}

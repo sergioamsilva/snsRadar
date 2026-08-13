@@ -116,6 +116,11 @@
       "consultas-telemedicina": 0.0
     }
   },
+  "indice_seguranca": {
+    "z_medio": 0.92,
+    "n_indicadores": 6,
+    "fora_do_funil": 0
+  },
   "contratos": {
     "fonte": "IMPIC · Portal BASE",
     "desde": "2022",
@@ -205,6 +210,13 @@
       "valor_inicial": 10416831,
       "valor_final": 12741104,
       "acrescimo": 2324273
+    },
+    "por_doente_padrao": {
+      "valor_contratado": 243818776,
+      "doente_padrao": 79649,
+      "euros_por_doente_padrao": 3061.2,
+      "periodo": "2024..2026",
+      "anos": 3
     }
   },
   "indicadores": {
@@ -32751,11 +32763,11 @@
           "denominador": 233626.0
         }
       ],
-      "titulo": "Gastos operacionais por utente inscrito",
+      "titulo": "Gastos operacionais por utente inscrito, por mês",
       "grupo": "dinheiro",
       "unidade": "euros",
       "polaridade": "neutro",
-      "descricao": "O que a unidade gasta por cada pessoa inscrita na sua área. Só existe a partir de 2024, e só faz sentido a partir daí: antes da reforma das ULS um hospital não tinha população inscrita, tinha doentes que lhe chegavam.",
+      "descricao": "O que a unidade gasta, por mês, por cada pessoa inscrita na sua área. Multiplicado por doze dá a despesa anual por pessoa. Só existe a partir de 2024, e só faz sentido a partir daí: antes da reforma das ULS um hospital não tinha população inscrita, tinha doentes que lhe chegavam.",
       "cautela": "Depende da estrutura etária e da doença da população servida, que o indicador não ajusta. Uma população envelhecida custa legitimamente mais.",
       "referencia": null,
       "evidencia": null,
@@ -33126,6 +33138,674 @@
       "polaridade": "neutro",
       "descricao": "Tudo o que a instituição compra fora: meios complementares de diagnóstico contratados, limpeza, alimentação, manutenção, prestações de serviços clínicos. Por unidade de produção ajustada.",
       "cautela": "Uma unidade que contrate serviços a terceiros troca gastos com pessoal por gastos aqui. Ler os dois em conjunto diz mais do que qualquer um sozinho.",
+      "referencia": null,
+      "evidencia": null,
+      "pode_exceder_100": null,
+      "maximo_plausivel": null
+    },
+    "antibioticos-volume": {
+      "valor": 711.932231142597,
+      "numerador": 85219.0,
+      "denominador": 119701.0,
+      "periodo": "2025-03..2026-04",
+      "meses_usados": 12,
+      "meses_em_falta": [],
+      "fonte": {
+        "dataset": "antibioticos-carbapenemes",
+        "titulo": "Antibióticos - Carbapenemes",
+        "publisher": "INFARMED",
+        "atualizado": "2026-07-03T15:54:24.077000+00:00",
+        "url": "https://transparencia.sns.gov.pt/api/explore/v2.1/catalog/datasets/antibioticos-carbapenemes/records?select=sum%28ddd_consumidas_carbapenemes%29%20as%20numerador&where=nome_hospital%3A%22Hospital%20Beatriz%20%C3%82ngelo%20E.P.E.%22%20or%20nome_hospital%3A%22Unidade%20Local%20de%20Sa%C3%BAde%20de%20Loures-Odivelas%2C%20E.%20P.%20E.%22&limit=1"
+      },
+      "serie": [
+        {
+          "mes": "2022-02",
+          "valor": 635.8058608058608,
+          "numerador": 6943.0,
+          "denominador": 10920.0
+        },
+        {
+          "mes": "2022-06",
+          "valor": 120.87847730600294,
+          "numerador": 8256.0,
+          "denominador": 68300.0
+        },
+        {
+          "mes": "2022-12",
+          "valor": 99.67513623926857,
+          "numerador": 13224.0,
+          "denominador": 132671.0
+        },
+        {
+          "mes": "2023-10",
+          "valor": 610.2854247593312,
+          "numerador": 7227.0,
+          "denominador": 11842.0
+        },
+        {
+          "mes": "2023-11",
+          "valor": 636.0756709194897,
+          "numerador": 7229.0,
+          "denominador": 11365.0
+        },
+        {
+          "mes": "2023-12",
+          "valor": 721.4860784971486,
+          "numerador": 8603.0,
+          "denominador": 11924.0
+        },
+        {
+          "mes": "2024-01",
+          "valor": 653.9613848202397,
+          "numerador": 7858.0,
+          "denominador": 12016.0
+        },
+        {
+          "mes": "2024-02",
+          "valor": 583.9157822072655,
+          "numerador": 6767.0,
+          "denominador": 11589.0
+        },
+        {
+          "mes": "2024-03",
+          "valor": 719.3274645094774,
+          "numerador": 9070.0,
+          "denominador": 12609.0
+        },
+        {
+          "mes": "2024-04",
+          "valor": 660.023846022824,
+          "numerador": 7750.0,
+          "denominador": 11742.0
+        },
+        {
+          "mes": "2024-05",
+          "valor": 625.9863229879011,
+          "numerador": 7140.0,
+          "denominador": 11406.0
+        },
+        {
+          "mes": "2024-06",
+          "valor": 571.9785738198862,
+          "numerador": 6834.0,
+          "denominador": 11948.0
+        },
+        {
+          "mes": "2024-07",
+          "valor": 622.5977160894996,
+          "numerador": 6706.0,
+          "denominador": 10771.0
+        },
+        {
+          "mes": "2024-08",
+          "valor": 685.2674440125857,
+          "numerador": 7405.0,
+          "denominador": 10806.0
+        },
+        {
+          "mes": "2024-09",
+          "valor": 535.7142857142857,
+          "numerador": 6075.0,
+          "denominador": 11340.0
+        },
+        {
+          "mes": "2024-10",
+          "valor": 795.8826106000876,
+          "numerador": 7268.0,
+          "denominador": 9132.0
+        },
+        {
+          "mes": "2024-11",
+          "valor": 725.8913496871586,
+          "numerador": 7309.0,
+          "denominador": 10069.0
+        },
+        {
+          "mes": "2024-12",
+          "valor": 717.387482419128,
+          "numerador": 8161.0,
+          "denominador": 11376.0
+        },
+        {
+          "mes": "2025-01",
+          "valor": 404.0461604217125,
+          "numerador": 8508.0,
+          "denominador": 21057.0
+        },
+        {
+          "mes": "2025-03",
+          "valor": 358.4739803094233,
+          "numerador": 4078.0,
+          "denominador": 11376.0
+        },
+        {
+          "mes": "2025-04",
+          "valor": 354.37184208272674,
+          "numerador": 4138.0,
+          "denominador": 11677.0
+        },
+        {
+          "mes": "2025-05",
+          "valor": 650.9205208801078,
+          "numerador": 7248.0,
+          "denominador": 11135.0
+        },
+        {
+          "mes": "2025-06",
+          "valor": 747.9010163499779,
+          "numerador": 6770.0,
+          "denominador": 9052.0
+        },
+        {
+          "mes": "2025-07",
+          "valor": 1431.764474202442,
+          "numerador": 14541.0,
+          "denominador": 10156.0
+        },
+        {
+          "mes": "2025-08",
+          "valor": 668.2436428149024,
+          "numerador": 6780.0,
+          "denominador": 10146.0
+        },
+        {
+          "mes": "2025-09",
+          "valor": 621.7776861208497,
+          "numerador": 6030.0,
+          "denominador": 9698.0
+        },
+        {
+          "mes": "2025-12",
+          "valor": 708.50622406639,
+          "numerador": 7513.0,
+          "denominador": 10604.0
+        },
+        {
+          "mes": "2026-01",
+          "valor": 671.5849595430748,
+          "numerador": 7055.0,
+          "denominador": 10505.0
+        },
+        {
+          "mes": "2026-02",
+          "valor": 624.1603694374476,
+          "numerador": 5947.0,
+          "denominador": 9528.0
+        },
+        {
+          "mes": "2026-03",
+          "valor": 1082.4544582933845,
+          "numerador": 7903.0,
+          "denominador": 7301.0
+        },
+        {
+          "mes": "2026-04",
+          "valor": 846.6502405256365,
+          "numerador": 7216.0,
+          "denominador": 8523.0
+        }
+      ],
+      "titulo": "Consumo total de antibióticos por 1000 dias de internamento",
+      "grupo": "qualidade",
+      "unidade": "por_1000_dias",
+      "polaridade": "subir_e_mau",
+      "descricao": "Doses diárias definidas de antibiótico por cada mil dias de internamento. É a medida com que a ECDC compara hospitais e países — e, ao contrário do peso de cada classe, mede quanto se usa e não só o quê.",
+      "cautela": "Junta duas fontes com perímetros próprios: as DDD são de todo o hospital e os dias de internamento só do internamento. Um hospital com muito ambulatório ou hospital de dia aparece com consumo mais alto por dia de cama sem que isso signifique prescrever pior. Também não está ajustado ao doente.",
+      "referencia": null,
+      "evidencia": [
+        {
+          "citacao": "European Centre for Disease Prevention and Control, «Antimicrobial consumption in the EU/EEA»: o consumo hospitalar exprime-se em DDD por 1000 doentes-dia, para ser comparável entre unidades de dimensão diferente.",
+          "url": "https://www.ecdc.europa.eu/en/antimicrobial-consumption/surveillance-and-disease-data"
+        }
+      ],
+      "pode_exceder_100": null,
+      "maximo_plausivel": null
+    },
+    "antibioticos-carbapenemes-volume": {
+      "valor": 49.37675637467028,
+      "numerador": 5728.0,
+      "denominador": 116006.0,
+      "periodo": "2025-05..2026-04",
+      "meses_usados": 12,
+      "meses_em_falta": [],
+      "fonte": {
+        "dataset": "antibioticos-carbapenemes",
+        "titulo": "Antibióticos - Carbapenemes",
+        "publisher": "INFARMED",
+        "atualizado": "2026-07-03T15:54:24.077000+00:00",
+        "url": "https://transparencia.sns.gov.pt/api/explore/v2.1/catalog/datasets/antibioticos-carbapenemes/records?select=sum%28ddd_consumidas_carbapenemes%29%20as%20numerador&where=nome_hospital%3A%22Hospital%20Beatriz%20%C3%82ngelo%20E.P.E.%22%20or%20nome_hospital%3A%22Unidade%20Local%20de%20Sa%C3%BAde%20de%20Loures-Odivelas%2C%20E.%20P.%20E.%22&limit=1"
+      },
+      "serie": [
+        {
+          "mes": "2022-02",
+          "valor": 33.15018315018315,
+          "numerador": 362.0,
+          "denominador": 10920.0
+        },
+        {
+          "mes": "2022-06",
+          "valor": 4.816983894582723,
+          "numerador": 329.0,
+          "denominador": 68300.0
+        },
+        {
+          "mes": "2022-12",
+          "valor": 6.052566122212088,
+          "numerador": 803.0,
+          "denominador": 132671.0
+        },
+        {
+          "mes": "2023-10",
+          "valor": 34.11585880763385,
+          "numerador": 404.0,
+          "denominador": 11842.0
+        },
+        {
+          "mes": "2023-11",
+          "valor": 28.86053673559173,
+          "numerador": 328.0,
+          "denominador": 11365.0
+        },
+        {
+          "mes": "2023-12",
+          "valor": 31.365313653136532,
+          "numerador": 374.0,
+          "denominador": 11924.0
+        },
+        {
+          "mes": "2024-01",
+          "valor": 22.05392809587217,
+          "numerador": 265.0,
+          "denominador": 12016.0
+        },
+        {
+          "mes": "2024-02",
+          "valor": 24.07455345586332,
+          "numerador": 279.0,
+          "denominador": 11589.0
+        },
+        {
+          "mes": "2024-03",
+          "valor": 34.340550400507574,
+          "numerador": 433.0,
+          "denominador": 12609.0
+        },
+        {
+          "mes": "2024-04",
+          "valor": 43.093169817748255,
+          "numerador": 506.0,
+          "denominador": 11742.0
+        },
+        {
+          "mes": "2024-05",
+          "valor": 28.143082588111522,
+          "numerador": 321.0,
+          "denominador": 11406.0
+        },
+        {
+          "mes": "2024-06",
+          "valor": 26.36424506193505,
+          "numerador": 315.0,
+          "denominador": 11948.0
+        },
+        {
+          "mes": "2024-07",
+          "valor": 27.016990065917742,
+          "numerador": 291.0,
+          "denominador": 10771.0
+        },
+        {
+          "mes": "2024-08",
+          "valor": 30.723672034055156,
+          "numerador": 332.0,
+          "denominador": 10806.0
+        },
+        {
+          "mes": "2024-09",
+          "valor": 21.604938271604937,
+          "numerador": 245.0,
+          "denominador": 11340.0
+        },
+        {
+          "mes": "2024-10",
+          "valor": 36.24616732369689,
+          "numerador": 331.0,
+          "denominador": 9132.0
+        },
+        {
+          "mes": "2024-11",
+          "valor": 36.44850531333797,
+          "numerador": 367.0,
+          "denominador": 10069.0
+        },
+        {
+          "mes": "2024-12",
+          "valor": 21.9760900140647,
+          "numerador": 250.0,
+          "denominador": 11376.0
+        },
+        {
+          "mes": "2025-01",
+          "valor": 18.52115685995156,
+          "numerador": 390.0,
+          "denominador": 21057.0
+        },
+        {
+          "mes": "2025-03",
+          "valor": 27.074542897327706,
+          "numerador": 308.0,
+          "denominador": 11376.0
+        },
+        {
+          "mes": "2025-04",
+          "valor": 11.304273357883018,
+          "numerador": 132.0,
+          "denominador": 11677.0
+        },
+        {
+          "mes": "2025-05",
+          "valor": 38.16793893129771,
+          "numerador": 425.0,
+          "denominador": 11135.0
+        },
+        {
+          "mes": "2025-06",
+          "valor": 46.84047724259832,
+          "numerador": 424.0,
+          "denominador": 9052.0
+        },
+        {
+          "mes": "2025-07",
+          "valor": 118.94446632532492,
+          "numerador": 1208.0,
+          "denominador": 10156.0
+        },
+        {
+          "mes": "2025-08",
+          "valor": 39.522964715158686,
+          "numerador": 401.0,
+          "denominador": 10146.0
+        },
+        {
+          "mes": "2025-09",
+          "valor": 35.471231181686946,
+          "numerador": 344.0,
+          "denominador": 9698.0
+        },
+        {
+          "mes": "2025-10",
+          "valor": 32.316520688613714,
+          "numerador": 321.0,
+          "denominador": 9933.0
+        },
+        {
+          "mes": "2025-11",
+          "valor": 53.89920424403183,
+          "numerador": 508.0,
+          "denominador": 9425.0
+        },
+        {
+          "mes": "2025-12",
+          "valor": 39.89060731799321,
+          "numerador": 423.0,
+          "denominador": 10604.0
+        },
+        {
+          "mes": "2026-01",
+          "valor": 44.55021418372204,
+          "numerador": 468.0,
+          "denominador": 10505.0
+        },
+        {
+          "mes": "2026-02",
+          "valor": 37.99328295549958,
+          "numerador": 362.0,
+          "denominador": 9528.0
+        },
+        {
+          "mes": "2026-03",
+          "valor": 62.457197644158335,
+          "numerador": 456.0,
+          "denominador": 7301.0
+        },
+        {
+          "mes": "2026-04",
+          "valor": 45.52387656928312,
+          "numerador": 388.0,
+          "denominador": 8523.0
+        }
+      ],
+      "titulo": "Carbapenemes por 1000 dias de internamento",
+      "grupo": "qualidade",
+      "unidade": "por_1000_dias",
+      "polaridade": "subir_e_mau",
+      "descricao": "O mesmo, restrito aos carbapenemes — os antibióticos de última linha para bactérias multirresistentes. Lido ao lado do peso dos carbapenemes, separa duas coisas que a proporção confunde: usar muitos antibióticos e usar os errados.",
+      "cautela": "Ver o consumo total. Um centro oncológico ou de transplantação usa legitimamente mais carbapenemes.",
+      "referencia": null,
+      "evidencia": null,
+      "pode_exceder_100": null,
+      "maximo_plausivel": null
+    },
+    "antibioticos-fluoroquinolonas-volume": {
+      "valor": 25.4728203713601,
+      "numerador": 2955.0,
+      "denominador": 116006.0,
+      "periodo": "2025-05..2026-04",
+      "meses_usados": 12,
+      "meses_em_falta": [],
+      "fonte": {
+        "dataset": "antibioticos-fluoroquinolonas",
+        "titulo": "Antibióticos - Fluoroquinolonas",
+        "publisher": "INFARMED",
+        "atualizado": "2026-07-03T16:05:33.899000+00:00",
+        "url": "https://transparencia.sns.gov.pt/api/explore/v2.1/catalog/datasets/antibioticos-fluoroquinolonas/records?select=sum%28ddd_consumidas_fluoroquinolonas%29%20as%20numerador&where=nome_hospital%3A%22Hospital%20Beatriz%20%C3%82ngelo%20E.P.E.%22%20or%20nome_hospital%3A%22Unidade%20Local%20de%20Sa%C3%BAde%20de%20Loures-Odivelas%2C%20E.%20P.%20E.%22&limit=1"
+      },
+      "serie": [
+        {
+          "mes": "2022-02",
+          "valor": 13.736263736263735,
+          "numerador": 150.0,
+          "denominador": 10920.0
+        },
+        {
+          "mes": "2022-06",
+          "valor": 3.616398243045388,
+          "numerador": 247.0,
+          "denominador": 68300.0
+        },
+        {
+          "mes": "2022-12",
+          "valor": 5.743530990193787,
+          "numerador": 762.0,
+          "denominador": 132671.0
+        },
+        {
+          "mes": "2023-10",
+          "valor": 15.537915892585712,
+          "numerador": 184.0,
+          "denominador": 11842.0
+        },
+        {
+          "mes": "2023-11",
+          "valor": 26.74879014518258,
+          "numerador": 304.0,
+          "denominador": 11365.0
+        },
+        {
+          "mes": "2023-12",
+          "valor": 26.333445152633345,
+          "numerador": 314.0,
+          "denominador": 11924.0
+        },
+        {
+          "mes": "2024-01",
+          "valor": 29.5439414114514,
+          "numerador": 355.0,
+          "denominador": 12016.0
+        },
+        {
+          "mes": "2024-02",
+          "valor": 25.36888428682371,
+          "numerador": 294.0,
+          "denominador": 11589.0
+        },
+        {
+          "mes": "2024-03",
+          "valor": 29.18550241890713,
+          "numerador": 368.0,
+          "denominador": 12609.0
+        },
+        {
+          "mes": "2024-04",
+          "valor": 25.03832396525294,
+          "numerador": 294.0,
+          "denominador": 11742.0
+        },
+        {
+          "mes": "2024-05",
+          "valor": 24.986849026827986,
+          "numerador": 285.0,
+          "denominador": 11406.0
+        },
+        {
+          "mes": "2024-06",
+          "valor": 28.875125544024105,
+          "numerador": 345.0,
+          "denominador": 11948.0
+        },
+        {
+          "mes": "2024-07",
+          "valor": 13.276390307306658,
+          "numerador": 143.0,
+          "denominador": 10771.0
+        },
+        {
+          "mes": "2024-08",
+          "valor": 30.723672034055156,
+          "numerador": 332.0,
+          "denominador": 10806.0
+        },
+        {
+          "mes": "2024-09",
+          "valor": 25.396825396825395,
+          "numerador": 288.0,
+          "denominador": 11340.0
+        },
+        {
+          "mes": "2024-10",
+          "valor": 24.967148488830485,
+          "numerador": 228.0,
+          "denominador": 9132.0
+        },
+        {
+          "mes": "2024-11",
+          "valor": 38.63342933757076,
+          "numerador": 389.0,
+          "denominador": 10069.0
+        },
+        {
+          "mes": "2024-12",
+          "valor": 33.66736990154712,
+          "numerador": 383.0,
+          "denominador": 11376.0
+        },
+        {
+          "mes": "2025-01",
+          "valor": 11.302654699149926,
+          "numerador": 238.0,
+          "denominador": 21057.0
+        },
+        {
+          "mes": "2025-03",
+          "valor": 6.768635724331927,
+          "numerador": 77.0,
+          "denominador": 11376.0
+        },
+        {
+          "mes": "2025-04",
+          "valor": 9.505866232765266,
+          "numerador": 111.0,
+          "denominador": 11677.0
+        },
+        {
+          "mes": "2025-05",
+          "valor": 24.33767400089807,
+          "numerador": 271.0,
+          "denominador": 11135.0
+        },
+        {
+          "mes": "2025-06",
+          "valor": 15.90808661069377,
+          "numerador": 144.0,
+          "denominador": 9052.0
+        },
+        {
+          "mes": "2025-07",
+          "valor": 37.41630563213864,
+          "numerador": 380.0,
+          "denominador": 10156.0
+        },
+        {
+          "mes": "2025-08",
+          "valor": 19.81076286221171,
+          "numerador": 201.0,
+          "denominador": 10146.0
+        },
+        {
+          "mes": "2025-09",
+          "valor": 22.581975665085583,
+          "numerador": 219.0,
+          "denominador": 9698.0
+        },
+        {
+          "mes": "2025-10",
+          "valor": 24.8666062619551,
+          "numerador": 247.0,
+          "denominador": 9933.0
+        },
+        {
+          "mes": "2025-11",
+          "valor": 22.175066312997348,
+          "numerador": 209.0,
+          "denominador": 9425.0
+        },
+        {
+          "mes": "2025-12",
+          "valor": 24.519049415314974,
+          "numerador": 260.0,
+          "denominador": 10604.0
+        },
+        {
+          "mes": "2026-01",
+          "valor": 19.133745835316518,
+          "numerador": 201.0,
+          "denominador": 10505.0
+        },
+        {
+          "mes": "2026-02",
+          "valor": 17.947103274559193,
+          "numerador": 171.0,
+          "denominador": 9528.0
+        },
+        {
+          "mes": "2026-03",
+          "valor": 37.66607314066566,
+          "numerador": 275.0,
+          "denominador": 7301.0
+        },
+        {
+          "mes": "2026-04",
+          "valor": 44.23325120262818,
+          "numerador": 377.0,
+          "denominador": 8523.0
+        }
+      ],
+      "titulo": "Fluoroquinolonas por 1000 dias de internamento",
+      "grupo": "qualidade",
+      "unidade": "por_1000_dias",
+      "polaridade": "subir_e_mau",
+      "descricao": "Volume de fluoroquinolonas por mil dias de internamento. São um alvo clássico dos programas de uso responsável de antibióticos.",
+      "cautela": "Ver o consumo total de antibióticos.",
       "referencia": null,
       "evidencia": null,
       "pode_exceder_100": null,

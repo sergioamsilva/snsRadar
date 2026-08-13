@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Base from "../layouts/Base.astro";
 import {
+  reforma as dadosReforma,
   indice,
   nacional,
   enriquecimento,
@@ -12,6 +13,7 @@ import {
 import Icone from "../components/Icone.astro";
 
 const n = indice().length;
+const reforma = dadosReforma();
 const nac = nacional();
 const indicadores = Object.keys(nac).length;
 
@@ -177,6 +179,75 @@ const SECCOES = [
       A correspondência foi construída à mão, verificada contra o texto do
       decreto-lei, e está publicada no repositório do projeto para que possa
       ser corrigida por quem encontre um erro.
+    </p>
+
+    {/* O crosswalk existe para atravessar 2024. Uma vez atravessado, permite
+        uma pergunta que mais ninguém pode fazer com dados públicos — e que só é
+        honesta com o grupo de controlo à vista. */}
+    <h3 id="reforma-efeito">E mudou alguma coisa?</h3>
+    <p>
+      Atravessar a reforma permite compará-la consigo mesma. As{" "}
+      <strong>{reforma.n_transformadas}</strong> entidades que passaram a ULS
+      absorveram os cuidados de saúde primários da sua área; as{" "}
+      <strong>{reforma.n_controlo}</strong> que <em>já eram</em> ULS —
+      Alto Minho, Matosinhos, Nordeste, Guarda, Castelo Branco, Baixo Alentejo e
+      Litoral Alentejano — não mudaram de perímetro. São o grupo de controlo:
+      sem ele, qualquer variação entre 2023 e 2024 confundir-se-ia com o que
+      aconteceu ao país inteiro no mesmo período.
+    </p>
+    <p>
+      Doze meses antes contra doze meses depois, em {reforma.por_indicador.length}{" "}
+      indicadores. As maiores diferenças estão nas <strong>contagens</strong>, e
+      não querem dizer o que parecem: os médicos das entidades transformadas
+      sobem{" "}
+      {reforma.por_indicador.find((x) => x.indicador === "medicos")?.variacao_transformadas}{" "}
+      % contra{" "}
+      {reforma.por_indicador.find((x) => x.indicador === "medicos")?.variacao_controlo}{" "}
+      % no controlo — não é contratação, é a ULS a passar a contar o pessoal dos
+      centros de saúde que absorveu. Só as <strong>taxas</strong> admitem leitura
+      de desempenho, porque nelas o numerador e o denominador crescem juntos.
+    </p>
+    {/* Conteúdo largo rola dentro do seu próprio contentor: a página nunca
+        rola na horizontal, e a 390 px esta tabela transbordava 85 px. */}
+    <div
+      class="reforma-caixa"
+      tabindex="0"
+      role="region"
+      aria-label="Taxas com maior diferença entre entidades transformadas e grupo de controlo"
+    >
+    <table class="reforma">
+      <caption>
+        Taxas com maior diferença entre transformadas e controlo, doze meses
+        antes e depois de janeiro de 2024
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Indicador</th>
+          <th scope="col" class="num">Transformadas</th>
+          <th scope="col" class="num">Controlo</th>
+          <th scope="col" class="num">Diferença</th>
+        </tr>
+      </thead>
+      <tbody>
+        {reforma.por_indicador.filter((x) => !x.mecanico).slice(0, 8).map((x) => (
+          <tr>
+            <td>{x.titulo}</td>
+            <td class="num">{x.variacao_transformadas > 0 ? "+" : ""}{x.variacao_transformadas} %</td>
+            <td class="num">{x.variacao_controlo > 0 ? "+" : ""}{x.variacao_controlo} %</td>
+            <td class="num"><strong>{x.diferenca > 0 ? "+" : ""}{x.diferenca} pp</strong></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    </div>
+    <p class="ressalva">
+      <strong>Isto não prova que a reforma correu bem ou mal.</strong> São sete
+      unidades de controlo, não houve aleatorização, e as que já eram ULS antes
+      de 2024 não o eram por acaso: são, na maioria, do interior e de menor
+      dimensão, e isso pode ele próprio explicar a diferença. Uma queda de 31,8 %
+      nas úlceras de pressão do controlo tanto pode ser cuidado melhor como
+      registo pior. É a leitura de conjunto que os dados públicos permitem, com
+      os pressupostos à vista — não é um estudo.
     </p>
 
     <h2 id="totais"><Icone nome="divisao" tamanho={21} />3. As taxas somam-se pelos totais, nunca pelas percentagens</h2>
@@ -455,6 +526,21 @@ const SECCOES = [
     left: 0;
     top: 0.28em;
     color: var(--muted);
+  }
+  /* A tabela da reforma: números à direita, alinhados, e a diferença em
+     destaque porque é a coluna que responde à pergunta. */
+  /* Focável pelo teclado porque rola: quem navega sem rato tem de conseguir
+     chegar ao conteúdo que está fora do ecrã. */
+  .reforma-caixa { overflow-x: auto; margin: 16px 0; }
+  .reforma-caixa:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .reforma { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: var(--t-xs); }
+  .reforma caption { text-align: left; color: var(--muted); font-size: var(--t-2xs); padding-bottom: 8px; }
+  .reforma th, .reforma td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+  .reforma th.num, .reforma td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .reforma thead th { color: var(--ink-2); font-size: var(--t-2xs); font-weight: 700; }
+  .ressalva {
+    border-left: 2px solid var(--border); padding-left: 12px;
+    color: var(--ink-2); font-size: var(--t-xs);
   }
 </style>
 

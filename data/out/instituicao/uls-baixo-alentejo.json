@@ -114,6 +114,11 @@
       "consultas-telemedicina": 4.4
     }
   },
+  "indice_seguranca": {
+    "z_medio": -0.81,
+    "n_indicadores": 6,
+    "fora_do_funil": 0
+  },
   "contratos": {
     "fonte": "IMPIC · Portal BASE",
     "desde": "2012",
@@ -253,6 +258,13 @@
       "valor_inicial": 18649291,
       "valor_final": 18620881,
       "acrescimo": -28410
+    },
+    "por_doente_padrao": {
+      "valor_contratado": 72063909,
+      "doente_padrao": 30642,
+      "euros_por_doente_padrao": 2351.8,
+      "periodo": "2024..2026",
+      "anos": 3
     }
   },
   "indicadores": {
@@ -39269,11 +39281,11 @@
           "denominador": 120694.0
         }
       ],
-      "titulo": "Gastos operacionais por utente inscrito",
+      "titulo": "Gastos operacionais por utente inscrito, por mês",
       "grupo": "dinheiro",
       "unidade": "euros",
       "polaridade": "neutro",
-      "descricao": "O que a unidade gasta por cada pessoa inscrita na sua área. Só existe a partir de 2024, e só faz sentido a partir daí: antes da reforma das ULS um hospital não tinha população inscrita, tinha doentes que lhe chegavam.",
+      "descricao": "O que a unidade gasta, por mês, por cada pessoa inscrita na sua área. Multiplicado por doze dá a despesa anual por pessoa. Só existe a partir de 2024, e só faz sentido a partir daí: antes da reforma das ULS um hospital não tinha população inscrita, tinha doentes que lhe chegavam.",
       "cautela": "Depende da estrutura etária e da doença da população servida, que o indicador não ajusta. Uma população envelhecida custa legitimamente mais.",
       "referencia": null,
       "evidencia": null,
@@ -39476,6 +39488,2510 @@
       "polaridade": "neutro",
       "descricao": "Tudo o que a instituição compra fora: meios complementares de diagnóstico contratados, limpeza, alimentação, manutenção, prestações de serviços clínicos. Por unidade de produção ajustada.",
       "cautela": "Uma unidade que contrate serviços a terceiros troca gastos com pessoal por gastos aqui. Ler os dois em conjunto diz mais do que qualquer um sozinho.",
+      "referencia": null,
+      "evidencia": null,
+      "pode_exceder_100": null,
+      "maximo_plausivel": null
+    },
+    "antibioticos-volume": {
+      "valor": 736.991229326839,
+      "numerador": 46300.0,
+      "denominador": 62823.0,
+      "periodo": "2025-03..2026-04",
+      "meses_usados": 12,
+      "meses_em_falta": [],
+      "fonte": {
+        "dataset": "antibioticos-carbapenemes",
+        "titulo": "Antibióticos - Carbapenemes",
+        "publisher": "INFARMED",
+        "atualizado": "2026-07-03T15:54:24.077000+00:00",
+        "url": "https://transparencia.sns.gov.pt/api/explore/v2.1/catalog/datasets/antibioticos-carbapenemes/records?select=sum%28ddd_consumidas_carbapenemes%29%20as%20numerador&where=nome_hospital%3A%22Unidade%20Local%20de%20Sa%C3%BAde%20do%20Baixo%20Alentejo%2C%20E.P.E.%22&limit=1"
+      },
+      "serie": [
+        {
+          "mes": "2015-01",
+          "valor": 756.1516740621219,
+          "numerador": 3749.0,
+          "denominador": 4958.0
+        },
+        {
+          "mes": "2015-02",
+          "valor": 809.394002935626,
+          "numerador": 3860.0,
+          "denominador": 4769.0
+        },
+        {
+          "mes": "2015-03",
+          "valor": 738.0952380952381,
+          "numerador": 3689.0,
+          "denominador": 4998.0
+        },
+        {
+          "mes": "2015-04",
+          "valor": 674.6102449888641,
+          "numerador": 3029.0,
+          "denominador": 4490.0
+        },
+        {
+          "mes": "2015-05",
+          "valor": 653.9184952978056,
+          "numerador": 3129.0,
+          "denominador": 4785.0
+        },
+        {
+          "mes": "2015-06",
+          "valor": 671.6997411561691,
+          "numerador": 3114.0,
+          "denominador": 4636.0
+        },
+        {
+          "mes": "2015-07",
+          "valor": 709.1836734693877,
+          "numerador": 3336.0,
+          "denominador": 4704.0
+        },
+        {
+          "mes": "2015-08",
+          "valor": 668.7166871668717,
+          "numerador": 3262.0,
+          "denominador": 4878.0
+        },
+        {
+          "mes": "2015-09",
+          "valor": 691.2056424950408,
+          "numerador": 3136.0,
+          "denominador": 4537.0
+        },
+        {
+          "mes": "2015-10",
+          "valor": 767.2866963202588,
+          "numerador": 3795.0,
+          "denominador": 4946.0
+        },
+        {
+          "mes": "2015-11",
+          "valor": 647.3429951690821,
+          "numerador": 3216.0,
+          "denominador": 4968.0
+        },
+        {
+          "mes": "2015-12",
+          "valor": 662.7265563435776,
+          "numerador": 3364.0,
+          "denominador": 5076.0
+        },
+        {
+          "mes": "2016-01",
+          "valor": 640.3508771929825,
+          "numerador": 3504.0,
+          "denominador": 5472.0
+        },
+        {
+          "mes": "2016-02",
+          "valor": 702.8056112224449,
+          "numerador": 3507.0,
+          "denominador": 4990.0
+        },
+        {
+          "mes": "2016-03",
+          "valor": 783.9622641509434,
+          "numerador": 4155.0,
+          "denominador": 5300.0
+        },
+        {
+          "mes": "2016-04",
+          "valor": 718.3607874648453,
+          "numerador": 3576.0,
+          "denominador": 4978.0
+        },
+        {
+          "mes": "2016-05",
+          "valor": 611.9661408233936,
+          "numerador": 3181.0,
+          "denominador": 5198.0
+        },
+        {
+          "mes": "2016-06",
+          "valor": 616.6632038229794,
+          "numerador": 2968.0,
+          "denominador": 4813.0
+        },
+        {
+          "mes": "2016-07",
+          "valor": 606.9065343258892,
+          "numerador": 2935.0,
+          "denominador": 4836.0
+        },
+        {
+          "mes": "2016-08",
+          "valor": 658.5697629226584,
+          "numerador": 3389.0,
+          "denominador": 5146.0
+        },
+        {
+          "mes": "2016-09",
+          "valor": 558.0595874713522,
+          "numerador": 2922.0,
+          "denominador": 5236.0
+        },
+        {
+          "mes": "2016-10",
+          "valor": 639.574629699962,
+          "numerador": 3368.0,
+          "denominador": 5266.0
+        },
+        {
+          "mes": "2016-11",
+          "valor": 662.0095693779904,
+          "numerador": 3459.0,
+          "denominador": 5225.0
+        },
+        {
+          "mes": "2016-12",
+          "valor": 730.6197964847364,
+          "numerador": 3949.0,
+          "denominador": 5405.0
+        },
+        {
+          "mes": "2017-01",
+          "valor": 706.3477791764071,
+          "numerador": 3928.0,
+          "denominador": 5561.0
+        },
+        {
+          "mes": "2017-02",
+          "valor": 625.0249451207344,
+          "numerador": 3132.0,
+          "denominador": 5011.0
+        },
+        {
+          "mes": "2017-03",
+          "valor": 632.887189292543,
+          "numerador": 3310.0,
+          "denominador": 5230.0
+        },
+        {
+          "mes": "2017-04",
+          "valor": 654.6434494195688,
+          "numerador": 3158.0,
+          "denominador": 4824.0
+        },
+        {
+          "mes": "2017-05",
+          "valor": 605.6918180116083,
+          "numerador": 3235.0,
+          "denominador": 5341.0
+        },
+        {
+          "mes": "2017-06",
+          "valor": 564.1838351822504,
+          "numerador": 2848.0,
+          "denominador": 5048.0
+        },
+        {
+          "mes": "2017-07",
+          "valor": 567.1004078461838,
+          "numerador": 2920.0,
+          "denominador": 5149.0
+        },
+        {
+          "mes": "2017-08",
+          "valor": 522.0285882122577,
+          "numerador": 2666.0,
+          "denominador": 5107.0
+        },
+        {
+          "mes": "2017-09",
+          "valor": 600.0381460995613,
+          "numerador": 3146.0,
+          "denominador": 5243.0
+        },
+        {
+          "mes": "2017-10",
+          "valor": 633.8613861386139,
+          "numerador": 3201.0,
+          "denominador": 5050.0
+        },
+        {
+          "mes": "2017-11",
+          "valor": 547.4438419829589,
+          "numerador": 2827.0,
+          "denominador": 5164.0
+        },
+        {
+          "mes": "2017-12",
+          "valor": 535.8182877111241,
+          "numerador": 2760.0,
+          "denominador": 5151.0
+        },
+        {
+          "mes": "2018-01",
+          "valor": 562.0011679968853,
+          "numerador": 2887.0,
+          "denominador": 5137.0
+        },
+        {
+          "mes": "2018-02",
+          "valor": 607.4539193842414,
+          "numerador": 2999.0,
+          "denominador": 4937.0
+        },
+        {
+          "mes": "2018-03",
+          "valor": 608.4142394822006,
+          "numerador": 3196.0,
+          "denominador": 5253.0
+        },
+        {
+          "mes": "2018-04",
+          "valor": 584.2136735100657,
+          "numerador": 2931.0,
+          "denominador": 5017.0
+        },
+        {
+          "mes": "2018-05",
+          "valor": 560.6827987244419,
+          "numerador": 2989.0,
+          "denominador": 5331.0
+        },
+        {
+          "mes": "2018-06",
+          "valor": 645.7787628450534,
+          "numerador": 3205.0,
+          "denominador": 4963.0
+        },
+        {
+          "mes": "2018-07",
+          "valor": 629.3494704992436,
+          "numerador": 3328.0,
+          "denominador": 5288.0
+        },
+        {
+          "mes": "2018-08",
+          "valor": 637.6811594202899,
+          "numerador": 3256.0,
+          "denominador": 5106.0
+        },
+        {
+          "mes": "2018-09",
+          "valor": 555.2220888355342,
+          "numerador": 2775.0,
+          "denominador": 4998.0
+        },
+        {
+          "mes": "2018-10",
+          "valor": 534.7315759091783,
+          "numerador": 2779.0,
+          "denominador": 5197.0
+        },
+        {
+          "mes": "2018-11",
+          "valor": 564.1985033477747,
+          "numerador": 2865.0,
+          "denominador": 5078.0
+        },
+        {
+          "mes": "2018-12",
+          "valor": 677.267131719327,
+          "numerador": 3301.0,
+          "denominador": 4874.0
+        },
+        {
+          "mes": "2019-01",
+          "valor": 696.225723708318,
+          "numerador": 3800.0,
+          "denominador": 5458.0
+        },
+        {
+          "mes": "2019-02",
+          "valor": 668.2542969558915,
+          "numerador": 3227.0,
+          "denominador": 4829.0
+        },
+        {
+          "mes": "2019-03",
+          "valor": 602.0276497695853,
+          "numerador": 3266.0,
+          "denominador": 5425.0
+        },
+        {
+          "mes": "2019-04",
+          "valor": 624.5805369127517,
+          "numerador": 2978.0,
+          "denominador": 4768.0
+        },
+        {
+          "mes": "2019-05",
+          "valor": 628.7557975398266,
+          "numerador": 3118.0,
+          "denominador": 4959.0
+        },
+        {
+          "mes": "2019-06",
+          "valor": 620.8415950649922,
+          "numerador": 2818.0,
+          "denominador": 4539.0
+        },
+        {
+          "mes": "2019-07",
+          "valor": 650.8095142914251,
+          "numerador": 3256.0,
+          "denominador": 5003.0
+        },
+        {
+          "mes": "2019-08",
+          "valor": 647.8434859937751,
+          "numerador": 2914.0,
+          "denominador": 4498.0
+        },
+        {
+          "mes": "2019-09",
+          "valor": 628.7862513426423,
+          "numerador": 2927.0,
+          "denominador": 4655.0
+        },
+        {
+          "mes": "2019-10",
+          "valor": 633.6652263761036,
+          "numerador": 3373.0,
+          "denominador": 5323.0
+        },
+        {
+          "mes": "2019-11",
+          "valor": 682.7946195543063,
+          "numerador": 3401.0,
+          "denominador": 4981.0
+        },
+        {
+          "mes": "2019-12",
+          "valor": 484.55397431447415,
+          "numerador": 2792.0,
+          "denominador": 5762.0
+        },
+        {
+          "mes": "2020-01",
+          "valor": 782.0931431517442,
+          "numerador": 4551.0,
+          "denominador": 5819.0
+        },
+        {
+          "mes": "2020-02",
+          "valor": 649.013290374547,
+          "numerador": 3223.0,
+          "denominador": 4966.0
+        },
+        {
+          "mes": "2020-03",
+          "valor": 814.6635132229628,
+          "numerador": 3789.0,
+          "denominador": 4651.0
+        },
+        {
+          "mes": "2020-07",
+          "valor": 694.4694244604317,
+          "numerador": 3089.0,
+          "denominador": 4448.0
+        },
+        {
+          "mes": "2020-08",
+          "valor": 649.9769266266728,
+          "numerador": 2817.0,
+          "denominador": 4334.0
+        },
+        {
+          "mes": "2020-09",
+          "valor": 699.9771845767739,
+          "numerador": 3068.0,
+          "denominador": 4383.0
+        },
+        {
+          "mes": "2020-10",
+          "valor": 627.205718114809,
+          "numerador": 2808.0,
+          "denominador": 4477.0
+        },
+        {
+          "mes": "2020-11",
+          "valor": 589.5262929161235,
+          "numerador": 2713.0,
+          "denominador": 4602.0
+        },
+        {
+          "mes": "2020-12",
+          "valor": 577.1392879450343,
+          "numerador": 2772.0,
+          "denominador": 4803.0
+        },
+        {
+          "mes": "2021-01",
+          "valor": 741.7231751096929,
+          "numerador": 3719.0,
+          "denominador": 5014.0
+        },
+        {
+          "mes": "2021-02",
+          "valor": 865.979381443299,
+          "numerador": 3780.0,
+          "denominador": 4365.0
+        },
+        {
+          "mes": "2021-03",
+          "valor": 678.7166741979214,
+          "numerador": 3004.0,
+          "denominador": 4426.0
+        },
+        {
+          "mes": "2021-04",
+          "valor": 638.6672923510089,
+          "numerador": 2722.0,
+          "denominador": 4262.0
+        },
+        {
+          "mes": "2021-05",
+          "valor": 590.754452671603,
+          "numerador": 2952.0,
+          "denominador": 4997.0
+        },
+        {
+          "mes": "2021-06",
+          "valor": 572.5463894477979,
+          "numerador": 2561.0,
+          "denominador": 4473.0
+        },
+        {
+          "mes": "2021-07",
+          "valor": 630.0940438871473,
+          "numerador": 3015.0,
+          "denominador": 4785.0
+        },
+        {
+          "mes": "2021-08",
+          "valor": 565.004262574595,
+          "numerador": 2651.0,
+          "denominador": 4692.0
+        },
+        {
+          "mes": "2021-09",
+          "valor": 560.7667210440457,
+          "numerador": 2750.0,
+          "denominador": 4904.0
+        },
+        {
+          "mes": "2021-10",
+          "valor": 598.7429034874291,
+          "numerador": 2953.0,
+          "denominador": 4932.0
+        },
+        {
+          "mes": "2021-11",
+          "valor": 530.3030303030303,
+          "numerador": 2695.0,
+          "denominador": 5082.0
+        },
+        {
+          "mes": "2021-12",
+          "valor": 463.2218844984802,
+          "numerador": 2286.0,
+          "denominador": 4935.0
+        },
+        {
+          "mes": "2022-01",
+          "valor": 774.5545911375057,
+          "numerador": 3391.0,
+          "denominador": 4378.0
+        },
+        {
+          "mes": "2022-02",
+          "valor": 531.8419991938734,
+          "numerador": 2639.0,
+          "denominador": 4962.0
+        },
+        {
+          "mes": "2022-03",
+          "valor": 630.8345120226309,
+          "numerador": 3122.0,
+          "denominador": 4949.0
+        },
+        {
+          "mes": "2022-04",
+          "valor": 588.606264452386,
+          "numerador": 2800.0,
+          "denominador": 4757.0
+        },
+        {
+          "mes": "2022-05",
+          "valor": 595.392077607114,
+          "numerador": 2946.0,
+          "denominador": 4948.0
+        },
+        {
+          "mes": "2022-06",
+          "valor": 573.1292517006802,
+          "numerador": 2696.0,
+          "denominador": 4704.0
+        },
+        {
+          "mes": "2022-07",
+          "valor": 642.7927927927927,
+          "numerador": 2854.0,
+          "denominador": 4440.0
+        },
+        {
+          "mes": "2022-08",
+          "valor": 635.1262349066959,
+          "numerador": 2893.0,
+          "denominador": 4555.0
+        },
+        {
+          "mes": "2022-09",
+          "valor": 764.5133129637712,
+          "numerador": 3503.0,
+          "denominador": 4582.0
+        },
+        {
+          "mes": "2022-10",
+          "valor": 730.8551696120252,
+          "numerador": 3598.0,
+          "denominador": 4923.0
+        },
+        {
+          "mes": "2022-11",
+          "valor": 483.04400484457005,
+          "numerador": 2393.0,
+          "denominador": 4954.0
+        },
+        {
+          "mes": "2022-12",
+          "valor": 647.1169036334913,
+          "numerador": 3277.0,
+          "denominador": 5064.0
+        },
+        {
+          "mes": "2023-01",
+          "valor": 911.8107156824403,
+          "numerador": 4663.0,
+          "denominador": 5114.0
+        },
+        {
+          "mes": "2023-02",
+          "valor": 619.98001998002,
+          "numerador": 3103.0,
+          "denominador": 5005.0
+        },
+        {
+          "mes": "2023-03",
+          "valor": 631.0679611650486,
+          "numerador": 3445.0,
+          "denominador": 5459.0
+        },
+        {
+          "mes": "2023-04",
+          "valor": 579.1855203619909,
+          "numerador": 2944.0,
+          "denominador": 5083.0
+        },
+        {
+          "mes": "2023-05",
+          "valor": 633.2713754646841,
+          "numerador": 3407.0,
+          "denominador": 5380.0
+        },
+        {
+          "mes": "2023-06",
+          "valor": 637.2065496153087,
+          "numerador": 3230.0,
+          "denominador": 5069.0
+        },
+        {
+          "mes": "2023-07",
+          "valor": 677.3408239700375,
+          "numerador": 3617.0,
+          "denominador": 5340.0
+        },
+        {
+          "mes": "2023-08",
+          "valor": 662.8359953252824,
+          "numerador": 3403.0,
+          "denominador": 5134.0
+        },
+        {
+          "mes": "2023-09",
+          "valor": 632.0186516417331,
+          "numerador": 3253.0,
+          "denominador": 5147.0
+        },
+        {
+          "mes": "2023-10",
+          "valor": 663.8699528054536,
+          "numerador": 3798.0,
+          "denominador": 5721.0
+        },
+        {
+          "mes": "2023-11",
+          "valor": 497.2462627852085,
+          "numerador": 2528.0,
+          "denominador": 5084.0
+        },
+        {
+          "mes": "2023-12",
+          "valor": 680.8510638297872,
+          "numerador": 3520.0,
+          "denominador": 5170.0
+        },
+        {
+          "mes": "2024-01",
+          "valor": 735.4252094847567,
+          "numerador": 4125.0,
+          "denominador": 5609.0
+        },
+        {
+          "mes": "2024-02",
+          "valor": 987.9541480474063,
+          "numerador": 5085.0,
+          "denominador": 5147.0
+        },
+        {
+          "mes": "2024-03",
+          "valor": 709.2455219829926,
+          "numerador": 3920.0,
+          "denominador": 5527.0
+        },
+        {
+          "mes": "2024-04",
+          "valor": 722.9405245659401,
+          "numerador": 3914.0,
+          "denominador": 5414.0
+        },
+        {
+          "mes": "2024-05",
+          "valor": 718.4692777578153,
+          "numerador": 3999.0,
+          "denominador": 5566.0
+        },
+        {
+          "mes": "2024-06",
+          "valor": 752.3400936037441,
+          "numerador": 3858.0,
+          "denominador": 5128.0
+        },
+        {
+          "mes": "2024-07",
+          "valor": 654.2709867452136,
+          "numerador": 3554.0,
+          "denominador": 5432.0
+        },
+        {
+          "mes": "2024-08",
+          "valor": 652.7644920604554,
+          "numerador": 3412.0,
+          "denominador": 5227.0
+        },
+        {
+          "mes": "2024-09",
+          "valor": 561.8534482758621,
+          "numerador": 2607.0,
+          "denominador": 4640.0
+        },
+        {
+          "mes": "2024-10",
+          "valor": 704.3388429752066,
+          "numerador": 3409.0,
+          "denominador": 4840.0
+        },
+        {
+          "mes": "2024-11",
+          "valor": 493.98572884811415,
+          "numerador": 2423.0,
+          "denominador": 4905.0
+        },
+        {
+          "mes": "2024-12",
+          "valor": 601.7017828200973,
+          "numerador": 2970.0,
+          "denominador": 4936.0
+        },
+        {
+          "mes": "2025-01",
+          "valor": 947.2631387525005,
+          "numerador": 5209.0,
+          "denominador": 5499.0
+        },
+        {
+          "mes": "2025-02",
+          "valor": 831.8102274936807,
+          "numerador": 4278.0,
+          "denominador": 5143.0
+        },
+        {
+          "mes": "2025-03",
+          "valor": 674.9646892655368,
+          "numerador": 3823.0,
+          "denominador": 5664.0
+        },
+        {
+          "mes": "2025-04",
+          "valor": 711.9357306809487,
+          "numerador": 3722.0,
+          "denominador": 5228.0
+        },
+        {
+          "mes": "2025-05",
+          "valor": 700.4101416853094,
+          "numerador": 3757.0,
+          "denominador": 5364.0
+        },
+        {
+          "mes": "2025-06",
+          "valor": 715.1196730881494,
+          "numerador": 3675.0,
+          "denominador": 5139.0
+        },
+        {
+          "mes": "2025-07",
+          "valor": 649.4399685596385,
+          "numerador": 3305.0,
+          "denominador": 5089.0
+        },
+        {
+          "mes": "2025-08",
+          "valor": 680.4266245309105,
+          "numerador": 3445.0,
+          "denominador": 5063.0
+        },
+        {
+          "mes": "2025-09",
+          "valor": 675.3926701570681,
+          "numerador": 3354.0,
+          "denominador": 4966.0
+        },
+        {
+          "mes": "2025-12",
+          "valor": 713.1534251745612,
+          "numerador": 3779.0,
+          "denominador": 5299.0
+        },
+        {
+          "mes": "2026-01",
+          "valor": 973.5037984065222,
+          "numerador": 5254.0,
+          "denominador": 5397.0
+        },
+        {
+          "mes": "2026-02",
+          "valor": 841.183339820942,
+          "numerador": 4322.0,
+          "denominador": 5138.0
+        },
+        {
+          "mes": "2026-03",
+          "valor": 791.9398380254531,
+          "numerador": 4107.0,
+          "denominador": 5186.0
+        },
+        {
+          "mes": "2026-04",
+          "valor": 710.2079395085066,
+          "numerador": 3757.0,
+          "denominador": 5290.0
+        }
+      ],
+      "titulo": "Consumo total de antibióticos por 1000 dias de internamento",
+      "grupo": "qualidade",
+      "unidade": "por_1000_dias",
+      "polaridade": "subir_e_mau",
+      "descricao": "Doses diárias definidas de antibiótico por cada mil dias de internamento. É a medida com que a ECDC compara hospitais e países — e, ao contrário do peso de cada classe, mede quanto se usa e não só o quê.",
+      "cautela": "Junta duas fontes com perímetros próprios: as DDD são de todo o hospital e os dias de internamento só do internamento. Um hospital com muito ambulatório ou hospital de dia aparece com consumo mais alto por dia de cama sem que isso signifique prescrever pior. Também não está ajustado ao doente.",
+      "referencia": null,
+      "evidencia": [
+        {
+          "citacao": "European Centre for Disease Prevention and Control, «Antimicrobial consumption in the EU/EEA»: o consumo hospitalar exprime-se em DDD por 1000 doentes-dia, para ser comparável entre unidades de dimensão diferente.",
+          "url": "https://www.ecdc.europa.eu/en/antimicrobial-consumption/surveillance-and-disease-data"
+        }
+      ],
+      "pode_exceder_100": null,
+      "maximo_plausivel": null
+    },
+    "antibioticos-carbapenemes-volume": {
+      "valor": 10.45116061188557,
+      "numerador": 647.0,
+      "denominador": 61907.0,
+      "periodo": "2025-05..2026-04",
+      "meses_usados": 12,
+      "meses_em_falta": [],
+      "fonte": {
+        "dataset": "antibioticos-carbapenemes",
+        "titulo": "Antibióticos - Carbapenemes",
+        "publisher": "INFARMED",
+        "atualizado": "2026-07-03T15:54:24.077000+00:00",
+        "url": "https://transparencia.sns.gov.pt/api/explore/v2.1/catalog/datasets/antibioticos-carbapenemes/records?select=sum%28ddd_consumidas_carbapenemes%29%20as%20numerador&where=nome_hospital%3A%22Unidade%20Local%20de%20Sa%C3%BAde%20do%20Baixo%20Alentejo%2C%20E.P.E.%22&limit=1"
+      },
+      "serie": [
+        {
+          "mes": "2015-01",
+          "valor": 6.050826946349335,
+          "numerador": 30.0,
+          "denominador": 4958.0
+        },
+        {
+          "mes": "2015-02",
+          "valor": 3.1453134829104634,
+          "numerador": 15.0,
+          "denominador": 4769.0
+        },
+        {
+          "mes": "2015-03",
+          "valor": 12.605042016806722,
+          "numerador": 63.0,
+          "denominador": 4998.0
+        },
+        {
+          "mes": "2015-04",
+          "valor": 5.79064587973274,
+          "numerador": 26.0,
+          "denominador": 4490.0
+        },
+        {
+          "mes": "2015-05",
+          "valor": 4.179728317659352,
+          "numerador": 20.0,
+          "denominador": 4785.0
+        },
+        {
+          "mes": "2015-06",
+          "valor": 6.686798964624677,
+          "numerador": 31.0,
+          "denominador": 4636.0
+        },
+        {
+          "mes": "2015-07",
+          "valor": 6.802721088435374,
+          "numerador": 32.0,
+          "denominador": 4704.0
+        },
+        {
+          "mes": "2015-08",
+          "valor": 1.845018450184502,
+          "numerador": 9.0,
+          "denominador": 4878.0
+        },
+        {
+          "mes": "2015-09",
+          "valor": 8.595988538681949,
+          "numerador": 39.0,
+          "denominador": 4537.0
+        },
+        {
+          "mes": "2015-10",
+          "valor": 5.054589567327133,
+          "numerador": 25.0,
+          "denominador": 4946.0
+        },
+        {
+          "mes": "2015-11",
+          "valor": 4.62962962962963,
+          "numerador": 23.0,
+          "denominador": 4968.0
+        },
+        {
+          "mes": "2015-12",
+          "valor": 3.5460992907801416,
+          "numerador": 18.0,
+          "denominador": 5076.0
+        },
+        {
+          "mes": "2016-01",
+          "valor": 4.751461988304094,
+          "numerador": 26.0,
+          "denominador": 5472.0
+        },
+        {
+          "mes": "2016-02",
+          "valor": 5.210420841683367,
+          "numerador": 26.0,
+          "denominador": 4990.0
+        },
+        {
+          "mes": "2016-03",
+          "valor": 6.415094339622642,
+          "numerador": 34.0,
+          "denominador": 5300.0
+        },
+        {
+          "mes": "2016-04",
+          "valor": 12.053033346725593,
+          "numerador": 60.0,
+          "denominador": 4978.0
+        },
+        {
+          "mes": "2016-05",
+          "valor": 4.424778761061947,
+          "numerador": 23.0,
+          "denominador": 5198.0
+        },
+        {
+          "mes": "2016-06",
+          "valor": 4.570953667151465,
+          "numerador": 22.0,
+          "denominador": 4813.0
+        },
+        {
+          "mes": "2016-07",
+          "valor": 4.755996691480562,
+          "numerador": 23.0,
+          "denominador": 4836.0
+        },
+        {
+          "mes": "2016-08",
+          "valor": 2.914885347842985,
+          "numerador": 15.0,
+          "denominador": 5146.0
+        },
+        {
+          "mes": "2016-09",
+          "valor": 4.965622612681436,
+          "numerador": 26.0,
+          "denominador": 5236.0
+        },
+        {
+          "mes": "2016-10",
+          "valor": 0.379794910748196,
+          "numerador": 2.0,
+          "denominador": 5266.0
+        },
+        {
+          "mes": "2016-11",
+          "valor": 8.803827751196172,
+          "numerador": 46.0,
+          "denominador": 5225.0
+        },
+        {
+          "mes": "2016-12",
+          "valor": 4.6253469010175765,
+          "numerador": 25.0,
+          "denominador": 5405.0
+        },
+        {
+          "mes": "2017-01",
+          "valor": 5.214889408379788,
+          "numerador": 29.0,
+          "denominador": 5561.0
+        },
+        {
+          "mes": "2017-02",
+          "valor": 0.7982438635002993,
+          "numerador": 4.0,
+          "denominador": 5011.0
+        },
+        {
+          "mes": "2017-03",
+          "valor": 5.353728489483748,
+          "numerador": 28.0,
+          "denominador": 5230.0
+        },
+        {
+          "mes": "2017-04",
+          "valor": 3.316749585406302,
+          "numerador": 16.0,
+          "denominador": 4824.0
+        },
+        {
+          "mes": "2017-05",
+          "valor": 2.434001123385134,
+          "numerador": 13.0,
+          "denominador": 5341.0
+        },
+        {
+          "mes": "2017-06",
+          "valor": 3.763866877971474,
+          "numerador": 19.0,
+          "denominador": 5048.0
+        },
+        {
+          "mes": "2017-07",
+          "valor": 2.1363371528452126,
+          "numerador": 11.0,
+          "denominador": 5149.0
+        },
+        {
+          "mes": "2017-08",
+          "valor": 0.1958096729978461,
+          "numerador": 1.0,
+          "denominador": 5107.0
+        },
+        {
+          "mes": "2017-09",
+          "valor": 5.34045393858478,
+          "numerador": 28.0,
+          "denominador": 5243.0
+        },
+        {
+          "mes": "2017-10",
+          "valor": 0.0,
+          "numerador": 0.0,
+          "denominador": 5050.0
+        },
+        {
+          "mes": "2017-11",
+          "valor": 2.517428350116189,
+          "numerador": 13.0,
+          "denominador": 5164.0
+        },
+        {
+          "mes": "2017-12",
+          "valor": 0.0,
+          "numerador": 0.0,
+          "denominador": 5151.0
+        },
+        {
+          "mes": "2018-01",
+          "valor": 1.7519953280124587,
+          "numerador": 9.0,
+          "denominador": 5137.0
+        },
+        {
+          "mes": "2018-02",
+          "valor": 2.02552157180474,
+          "numerador": 10.0,
+          "denominador": 4937.0
+        },
+        {
+          "mes": "2018-03",
+          "valor": 2.66514372739387,
+          "numerador": 14.0,
+          "denominador": 5253.0
+        },
+        {
+          "mes": "2018-04",
+          "valor": 3.3884791708192146,
+          "numerador": 17.0,
+          "denominador": 5017.0
+        },
+        {
+          "mes": "2018-05",
+          "valor": 5.439879947477022,
+          "numerador": 29.0,
+          "denominador": 5331.0
+        },
+        {
+          "mes": "2018-06",
+          "valor": 5.238766874874068,
+          "numerador": 26.0,
+          "denominador": 4963.0
+        },
+        {
+          "mes": "2018-07",
+          "valor": 3.5930408472012103,
+          "numerador": 19.0,
+          "denominador": 5288.0
+        },
+        {
+          "mes": "2018-08",
+          "valor": 1.5667841754798277,
+          "numerador": 8.0,
+          "denominador": 5106.0
+        },
+        {
+          "mes": "2018-09",
+          "valor": 1.6006402561024409,
+          "numerador": 8.0,
+          "denominador": 4998.0
+        },
+        {
+          "mes": "2018-10",
+          "valor": 5.580142389840293,
+          "numerador": 29.0,
+          "denominador": 5197.0
+        },
+        {
+          "mes": "2018-11",
+          "valor": 4.923198109491926,
+          "numerador": 25.0,
+          "denominador": 5078.0
+        },
+        {
+          "mes": "2018-12",
+          "valor": 3.0775543701272055,
+          "numerador": 15.0,
+          "denominador": 4874.0
+        },
+        {
+          "mes": "2019-01",
+          "valor": 1.0993037742762917,
+          "numerador": 6.0,
+          "denominador": 5458.0
+        },
+        {
+          "mes": "2019-02",
+          "valor": 0.0,
+          "numerador": 0.0,
+          "denominador": 4829.0
+        },
+        {
+          "mes": "2019-03",
+          "valor": 0.18433179723502305,
+          "numerador": 1.0,
+          "denominador": 5425.0
+        },
+        {
+          "mes": "2019-04",
+          "valor": 0.8389261744966443,
+          "numerador": 4.0,
+          "denominador": 4768.0
+        },
+        {
+          "mes": "2019-05",
+          "valor": 0.0,
+          "numerador": 0.0,
+          "denominador": 4959.0
+        },
+        {
+          "mes": "2019-06",
+          "valor": 0.6609385327164574,
+          "numerador": 3.0,
+          "denominador": 4539.0
+        },
+        {
+          "mes": "2019-07",
+          "valor": 0.7995202878273037,
+          "numerador": 4.0,
+          "denominador": 5003.0
+        },
+        {
+          "mes": "2019-08",
+          "valor": 1.333926189417519,
+          "numerador": 6.0,
+          "denominador": 4498.0
+        },
+        {
+          "mes": "2019-09",
+          "valor": 0.4296455424274973,
+          "numerador": 2.0,
+          "denominador": 4655.0
+        },
+        {
+          "mes": "2019-10",
+          "valor": 1.502911891790344,
+          "numerador": 8.0,
+          "denominador": 5323.0
+        },
+        {
+          "mes": "2019-11",
+          "valor": 3.2122063842601887,
+          "numerador": 16.0,
+          "denominador": 4981.0
+        },
+        {
+          "mes": "2019-12",
+          "valor": 2.4297119055883374,
+          "numerador": 14.0,
+          "denominador": 5762.0
+        },
+        {
+          "mes": "2020-01",
+          "valor": 2.0622100017185083,
+          "numerador": 12.0,
+          "denominador": 5819.0
+        },
+        {
+          "mes": "2020-02",
+          "valor": 4.832863471606927,
+          "numerador": 24.0,
+          "denominador": 4966.0
+        },
+        {
+          "mes": "2020-03",
+          "valor": 1.935067727370458,
+          "numerador": 9.0,
+          "denominador": 4651.0
+        },
+        {
+          "mes": "2020-04",
+          "valor": 13.326081044329616,
+          "numerador": 49.0,
+          "denominador": 3677.0
+        },
+        {
+          "mes": "2020-05",
+          "valor": 21.716101694915253,
+          "numerador": 82.0,
+          "denominador": 3776.0
+        },
+        {
+          "mes": "2020-06",
+          "valor": 5.9966418805468935,
+          "numerador": 25.0,
+          "denominador": 4169.0
+        },
+        {
+          "mes": "2020-07",
+          "valor": 3.597122302158273,
+          "numerador": 16.0,
+          "denominador": 4448.0
+        },
+        {
+          "mes": "2020-08",
+          "valor": 2.7688047992616522,
+          "numerador": 12.0,
+          "denominador": 4334.0
+        },
+        {
+          "mes": "2020-09",
+          "valor": 5.475701574264202,
+          "numerador": 24.0,
+          "denominador": 4383.0
+        },
+        {
+          "mes": "2020-10",
+          "valor": 13.848559303104757,
+          "numerador": 62.0,
+          "denominador": 4477.0
+        },
+        {
+          "mes": "2020-11",
+          "valor": 8.909169926119079,
+          "numerador": 41.0,
+          "denominador": 4602.0
+        },
+        {
+          "mes": "2020-12",
+          "valor": 1.4574224443056423,
+          "numerador": 7.0,
+          "denominador": 4803.0
+        },
+        {
+          "mes": "2021-01",
+          "valor": 5.384922217790187,
+          "numerador": 27.0,
+          "denominador": 5014.0
+        },
+        {
+          "mes": "2021-02",
+          "valor": 18.785796105383735,
+          "numerador": 82.0,
+          "denominador": 4365.0
+        },
+        {
+          "mes": "2021-03",
+          "valor": 5.87437867148667,
+          "numerador": 26.0,
+          "denominador": 4426.0
+        },
+        {
+          "mes": "2021-04",
+          "valor": 6.100422336931018,
+          "numerador": 26.0,
+          "denominador": 4262.0
+        },
+        {
+          "mes": "2021-05",
+          "valor": 5.003001801080648,
+          "numerador": 25.0,
+          "denominador": 4997.0
+        },
+        {
+          "mes": "2021-06",
+          "valor": 16.320143080706462,
+          "numerador": 73.0,
+          "denominador": 4473.0
+        },
+        {
+          "mes": "2021-07",
+          "valor": 14.211076280041798,
+          "numerador": 68.0,
+          "denominador": 4785.0
+        },
+        {
+          "mes": "2021-08",
+          "valor": 4.6888320545609545,
+          "numerador": 22.0,
+          "denominador": 4692.0
+        },
+        {
+          "mes": "2021-09",
+          "valor": 7.137030995106036,
+          "numerador": 35.0,
+          "denominador": 4904.0
+        },
+        {
+          "mes": "2021-10",
+          "valor": 18.045417680454175,
+          "numerador": 89.0,
+          "denominador": 4932.0
+        },
+        {
+          "mes": "2021-11",
+          "valor": 10.232192050373868,
+          "numerador": 52.0,
+          "denominador": 5082.0
+        },
+        {
+          "mes": "2021-12",
+          "valor": 3.4447821681864235,
+          "numerador": 17.0,
+          "denominador": 4935.0
+        },
+        {
+          "mes": "2022-01",
+          "valor": 10.507080858839652,
+          "numerador": 46.0,
+          "denominador": 4378.0
+        },
+        {
+          "mes": "2022-02",
+          "valor": 4.635227730753728,
+          "numerador": 23.0,
+          "denominador": 4962.0
+        },
+        {
+          "mes": "2022-03",
+          "valor": 9.29480703172358,
+          "numerador": 46.0,
+          "denominador": 4949.0
+        },
+        {
+          "mes": "2022-04",
+          "valor": 5.045196552449022,
+          "numerador": 24.0,
+          "denominador": 4757.0
+        },
+        {
+          "mes": "2022-05",
+          "valor": 9.700889248181083,
+          "numerador": 48.0,
+          "denominador": 4948.0
+        },
+        {
+          "mes": "2022-06",
+          "valor": 7.01530612244898,
+          "numerador": 33.0,
+          "denominador": 4704.0
+        },
+        {
+          "mes": "2022-07",
+          "valor": 9.45945945945946,
+          "numerador": 42.0,
+          "denominador": 4440.0
+        },
+        {
+          "mes": "2022-08",
+          "valor": 3.293084522502744,
+          "numerador": 15.0,
+          "denominador": 4555.0
+        },
+        {
+          "mes": "2022-09",
+          "valor": 9.602793539938892,
+          "numerador": 44.0,
+          "denominador": 4582.0
+        },
+        {
+          "mes": "2022-10",
+          "valor": 6.0938452163315056,
+          "numerador": 30.0,
+          "denominador": 4923.0
+        },
+        {
+          "mes": "2022-11",
+          "valor": 14.331853048041987,
+          "numerador": 71.0,
+          "denominador": 4954.0
+        },
+        {
+          "mes": "2022-12",
+          "valor": 5.529225908372828,
+          "numerador": 28.0,
+          "denominador": 5064.0
+        },
+        {
+          "mes": "2023-01",
+          "valor": 15.83887368009386,
+          "numerador": 81.0,
+          "denominador": 5114.0
+        },
+        {
+          "mes": "2023-02",
+          "valor": 7.392607392607393,
+          "numerador": 37.0,
+          "denominador": 5005.0
+        },
+        {
+          "mes": "2023-03",
+          "valor": 2.198204799413812,
+          "numerador": 12.0,
+          "denominador": 5459.0
+        },
+        {
+          "mes": "2023-04",
+          "valor": 5.508557938225457,
+          "numerador": 28.0,
+          "denominador": 5083.0
+        },
+        {
+          "mes": "2023-05",
+          "valor": 8.364312267657992,
+          "numerador": 45.0,
+          "denominador": 5380.0
+        },
+        {
+          "mes": "2023-06",
+          "valor": 10.652988755178535,
+          "numerador": 54.0,
+          "denominador": 5069.0
+        },
+        {
+          "mes": "2023-07",
+          "valor": 8.614232209737828,
+          "numerador": 46.0,
+          "denominador": 5340.0
+        },
+        {
+          "mes": "2023-08",
+          "valor": 1.9477989871445267,
+          "numerador": 10.0,
+          "denominador": 5134.0
+        },
+        {
+          "mes": "2023-09",
+          "valor": 9.90868467068195,
+          "numerador": 51.0,
+          "denominador": 5147.0
+        },
+        {
+          "mes": "2023-10",
+          "valor": 6.991784653032687,
+          "numerador": 40.0,
+          "denominador": 5721.0
+        },
+        {
+          "mes": "2023-11",
+          "valor": 4.130605822187254,
+          "numerador": 21.0,
+          "denominador": 5084.0
+        },
+        {
+          "mes": "2023-12",
+          "valor": 8.897485493230175,
+          "numerador": 46.0,
+          "denominador": 5170.0
+        },
+        {
+          "mes": "2024-01",
+          "valor": 16.937065430558032,
+          "numerador": 95.0,
+          "denominador": 5609.0
+        },
+        {
+          "mes": "2024-02",
+          "valor": 10.88012434427822,
+          "numerador": 56.0,
+          "denominador": 5147.0
+        },
+        {
+          "mes": "2024-03",
+          "valor": 4.523249502442555,
+          "numerador": 25.0,
+          "denominador": 5527.0
+        },
+        {
+          "mes": "2024-04",
+          "valor": 13.114148503878832,
+          "numerador": 71.0,
+          "denominador": 5414.0
+        },
+        {
+          "mes": "2024-05",
+          "valor": 6.827164929931729,
+          "numerador": 38.0,
+          "denominador": 5566.0
+        },
+        {
+          "mes": "2024-06",
+          "valor": 14.430577223088923,
+          "numerador": 74.0,
+          "denominador": 5128.0
+        },
+        {
+          "mes": "2024-07",
+          "valor": 11.045655375552283,
+          "numerador": 60.0,
+          "denominador": 5432.0
+        },
+        {
+          "mes": "2024-08",
+          "valor": 12.62674574325617,
+          "numerador": 66.0,
+          "denominador": 5227.0
+        },
+        {
+          "mes": "2024-09",
+          "valor": 9.913793103448276,
+          "numerador": 46.0,
+          "denominador": 4640.0
+        },
+        {
+          "mes": "2024-10",
+          "valor": 14.462809917355372,
+          "numerador": 70.0,
+          "denominador": 4840.0
+        },
+        {
+          "mes": "2024-11",
+          "valor": 9.989806320081549,
+          "numerador": 49.0,
+          "denominador": 4905.0
+        },
+        {
+          "mes": "2024-12",
+          "valor": 11.345218800648299,
+          "numerador": 56.0,
+          "denominador": 4936.0
+        },
+        {
+          "mes": "2025-01",
+          "valor": 7.092198581560283,
+          "numerador": 39.0,
+          "denominador": 5499.0
+        },
+        {
+          "mes": "2025-02",
+          "valor": 10.694147384794867,
+          "numerador": 55.0,
+          "denominador": 5143.0
+        },
+        {
+          "mes": "2025-03",
+          "valor": 9.533898305084746,
+          "numerador": 54.0,
+          "denominador": 5664.0
+        },
+        {
+          "mes": "2025-04",
+          "valor": 5.929609793420046,
+          "numerador": 31.0,
+          "denominador": 5228.0
+        },
+        {
+          "mes": "2025-05",
+          "valor": 8.762117822520507,
+          "numerador": 47.0,
+          "denominador": 5364.0
+        },
+        {
+          "mes": "2025-06",
+          "valor": 5.4485308425763765,
+          "numerador": 28.0,
+          "denominador": 5139.0
+        },
+        {
+          "mes": "2025-07",
+          "valor": 8.056592650815485,
+          "numerador": 41.0,
+          "denominador": 5089.0
+        },
+        {
+          "mes": "2025-08",
+          "valor": 10.863124629666206,
+          "numerador": 55.0,
+          "denominador": 5063.0
+        },
+        {
+          "mes": "2025-09",
+          "valor": 14.49859041482078,
+          "numerador": 72.0,
+          "denominador": 4966.0
+        },
+        {
+          "mes": "2025-10",
+          "valor": 11.159330440173589,
+          "numerador": 54.0,
+          "denominador": 4839.0
+        },
+        {
+          "mes": "2025-11",
+          "valor": 9.733307377846993,
+          "numerador": 50.0,
+          "denominador": 5137.0
+        },
+        {
+          "mes": "2025-12",
+          "valor": 8.492168333647857,
+          "numerador": 45.0,
+          "denominador": 5299.0
+        },
+        {
+          "mes": "2026-01",
+          "valor": 2.408745599407078,
+          "numerador": 13.0,
+          "denominador": 5397.0
+        },
+        {
+          "mes": "2026-02",
+          "valor": 5.449591280653951,
+          "numerador": 28.0,
+          "denominador": 5138.0
+        },
+        {
+          "mes": "2026-03",
+          "valor": 20.053991515618975,
+          "numerador": 104.0,
+          "denominador": 5186.0
+        },
+        {
+          "mes": "2026-04",
+          "valor": 20.793950850661627,
+          "numerador": 110.0,
+          "denominador": 5290.0
+        }
+      ],
+      "titulo": "Carbapenemes por 1000 dias de internamento",
+      "grupo": "qualidade",
+      "unidade": "por_1000_dias",
+      "polaridade": "subir_e_mau",
+      "descricao": "O mesmo, restrito aos carbapenemes — os antibióticos de última linha para bactérias multirresistentes. Lido ao lado do peso dos carbapenemes, separa duas coisas que a proporção confunde: usar muitos antibióticos e usar os errados.",
+      "cautela": "Ver o consumo total. Um centro oncológico ou de transplantação usa legitimamente mais carbapenemes.",
+      "referencia": null,
+      "evidencia": null,
+      "pode_exceder_100": null,
+      "maximo_plausivel": null
+    },
+    "antibioticos-fluoroquinolonas-volume": {
+      "valor": 65.40455845057909,
+      "numerador": 4049.0,
+      "denominador": 61907.0,
+      "periodo": "2025-05..2026-04",
+      "meses_usados": 12,
+      "meses_em_falta": [],
+      "fonte": {
+        "dataset": "antibioticos-fluoroquinolonas",
+        "titulo": "Antibióticos - Fluoroquinolonas",
+        "publisher": "INFARMED",
+        "atualizado": "2026-07-03T16:05:33.899000+00:00",
+        "url": "https://transparencia.sns.gov.pt/api/explore/v2.1/catalog/datasets/antibioticos-fluoroquinolonas/records?select=sum%28ddd_consumidas_fluoroquinolonas%29%20as%20numerador&where=nome_hospital%3A%22Unidade%20Local%20de%20Sa%C3%BAde%20do%20Baixo%20Alentejo%2C%20E.P.E.%22&limit=1"
+      },
+      "serie": [
+        {
+          "mes": "2015-01",
+          "valor": 56.474384832593785,
+          "numerador": 280.0,
+          "denominador": 4958.0
+        },
+        {
+          "mes": "2015-02",
+          "valor": 81.56846299014468,
+          "numerador": 389.0,
+          "denominador": 4769.0
+        },
+        {
+          "mes": "2015-03",
+          "valor": 77.8311324529812,
+          "numerador": 389.0,
+          "denominador": 4998.0
+        },
+        {
+          "mes": "2015-04",
+          "valor": 53.67483296213808,
+          "numerador": 241.0,
+          "denominador": 4490.0
+        },
+        {
+          "mes": "2015-05",
+          "valor": 77.32497387669801,
+          "numerador": 370.0,
+          "denominador": 4785.0
+        },
+        {
+          "mes": "2015-06",
+          "valor": 57.80845556514237,
+          "numerador": 268.0,
+          "denominador": 4636.0
+        },
+        {
+          "mes": "2015-07",
+          "valor": 68.45238095238095,
+          "numerador": 322.0,
+          "denominador": 4704.0
+        },
+        {
+          "mes": "2015-08",
+          "valor": 50.02050020500205,
+          "numerador": 244.0,
+          "denominador": 4878.0
+        },
+        {
+          "mes": "2015-09",
+          "valor": 64.80052898391007,
+          "numerador": 294.0,
+          "denominador": 4537.0
+        },
+        {
+          "mes": "2015-10",
+          "valor": 66.72058228871816,
+          "numerador": 330.0,
+          "denominador": 4946.0
+        },
+        {
+          "mes": "2015-11",
+          "valor": 67.8341384863124,
+          "numerador": 337.0,
+          "denominador": 4968.0
+        },
+        {
+          "mes": "2015-12",
+          "valor": 44.12923561859732,
+          "numerador": 224.0,
+          "denominador": 5076.0
+        },
+        {
+          "mes": "2016-01",
+          "valor": 37.828947368421055,
+          "numerador": 207.0,
+          "denominador": 5472.0
+        },
+        {
+          "mes": "2016-02",
+          "valor": 45.69138276553106,
+          "numerador": 228.0,
+          "denominador": 4990.0
+        },
+        {
+          "mes": "2016-03",
+          "valor": 49.43396226415094,
+          "numerador": 262.0,
+          "denominador": 5300.0
+        },
+        {
+          "mes": "2016-04",
+          "valor": 56.247488951386096,
+          "numerador": 280.0,
+          "denominador": 4978.0
+        },
+        {
+          "mes": "2016-05",
+          "valor": 50.21161985378992,
+          "numerador": 261.0,
+          "denominador": 5198.0
+        },
+        {
+          "mes": "2016-06",
+          "valor": 36.35985871597756,
+          "numerador": 175.0,
+          "denominador": 4813.0
+        },
+        {
+          "mes": "2016-07",
+          "valor": 44.66501240694789,
+          "numerador": 216.0,
+          "denominador": 4836.0
+        },
+        {
+          "mes": "2016-08",
+          "valor": 41.39137193937039,
+          "numerador": 213.0,
+          "denominador": 5146.0
+        },
+        {
+          "mes": "2016-09",
+          "valor": 54.43086325439267,
+          "numerador": 285.0,
+          "denominador": 5236.0
+        },
+        {
+          "mes": "2016-10",
+          "valor": 55.45005696923661,
+          "numerador": 292.0,
+          "denominador": 5266.0
+        },
+        {
+          "mes": "2016-11",
+          "valor": 56.07655502392345,
+          "numerador": 293.0,
+          "denominador": 5225.0
+        },
+        {
+          "mes": "2016-12",
+          "valor": 70.12025901942646,
+          "numerador": 379.0,
+          "denominador": 5405.0
+        },
+        {
+          "mes": "2017-01",
+          "valor": 56.28484085596116,
+          "numerador": 313.0,
+          "denominador": 5561.0
+        },
+        {
+          "mes": "2017-02",
+          "valor": 44.901217321891835,
+          "numerador": 225.0,
+          "denominador": 5011.0
+        },
+        {
+          "mes": "2017-03",
+          "valor": 59.847036328871894,
+          "numerador": 313.0,
+          "denominador": 5230.0
+        },
+        {
+          "mes": "2017-04",
+          "valor": 47.885572139303484,
+          "numerador": 231.0,
+          "denominador": 4824.0
+        },
+        {
+          "mes": "2017-05",
+          "valor": 44.56094364351245,
+          "numerador": 238.0,
+          "denominador": 5341.0
+        },
+        {
+          "mes": "2017-06",
+          "valor": 24.564183835182252,
+          "numerador": 124.0,
+          "denominador": 5048.0
+        },
+        {
+          "mes": "2017-07",
+          "valor": 31.268207418916294,
+          "numerador": 161.0,
+          "denominador": 5149.0
+        },
+        {
+          "mes": "2017-08",
+          "valor": 47.97336988447229,
+          "numerador": 245.0,
+          "denominador": 5107.0
+        },
+        {
+          "mes": "2017-09",
+          "valor": 52.832347892428,
+          "numerador": 277.0,
+          "denominador": 5243.0
+        },
+        {
+          "mes": "2017-10",
+          "valor": 35.64356435643565,
+          "numerador": 180.0,
+          "denominador": 5050.0
+        },
+        {
+          "mes": "2017-11",
+          "valor": 36.986831913245545,
+          "numerador": 191.0,
+          "denominador": 5164.0
+        },
+        {
+          "mes": "2017-12",
+          "valor": 25.820229081731704,
+          "numerador": 133.0,
+          "denominador": 5151.0
+        },
+        {
+          "mes": "2018-01",
+          "valor": 22.581273116605022,
+          "numerador": 116.0,
+          "denominador": 5137.0
+        },
+        {
+          "mes": "2018-02",
+          "valor": 27.54709337654446,
+          "numerador": 136.0,
+          "denominador": 4937.0
+        },
+        {
+          "mes": "2018-03",
+          "valor": 40.928992956405864,
+          "numerador": 215.0,
+          "denominador": 5253.0
+        },
+        {
+          "mes": "2018-04",
+          "valor": 30.894957145704605,
+          "numerador": 155.0,
+          "denominador": 5017.0
+        },
+        {
+          "mes": "2018-05",
+          "valor": 35.265428625023446,
+          "numerador": 188.0,
+          "denominador": 5331.0
+        },
+        {
+          "mes": "2018-06",
+          "valor": 37.880314326012495,
+          "numerador": 188.0,
+          "denominador": 4963.0
+        },
+        {
+          "mes": "2018-07",
+          "valor": 36.87594553706505,
+          "numerador": 195.0,
+          "denominador": 5288.0
+        },
+        {
+          "mes": "2018-08",
+          "valor": 39.75714845280063,
+          "numerador": 203.0,
+          "denominador": 5106.0
+        },
+        {
+          "mes": "2018-09",
+          "valor": 43.417366946778714,
+          "numerador": 217.0,
+          "denominador": 4998.0
+        },
+        {
+          "mes": "2018-10",
+          "valor": 33.86569174523764,
+          "numerador": 176.0,
+          "denominador": 5197.0
+        },
+        {
+          "mes": "2018-11",
+          "valor": 40.17329657345412,
+          "numerador": 204.0,
+          "denominador": 5078.0
+        },
+        {
+          "mes": "2018-12",
+          "valor": 28.518670496512105,
+          "numerador": 139.0,
+          "denominador": 4874.0
+        },
+        {
+          "mes": "2019-01",
+          "valor": 56.614144375229024,
+          "numerador": 309.0,
+          "denominador": 5458.0
+        },
+        {
+          "mes": "2019-02",
+          "valor": 36.03230482501553,
+          "numerador": 174.0,
+          "denominador": 4829.0
+        },
+        {
+          "mes": "2019-03",
+          "valor": 40.184331797235025,
+          "numerador": 218.0,
+          "denominador": 5425.0
+        },
+        {
+          "mes": "2019-04",
+          "valor": 32.718120805369125,
+          "numerador": 156.0,
+          "denominador": 4768.0
+        },
+        {
+          "mes": "2019-05",
+          "valor": 48.39685420447671,
+          "numerador": 240.0,
+          "denominador": 4959.0
+        },
+        {
+          "mes": "2019-06",
+          "valor": 42.74069178233091,
+          "numerador": 194.0,
+          "denominador": 4539.0
+        },
+        {
+          "mes": "2019-07",
+          "valor": 60.9634219468319,
+          "numerador": 305.0,
+          "denominador": 5003.0
+        },
+        {
+          "mes": "2019-08",
+          "valor": 44.90884837705647,
+          "numerador": 202.0,
+          "denominador": 4498.0
+        },
+        {
+          "mes": "2019-09",
+          "valor": 42.534908700322234,
+          "numerador": 198.0,
+          "denominador": 4655.0
+        },
+        {
+          "mes": "2019-10",
+          "valor": 47.34172459139583,
+          "numerador": 252.0,
+          "denominador": 5323.0
+        },
+        {
+          "mes": "2019-11",
+          "valor": 43.36478618751255,
+          "numerador": 216.0,
+          "denominador": 4981.0
+        },
+        {
+          "mes": "2019-12",
+          "valor": 30.71850052065255,
+          "numerador": 177.0,
+          "denominador": 5762.0
+        },
+        {
+          "mes": "2020-01",
+          "valor": 36.43237669702698,
+          "numerador": 212.0,
+          "denominador": 5819.0
+        },
+        {
+          "mes": "2020-02",
+          "valor": 66.45187273459524,
+          "numerador": 330.0,
+          "denominador": 4966.0
+        },
+        {
+          "mes": "2020-03",
+          "valor": 61.492152225327885,
+          "numerador": 286.0,
+          "denominador": 4651.0
+        },
+        {
+          "mes": "2020-04",
+          "valor": 68.53413108512375,
+          "numerador": 252.0,
+          "denominador": 3677.0
+        },
+        {
+          "mes": "2020-05",
+          "valor": 60.38135593220339,
+          "numerador": 228.0,
+          "denominador": 3776.0
+        },
+        {
+          "mes": "2020-06",
+          "valor": 37.17917965939074,
+          "numerador": 155.0,
+          "denominador": 4169.0
+        },
+        {
+          "mes": "2020-07",
+          "valor": 36.8705035971223,
+          "numerador": 164.0,
+          "denominador": 4448.0
+        },
+        {
+          "mes": "2020-08",
+          "valor": 57.91416705122289,
+          "numerador": 251.0,
+          "denominador": 4334.0
+        },
+        {
+          "mes": "2020-09",
+          "valor": 63.426876568560346,
+          "numerador": 278.0,
+          "denominador": 4383.0
+        },
+        {
+          "mes": "2020-10",
+          "valor": 25.240116149207058,
+          "numerador": 113.0,
+          "denominador": 4477.0
+        },
+        {
+          "mes": "2020-11",
+          "valor": 31.290743155149936,
+          "numerador": 144.0,
+          "denominador": 4602.0
+        },
+        {
+          "mes": "2020-12",
+          "valor": 46.84572142410993,
+          "numerador": 225.0,
+          "denominador": 4803.0
+        },
+        {
+          "mes": "2021-01",
+          "valor": 50.85759872357399,
+          "numerador": 255.0,
+          "denominador": 5014.0
+        },
+        {
+          "mes": "2021-02",
+          "valor": 41.46620847651776,
+          "numerador": 181.0,
+          "denominador": 4365.0
+        },
+        {
+          "mes": "2021-03",
+          "valor": 52.417532760957975,
+          "numerador": 232.0,
+          "denominador": 4426.0
+        },
+        {
+          "mes": "2021-04",
+          "valor": 43.87611450023463,
+          "numerador": 187.0,
+          "denominador": 4262.0
+        },
+        {
+          "mes": "2021-05",
+          "valor": 29.01741044626776,
+          "numerador": 145.0,
+          "denominador": 4997.0
+        },
+        {
+          "mes": "2021-06",
+          "valor": 21.68566957299352,
+          "numerador": 97.0,
+          "denominador": 4473.0
+        },
+        {
+          "mes": "2021-07",
+          "valor": 42.84221525600836,
+          "numerador": 205.0,
+          "denominador": 4785.0
+        },
+        {
+          "mes": "2021-08",
+          "valor": 41.98635976129582,
+          "numerador": 197.0,
+          "denominador": 4692.0
+        },
+        {
+          "mes": "2021-09",
+          "valor": 40.98694942903752,
+          "numerador": 201.0,
+          "denominador": 4904.0
+        },
+        {
+          "mes": "2021-10",
+          "valor": 34.0632603406326,
+          "numerador": 168.0,
+          "denominador": 4932.0
+        },
+        {
+          "mes": "2021-11",
+          "valor": 33.05785123966942,
+          "numerador": 168.0,
+          "denominador": 5082.0
+        },
+        {
+          "mes": "2021-12",
+          "valor": 36.67679837892604,
+          "numerador": 181.0,
+          "denominador": 4935.0
+        },
+        {
+          "mes": "2022-01",
+          "valor": 52.76381909547739,
+          "numerador": 231.0,
+          "denominador": 4378.0
+        },
+        {
+          "mes": "2022-02",
+          "valor": 49.57678355501814,
+          "numerador": 246.0,
+          "denominador": 4962.0
+        },
+        {
+          "mes": "2022-03",
+          "valor": 34.14831279046272,
+          "numerador": 169.0,
+          "denominador": 4949.0
+        },
+        {
+          "mes": "2022-04",
+          "valor": 42.04330460374185,
+          "numerador": 200.0,
+          "denominador": 4757.0
+        },
+        {
+          "mes": "2022-05",
+          "valor": 22.029102667744542,
+          "numerador": 109.0,
+          "denominador": 4948.0
+        },
+        {
+          "mes": "2022-06",
+          "valor": 25.722789115646258,
+          "numerador": 121.0,
+          "denominador": 4704.0
+        },
+        {
+          "mes": "2022-07",
+          "valor": 48.873873873873876,
+          "numerador": 217.0,
+          "denominador": 4440.0
+        },
+        {
+          "mes": "2022-08",
+          "valor": 65.20307354555433,
+          "numerador": 297.0,
+          "denominador": 4555.0
+        },
+        {
+          "mes": "2022-09",
+          "valor": 53.033609777389785,
+          "numerador": 243.0,
+          "denominador": 4582.0
+        },
+        {
+          "mes": "2022-10",
+          "valor": 48.14137720901889,
+          "numerador": 237.0,
+          "denominador": 4923.0
+        },
+        {
+          "mes": "2022-11",
+          "valor": 36.33427533306419,
+          "numerador": 180.0,
+          "denominador": 4954.0
+        },
+        {
+          "mes": "2022-12",
+          "valor": 54.304897314375985,
+          "numerador": 275.0,
+          "denominador": 5064.0
+        },
+        {
+          "mes": "2023-01",
+          "valor": 42.82362143136488,
+          "numerador": 219.0,
+          "denominador": 5114.0
+        },
+        {
+          "mes": "2023-02",
+          "valor": 42.75724275724276,
+          "numerador": 214.0,
+          "denominador": 5005.0
+        },
+        {
+          "mes": "2023-03",
+          "valor": 38.10221652317274,
+          "numerador": 208.0,
+          "denominador": 5459.0
+        },
+        {
+          "mes": "2023-04",
+          "valor": 46.03580562659847,
+          "numerador": 234.0,
+          "denominador": 5083.0
+        },
+        {
+          "mes": "2023-05",
+          "valor": 52.41635687732342,
+          "numerador": 282.0,
+          "denominador": 5380.0
+        },
+        {
+          "mes": "2023-06",
+          "valor": 48.13572696784376,
+          "numerador": 244.0,
+          "denominador": 5069.0
+        },
+        {
+          "mes": "2023-07",
+          "valor": 59.36329588014981,
+          "numerador": 317.0,
+          "denominador": 5340.0
+        },
+        {
+          "mes": "2023-08",
+          "valor": 67.78340475262952,
+          "numerador": 348.0,
+          "denominador": 5134.0
+        },
+        {
+          "mes": "2023-09",
+          "valor": 65.47503400038858,
+          "numerador": 337.0,
+          "denominador": 5147.0
+        },
+        {
+          "mes": "2023-10",
+          "valor": 59.43016955077783,
+          "numerador": 340.0,
+          "denominador": 5721.0
+        },
+        {
+          "mes": "2023-11",
+          "valor": 68.45003933910307,
+          "numerador": 348.0,
+          "denominador": 5084.0
+        },
+        {
+          "mes": "2023-12",
+          "valor": 62.66924564796905,
+          "numerador": 324.0,
+          "denominador": 5170.0
+        },
+        {
+          "mes": "2024-01",
+          "valor": 54.55517917632377,
+          "numerador": 306.0,
+          "denominador": 5609.0
+        },
+        {
+          "mes": "2024-02",
+          "valor": 66.44647367398484,
+          "numerador": 342.0,
+          "denominador": 5147.0
+        },
+        {
+          "mes": "2024-03",
+          "valor": 57.17387371087389,
+          "numerador": 316.0,
+          "denominador": 5527.0
+        },
+        {
+          "mes": "2024-04",
+          "valor": 95.12375323236054,
+          "numerador": 515.0,
+          "denominador": 5414.0
+        },
+        {
+          "mes": "2024-05",
+          "valor": 77.97340998922027,
+          "numerador": 434.0,
+          "denominador": 5566.0
+        },
+        {
+          "mes": "2024-06",
+          "valor": 105.30421216848674,
+          "numerador": 540.0,
+          "denominador": 5128.0
+        },
+        {
+          "mes": "2024-07",
+          "valor": 60.198821796759944,
+          "numerador": 327.0,
+          "denominador": 5432.0
+        },
+        {
+          "mes": "2024-08",
+          "valor": 66.19475798737325,
+          "numerador": 346.0,
+          "denominador": 5227.0
+        },
+        {
+          "mes": "2024-09",
+          "valor": 69.39655172413794,
+          "numerador": 322.0,
+          "denominador": 4640.0
+        },
+        {
+          "mes": "2024-10",
+          "valor": 96.90082644628099,
+          "numerador": 469.0,
+          "denominador": 4840.0
+        },
+        {
+          "mes": "2024-11",
+          "valor": 47.298674821610604,
+          "numerador": 232.0,
+          "denominador": 4905.0
+        },
+        {
+          "mes": "2024-12",
+          "valor": 63.006482982171796,
+          "numerador": 311.0,
+          "denominador": 4936.0
+        },
+        {
+          "mes": "2025-01",
+          "valor": 56.555737406801235,
+          "numerador": 311.0,
+          "denominador": 5499.0
+        },
+        {
+          "mes": "2025-02",
+          "valor": 93.13630176939529,
+          "numerador": 479.0,
+          "denominador": 5143.0
+        },
+        {
+          "mes": "2025-03",
+          "valor": 77.33050847457628,
+          "numerador": 438.0,
+          "denominador": 5664.0
+        },
+        {
+          "mes": "2025-04",
+          "valor": 76.31981637337414,
+          "numerador": 399.0,
+          "denominador": 5228.0
+        },
+        {
+          "mes": "2025-05",
+          "valor": 57.79269202087994,
+          "numerador": 310.0,
+          "denominador": 5364.0
+        },
+        {
+          "mes": "2025-06",
+          "valor": 64.60400856197704,
+          "numerador": 332.0,
+          "denominador": 5139.0
+        },
+        {
+          "mes": "2025-07",
+          "valor": 91.57005305561015,
+          "numerador": 466.0,
+          "denominador": 5089.0
+        },
+        {
+          "mes": "2025-08",
+          "valor": 78.01698597669366,
+          "numerador": 395.0,
+          "denominador": 5063.0
+        },
+        {
+          "mes": "2025-09",
+          "valor": 71.48610551751914,
+          "numerador": 355.0,
+          "denominador": 4966.0
+        },
+        {
+          "mes": "2025-10",
+          "valor": 82.24839842942757,
+          "numerador": 398.0,
+          "denominador": 4839.0
+        },
+        {
+          "mes": "2025-11",
+          "valor": 79.03445590811758,
+          "numerador": 406.0,
+          "denominador": 5137.0
+        },
+        {
+          "mes": "2025-12",
+          "valor": 56.425740705793544,
+          "numerador": 299.0,
+          "denominador": 5299.0
+        },
+        {
+          "mes": "2026-01",
+          "valor": 48.36020011117287,
+          "numerador": 261.0,
+          "denominador": 5397.0
+        },
+        {
+          "mes": "2026-02",
+          "valor": 56.63682366679642,
+          "numerador": 291.0,
+          "denominador": 5138.0
+        },
+        {
+          "mes": "2026-03",
+          "valor": 52.64172772849981,
+          "numerador": 273.0,
+          "denominador": 5186.0
+        },
+        {
+          "mes": "2026-04",
+          "valor": 49.716446124763706,
+          "numerador": 263.0,
+          "denominador": 5290.0
+        }
+      ],
+      "titulo": "Fluoroquinolonas por 1000 dias de internamento",
+      "grupo": "qualidade",
+      "unidade": "por_1000_dias",
+      "polaridade": "subir_e_mau",
+      "descricao": "Volume de fluoroquinolonas por mil dias de internamento. São um alvo clássico dos programas de uso responsável de antibióticos.",
+      "cautela": "Ver o consumo total de antibióticos.",
       "referencia": null,
       "evidencia": null,
       "pode_exceder_100": null,

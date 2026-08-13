@@ -32,6 +32,7 @@ import duckdb  # noqa: E402
 from build import (  # noqa: E402
     LIMIAR_DENOMINADOR,
     _nao_somavel,
+    _tem_denominador,
     carregar_catalogo,
     carregar_grupos,
     carregar_indicadores,
@@ -178,7 +179,7 @@ def construir_payload():
                 "teto": ind.get("maximo_plausivel"),
                 "jaTaxa": bool(ind.get("ja_e_taxa")),
                 # Sem denominador não há taxa; sem soma possível não há total.
-                "taxa": bool(ind.get("denominador")) or bool(ind.get("ja_e_taxa")),
+                "taxa": _tem_denominador(ind) or bool(ind.get("ja_e_taxa")),
                 "soma": not _nao_somavel(ind)
                 and ind.get("agregacao_temporal") != "ultimo",
                 "ds": ind["dataset"],
