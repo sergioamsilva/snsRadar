@@ -122,6 +122,7 @@ const SECCOES = [
   { id: "estado", rotulo: "Estado do projeto" },
   { id: "atualizacao", rotulo: "Atualização" },
   { id: "citar", rotulo: "Como citar" },
+  { id: "alteracoes", rotulo: "O que mudou" },
   { id: "erros", rotulo: "Erros" },
 ];
 ---
@@ -440,6 +441,19 @@ const SECCOES = [
       origem, e permite a quem o ler verificá-lo sem passar por aqui. Todo o
       código e os dados tratados estão no{" "}
       <a href={REPOSITORIO}>repositório do projeto</a>, sob licença MIT.
+    </p>
+
+    <h2 id="alteracoes"><Icone nome="calendario" tamanho={21} />O que mudou, e quando</h2>
+    <p>
+      Um indicador pode ser acrescentado, mudar de definição, mudar de escala ou
+      ser retirado. Quem tiver citado um valor precisa de saber se ainda é o
+      mesmo, e quem tiver encontrado uma diferença precisa de saber se foi a
+      fonte que se corrigiu, se fomos nós, ou se está a olhar para outra coisa.
+    </p>
+    <p>
+      O <a href={`${REPOSITORIO}/blob/main/CHANGELOG.md`}>registo de
+      alterações</a> guarda isso, incluindo as correções a números que chegaram
+      a estar publicados e o tempo em que estiveram.
     </p>
 
     <h2 id="erros"><Icone nome="aviso" tamanho={21} />Erros</h2>

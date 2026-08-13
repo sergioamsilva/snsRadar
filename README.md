@@ -4,6 +4,7 @@
 · [Instituições](https://sergioamsilva.github.io/snsRadar/instituicoes/)
 · [Perguntas](https://sergioamsilva.github.io/snsRadar/perguntas/)
 · [Metodologia](https://sergioamsilva.github.io/snsRadar/metodologia/)
+· [Registo de alterações](CHANGELOG.md)
 
 ![snsRadar](og.png)
 
@@ -22,7 +23,7 @@ pensam **por instituição**.
 Ninguém quer o dataset `partos-e-cesarianas`. As pessoas querem saber se a
 maternidade onde vão ter um filho tem uma taxa de cesarianas de 22% ou de 45%.
 
-O snsRadar constrói **uma página por instituição**, reunindo 49 indicadores hoje
+O snsRadar constrói **uma página por instituição**, reunindo 52 indicadores hoje
 dispersos por 22 conjuntos de dados e por um painel da ACSS sem API, cada número
 com o seu denominador, a sua data, a sua fonte, e a sua comparação com o país e
 com as unidades que lhe são semelhantes.
@@ -35,7 +36,7 @@ públicos.
 Fases 0 e 1 concluídas e verificadas.
 
 - 44 entidades canónicas, 122 chaves de nome resolvidas
-- 43 fichas de instituição, 49 indicadores, 46 páginas estáticas
+- 43 fichas de instituição, 52 indicadores, 46 páginas estáticas
 - as 43 instituições com série contínua de 2013 a 2026 **atravessando a reforma
   ULS de 2024**, que parte todas as séries na fonte
 - 16 verificações de integridade, todas a passar — incluindo o confronto do
@@ -59,6 +60,14 @@ Fases 0 e 1 concluídas e verificadas.
   incluindo o que os contratos cresceram depois de assinados
 - **contexto europeu** via Eurostat, para os indicadores que sobrevivem à
   pergunta de serem comparáveis entre países
+- **ligações entre fontes que não se cruzam sozinhas**: antibióticos por mil
+  dias de internamento (INFARMED × ocupação), contratos por doente padrão
+  (IMPIC × ACSS), segurança confrontada com a mortalidade ajustada
+- **a reforma de 2024 medida** contra as sete unidades que já eram ULS e a quem
+  a lei não mudou o perímetro — um grupo de controlo, com os seus limites
+  declarados
+- o que mudou e quando, em [`CHANGELOG.md`](CHANGELOG.md): um número publicado
+  que muda de definição tem de o dizer a quem o citou
 
 ## Porque é que os números diferem da fonte
 
@@ -149,6 +158,7 @@ ingest/
   catalog.py            espelha o catálogo; deteta contagens erradas na fonte
   fetch.py              descarrega via /exports/csv (contorna o limite de 10k)
   benchmarking_acss.py  a segunda fonte: 45 indicadores e os grupos, sem API
+  reforma.py            a reforma de 2024 medida contra um grupo de controlo
   snapshot.py           SHA-256 por dataset; deteta revisões silenciosas
   semear_crosswalk.py   rascunho do crosswalk para revisão humana
   instituicoes.py       resolução de nomes para entidades canónicas
@@ -162,7 +172,7 @@ ingest/
   enriquecer.py         junta SMR, população, per capita e contratos às fichas
 reference/
   instituicoes.yaml            o crosswalk — a peça central
-  indicadores.yaml             definição dos 25 indicadores
+  indicadores.yaml             definição dos 52 indicadores
   entidades-nao-prestadoras.yaml
   NOTAS.md                     o que se aprendeu sobre a fonte
   VALIDACAO-EXTERNA.md         confronto com o INE e a ACSS
@@ -180,6 +190,7 @@ site/
   src/components/Funil.astro      funnel plot: distingue o desempenho do acaso
   src/components/Declive.astro    duas medidas ligadas, unidade a unidade
   src/components/Ranking.astro    volume cirúrgico, ordenado, país inteiro
+  src/components/Cruzamento.astro dois indicadores cruzados, com cautela ecológica
   src/components/Mapa.astro       o continente, em SVG
   src/components/Contexto.astro   comparação com a Europa (Eurostat)
   src/components/Movimento.astro  contratos: volume, via e modificações
