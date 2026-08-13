@@ -19,6 +19,13 @@ const semMedico = Object.values(pop.por_instituicao).reduce(
 );
 const periodoPop = pop.periodo;
 
+/* Os grupos da ACSS, para se poder entrar por cluster e não só por região. O
+   dado já vinha no índice; faltava-lhe uma porta. */
+const clusters = [...new Set(lista.map((i) => i.grupo_acss).filter(Boolean))].sort() as string[];
+const contaCluster = Object.fromEntries(
+  clusters.map((g) => [g, lista.filter((i) => i.grupo_acss === g).length]),
+);
+
 const porRegiao = [...new Set(lista.map((i) => i.regiao))].sort();
 const regioes = porRegiao.map((r) => ({
   regiao: r,
@@ -44,6 +51,24 @@ const regioes = porRegiao.map((r) => ({
     <div>
       <div class="sec-band"><h2>Encontre a sua unidade de saúde</h2><span class="ln" /><span class="n">{lista.length} unidades</span></div>
 
+      {clusters.length > 0 && (
+        <nav class="clusters" aria-label="Grupos de comparação da ACSS">
+          <p class="flabel">
+            Ou entre por grupo de comparação — as unidades que a ACSS considera
+            semelhantes em custo, e que por isso se comparam entre si
+          </p>
+          <ul>
+            {clusters.map((g) => (
+              <li>
+                <a href={ligacao(`/grupo/${g.replace(/^Grupo\s+/i, "").toLowerCase()}/`)}>
+                  {g}<span class="clusters__n num">{contaCluster[g]}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
       <p class="lista__intro">
         Escreva na caixa de procura lá em cima, ou aponte para um ponto do mapa:
         os dois filtram esta lista ao mesmo tempo.
@@ -60,12 +85,18 @@ const regioes = porRegiao.map((r) => ({
               {r.itens.map((i) => (
                 <li
                   data-item
-                  data-busca={`${i.nome_curto} ${i.distrito} ${i.regiao}`.toLowerCase()}
+                  data-busca={`${i.nome_curto} ${i.distrito} ${i.regiao} ${i.grupo_acss ?? ""}`.toLowerCase()}
                 >
                   <a href={ligacao(`/instituicao/${i.id}/`)}>
                     <span class="regiao__nome">{i.nome_curto}</span>
                     <span class="regiao__meta">
                       {i.distrito}
+                      {i.grupo_acss && (
+                        <>
+                          <span aria-hidden="true"> · </span>
+                          <span class="regiao__grupo">{i.grupo_acss}</span>
+                        </>
+                      )}
                       <span aria-hidden="true"> · </span>
                       <span class="num">{i.n_indicadores}</span> indicadores
                     </span>
@@ -224,4 +255,16 @@ const regioes = porRegiao.map((r) => ({
   .regiao__nome { font-weight: 600; font-size: var(--t-sm); }
   .regiao__meta { font-size: var(--t-2xs); color: var(--muted); }
   .lista__vazio { color: var(--muted); }
+  .clusters { margin: 8px 0 20px; }
+  .clusters ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; }
+  .clusters a {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px;
+    font-size: var(--t-2xs); text-decoration: none; color: var(--ink-2);
+  }
+  .clusters a:hover, .clusters a:focus-visible { border-color: var(--accent); color: var(--accent-texto); }
+  .clusters__n { color: var(--muted); font-size: var(--t-3xs); }
+  /* O grupo entra na linha de cada unidade e no texto de procura: escrever
+     «grupo c» na caixa passa a filtrar o cluster. */
+  .regiao__grupo { white-space: nowrap; }
 </style>

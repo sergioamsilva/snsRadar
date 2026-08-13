@@ -70,6 +70,7 @@ const pontosFunil = (iid: string) =>
       nome_curto: x.nome_curto,
       numerador: x.indicadores[iid]?.numerador ?? 0,
       denominador: x.indicadores[iid]?.denominador ?? 0,
+      grupo: x.grupo_comparacao?.grupo ?? null,
     }))
     .filter((p) => p.denominador > 0);
 
@@ -110,6 +111,7 @@ const cruzamento = (
       nome_curto: x.nome_curto,
       x: valorX ? valorX(x) : x.indicadores[ix]?.valor,
       y: x.indicadores[iy]?.valor,
+      grupo: x.grupo_comparacao?.grupo ?? null,
     }))
     .filter((p): p is { id: string; nome_curto: string; x: number; y: number } =>
       typeof p.x === "number" && typeof p.y === "number",
@@ -122,6 +124,7 @@ const segurancaMortalidade = todasFichas
     nome_curto: x.nome_curto,
     x: x.indice_seguranca?.z_medio,
     y: x.mortalidade_ajustada?.smr,
+    grupo: x.grupo_comparacao?.grupo ?? null,
   }))
   .filter((p): p is { id: string; nome_curto: string; x: number; y: number } =>
     typeof p.x === "number" && typeof p.y === "number",
@@ -217,7 +220,11 @@ const SECCOES = [
     {
       f.grupo_comparacao && (
         <aside class="pares">
-          <h2>{f.grupo_comparacao.grupo} — com quem esta unidade se compara</h2>
+          <h2>
+            <a href={ligacao(`/grupo/${f.grupo_comparacao.grupo.replace(/^Grupo\s+/i, "").toLowerCase()}/`)}>
+              {f.grupo_comparacao.grupo}
+            </a> — com quem esta unidade se compara
+          </h2>
           <p class="pares__texto">
             A mediana de todas as instituições do país põe um instituto de
             oncologia ao lado de uma unidade local, e nenhuma das duas devia ser
@@ -306,6 +313,7 @@ const SECCOES = [
               medianaGrupo={medianaDoGrupo(iid)}
               id_instituicao={f.id}
               funil={COM_FUNIL.has(iid) ? pontosFunil(iid) : null}
+              grupo={grupoDaUnidade}
               ranking={COM_RANKING.has(iid) ? barrasRanking(iid) : null}
               fator={FATOR[d.unidade] ?? null}
             />
@@ -319,6 +327,7 @@ const SECCOES = [
               rotuloY="úlceras de pressão"
               unidadeX="contagem"
               unidadeY="por_1000"
+              grupo={grupoDaUnidade}
               nota="É a relação mais documentada em investigação de serviços de saúde, e aparece nos dados portugueses — mas isto são 42 unidades, não 42 mil doentes. Uma associação entre hospitais não prova nada sobre um doente em concreto, e o que aqui se vê pode ser dotação de enfermagem, complexidade dos doentes, ou apenas hospitais que registam melhor as suas úlceras."
             />
           )}
@@ -331,6 +340,7 @@ const SECCOES = [
               rotuloY="mortalidade ajustada"
               unidadeX="racio"
               unidadeY="racio"
+              grupo={grupoDaUnidade}
               nota="O eixo horizontal resume os seis indicadores de segurança em desvios face à taxa do país; o vertical é o rácio entre mortes observadas e esperadas, padronizado por capítulo de diagnóstico, idade e sexo. Medem coisas diferentes por caminhos diferentes: concordarem reforça ambos, discordarem diz que cada um vê o que o outro não vê. Nenhum dos dois mede a qualidade do cuidado diretamente."
             />
           )}

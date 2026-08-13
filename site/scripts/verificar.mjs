@@ -18,6 +18,9 @@ const PAGINAS = [
   `${RAIZ}/perguntas/`,
   `${RAIZ}/instituicao/uls-tras-os-montes-alto-douro/`,
   `${RAIZ}/metodologia/`,
+  // Página de grupo: entrou com a navegação por cluster e tem tabela com
+  // rolamento próprio, que é onde a acessibilidade costuma partir.
+  `${RAIZ}/grupo/c/`,
 ];
 
 const navegador = await chromium.launch();

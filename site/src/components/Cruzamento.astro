@@ -28,9 +28,11 @@ interface Props {
   unidadeX: string;
   unidadeY: string;
   nota: string;
+  /** Grupo da unidade em destaque: os pares aparecem marcados. */
+  grupo?: string | null;
 }
-const { pontos, destaque, titulo, rotuloX, rotuloY, unidadeX, unidadeY, nota } =
-  Astro.props;
+const { pontos, destaque, titulo, rotuloX, rotuloY, unidadeX, unidadeY, nota,
+  grupo = null } = Astro.props;
 
 const L = 58, R = 16, T = 18, B = 52, W = 640, H = 340;
 const px = W - L - R, py = H - T - B;
@@ -63,6 +65,14 @@ const baixo = mediana(ordenados.slice(0, n).map((p) => p.y));
 const alto = mediana(ordenados.slice(-n).map((p) => p.y));
 
 const eu = pontos.find((p) => p.id === destaque);
+
+/* Os pares do grupo ficam marcados, mas a correlação continua a ser a de todas
+   as unidades. Calcular um coeficiente sobre os seis a dezassete pontos de um
+   grupo seria pôr um número onde não há amostra que o sustente — o que se pode
+   dizer honestamente é onde os pares caem na nuvem, e é isso que o desenho
+   mostra. */
+const pares = grupo ? pontos.filter((p) => p.grupo === grupo && p.id !== destaque) : [];
+const idsPares = new Set(pares.map((p) => p.id));
 const forca = Math.abs(r) < 0.2 ? "nenhuma relação visível"
   : Math.abs(r) < 0.4 ? "uma relação fraca"
   : Math.abs(r) < 0.6 ? "uma relação moderada" : "uma relação forte";
@@ -104,8 +114,11 @@ const nf1 = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFr
     <text class="cruz__eixo-rot" x={12} y={T + py / 2} text-anchor="middle"
       transform={`rotate(-90 12 ${T + py / 2})`}>{rotuloY}</text>
 
-    {pontos.filter((p) => p.id !== destaque).map((p) => (
-      <circle class="cruz__ponto" cx={lx(p.x)} cy={ly(p.y)} r="4" />
+    {pontos
+      .filter((p) => p.id !== destaque && !idsPares.has(p.id))
+      .map((p) => <circle class="cruz__ponto" cx={lx(p.x)} cy={ly(p.y)} r="4" />)}
+    {pares.map((p) => (
+      <circle class="cruz__ponto cruz__ponto--par" cx={lx(p.x)} cy={ly(p.y)} r="5" />
     ))}
     {eu && (
       <>
@@ -128,6 +141,13 @@ const nf1 = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFr
     mediana de <strong>{formatar(alto, unidadeY)}</strong>; o terço com menos,{" "}
     <strong>{formatar(baixo, unidadeY)}</strong>.
   </p>
+  {pares.length > 0 && (
+    <p class="cruz__pares">
+      <span class="cruz__legenda" aria-hidden="true" />
+      As {pares.length} unidades do {grupo} — as que se comparam com esta —
+      estão marcadas a cheio.
+    </p>
+  )}
   <p class="cruz__cautela">{nota}</p>
 </figure>
 
@@ -136,12 +156,18 @@ const nf1 = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFr
   .cruz__tit { font-size: var(--t-2xs); color: var(--ink-2); font-weight: 600; margin-bottom: 6px; }
   .cruz__svg { width: 100%; height: auto; display: block; overflow: visible; }
   .cruz__eixo { stroke: var(--border); stroke-width: 1; }
-  .cruz__ponto { fill: var(--ink-2); fill-opacity: 0.45; }
+  .cruz__ponto { fill: var(--ink-2); fill-opacity: 0.28; }
+  .cruz__ponto--par { fill: var(--ink-2); fill-opacity: 0.85; stroke: var(--surface); stroke-width: 1.5; }
   .cruz__ponto--eu { fill: var(--accent); fill-opacity: 1; stroke: var(--surface); stroke-width: 2.5; }
   .cruz__rotulo { font-size: 11px; fill: var(--accent-texto); font-weight: 700; }
   .cruz__tick { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
   .cruz__eixo-rot { font-size: 11px; fill: var(--muted); }
   .cruz__leitura { margin: 8px 0 0; font-size: var(--t-xs); }
+  .cruz__pares { margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .cruz__legenda {
+    width: 9px; height: 9px; border-radius: 50%; flex: none;
+    background: color-mix(in srgb, var(--ink-2) 85%, transparent);
+  }
   .cruz__cautela {
     margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted);
     border-left: 2px solid var(--border); padding-left: 10px;

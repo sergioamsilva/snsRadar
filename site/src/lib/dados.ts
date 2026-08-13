@@ -52,6 +52,8 @@ export type PontoFunil = {
   nome_curto: string;
   numerador: number;
   denominador: number;
+  /** Grupo da ACSS: é dentro dele que o funil compara. */
+  grupo: string | null;
 };
 
 /** Uma unidade num ordenamento por volume. */
@@ -71,6 +73,8 @@ export type PontoCruzamento = {
   nome_curto: string;
   x: number;
   y: number;
+  /** Grupo da ACSS, para marcar os pares na nuvem. */
+  grupo?: string | null;
 };
 
 export type Sucessao = {

@@ -15,6 +15,10 @@ const { meses: MESES, inst: INST, ind: IND, s: SERIES, limiar: LIMIAR, mapa: MAP
 
 const ANOS = [...new Set(MESES.map((m) => +m.slice(0, 4)))].sort();
 const REGIOES = [...new Set(INST.map((i) => i.r))].sort();
+/* Grupos de financiamento da ACSS. Filtrar por grupo é o que permite comparar
+   hospitais entre pares: a região junta um IPO a uma unidade distrital só
+   porque ficam perto, e o grupo junta-os por se parecerem no que custam. */
+const GRUPOS_ACSS = [...new Set(INST.map((i) => i.gr).filter(Boolean))].sort();
 const MES_NOME = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 const QUEBRA = "2024-01"; // reforma das ULS
 
@@ -52,6 +56,7 @@ const fmtMes = (m) => MES_NOME[+m.slice(5, 7) - 1] + ". " + m.slice(0, 4);
 const estado = {
   de: ANOS[0], ate: ANOS[ANOS.length - 1],
   regioes: new Set(REGIOES),
+  grupos: new Set(GRUPOS_ACSS),
   evo: "cesarianas", disp: "cesarianas", mapa: "lic-dentro-tmrg",
   inst: null, ordem: { col: 1, desc: true },
 };
@@ -65,6 +70,10 @@ function lerHash() {
     const r = p.get("reg").split("|").filter((x) => REGIOES.includes(x));
     if (r.length) estado.regioes = new Set(r);
   }
+  if (p.has("gr")) {
+    const g = p.get("gr").split("|").filter((x) => GRUPOS_ACSS.includes(x));
+    if (g.length) estado.grupos = new Set(g);
+  }
   for (const k of ["evo", "disp", "mapa"]) {
     if (p.has(k) && IND.some((i) => i.id === p.get(k))) estado[k] = p.get(k);
   }
@@ -76,6 +85,7 @@ function escreverHash() {
   if (estado.de !== ANOS[0]) p.set("de", estado.de);
   if (estado.ate !== ANOS[ANOS.length - 1]) p.set("ate", estado.ate);
   if (estado.regioes.size !== REGIOES.length) p.set("reg", [...estado.regioes].join("|"));
+  if (estado.grupos.size !== GRUPOS_ACSS.length) p.set("gr", [...estado.grupos].join("|"));
   const OMISSO = { evo: "cesarianas", disp: "cesarianas", mapa: "lic-dentro-tmrg" };
   for (const k of ["evo", "disp", "mapa"]) if (estado[k] !== OMISSO[k]) p.set(k, estado[k]);
   if (estado.inst) p.set("inst", estado.inst);
@@ -87,7 +97,10 @@ function escreverHash() {
 
 const idxInd = (id) => IND.findIndex((x) => x.id === id);
 const dentro = (m) => { const a = +MESES[m].slice(0, 4); return a >= estado.de && a <= estado.ate; };
-const instVisiveis = () => INST.map((x, j) => [x, j]).filter(([x]) => estado.regioes.has(x.r));
+const instVisiveis = () =>
+  INST.map((x, j) => [x, j]).filter(
+    ([x]) => estado.regioes.has(x.r) && (!x.gr || estado.grupos.has(x.gr)),
+  );
 
 /** Agrega uma série no período: Σnum ÷ Σden, ou o último mês quando somar não faz sentido. */
 function agregar(i, j) {
@@ -801,6 +814,31 @@ function montarFiltros() {
   }
   montarChipsRegiao();
 
+  const cg = $("#chips-grupo");
+  if (GRUPOS_ACSS.length) {
+    const todosG = document.createElement("button");
+    todosG.className = "chip"; todosG.textContent = "Todos";
+    todosG.addEventListener("click", () => {
+      estado.grupos = new Set(GRUPOS_ACSS); montarChipsGrupo(); escreverHash(); renderTudo();
+    });
+    cg.append(todosG);
+    for (const g of GRUPOS_ACSS) {
+      const b = document.createElement("button");
+      b.className = "chip"; b.textContent = g.replace(/^Grupo\s+/, ""); b.dataset.gr = g;
+      b.title = g;
+      b.addEventListener("click", () => {
+        if (estado.grupos.size === GRUPOS_ACSS.length) estado.grupos = new Set([g]);
+        else if (estado.grupos.has(g)) {
+          estado.grupos.delete(g);
+          if (!estado.grupos.size) estado.grupos = new Set(GRUPOS_ACSS);
+        } else estado.grupos.add(g);
+        montarChipsGrupo(); escreverHash(); renderTudo();
+      });
+      cg.append(b);
+    }
+    montarChipsGrupo();
+  }
+
   $("#btn-tema").addEventListener("click", () => {
     const raiz = document.documentElement;
     const escuro = raiz.dataset.theme === "dark" ||
@@ -810,6 +848,16 @@ function montarFiltros() {
   });
 
   $$(".png").forEach((b) => b.addEventListener("click", () => exportarPNG(b.dataset.png)));
+}
+
+function montarChipsGrupo() {
+  const todos = estado.grupos.size === GRUPOS_ACSS.length;
+  const cg = $("#chips-grupo");
+  if (!cg) return;
+  cg.firstChild?.setAttribute("aria-pressed", String(todos));
+  $$("[data-gr]", cg).forEach((b) =>
+    b.setAttribute("aria-pressed", String(!todos && estado.grupos.has(b.dataset.gr))),
+  );
 }
 
 function montarChipsRegiao() {

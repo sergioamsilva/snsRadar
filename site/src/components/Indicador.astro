@@ -46,10 +46,12 @@ interface Props {
   ranking?: Barra[] | null;
   /** Multiplicador da taxa; o funil precisa dele para desenhar na mesma escala. */
   fator?: number | null;
+  /** Grupo da unidade, para o funil comparar dentro do cluster. */
+  grupo?: string | null;
 }
 const { id, dados, mediana, descontinuidade, porMil = null, medianaPorMil = null,
   faixa = [], medianaGrupo = null, id_instituicao = "", funil = null,
-  ranking = null, fator = null } = Astro.props;
+  ranking = null, fator = null, grupo = null } = Astro.props;
 
 /* A forma do desenho segue a natureza do dado, não a conveniência: uma taxa
    compara-se com o país, uma contagem é um volume discreto, e um saldo
@@ -290,6 +292,7 @@ const dataFonte = dados.fonte.atualizado
       unidade={dados.unidade}
       fator={fator ?? 100}
       titulo={dados.titulo}
+      grupo={grupo}
     />
   )}
   {ranking && ranking.length >= 3 && (

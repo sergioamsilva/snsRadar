@@ -18,6 +18,33 @@ código que não mexem em valores ficam no histórico de commits, que neste proj
 
 ## 14 de agosto de 2026
 
+### Navegar por cluster, e não só vê-lo
+
+O grupo de comparação da ACSS deixou de existir apenas dentro de uma ficha:
+
+- **uma página por grupo** (`/grupo/b/` a `/grupo/f/`), com as unidades que o
+  compõem e a mediana do grupo ao lado da nacional em cada indicador — é aí que
+  se vê que há grupos inteiros sistematicamente acima ou abaixo do país;
+- a **lista de instituições** mostra o grupo de cada unidade, aceita-o na caixa
+  de procura e tem atalhos para cada cluster;
+- o **painel** filtra por grupo, a par do filtro por região, e o filtro fica no
+  endereço.
+
+### Alteração de leitura: o funil passa a comparar dentro do grupo
+
+Os seis indicadores de segurança deixaram de ser lidos contra a taxa do país e
+passam a sê-lo contra a **taxa do seu grupo**, com a nacional a traço leve por
+contexto. A diferença é grande e muda vereditos: a sépsis pós-operatória corre a
+3,7 ‰ no Grupo B e a 11,1 ‰ no Grupo E — três vezes mais. Um hospital do Grupo B
+com 5 ‰ parecia bom contra o país e é mau contra os seus pares.
+
+A troca só se faz quando o grupo tem cinco ou mais unidades **e** pelo menos
+2 000 episódios; abaixo disso a taxa do grupo não se estima com confiança e a
+referência continua a ser a nacional, dizendo-o no texto. Nos cruzamentos, os
+pares do grupo aparecem marcados, mas a correlação continua a ser a de todas as
+unidades: um coeficiente calculado sobre seis pontos seria um número sem amostra
+que o sustente.
+
 ### Perguntas novas
 
 Três, na página de perguntas: **«já tive uma cesariana, posso ter parto

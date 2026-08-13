@@ -1,0 +1,230 @@
+---
+/**
+ * Uma página por grupo de comparação da ACSS.
+ *
+ * A ficha diz a que grupo uma unidade pertence e nomeia os seus pares. Faltava
+ * o inverso: entrar pelo grupo e ver as unidades juntas. É a diferença entre
+ * *saber* que existe um cluster e poder *navegar* por ele — e sem isso a
+ * comparação entre pares só existia dentro de uma ficha de cada vez.
+ *
+ * A página responde a duas perguntas:
+ *
+ *   · **quem está aqui** — as unidades do grupo, com a região e o distrito, para
+ *     se ver que o critério da ACSS é de custo e não de geografia: o Grupo C
+ *     junta unidades de todo o país;
+ *   · **onde está este grupo face ao país** — a mediana do grupo ao lado da
+ *     mediana nacional, indicador a indicador. É aqui que se percebe que
+ *     comparar tudo com tudo apaga informação: há grupos inteiros
+ *     sistematicamente acima ou abaixo do país.
+ */
+import Base from "../../layouts/Base.astro";
+import { ficha, indice, nacional, formatar, ligacao, GRUPOS } from "../../lib/dados";
+
+export function getStaticPaths() {
+  const fichas = indice().map((i) => ficha(i.id));
+  const grupos = [
+    ...new Set(
+      fichas.map((f) => f.grupo_comparacao?.grupo).filter((g): g is string => !!g),
+    ),
+  ].sort();
+  return grupos.map((g) => ({
+    // «Grupo C» → «c», que é o que se escreve num endereço.
+    params: { grupo: g.replace(/^Grupo\s+/i, "").toLowerCase() },
+    props: { nomeGrupo: g },
+  }));
+}
+
+const { nomeGrupo } = Astro.props;
+const nac = nacional();
+const todas = indice().map((i) => ficha(i.id));
+const membros = todas
+  .filter((f) => f.grupo_comparacao?.grupo === nomeGrupo)
+  .sort((a, b) => a.nome_curto.localeCompare(b.nome_curto, "pt"));
+
+const definicao = membros[0]?.grupo_comparacao?.definicao ?? null;
+const fonte = membros[0]?.grupo_comparacao?.fonte ?? null;
+
+/* Onde este grupo se afasta do país. Só entram os indicadores em que a ACSS
+   tem mediana de grupo — o que exige cinco unidades com valor, e é a mesma
+   regra da ficha. Ordenados pelo tamanho do desvio, porque é isso que
+   responde à pergunta «este grupo é diferente do país em quê?». */
+const contraste = Object.entries(nac)
+  .map(([iid, n]) => {
+    const g = n.mediana_por_grupo?.[nomeGrupo];
+    if (!g || n.mediana_instituicoes === null) return null;
+    const desvio =
+      n.mediana_instituicoes === 0
+        ? 0
+        : (g.mediana - n.mediana_instituicoes) / Math.abs(n.mediana_instituicoes);
+    return {
+      iid,
+      titulo: n.titulo,
+      unidade: n.unidade,
+      polaridade: n.polaridade,
+      grupo: g.mediana,
+      nacional: n.mediana_instituicoes,
+      n: g.n_instituicoes,
+      desvio,
+    };
+  })
+  .filter((x): x is NonNullable<typeof x> => x !== null)
+  .sort((a, b) => Math.abs(b.desvio) - Math.abs(a.desvio));
+
+const nomeGrupos = GRUPOS;
+const regioes = [...new Set(membros.map((m) => m.regiao))].sort();
+const pc = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 0 });
+const descricao =
+  `As ${membros.length} unidades do ${nomeGrupo} do benchmarking da ACSS, ` +
+  `e como o grupo se compara com o conjunto do país.`;
+---
+
+<Base titulo={nomeGrupo} descricao={descricao}>
+  <div class="pagina">
+    <nav class="migalhas" aria-label="Percurso">
+      <a href={ligacao("/instituicoes/")}>Instituições</a>
+      <span aria-hidden="true">›</span>
+      <span>Grupos de comparação</span>
+    </nav>
+
+    <header class="topo">
+      <p class="sobretitulo">Grupo de comparação da ACSS</p>
+      <h1>{nomeGrupo}</h1>
+      <p class="topo__intro">
+        <strong class="num">{membros.length}</strong> unidades, de{" "}
+        <strong class="num">{regioes.length}</strong>{" "}
+        {regioes.length === 1 ? "região" : "regiões"} do país. Comparam-se entre
+        si porque se parecem no que custam, não no sítio onde ficam.
+      </p>
+      {definicao && (
+        <p class="topo__nota">
+          {definicao}{" "}
+          {fonte && (
+            <a href={fonte} rel="nofollow noopener">Benchmarking Hospitalar da ACSS</a>
+          )}
+        </p>
+      )}
+    </header>
+
+    <section class="bloco">
+      <div class="sec-band">
+        <h2>As unidades deste grupo</h2><span class="ln" />
+        <span class="n">{membros.length}</span>
+      </div>
+      <ul class="membros">
+        {membros.map((m) => (
+          <li>
+            <a href={ligacao(`/instituicao/${m.id}/`)}>
+              <span class="membros__nome">{m.nome_curto}</span>
+              <span class="membros__meta">
+                {m.distrito}<span aria-hidden="true"> · </span>{m.regiao}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bloco">
+      <div class="sec-band">
+        <h2>Onde este grupo se afasta do país</h2><span class="ln" />
+        <span class="n">{contraste.length} indicadores</span>
+      </div>
+      <p class="bloco__intro">
+        A mediana deste grupo ao lado da mediana de todas as unidades. Quando um
+        grupo inteiro está sistematicamente acima ou abaixo do país, comparar as
+        suas unidades com a mediana nacional diz mais sobre o grupo a que
+        pertencem do que sobre elas.
+      </p>
+      <div
+        class="tabela-caixa"
+        tabindex="0"
+        role="region"
+        aria-label={`Mediana do ${nomeGrupo} face à mediana nacional, por indicador`}
+      >
+        <table class="contraste">
+          <thead>
+            <tr>
+              <th scope="col">Indicador</th>
+              <th scope="col" class="num">{nomeGrupo}</th>
+              <th scope="col" class="num">País</th>
+              <th scope="col" class="num">Desvio</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contraste.slice(0, 20).map((c) => (
+              <tr>
+                <td>
+                  <a href={ligacao(`/instituicao/${membros[0].id}/#${c.iid}`)}>{c.titulo}</a>
+                </td>
+                <td class="num">{formatar(c.grupo, c.unidade)}</td>
+                <td class="num">{formatar(c.nacional, c.unidade)}</td>
+                <td class="num">
+                  {c.desvio > 0 ? "+" : ""}{pc.format(100 * c.desvio)} %
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="bloco__nota">
+        Só entram os indicadores em que o grupo tem cinco ou mais unidades com
+        valor. Abaixo disso a mediana seria feita de duas ou três unidades, e
+        cada uma pesaria demasiado na régua contra a qual as outras são lidas.
+      </p>
+    </section>
+
+    <nav class="outros" aria-label="Outros grupos">
+      <p class="flabel">Outros grupos</p>
+      <ul>
+        {["B", "C", "D", "E", "F"].map((g) => (
+          <li>
+            <a
+              href={ligacao(`/grupo/${g.toLowerCase()}/`)}
+              aria-current={`Grupo ${g}` === nomeGrupo ? "page" : undefined}
+            >
+              Grupo {g}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .pagina { max-width: 54rem; margin: 0 auto; padding: 0 var(--gutter, 20px) 64px; }
+  .migalhas { font-size: var(--t-2xs); color: var(--muted); margin: 24px 0 8px; display: flex; gap: 8px; }
+  .topo { margin-bottom: 32px; }
+  .topo h1 { margin: 4px 0 12px; }
+  .topo__intro { font-size: var(--t-md); }
+  .topo__nota { margin-top: 10px; font-size: var(--t-2xs); color: var(--muted); }
+
+  .bloco { margin: 32px 0; }
+  .bloco__intro { font-size: var(--t-xs); margin: 12px 0; }
+  .bloco__nota { font-size: var(--t-3xs); color: var(--muted); margin-top: 10px; }
+
+  .membros { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 2px; }
+  .membros a {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 10px 12px; border-radius: 8px; text-decoration: none; color: inherit;
+  }
+  .membros a:hover, .membros a:focus-visible { background: var(--surface); }
+  .membros__nome { font-weight: 600; font-size: var(--t-sm); }
+  .membros__meta { font-size: var(--t-3xs); color: var(--muted); text-align: right; }
+
+  /* Rola dentro do seu contentor: a página nunca rola na horizontal. */
+  .tabela-caixa { overflow-x: auto; margin: 12px 0; }
+  .tabela-caixa:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .contraste { width: 100%; min-width: 32rem; border-collapse: collapse; font-size: var(--t-xs); }
+  .contraste th, .contraste td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+  .contraste th.num, .contraste td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .contraste thead th { color: var(--ink-2); font-size: var(--t-2xs); font-weight: 700; }
+
+  .outros { margin-top: 40px; }
+  .outros ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; }
+  .outros a {
+    display: inline-block; padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 999px; font-size: var(--t-2xs); text-decoration: none; color: var(--ink-2);
+  }
+  .outros a[aria-current="page"] { background: var(--ink); color: var(--page); border-color: var(--ink); }
+</style>

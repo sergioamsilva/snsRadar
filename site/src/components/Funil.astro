@@ -31,8 +31,24 @@ interface Props {
   /** Multiplicador da taxa: 1000 por mil episódios, 100000 por cem mil. */
   fator: number;
   titulo: string;
+  /** Grupo de comparação da unidade em destaque, quando existe. */
+  grupo?: string | null;
 }
-const { pontos, destaque, unidade, fator, titulo } = Astro.props;
+const { pontos, destaque, unidade, fator, titulo, grupo = null } = Astro.props;
+
+/* Abaixo disto a taxa do grupo não se estima com confiança e o funil volta à
+   referência nacional, dizendo-o. A precisão de θ depende dos episódios, não do
+   número de unidades: o Grupo E tem seis hospitais mas 18 260 episódios
+   cirúrgicos, e a sua taxa é sólida; o Grupo F tem 510, e não é. */
+const EPISODIOS_MINIMOS = 2000;
+
+const doGrupo = grupo ? pontos.filter((p) => p.grupo === grupo) : [];
+const episodiosDoGrupo = doGrupo.reduce((a, p) => a + p.denominador, 0);
+/* Comparar dentro do grupo não é um refinamento: as taxas de grupo diferem por
+   três vezes entre si. Um hospital do Grupo B com 5 ‰ de sépsis parece bom
+   contra os 7,4 ‰ do país e é mau contra os 3,7 ‰ dos seus pares. */
+const porGrupo = doGrupo.length >= 5 && episodiosDoGrupo >= EPISODIOS_MINIMOS;
+const universo = porGrupo ? doGrupo : pontos;
 
 /* Coordenadas em unidades grandes de propósito. O SVG é escalado para a largura
    da coluna: num viewBox de 320 o desenho é ampliado 2,1 vezes e um rótulo de
@@ -44,11 +60,17 @@ const px = W - L - R, py = H - T - B;
 
 /* Taxa global do país: soma dos numeradores sobre soma dos denominadores. A
    mesma regra de agregação do resto do projeto — nunca a média das taxas. */
-const somaNum = pontos.reduce((a, p) => a + p.numerador, 0);
-const somaDen = pontos.reduce((a, p) => a + p.denominador, 0);
+const somaNum = universo.reduce((a, p) => a + p.numerador, 0);
+const somaDen = universo.reduce((a, p) => a + p.denominador, 0);
 const theta = somaDen > 0 ? somaNum / somaDen : 0;
 
-const dens = pontos.map((p) => p.denominador).filter((d) => d > 0);
+/* A taxa do país fica como segunda referência, a traço leve: é o que permite
+   ver que o grupo inteiro está acima ou abaixo do conjunto. */
+const somaNumPais = pontos.reduce((a, p) => a + p.numerador, 0);
+const somaDenPais = pontos.reduce((a, p) => a + p.denominador, 0);
+const thetaPais = somaDenPais > 0 ? somaNumPais / somaDenPais : 0;
+
+const dens = universo.map((p) => p.denominador).filter((d) => d > 0);
 const minN = Math.max(10, Math.min(...dens) * 0.8);
 const maxN = Math.max(...dens) * 1.25;
 
@@ -65,8 +87,8 @@ const limite = (n: number, z: number) => {
 
 /* Teto do eixo vertical: o maior entre o que se observa e o limite superior no
    extremo pequeno, para que o funil caiba inteiro no desenho. */
-const taxas = pontos.map((p) => (p.numerador / p.denominador) * fator);
-const teto = Math.max(...taxas, limite(minN, 3.09)[1]) * 1.08 || 1;
+const taxas = universo.map((p) => (p.numerador / p.denominador) * fator);
+const teto = Math.max(...taxas, thetaPais * fator, limite(minN, 3.09)[1]) * 1.08 || 1;
 const ly = (v: number) => T + py - (py * Math.min(v, teto)) / teto;
 
 /* Os dois funis, amostrados em passos logarítmicos regulares. */
@@ -82,7 +104,7 @@ const banda = (z: number) => {
 };
 
 const z998 = 3.09;
-const marcas = pontos
+const marcas = universo
   .filter((p) => p.denominador > 0)
   .map((p) => {
     const taxa = (p.numerador / p.denominador) * fator;
@@ -139,13 +161,16 @@ const fmtEixo = (v: number) =>
 const leitura = eu
   ? eu.fora
     ? `Fora do funil: ${eu.nome_curto} está ${eu.acima ? "acima" : "abaixo"} do que a variação aleatória explica.`
-    : `Dentro do funil: com ${nf.format(Math.round(eu.denominador))} episódios, este valor não se distingue do resto do país.`
+    : `Dentro do funil: com ${nf.format(Math.round(eu.denominador))} episódios, `
+      + `este valor não se distingue ${porGrupo ? `das outras unidades do ${grupo}` : "do resto do país"}.`
   : "";
 ---
 
 <figure class="funil">
   <figcaption class="funil__tit">
-    {titulo} — cada unidade contra a sua dimensão
+    {titulo} — {porGrupo
+      ? `cada unidade do ${grupo} contra a sua dimensão`
+      : "cada unidade contra a sua dimensão"}
   </figcaption>
 
   <svg
@@ -154,8 +179,10 @@ const leitura = eu
     role="img"
     preserveAspectRatio="xMidYMid meet"
     aria-label={
-      `Gráfico de funil. Taxa nacional ${formatar(theta * fator, unidade)}. ` +
-      `${marcas.length} unidades; ${foraDoFunil.length} fora dos limites de 99,8 %. ` +
+      `Gráfico de funil. Referência: ${porGrupo ? `taxa do ${grupo}` : "taxa nacional"} ` +
+      `${formatar(theta * fator, unidade)}. ` +
+      `${marcas.length} unidades${porGrupo ? ` do ${grupo}` : ""}; ` +
+      `${foraDoFunil.length} fora dos limites de 99,8 %. ` +
       (eu ? `${eu.nome_curto}: ${formatar(eu.taxa, unidade)} com ${nf.format(Math.round(eu.denominador))} episódios. ${leitura}` : "")
     }
   >
@@ -163,6 +190,9 @@ const leitura = eu
     <path class="funil__banda funil__banda--95" d={banda(1.96)} />
 
     <line class="funil__media" x1={L} x2={W - R} y1={ly(theta * fator)} y2={ly(theta * fator)} />
+    {porGrupo && Math.abs(thetaPais - theta) * fator > teto * 0.03 && (
+      <line class="funil__pais" x1={L} x2={W - R} y1={ly(thetaPais * fator)} y2={ly(thetaPais * fator)} />
+    )}
 
     <line class="funil__eixo" x1={L} x2={W - R} y1={T + py} y2={T + py} />
     {
@@ -221,14 +251,26 @@ const leitura = eu
 
   <p class="funil__chaves">
     <span class="chave chave--funil">limites de 95 % e 99,8 %</span>
-    <span class="chave chave--media">taxa nacional</span>
+    <span class="chave chave--media">{porGrupo ? `taxa do ${grupo}` : "taxa nacional"}</span>
+    {porGrupo && <span class="chave chave--pais">taxa do país</span>}
   </p>
 
   <p class="funil__nota">
-    Dentro do funil, a distância à taxa nacional é acaso: com poucos episódios,
+    {porGrupo ? (
+      <>
+        A referência é a taxa do <strong>{grupo}</strong> —{" "}
+        {formatar(theta * fator, unidade)} contra{" "}
+        {formatar(thetaPais * fator, unidade)} no país —, porque comparar com o
+        conjunto diria mais sobre o grupo a que esta unidade pertence do que
+        sobre ela.{" "}
+      </>
+    ) : (
+      <>Não há episódios que cheguem para estimar a taxa do grupo, e a referência é a do país. </>
+    )}
+    Dentro do funil, a distância à referência é acaso: com poucos episódios,
     um caso a mais move muito a taxa. {
       foraDoFunil.length === 0
-        ? "Nenhuma unidade do país sai dos limites neste indicador."
+        ? `Nenhuma unidade ${porGrupo ? `do ${grupo}` : "do país"} sai dos limites neste indicador.`
         : `${foraDoFunil.length} ${foraDoFunil.length === 1 ? "unidade sai" : "unidades saem"} dos limites — ${foraDoFunil.map((m) => m.nome_curto).join(", ")}.`
     } {leitura}
   </p>
@@ -250,6 +292,8 @@ const leitura = eu
   .funil__banda--95 { fill-opacity: 0.13; }
 
   .funil__media { stroke: var(--ink-2); stroke-width: 1; opacity: 0.55; }
+  /* A taxa do país é contexto, não referência: entra a tracejado e recuada. */
+  .funil__pais { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 4 3; opacity: 0.35; }
   .funil__eixo { stroke: var(--border); stroke-width: 1; }
   .funil__chamada { stroke: var(--muted); stroke-width: 1; opacity: 0.5; }
 
@@ -268,6 +312,7 @@ const leitura = eu
   .chave::before { content: ""; width: 14px; height: 0; border-top: 1px solid; display: inline-block; }
   .chave--funil::before { border-top: 8px solid color-mix(in srgb, var(--ink-2) 15%, transparent); }
   .chave--media::before { border-top-color: var(--ink-2); }
+  .chave--pais::before { border-top: 1px dashed var(--ink-2); }
 
   .funil__nota { margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted); }
 </style>
