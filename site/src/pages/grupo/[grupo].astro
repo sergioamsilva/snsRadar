@@ -18,7 +18,9 @@
  *     sistematicamente acima ou abaixo do país.
  */
 import Base from "../../layouts/Base.astro";
-import { ficha, indice, nacional, formatar, ligacao, GRUPOS } from "../../lib/dados";
+import Mapa from "../../components/Mapa.astro";
+import Movimento from "../../components/Movimento.astro";
+import { ficha, indice, nacional, formatar, ligacao } from "../../lib/dados";
 
 export function getStaticPaths() {
   const fichas = indice().map((i) => ficha(i.id));
@@ -70,8 +72,19 @@ const contraste = Object.entries(nac)
   .filter((x): x is NonNullable<typeof x> => x !== null)
   .sort((a, b) => Math.abs(b.desvio) - Math.abs(a.desvio));
 
-const nomeGrupos = GRUPOS;
 const regioes = [...new Set(membros.map((m) => m.regiao))].sort();
+const distritos = [...new Set(membros.map((m) => m.distrito))];
+const populacao = membros.reduce((s, m) => s + (m.populacao?.inscritos ?? 0), 0);
+const acima = contraste.filter((c) => c.desvio > 0.1).length;
+const abaixo = contraste.filter((c) => c.desvio < -0.1).length;
+
+/* A assinatura desta página é o mapa, e o que ela tem de dizer em três
+   segundos é isto: um grupo da ACSS não tem forma geográfica. O Grupo C acende
+   Cascais e o Alto Minho ao mesmo tempo. As barras de desvio vêm a seguir,
+   porque respondem à pergunta que o mapa levanta — se não é geografia, é o
+   quê? */
+const maiorDesvio = Math.max(...contraste.map((c) => Math.abs(c.desvio)), 0.01);
+const barras = contraste.slice(0, 12);
 const pc = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 0 });
 const descricao =
   `As ${membros.length} unidades do ${nomeGrupo} do benchmarking da ACSS, ` +
@@ -105,6 +118,55 @@ const descricao =
       )}
     </header>
 
+    {/* Fila editorial de estatísticas: filetes finos, números que contam ao
+        entrar, algarismos tabulares. É a forma que o resto do portal já usa —
+        aqui serve para dar peso ao que a página afirma no título. */}
+    <dl class="stats">
+      <div>
+        <dt>Unidades</dt>
+        <dd class="num" data-contar={membros.length}>{membros.length}</dd>
+      </div>
+      <div>
+        <dt>Distritos</dt>
+        <dd class="num" data-contar={distritos.length}>{distritos.length}</dd>
+      </div>
+      {populacao > 0 && (
+        <div>
+          <dt>População</dt>
+          {/* Compacto de propósito: «4 031 850» a 2,4rem atravessava a célula
+              seguinte e escrevia por cima do número dela. */}
+          <dd class="num">
+            {new Intl.NumberFormat("pt-PT", {
+              notation: "compact",
+              maximumFractionDigits: 2,
+            }).format(populacao)}
+          </dd>
+        </div>
+      )}
+      <div>
+        <dt>Acima do país</dt>
+        <dd class="num" data-contar={acima}>{acima}</dd>
+      </div>
+      <div>
+        <dt>Abaixo do país</dt>
+        <dd class="num" data-contar={abaixo}>{abaixo}</dd>
+      </div>
+    </dl>
+
+    {/* A assinatura. Um grupo da ACSS não tem forma geográfica, e nenhuma frase
+        diz isso tão depressa como ver Cascais e o Alto Minho acesos ao mesmo
+        tempo. As restantes unidades ficam no mapa, apagadas: sem elas o país
+        deixava de se reconhecer e a comparação perdia o termo. */}
+    <figure class="assinatura" data-entrada>
+      <Mapa contorno destaques={membros.map((m) => m.id)} />
+      <figcaption>
+        As {membros.length} unidades do {nomeGrupo}, acesas no país. Espalham-se
+        por {distritos.length} distritos e {regioes.length}{" "}
+        {regioes.length === 1 ? "região" : "regiões"} — o que as junta é o custo,
+        não a distância.
+      </figcaption>
+    </figure>
+
     <section class="bloco">
       <div class="sec-band">
         <h2>As unidades deste grupo</h2><span class="ln" />
@@ -135,6 +197,36 @@ const descricao =
         suas unidades com a mediana nacional diz mais sobre o grupo a que
         pertencem do que sobre elas.
       </p>
+      {/* Barras de desvio face ao país. Uma só cor: o comprimento carrega a
+          magnitude e o lado carrega o sinal. Colorir os dois lados de verde e
+          vermelho seria afirmar que estar acima é mau — e depende do indicador,
+          porque metade destes sobe-e-é-bom e a outra metade sobe-e-é-mau. */}
+      <ul class="desvios" data-entrada>
+        {barras.map((c) => {
+          const larg = (Math.abs(c.desvio) / maiorDesvio) * 50;
+          return (
+            <li class="desvio">
+              <span class="desvio__nome">{c.titulo}</span>
+              <span class="desvio__pista">
+                <span class="desvio__eixo" aria-hidden="true" />
+                <span
+                  class={`desvio__barra desvio__barra--${c.desvio >= 0 ? "acima" : "abaixo"}`}
+                  style={`--larg:${larg}%`}
+                />
+              </span>
+              <span class="desvio__valor num">
+                {c.desvio > 0 ? "+" : ""}{pc.format(100 * c.desvio)} %
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      <p class="desvios__eixo-rot">
+        <span>← abaixo do país</span><span>mediana nacional</span><span>acima do país →</span>
+      </p>
+
+      <details class="detalhe">
+        <summary>Ver os valores, indicador a indicador</summary>
       <div
         class="tabela-caixa"
         tabindex="0"
@@ -166,6 +258,7 @@ const descricao =
           </tbody>
         </table>
       </div>
+      </details>
       <p class="bloco__nota">
         Só entram os indicadores em que o grupo tem cinco ou mais unidades com
         valor. Abaixo disso a mediana seria feita de duas ou três unidades, e
@@ -189,6 +282,7 @@ const descricao =
       </ul>
     </nav>
   </div>
+  <Movimento />
 </Base>
 
 <style>
@@ -198,6 +292,82 @@ const descricao =
   .topo h1 { margin: 4px 0 12px; }
   .topo__intro { font-size: var(--t-md); }
   .topo__nota { margin-top: 10px; font-size: var(--t-2xs); color: var(--muted); }
+
+  /* Fila de estatísticas: filetes hairline, régua de acento que cresce no
+     hover, algarismos tabulares. Um gesto por elemento. */
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    column-gap: 16px;
+    gap: 0; margin: 28px 0 8px; border-top: 1px solid var(--border);
+  }
+  /* O espaçamento é por padding e não só por `column-gap`: a 390 px os rótulos
+     de duas células vizinhas colavam-se e liam-se como uma palavra só —
+     «POPULAÇÃO SERVIDAACIMA DO PAÍS». */
+  .stats > div {
+    padding: 14px 16px 12px 0; border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .stats > div::after {
+    content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: 0;
+    max-width: calc(100% - 16px);
+    background: var(--accent); transition: width 0.5s cubic-bezier(0.22, 0.8, 0.25, 1);
+  }
+  .stats > div:hover::after { width: 2.5rem; }
+  .stats dt {
+    font-size: var(--t-3xs); letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .stats dd {
+    margin: 4px 0 0; font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 700;
+    line-height: 1.05; font-variant-numeric: tabular-nums;
+  }
+
+  .assinatura { margin: 8px 0 32px; }
+  .assinatura figcaption {
+    font-size: var(--t-xs); color: var(--ink-2); margin-top: 8px; max-width: 40rem;
+  }
+
+  /* Barras de desvio: o eixo é o país, a barra cresce para o lado do sinal. */
+  .desvios { list-style: none; margin: 16px 0 4px; padding: 0; display: grid; gap: 6px; }
+  .desvio {
+    display: grid; grid-template-columns: minmax(0, 17rem) 1fr 3.6rem;
+    align-items: center; gap: 12px; font-size: var(--t-3xs); color: var(--ink-2);
+  }
+  @media (max-width: 48rem) { .desvio { grid-template-columns: minmax(0, 11rem) 1fr 3.4rem; } }
+  @media (max-width: 34rem) { .desvio { grid-template-columns: minmax(0, 7.5rem) 1fr 3.2rem; } }
+  .desvio__nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .desvio__pista { position: relative; height: 14px; display: block; }
+  .desvio__eixo {
+    /* O eixo é a mediana nacional e é a referência de toda a leitura: tem de
+       se ver sem competir com as barras. */
+    position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px;
+    background: var(--ink-2); opacity: 0.45;
+  }
+  .desvio__barra {
+    position: absolute; top: 3px; height: 8px; width: var(--larg);
+    background: var(--ink-2); opacity: 0.55;
+    transform: scaleX(1); transform-origin: left center;
+  }
+  .desvio__barra--acima { left: 50%; border-radius: 0 4px 4px 0; }
+  .desvio__barra--abaixo { right: 50%; border-radius: 4px 0 0 4px; transform-origin: right center; }
+  /* O gesto do projeto é `[data-entrada]` + `.entrou`, posto por
+     Movimento.astro. Na primeira versão inventei `[data-visivel]`, que não
+     existe — e as barras ficavam em scaleX(0) para sempre, invisíveis. */
+  html.js [data-entrada] .desvio__barra { transform: scaleX(0); }
+  html.js [data-entrada].entrou .desvio__barra {
+    transform: scaleX(1);
+    transition: transform 0.7s cubic-bezier(0.22, 0.8, 0.25, 1) var(--atraso, 0ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js [data-entrada] .desvio__barra { transform: scaleX(1); transition: none; }
+  }
+  .desvio__valor { text-align: right; font-variant-numeric: tabular-nums; }
+  .desvios__eixo-rot {
+    display: flex; justify-content: space-between; margin: 0 0 12px;
+    font-size: var(--t-3xs); color: var(--muted);
+  }
+  .detalhe { margin: 12px 0; }
+  .detalhe summary { font-size: var(--t-2xs); color: var(--ink-2); cursor: pointer; padding: 6px 0; }
 
   .bloco { margin: 32px 0; }
   .bloco__intro { font-size: var(--t-xs); margin: 12px 0; }

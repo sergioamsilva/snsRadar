@@ -44,8 +44,15 @@ import { indice, enriquecimento, ligacao } from "../lib/dados";
 interface Props {
   /** Distritos em traço de cabelo por baixo dos pontos. */
   contorno?: boolean;
+  /**
+   * Ids a acender. As restantes unidades ficam no mapa mas apagadas — é o que
+   * torna o mapa um argumento e não um enfeite: vê-se de relance que um grupo
+   * de comparação da ACSS não tem forma geográfica nenhuma.
+   */
+  destaques?: string[] | null;
 }
-const { contorno = false } = Astro.props;
+const { contorno = false, destaques = null } = Astro.props;
+const aceso = destaques ? new Set(destaques) : null;
 
 const lista = indice().filter((i) => i.geo);
 const inscritos = enriquecimento().populacao.por_instituicao;
@@ -191,7 +198,7 @@ const totalComPop = pontos.filter((p) => p.pop !== null).length;
       pontos.map((p, i) => (
         <a
           href={ligacao(`/instituicao/${p.id}/`)}
-          class="mapa__ponto"
+          class={`mapa__ponto${aceso && !aceso.has(p.id) ? " mapa__ponto--apagado" : ""}`}
           data-ponto
           data-busca={`${p.nome_curto} ${p.distrito} ${p.regiao}`.toLowerCase()}
           data-nome={p.nome_curto}
@@ -307,6 +314,9 @@ const totalComPop = pontos.filter((p) => p.pop !== null).length;
 
   /* Atenuadas pela procura: continuam visíveis, para que a forma do país não
      se desfaça enquanto se escreve. */
+  /* Apagado, não escondido: o país tem de continuar reconhecível por baixo. */
+  .mapa__ponto--apagado .mapa__marca { fill-opacity: 0.12; }
+  .mapa__ponto--apagado:hover .mapa__marca { fill-opacity: 0.4; }
   .mapa__ponto[data-fora] .mapa__marca {
     fill: var(--grid);
     stroke: var(--page);
