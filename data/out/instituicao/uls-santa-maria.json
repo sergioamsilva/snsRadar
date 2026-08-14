@@ -168,7 +168,7 @@
       {
         "ano": "2024",
         "contratos": 3700,
-        "valor": 456023642
+        "valor": 456023643
       },
       {
         "ano": "2025",
@@ -237,7 +237,7 @@
       "acrescimo": -461756
     },
     "por_doente_padrao": {
-      "valor_contratado": 1452540413,
+      "valor_contratado": 1452540414,
       "doente_padrao": 354570,
       "euros_por_doente_padrao": 4096.6,
       "periodo": "2024..2026",

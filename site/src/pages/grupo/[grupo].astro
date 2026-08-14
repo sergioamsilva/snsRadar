@@ -157,6 +157,7 @@ const descricao =
         diz isso tão depressa como ver Cascais e o Alto Minho acesos ao mesmo
         tempo. As restantes unidades ficam no mapa, apagadas: sem elas o país
         deixava de se reconhecer e a comparação perdia o termo. */}
+    <div class="duo">
     <figure class="assinatura" data-entrada>
       <Mapa contorno destaques={membros.map((m) => m.id)} />
       <figcaption>
@@ -167,7 +168,7 @@ const descricao =
       </figcaption>
     </figure>
 
-    <section class="bloco">
+    <section class="bloco bloco--unidades">
       <div class="sec-band">
         <h2>As unidades deste grupo</h2><span class="ln" />
         <span class="n">{membros.length}</span>
@@ -185,6 +186,7 @@ const descricao =
         ))}
       </ul>
     </section>
+    </div>
 
     <section class="bloco">
       <div class="sec-band">
@@ -286,12 +288,16 @@ const descricao =
 </Base>
 
 <style>
-  .pagina { max-width: 54rem; margin: 0 auto; padding: 0 var(--gutter, 20px) 64px; }
+  /* Largura total com goteira, como o resto do portal (`.wrap` em global.css).
+     A primeira versão prendia a página a 54rem e num ecrã de 1400 px o mapa
+     ficava do tamanho de um selo com dois terços do ecrã vazios. A medida de
+     leitura aplica-se à prosa, não ao conteúdo todo. */
+  .pagina { padding: 0 var(--gutter, 20px) 64px; }
   .migalhas { font-size: var(--t-2xs); color: var(--muted); margin: 24px 0 8px; display: flex; gap: 8px; }
   .topo { margin-bottom: 32px; }
   .topo h1 { margin: 4px 0 12px; }
-  .topo__intro { font-size: var(--t-md); }
-  .topo__nota { margin-top: 10px; font-size: var(--t-2xs); color: var(--muted); }
+  .topo__intro { font-size: var(--t-md); max-width: 62ch; }
+  .topo__nota { margin-top: 10px; font-size: var(--t-2xs); color: var(--muted); max-width: 78ch; }
 
   /* Fila de estatísticas: filetes hairline, régua de acento que cresce no
      hover, algarismos tabulares. Um gesto por elemento. */
@@ -324,7 +330,19 @@ const descricao =
 
   .assinatura { margin: 8px 0 32px; }
   .assinatura figcaption {
-    font-size: var(--t-xs); color: var(--ink-2); margin-top: 8px; max-width: 40rem;
+    font-size: var(--t-xs); color: var(--ink-2); margin-top: 8px; max-width: 46ch;
+  }
+
+  /* Duas colunas onde há largura: o mapa é a figura e a lista é a legenda dele.
+     Abaixo disso empilham, e o mapa fica primeiro — é ele que explica. */
+  .duo { display: grid; gap: 8px clamp(28px, 4vw, 72px); align-items: start; }
+  @media (min-width: 62rem) {
+    .duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+    .bloco--unidades { margin-top: 8px; }
+    /* O mapa é limitado pela altura (62vh no componente), não pela largura:
+       numa coluna larga sobrava-lhe espaço dos dois lados. Aqui, onde ele é a
+       figura principal da página, pode crescer. */
+    .assinatura :global(.mapa__svg) { max-height: 82vh; }
   }
 
   /* Barras de desvio: o eixo é o país, a barra cresce para o lado do sinal. */
@@ -333,6 +351,7 @@ const descricao =
     display: grid; grid-template-columns: minmax(0, 17rem) 1fr 3.6rem;
     align-items: center; gap: 12px; font-size: var(--t-3xs); color: var(--ink-2);
   }
+  @media (min-width: 75rem) { .desvio { grid-template-columns: minmax(0, 24rem) 1fr 4rem; } }
   @media (max-width: 48rem) { .desvio { grid-template-columns: minmax(0, 11rem) 1fr 3.4rem; } }
   @media (max-width: 34rem) { .desvio { grid-template-columns: minmax(0, 7.5rem) 1fr 3.2rem; } }
   .desvio__nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -370,7 +389,7 @@ const descricao =
   .detalhe summary { font-size: var(--t-2xs); color: var(--ink-2); cursor: pointer; padding: 6px 0; }
 
   .bloco { margin: 32px 0; }
-  .bloco__intro { font-size: var(--t-xs); margin: 12px 0; }
+  .bloco__intro { font-size: var(--t-xs); margin: 12px 0; max-width: 78ch; }
   .bloco__nota { font-size: var(--t-3xs); color: var(--muted); margin-top: 10px; }
 
   .membros { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 2px; }
