@@ -133,4 +133,12 @@ const pc = (v: number) =>
   .declive__eixo-rot { font-size: 12px; fill: var(--muted); }
 
   .declive__nota { margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted); }
+
+  /* O SVG é escalado à largura do ecrã: a 390 px o viewBox de 640 encolhe para
+     0,48 e um rótulo de 11 unidades chega ao telemóvel com 5 px. Aqui a
+     tipografia cresce em unidades do viewBox para chegar ao ecrã com o mesmo
+     tamanho aparente. */
+  @media (max-width: 34rem) {
+    .declive__valor, .declive__mediana-rot, .declive__eixo-rot { font-size: 21px; }
+  }
 </style>

@@ -293,7 +293,12 @@ const descricao =
      ficava do tamanho de um selo com dois terços do ecrã vazios. A medida de
      leitura aplica-se à prosa, não ao conteúdo todo. */
   .pagina { padding: 0 var(--gutter, 20px) 64px; }
-  .migalhas { font-size: var(--t-2xs); color: var(--muted); margin: 24px 0 8px; display: flex; gap: 8px; }
+  .migalhas {
+    font-size: var(--t-2xs); color: var(--muted); margin: 24px 0 8px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  /* WCAG 2.2 pede 24×24 px de alvo; a migalha tinha 20 de altura. */
+  .migalhas a { display: inline-flex; align-items: center; min-height: 24px; }
   .topo { margin-bottom: 32px; }
   .topo h1 { margin: 4px 0 12px; }
   .topo__intro { font-size: var(--t-md); max-width: 62ch; }

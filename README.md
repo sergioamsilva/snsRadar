@@ -343,6 +343,19 @@ sem passar por aqui.
 Código e ficheiros de referência sob licença [MIT](LICENSE). Os dados originais
 permanecem dos organismos que os publicam.
 
+## Contribuições
+
+A ligação ao **Benchmarking Hospitalar da ACSS** — a segunda fonte de
+indicadores deste portal, de onde vêm a dimensão de segurança do doente, o
+volume cirúrgico, as métricas por doente padrão e os grupos de comparação — foi
+sugerida por **[Tomás Araújo](https://www.linkedin.com/in/tom%C3%A1s-ara%C3%BAjo99/)**.
+
+Foi dele também a pergunta que deu origem à comparação dentro de cada grupo:
+«não achas que dava para comparar hospitais dentro do mesmo cluster?». Dava — e
+mudou vereditos. A sépsis pós-operatória corre a 3,7 ‰ no Grupo B e a 11,1 ‰ no
+Grupo E: um hospital do Grupo B com 5 ‰ parecia bom contra a mediana do país e é
+mau contra os seus pares. Ver [`CHANGELOG.md`](CHANGELOG.md).
+
 ## Contacto
 
 **radar@cybersec.pt**

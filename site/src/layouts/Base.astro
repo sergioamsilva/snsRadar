@@ -62,7 +62,11 @@ const SECCOES = [
             <span class="dot" aria-hidden="true"></span>snsRadar · Observatório do
             Serviço Nacional de Saúde
           </span>
-          <h1>O SNS, hospital a hospital <span class="thin">· 2013–2026</span></h1>
+          {/* Marca, não título do documento. Era um `<h1>` e repetia-se em
+              todas as páginas: quem navega por títulos num leitor de ecrã
+              encontrava dois níveis 1, e o primeiro era sempre o nome do sítio.
+              O título da página é o da própria página. */}
+          <p class="marca-titulo">O SNS, hospital a hospital <span class="thin">· 2013–2026</span></p>
         </a>
         <p class="fonte">
           Dados do <a
@@ -110,7 +114,7 @@ const SECCOES = [
       <footer>
         <div class="cols">
           <div class="aviso">
-            <h4><Icone nome="aviso" tamanho={18} />O que isto não é</h4>
+            <h2><Icone nome="aviso" tamanho={18} />O que isto não é</h2>
             <p>
               O snsRadar não é um serviço oficial do SNS nem tem qualquer ligação
               ao Ministério da Saúde. É um trabalho independente que reorganiza
@@ -118,7 +122,7 @@ const SECCOES = [
             </p>
           </div>
           <div>
-            <h4><Icone nome="balanca" tamanho={18} />Antes de comparar hospitais</h4>
+            <h2><Icone nome="balanca" tamanho={18} />Antes de comparar hospitais</h2>
             <p>
               Salvo a mortalidade ajustada ao risco, estes indicadores <strong
                 >não estão ajustados ao risco</strong
@@ -127,7 +131,7 @@ const SECCOES = [
             </p>
           </div>
           <div>
-            <h4><Icone nome="origem" tamanho={18} />Origem e código</h4>
+            <h2><Icone nome="origem" tamanho={18} />Origem e código</h2>
             <p>
               Cada número desta página liga à consulta da API que o reproduz.
               Reconciliação de entidades verificada contra o Decreto-Lei

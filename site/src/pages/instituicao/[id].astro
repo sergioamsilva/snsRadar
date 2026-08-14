@@ -429,7 +429,10 @@ const SECCOES = [
 
 <style>
   .migalhas { display: flex; gap: 8px; font-size: var(--t-2xs); color: var(--muted); padding-top: 14px; }
-  .migalhas a { color: var(--muted); }
+  /* WCAG 2.2 pede 24×24 px de alvo. A migalha tinha 20 de altura. */
+  .migalhas a {
+    color: var(--muted); display: inline-flex; align-items: center; min-height: 24px;
+  }
 
   .ficha__topo { padding: 14px 0 4px; }
   .ficha__topo h1 { font-size: clamp(24px, 4vw, 32px); }

@@ -111,7 +111,7 @@ const nf1 = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFr
     <text class="cruz__eixo-rot" x={L + px / 2} y={T + py + 36} text-anchor="middle">
       {rotuloX}
     </text>
-    <text class="cruz__eixo-rot" x={12} y={T + py / 2} text-anchor="middle"
+    <text class="cruz__eixo-rot cruz__eixo-rot--y" x={12} y={T + py / 2} text-anchor="middle"
       transform={`rotate(-90 12 ${T + py / 2})`}>{rotuloY}</text>
 
     {pontos
@@ -171,5 +171,17 @@ const nf1 = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFr
   .cruz__cautela {
     margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted);
     border-left: 2px solid var(--border); padding-left: 10px;
+  }
+
+  /* O SVG é escalado à largura do ecrã: a 390 px o viewBox de 640 encolhe para
+     0,48 e um rótulo de 11 unidades chega ao telemóvel com 5 px. Aqui a
+     tipografia cresce em unidades do viewBox para chegar ao ecrã com o mesmo
+     tamanho aparente. */
+  @media (max-width: 34rem) {
+    .cruz__rotulo, .cruz__tick, .cruz__eixo-rot { font-size: 21px; }
+    /* Com a tipografia maior, o rótulo vertical passa a escrever por cima dos
+       valores do eixo. O título do gráfico e o texto por baixo já nomeiam as
+       duas variáveis: aqui o rótulo sai. */
+    .cruz__eixo-rot--y { display: none; }
   }
 </style>

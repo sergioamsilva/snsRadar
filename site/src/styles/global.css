@@ -242,7 +242,17 @@ a:hover {
   border-radius: 50%;
   background: var(--accent);
 }
-.masthead h1 .thin {
+/* A marca do masthead deixou de ser `<h1>` — é a marca, não o título do
+   documento, e repetia-se em todas as páginas. Herda a tipografia que tinha. */
+.masthead .marca-titulo {
+  font-size: clamp(26px, 4.4vw, 34px);
+  font-weight: 750;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin: 0;
+}
+.masthead .marca-titulo .thin {
   color: var(--muted);
   font-weight: 400;
 }

@@ -20,6 +20,9 @@ código que não mexem em valores ficam no histórico de commits, que neste proj
 
 ### Navegar por cluster, e não só vê-lo
 
+> Sugerido por [Tomás Araújo](https://www.linkedin.com/in/tom%C3%A1s-ara%C3%BAjo99/):
+> «não achas que dava para comparar hospitais dentro do mesmo cluster?»
+
 O grupo de comparação da ACSS deixou de existir apenas dentro de uma ficha:
 
 - **uma página por grupo** (`/grupo/b/` a `/grupo/f/`), com as unidades que o
@@ -111,9 +114,11 @@ secção 24 — é ela própria uma perda de transparência.
 
 ### Fonte nova: Benchmarking Hospitalar da ACSS
 
-Segunda fonte de indicadores, a par do Portal da Transparência. A sua situação
-jurídica é mais frágil e está declarada em [`ATRIBUICAO.md`](ATRIBUICAO.md):
-sem API, sem licença aberta, «todos os direitos reservados».
+Segunda fonte de indicadores, a par do Portal da Transparência. **Sugerida por
+[Tomás Araújo](https://www.linkedin.com/in/tom%C3%A1s-ara%C3%BAjo99/)**, a quem
+se deve também a comparação dentro de cada grupo. A sua situação jurídica é mais
+frágil e está declarada em [`ATRIBUICAO.md`](ATRIBUICAO.md): sem API, sem
+licença aberta, «todos os direitos reservados».
 
 ### Indicadores novos
 
