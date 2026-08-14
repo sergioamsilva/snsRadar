@@ -136,6 +136,7 @@ Verificações restantes, também a partir de `site/`:
 ```bash
 node scripts/verificar_dashboard.mjs ../index.html        # painel: consola, autonomia, WCAG
 node scripts/verificar_coerencia.mjs                     # painel vs sítio, valor a valor
+node scripts/verificar_larguras.mjs 4321                  # nenhuma página presa a uma largura fixa
 node scripts/auditar.mjs                                 # peso, SEO, teclado, impressão (servidor em :4500)
 ```
 
