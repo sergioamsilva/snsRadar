@@ -21,6 +21,11 @@ const PAGINAS = [
   // Página de grupo: entrou com a navegação por cluster e tem tabela com
   // rolamento próprio, que é onde a acessibilidade costuma partir.
   `${RAIZ}/grupo/c/`,
+  `${RAIZ}/grupo/`,
+  // O comparador é quase todo construído por JavaScript — é precisamente o
+  // conteúdo que o axe só vê se a página for verificada com uma escolha feita.
+  `${RAIZ}/comparar/#a=uls-coimbra&b=uls-sao-joao`,
+  `${RAIZ}/alteracoes/`,
 ];
 
 const navegador = await chromium.launch();

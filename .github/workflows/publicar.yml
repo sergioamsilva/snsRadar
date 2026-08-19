@@ -45,11 +45,10 @@ jobs:
 
       # A raiz do portal é o painel, que não é gerado pelo Astro: é o
       # index.html da raiz do repositório, como no csmRadar. Entra por cima do
-      # que o Astro produziu.
+      # que o Astro produziu. O og.png já vem de site/public/, pela mão do
+      # próprio Astro.
       - name: Montar a raiz do portal
-        run: |
-          cp index.html site/dist/index.html
-          cp og.png site/dist/og.png
+        run: cp index.html site/dist/index.html
 
       # O sítio lê `../data/out` em tempo de build. Se essa leitura falhar em
       # silêncio, o portal publica-se vazio — daí a contagem antes de subir.
@@ -62,6 +61,30 @@ jobs:
           test -s dist/instituicoes/index.html || { echo "::error::lista de instituições em falta"; exit 1; }
           grep -q 'id="tab"' dist/index.html || { echo "::error::a raiz não é o painel"; exit 1; }
           test -s dist/og.png || { echo "::error::og.png em falta"; exit 1; }
+          test -s dist/404.html || { echo "::error::404.html em falta"; exit 1; }
+          test -s dist/sitemap-index.xml || { echo "::error::sitemap em falta"; exit 1; }
+
+      # As verificações que até aqui só corriam à mão: acessibilidade nos dois
+      # temas, largura das páginas, coerência painel↔sítio e autonomia do
+      # painel. Um push que quebrasse a aritmética ou a acessibilidade
+      # publicava na mesma — o CI só contava ficheiros.
+      - name: Instalar o navegador de verificação
+        working-directory: site
+        run: npx playwright install --with-deps chromium
+
+      - name: Verificar acessibilidade, larguras e coerência
+        working-directory: site
+        run: |
+          npx astro preview --port 4321 &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:4321/snsRadar/instituicoes/ >/dev/null && break
+            sleep 1
+          done
+          node scripts/verificar.mjs 4321
+          node scripts/verificar_larguras.mjs 4321
+          node scripts/verificar_coerencia.mjs
+          node scripts/verificar_dashboard.mjs ../index.html
+          kill %1 || true
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

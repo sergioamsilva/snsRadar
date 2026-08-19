@@ -1,0 +1,129 @@
+---
+/**
+ * Small multiples: cada unidade do grupo, a mesma escala, lado a lado.
+ *
+ * As barras de desvio da página de grupo comparam um instante; isto compara a
+ * dinâmica. Dezassete miniaturas com o mesmo eixo respondem à pergunta que uma
+ * média esconde: o grupo mexe-se junto, ou há unidades a descolar? A regra que
+ * torna isto legítimo é uma só — **a escala é a mesma em todas** — e é por ela
+ * que as miniaturas se podem varrer com os olhos como se fossem uma figura.
+ *
+ * A mediana do grupo vai a tracejado em cada miniatura: é o mesmo referencial
+ * repetido, para que cada unidade se leia contra o conjunto sem sair do sítio.
+ */
+import { formatar, formatarMes } from "../lib/dados";
+
+export type ItemMultiplo = {
+  id: string;
+  nome: string;
+  href: string;
+  pontos: { mes: string; valor: number }[];
+};
+
+interface Props {
+  itens: ItemMultiplo[];
+  unidade: string;
+  /** Meses da janela, ordenados — o eixo comum de todas as miniaturas. */
+  meses: string[];
+  /** Mediana do grupo por mês, onde há cinco ou mais valores. */
+  mediana: { mes: string; valor: number }[];
+}
+const { itens, unidade, meses, mediana } = Astro.props;
+
+const L = 100;
+const A = 34;
+const margem = { esq: 1.5, dir: 2.5, topo: 4, base: 4 };
+
+/* A escala é a dos dados, sem tetos: a ocupação passa legitimamente dos 100 %
+   (camas abertas além da lotação) e um teto imposto cortava exatamente os
+   meses que interessam ver. */
+const valores = itens.flatMap((i) => i.pontos.map((p) => p.valor));
+let min = Math.min(...valores, ...mediana.map((m) => m.valor));
+let max = Math.max(...valores, ...mediana.map((m) => m.valor));
+if (max === min) max = min + 1;
+const folga = (max - min) * 0.1;
+min -= folga;
+max += folga;
+if (unidade === "percentagem") min = Math.max(0, min);
+
+const iMes = new Map(meses.map((m, i) => [m, i]));
+const x = (m: string) =>
+  margem.esq + ((iMes.get(m) ?? 0) / (meses.length - 1)) * (L - margem.esq - margem.dir);
+const y = (v: number) =>
+  margem.topo + (1 - (v - min) / (max - min)) * (A - margem.topo - margem.base);
+const f2 = (n: number) => n.toFixed(2);
+
+const caminho = (pontos: { mes: string; valor: number }[]) =>
+  pontos.map((p, i) => `${i ? "L" : "M"}${f2(x(p.mes))},${f2(y(p.valor))}`).join(" ");
+
+const dMediana = mediana.length >= 8 ? caminho(mediana) : null;
+
+/* Ordenadas pelo último valor, para que a grelha também ordene. */
+const ordenados = [...itens].sort(
+  (a, b) => b.pontos[b.pontos.length - 1].valor - a.pontos[a.pontos.length - 1].valor,
+);
+---
+
+<div class="mult">
+  <p class="mult__janela num">
+    {formatarMes(meses[0])} a {formatarMes(meses[meses.length - 1])} · a escala
+    é a mesma em todas ({formatar(min, unidade)}–{formatar(max, unidade)}) ·
+    tracejado = mediana do grupo
+  </p>
+  <div class="mult__grelha">
+    {ordenados.map((item) => {
+      const ultimo = item.pontos[item.pontos.length - 1];
+      return (
+        <a class="mult__mini" href={item.href}>
+          <span class="mult__nome">{item.nome}</span>
+          <svg
+            viewBox={`0 0 ${L} ${A}`}
+            preserveAspectRatio="none"
+            role="img"
+            aria-label={`${item.nome}: de ${formatarMes(item.pontos[0].mes)} a ${formatarMes(ultimo.mes)}, último valor ${formatar(ultimo.valor, unidade)}.`}
+          >
+            {dMediana && (
+              <path d={dMediana} class="mult__mediana" fill="none" vector-effect="non-scaling-stroke" />
+            )}
+            <path d={caminho(item.pontos)} class="mult__linha" fill="none" vector-effect="non-scaling-stroke" />
+            <line x1={f2(x(ultimo.mes))} x2={f2(x(ultimo.mes))} y1={f2(y(ultimo.valor))} y2={f2(y(ultimo.valor))}
+              class="mult__ponta" vector-effect="non-scaling-stroke" />
+          </svg>
+          <span class="mult__valor num">{formatar(ultimo.valor, unidade)}</span>
+        </a>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .mult__janela {
+    margin: 0 0 12px; font-size: var(--t-3xs); color: var(--muted);
+  }
+  .mult__grelha {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
+    gap: 14px 18px;
+  }
+  .mult__mini {
+    display: block; text-decoration: none; color: inherit;
+    border-top: 1px solid var(--grid); padding-top: 7px;
+  }
+  .mult__nome {
+    display: block; font-size: var(--t-2xs); font-weight: 600;
+    color: var(--ink-2); line-height: 1.25; min-height: 2.5em;
+  }
+  .mult__mini:hover .mult__nome,
+  .mult__mini:focus-visible .mult__nome { color: var(--accent-texto); }
+  .mult svg { display: block; width: 100%; height: 52px; overflow: visible; margin-top: 4px; }
+  .mult__linha {
+    stroke: var(--accent); stroke-width: 1.4;
+    stroke-linejoin: round; stroke-linecap: round;
+  }
+  .mult__mediana { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.75; }
+  .mult__ponta { stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+  .mult__valor {
+    display: block; margin-top: 3px; font-size: var(--t-2xs);
+    font-weight: 700; color: var(--ink);
+  }
+</style>

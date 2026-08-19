@@ -16,6 +16,66 @@ código que não mexem em valores ficam no histórico de commits, que neste proj
 
 ---
 
+## 19 de agosto de 2026
+
+### Comparação direta entre duas unidades
+
+Página nova, `/comparar/`: duas unidades à escolha, lado a lado, indicador a
+indicador, com a mediana nacional por referência e o placar de quem está à
+frente. O endereço guarda a escolha, para se poder partilhar uma comparação.
+Avisa quando as unidades não pertencem ao mesmo grupo da ACSS — nesse caso a
+diferença pode dizer mais sobre a natureza de cada uma do que sobre o
+desempenho.
+
+### Os dados de cada ficha, para descarregar
+
+Cada ficha passa a oferecer os seus dados em **JSON** (o próprio ficheiro de
+que a página é construída, com fonte, data e URL de prova por valor) e em
+**CSV** (a série achatada, uma linha por indicador e mês, pronta para folha de
+cálculo). É a promessa do portal — cada número reproduz-se — cumprida também
+para quem não quer chamar a API.
+
+### Gráficos novos
+
+- **Calendário** (anos × meses) na ocupação do internamento e nos atendimentos
+  em urgência: a sazonalidade, que na linha temporal fica escondida, lê-se num
+  relance vertical.
+- **Miniaturas do grupo** na página de cada grupo da ACSS: todas as unidades na
+  mesma escala, com a mediana do grupo a tracejado — para ver se o grupo se
+  move junto ou se há unidades a descolar.
+- **Posição entre pares** em quatro indicadores da ficha (cirurgia no prazo,
+  cesarianas, prazo de pagamento, reinternamentos): o percentil mensal da
+  unidade dentro do seu grupo, de 0 a 100, com a polaridade já aplicada —
+  responde a «está a melhorar face aos pares, ou só a acompanhar a maré?».
+- **Antes e depois da reforma** na metodologia: a variação de cada taxa nas 32
+  entidades transformadas contra as 7 do grupo de controlo, em pontos ligados
+  no mesmo eixo. A tabela mantém-se, completa, dobrada por baixo.
+
+### Este registo passou a viver no portal
+
+Em `/alteracoes/`, com um feed Atom em `/alteracoes.xml` — quem citou um número
+pode ser avisado quando ele mudar, sem precisar de saber o que é o GitHub.
+Também novas: a procura em todas as páginas (tecla `/`), filtros por região,
+natureza e grupo na lista, um índice dos grupos em `/grupo/`, e ligação
+permanente em cada cartão de indicador.
+
+### Correções
+
+- **População e mortalidade ajustada voltaram a acompanhar o pipeline.** Os
+  ficheiros `populacao.json` e `mortalidade-ajustada.json` só eram reescritos
+  quando corridos à mão, e estavam parados desde 2 de agosto enquanto o resto
+  do portal avançava. O `atualizar.py` passa a reescrevê-los sempre.
+- **Os três datasets de antibióticos entraram no núcleo da descarga.**
+  Alimentam seis indicadores mas não eram renovados pelo
+  `atualizar.py --descarregar`; envelheciam em silêncio desde a descarga que
+  os trouxe.
+- **Cartão de indicador**: quando o valor estava em linha com a mediana do
+  grupo, o texto colava as duas comparações («…em linha com a mediana
+  nacionalda mediana do Grupo E»). Escrevia-se mal, mas os números estavam
+  certos.
+
+---
+
 ## 14 de agosto de 2026
 
 ### Navegar por cluster, e não só vê-lo

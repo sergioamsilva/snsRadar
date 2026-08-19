@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -48,5 +49,13 @@ const painelNaRaiz = {
 export default defineConfig({
   site: 'https://sergioamsilva.github.io',
   base: '/snsRadar',
+  integrations: [
+    // O sitemap só conhece as páginas do Astro; a raiz é o painel, que vem de
+    // fora (ver `painelNaRaiz`), e entra aqui à mão para não ficar invisível
+    // aos motores de busca.
+    sitemap({
+      customPages: ['https://sergioamsilva.github.io/snsRadar/'],
+    }),
+  ],
   vite: { plugins: [painelNaRaiz] },
 });

@@ -6,7 +6,7 @@
 · [Metodologia](https://sergioamsilva.github.io/snsRadar/metodologia/)
 · [Registo de alterações](CHANGELOG.md)
 
-![snsRadar](og.png)
+![snsRadar](site/public/og.png)
 
 A raiz do portal é o painel de página única — `index.html` neste repositório,
 4,9 MB com os dados embebidos, que abre offline e não faz um único pedido de
@@ -36,7 +36,7 @@ públicos.
 Fases 0 e 1 concluídas e verificadas.
 
 - 44 entidades canónicas, 122 chaves de nome resolvidas
-- 43 fichas de instituição, 52 indicadores, 46 páginas estáticas
+- 43 fichas de instituição, 52 indicadores, 55 páginas estáticas + dados de cada ficha em JSON e CSV
 - as 43 instituições com série contínua de 2013 a 2026 **atravessando a reforma
   ULS de 2024**, que parte todas as séries na fonte
 - 16 verificações de integridade, todas a passar — incluindo o confronto do
@@ -126,7 +126,7 @@ Site por instituição:
 
 ```bash
 cd site && npm install
-npx astro build          # gera 46 páginas estáticas a partir de data/out
+npx astro build          # gera 55 páginas estáticas a partir de data/out
 npx astro preview --port 4321
 node scripts/verificar.mjs 4321   # acessibilidade, transbordo, sem-JS
 ```
@@ -152,7 +152,7 @@ node scripts/gerar_og.mjs   # recorta og.png da abertura (servidor em :4400)
 
 ```
 index.html                        o painel — a raiz do portal, abre offline
-og.png                            cartão de partilha, gerado da própria abertura
+site/public/og.png                cartão de partilha, gerado da própria abertura
 atualizar.py                      único ponto de entrada da reconstrução
 scripts/atualizacao_agendada.sh   atualização periódica, com deteção de revisões
 ingest/

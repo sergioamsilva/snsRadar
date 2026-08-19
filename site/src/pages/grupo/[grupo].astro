@@ -20,6 +20,7 @@
 import Base from "../../layouts/Base.astro";
 import Mapa from "../../components/Mapa.astro";
 import Movimento from "../../components/Movimento.astro";
+import Multiplos from "../../components/Multiplos.astro";
 import { ficha, indice, nacional, formatar, ligacao } from "../../lib/dados";
 
 export function getStaticPaths() {
@@ -42,6 +43,15 @@ const todas = indice().map((i) => ficha(i.id));
 const membros = todas
   .filter((f) => f.grupo_comparacao?.grupo === nomeGrupo)
   .sort((a, b) => a.nome_curto.localeCompare(b.nome_curto, "pt"));
+
+/* Os grupos que existem, derivados dos dados — a mesma regra de
+   getStaticPaths. A primeira versão escrevia ["B", …, "F"] à mão na navegação:
+   um grupo novo ganhava página mas ninguém chegava lá. */
+const grupos = [
+  ...new Set(
+    todas.map((f) => f.grupo_comparacao?.grupo).filter((g): g is string => !!g),
+  ),
+].sort();
 
 const definicao = membros[0]?.grupo_comparacao?.definicao ?? null;
 const fonte = membros[0]?.grupo_comparacao?.fonte ?? null;
@@ -78,6 +88,58 @@ const populacao = membros.reduce((s, m) => s + (m.populacao?.inscritos ?? 0), 0)
 const acima = contraste.filter((c) => c.desvio > 0.1).length;
 const abaixo = contraste.filter((c) => c.desvio < -0.1).length;
 
+/* Small multiples: as unidades do grupo na mesma escala, para os indicadores
+   em que a dinâmica interessa e (quase) todas publicam. As barras de desvio
+   comparam um instante; isto responde a «o grupo mexe-se junto, ou há unidades
+   a descolar?». Só entram indicadores com cinco ou mais unidades com série —
+   a mesma regra das medianas de grupo. */
+const ESCOLHA_MULT = [
+  { iid: "ocupacao-internamento", rotulo: "Ocupação" },
+  { iid: "lic-dentro-tmrg", rotulo: "Cirurgia no prazo" },
+  { iid: "prazo-medio-pagamento", rotulo: "Prazo de pagamento" },
+  { iid: "urgencia-prioritarios", rotulo: "Urgências prioritárias" },
+];
+const JANELA_MULT = 24;
+
+const multiplos = ESCOLHA_MULT.map(({ iid, rotulo }) => {
+  const meta = nac[iid];
+  if (!meta) return null;
+  const comSerie = membros
+    .map((m) => ({
+      m,
+      serie: (m.indicadores[iid]?.serie ?? []).filter((p) => p.valor !== null),
+    }))
+    .filter((x) => x.serie.length >= 12);
+  if (comSerie.length < 5) return null;
+  const meses = [...new Set(comSerie.flatMap((x) => x.serie.map((p) => p.mes)))]
+    .sort()
+    .slice(-JANELA_MULT);
+  const dentro = new Set(meses);
+  const itens = comSerie
+    .map(({ m, serie }) => ({
+      id: m.id,
+      nome: m.nome_curto,
+      href: ligacao(`/instituicao/${m.id}/`),
+      pontos: serie
+        .filter((p) => dentro.has(p.mes))
+        .map((p) => ({ mes: p.mes, valor: p.valor as number })),
+    }))
+    .filter((i) => i.pontos.length >= Math.min(12, meses.length - 2));
+  if (itens.length < 5) return null;
+  const mediana = meses
+    .map((mes) => {
+      const vals = itens
+        .map((i) => i.pontos.find((p) => p.mes === mes)?.valor)
+        .filter((v): v is number => v !== undefined)
+        .sort((a, b) => a - b);
+      return vals.length >= 5
+        ? { mes, valor: vals[Math.floor(vals.length / 2)] }
+        : null;
+    })
+    .filter((x): x is { mes: string; valor: number } => x !== null);
+  return { iid, rotulo, titulo: meta.titulo, unidade: meta.unidade, itens, meses, mediana };
+}).filter((x): x is NonNullable<typeof x> => x !== null);
+
 /* A assinatura desta página é o mapa, e o que ela tem de dizer em três
    segundos é isto: um grupo da ACSS não tem forma geográfica. O Grupo C acende
    Cascais e o Alto Minho ao mesmo tempo. As barras de desvio vêm a seguir,
@@ -96,7 +158,7 @@ const descricao =
     <nav class="migalhas" aria-label="Percurso">
       <a href={ligacao("/instituicoes/")}>Instituições</a>
       <span aria-hidden="true">›</span>
-      <span>Grupos de comparação</span>
+      <a href={ligacao("/grupo/")}>Grupos de comparação</a>
     </nav>
 
     <header class="topo">
@@ -245,11 +307,15 @@ const descricao =
             </tr>
           </thead>
           <tbody>
-            {contraste.slice(0, 20).map((c) => (
+            {/* Todos, não os primeiros vinte: a tabela já vive dentro de um
+                <details>, que é a guarda contra o peso — truncar dentro dela
+                escondia um terço dos indicadores sem dizer que faltavam. */}
+            {contraste.map((c) => (
               <tr>
-                <td>
-                  <a href={ligacao(`/instituicao/${membros[0].id}/#${c.iid}`)}>{c.titulo}</a>
-                </td>
+                {/* Sem ligação: a primeira versão apontava para a ficha do
+                    primeiro membro por ordem alfabética, e lia-se como se a
+                    mediana do grupo fosse o valor dessa unidade. */}
+                <td>{c.titulo}</td>
                 <td class="num">{formatar(c.grupo, c.unidade)}</td>
                 <td class="num">{formatar(c.nacional, c.unidade)}</td>
                 <td class="num">
@@ -268,16 +334,51 @@ const descricao =
       </p>
     </section>
 
+    {multiplos.length > 0 && (
+      <section class="bloco" data-entrada>
+        <div class="sec-band">
+          <h2>Cada unidade, a mesma escala</h2><span class="ln" />
+          <span class="n">últimos {JANELA_MULT} meses</span>
+        </div>
+        <p class="bloco__intro">
+          As barras acima comparam um instante; estas miniaturas comparam a
+          dinâmica. Todas partilham o mesmo eixo — é isso que permite varrê-las
+          com os olhos e ver se o grupo se move junto ou se há unidades a
+          descolar.
+        </p>
+        {multiplos.length > 1 && (
+          <div class="mult-chips" role="group" aria-label="Escolher o indicador das miniaturas">
+            {multiplos.map((m, i) => (
+              <button
+                class="chip"
+                type="button"
+                data-mult={m.iid}
+                aria-pressed={i === 0 ? "true" : "false"}
+              >
+                {m.rotulo}
+              </button>
+            ))}
+          </div>
+        )}
+        {multiplos.map((m, i) => (
+          <div class="mult-bloco" data-mult-bloco={m.iid} data-primeiro={i === 0 ? "" : undefined}>
+            <h3 class="mult-titulo">{m.titulo}</h3>
+            <Multiplos itens={m.itens} unidade={m.unidade} meses={m.meses} mediana={m.mediana} />
+          </div>
+        ))}
+      </section>
+    )}
+
     <nav class="outros" aria-label="Outros grupos">
       <p class="flabel">Outros grupos</p>
       <ul>
-        {["B", "C", "D", "E", "F"].map((g) => (
+        {grupos.map((g) => (
           <li>
             <a
-              href={ligacao(`/grupo/${g.toLowerCase()}/`)}
-              aria-current={`Grupo ${g}` === nomeGrupo ? "page" : undefined}
+              href={ligacao(`/grupo/${g.replace(/^Grupo\s+/i, "").toLowerCase()}/`)}
+              aria-current={g === nomeGrupo ? "page" : undefined}
             >
-              Grupo {g}
+              {g}
             </a>
           </li>
         ))}
@@ -286,6 +387,23 @@ const descricao =
   </div>
   <Movimento />
 </Base>
+
+<script>
+  /* Um indicador de cada vez nas miniaturas. Sem JavaScript mostram-se todos,
+     por ordem, com o seu título — a página fica longa mas completa. */
+  const chips = [...document.querySelectorAll<HTMLButtonElement>("[data-mult]")];
+  const blocos = [...document.querySelectorAll<HTMLElement>("[data-mult-bloco]")];
+  if (chips.length && blocos.length) {
+    const mostrar = (iid: string) => {
+      for (const b of blocos) b.hidden = b.dataset.multBloco !== iid;
+      for (const c of chips)
+        c.setAttribute("aria-pressed", String(c.dataset.mult === iid));
+    };
+    for (const c of chips)
+      c.addEventListener("click", () => mostrar(c.dataset.mult!));
+    mostrar(blocos[0].dataset.multBloco!);
+  }
+</script>
 
 <style>
   /* Largura total com goteira, como o resto do portal (`.wrap` em global.css).
@@ -396,6 +514,14 @@ const descricao =
   .bloco { margin: 32px 0; }
   .bloco__intro { font-size: var(--t-xs); margin: 12px 0; max-width: 78ch; }
   .bloco__nota { font-size: var(--t-3xs); color: var(--muted); margin-top: 10px; }
+
+  /* Miniaturas: os chips escolhem o indicador; sem JavaScript não escolhem
+     nada e por isso não aparecem — mostram-se todos os blocos, com título. */
+  :global(html:not(.js)) .mult-chips { display: none; }
+  .mult-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px; }
+  .mult-bloco { margin-top: 4px; }
+  .mult-bloco + .mult-bloco { margin-top: 26px; }
+  .mult-titulo { font-size: var(--t-sm); font-weight: 700; margin: 0 0 10px; }
 
   .membros { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 2px; }
   .membros a {

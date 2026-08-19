@@ -190,7 +190,7 @@
       {
         "ano": "2026",
         "contratos": 342,
-        "valor": 23552206
+        "valor": 23552205
       }
     ],
     "maiores_fornecedores": [
@@ -249,7 +249,7 @@
       "acrescimo": 572010
     },
     "por_doente_padrao": {
-      "valor_contratado": 102296187,
+      "valor_contratado": 102296186,
       "doente_padrao": 59529,
       "euros_por_doente_padrao": 1718.4,
       "periodo": "2024..2026",

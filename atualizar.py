@@ -88,6 +88,17 @@ def main() -> int:
         "Contexto europeu (Eurostat)",
         [str(PY), "ingest/eurostat.py"])))
 
+    # Estes dois escrevem ficheiros próprios em data/out (populacao.json e
+    # mortalidade-ajustada.json) que o sítio lê diretamente. O `enriquecer`
+    # importa as funções deles, mas nunca reescreve os ficheiros — sem estes
+    # passos, os dois envelheciam em silêncio a cada atualização.
+    tempos.append(("população", passo(
+        "População servida por unidade (inscritos + INE)",
+        [str(PY), "ingest/populacao.py"])))
+    tempos.append(("mortalidade ajustada", passo(
+        "Mortalidade ajustada ao risco (SMR)",
+        [str(PY), "ingest/mortalidade.py"])))
+
     tempos.append(("enriquecimento", passo(
         "Mortalidade ajustada ao risco, população, per capita e contratos",
         [str(PY), "ingest/enriquecer.py"])))

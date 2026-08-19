@@ -1,0 +1,484 @@
+---
+/**
+ * Duas unidades, lado a lado — a pergunta que o portal inteiro sugeria e
+ * nenhuma página respondia. A ficha compara com medianas; o grupo compara um
+ * cluster inteiro; aqui compara-se **A com B**, à escolha de quem pergunta.
+ *
+ * Os dados vêm embebidos na página em forma compacta (valor e texto já
+ * formatado, por unidade e indicador), como no painel: escolher outra unidade
+ * não pede nada à rede. Os textos formatados são calculados em build pelo
+ * mesmo `formatar()` das fichas — duas implementações da mesma formatação
+ * acabariam por divergir.
+ *
+ * Sem JavaScript não há seletores que funcionem: a página diz o que faria e
+ * aponta para a lista e para os grupos, que são os caminhos que existem sem
+ * ele.
+ */
+import Base from "../layouts/Base.astro";
+import { ficha, indice, nacional, formatar, GRUPOS, ligacao } from "../lib/dados";
+
+const nac = nacional();
+const todas = indice().map((i) => ficha(i.id));
+
+const ORDEM = GRUPOS.map((g) => g.id as string);
+const indicadores = Object.entries(nac)
+  .map(([iid, n]) => ({
+    id: iid,
+    t: n.titulo,
+    g: n.grupo,
+    u: n.unidade,
+    p: n.polaridade,
+    m: n.mediana_instituicoes,
+    mf: n.mediana_instituicoes === null ? null : formatar(n.mediana_instituicoes, n.unidade),
+  }))
+  .sort(
+    (a, b) => ORDEM.indexOf(a.g) - ORDEM.indexOf(b.g) || a.t.localeCompare(b.t, "pt"),
+  );
+
+const unidades = todas
+  .map((f) => ({
+    id: f.id,
+    n: f.nome_curto,
+    d: f.distrito,
+    r: f.regiao,
+    g: f.grupo_comparacao?.grupo ?? null,
+    u: ligacao(`/instituicao/${f.id}/`),
+    pop: f.populacao?.inscritos ?? null,
+    popf: f.populacao ? formatar(f.populacao.inscritos, "contagem") : null,
+    v: Object.fromEntries(
+      Object.entries(f.indicadores)
+        .filter(([, d]) => d.valor !== null)
+        .map(([iid, d]) => [iid, [d.valor, formatar(d.valor, d.unidade)]]),
+    ),
+  }))
+  .sort((a, b) => a.n.localeCompare(b.n, "pt"));
+
+const porRegiao = [...new Set(unidades.map((u) => u.r))].sort();
+
+/* Duas sugestões de partida, deterministas: em cada uma, as duas unidades mais
+   populosas do mesmo grupo — pares verdadeiros, com dados densos. */
+const sugestoes = ["Grupo E", "Grupo C"]
+  .map((g) => {
+    const doGrupo = unidades
+      .filter((u) => u.g === g && u.pop !== null)
+      .sort((a, b) => (b.pop ?? 0) - (a.pop ?? 0));
+    return doGrupo.length >= 2 ? { g, a: doGrupo[0], b: doGrupo[1] } : null;
+  })
+  .filter((s): s is NonNullable<typeof s> => s !== null);
+
+const SECCOES_META = GRUPOS.map((g) => ({ id: g.id, t: g.titulo, l: g.legenda }));
+
+const descricao =
+  "Escolha duas unidades do SNS e veja-as lado a lado, indicador a indicador, " +
+  "com a mediana nacional como referência.";
+---
+
+<Base titulo="Comparar duas unidades" descricao={descricao}>
+  <div class="pagina">
+    <header class="topo">
+      <p class="sobretitulo">Comparação direta</p>
+      <h1>Duas unidades, lado a lado</h1>
+      <p class="topo__intro medida">
+        As fichas comparam cada unidade com a mediana do país e com a do seu
+        grupo. Aqui compara-se o que quiser: escolha duas unidades e leia-as
+        indicador a indicador, com a mediana nacional por referência.
+      </p>
+    </header>
+
+    {/* Sem JavaScript, o caminho é outro — e diz-se qual. */}
+    <div class="semjs">
+      <p>
+        Esta página precisa de JavaScript para cruzar as duas escolhas. Sem ele,
+        os mesmos números estão na <a href={ligacao("/instituicoes/")}>ficha de
+        cada unidade</a> e nas <a href={ligacao("/grupo/")}>páginas de grupo</a>,
+        que juntam as unidades comparáveis.
+      </p>
+    </div>
+
+    <div class="duelo" data-duelo>
+      <div class="duelo__lado duelo__lado--a">
+        <label class="flabel" for="unidade-a"><span class="duelo__letra duelo__letra--a" aria-hidden="true">A</span> Primeira unidade</label>
+        <select id="unidade-a" data-sel="a">
+          <option value="">Escolher…</option>
+          {porRegiao.map((r) => (
+            <optgroup label={r}>
+              {unidades.filter((u) => u.r === r).map((u) => (
+                <option value={u.id}>{u.n}</option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <p class="duelo__meta" data-meta="a"></p>
+      </div>
+
+      <button class="duelo__troca" type="button" data-troca aria-label="Trocar as duas unidades">⇄</button>
+
+      <div class="duelo__lado duelo__lado--b">
+        <label class="flabel" for="unidade-b"><span class="duelo__letra duelo__letra--b" aria-hidden="true">B</span> Segunda unidade</label>
+        <select id="unidade-b" data-sel="b">
+          <option value="">Escolher…</option>
+          {porRegiao.map((r) => (
+            <optgroup label={r}>
+              {unidades.filter((u) => u.r === r).map((u) => (
+                <option value={u.id}>{u.n}</option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <p class="duelo__meta" data-meta="b"></p>
+      </div>
+    </div>
+
+    {sugestoes.length > 0 && (
+      <p class="sugestoes" data-sugestoes>
+        Para começar:{" "}
+        {sugestoes.map((s, i) => (
+          <>
+            {i > 0 && " · "}
+            <a href={`#a=${s.a.id}&b=${s.b.id}`}>{s.a.n} vs {s.b.n}</a>
+          </>
+        ))}
+      </p>
+    )}
+
+    <p class="aviso-grupos" data-aviso hidden></p>
+
+    <div class="resultado" data-resultado hidden>
+      <div class="placar" data-placar></div>
+      <div data-seccoes></div>
+      <p class="cautela-fim">
+        <strong>Antes de concluir.</strong> Salvo a mortalidade ajustada, estes
+        indicadores não estão ajustados ao risco: a unidade que recebe os
+        doentes mais graves terá piores números sem que isso signifique piores
+        cuidados. «Melhor» e «pior» referem-se à direção documentada de cada
+        indicador, não a um veredito sobre as instituições. As cautelas de cada
+        indicador estão na ficha das unidades.
+      </p>
+    </div>
+  </div>
+
+  <script type="application/json" is:inline data-dados set:html={JSON.stringify({
+    indicadores,
+    unidades,
+    seccoes: SECCOES_META,
+  })} />
+
+  <script>
+    type U = {
+      id: string; n: string; d: string; r: string; g: string | null;
+      u: string; pop: number | null; popf: string | null;
+      v: Record<string, [number, string]>;
+    };
+    type I = {
+      id: string; t: string; g: string; u: string; p: string;
+      m: number | null; mf: string | null;
+    };
+    const DADOS: { indicadores: I[]; unidades: U[]; seccoes: { id: string; t: string; l: string }[] } =
+      JSON.parse(document.querySelector("[data-dados]")!.textContent!);
+    const porId = new Map(DADOS.unidades.map((u) => [u.id, u]));
+
+    const sels = {
+      a: document.querySelector<HTMLSelectElement>('[data-sel="a"]')!,
+      b: document.querySelector<HTMLSelectElement>('[data-sel="b"]')!,
+    };
+    const metas = {
+      a: document.querySelector<HTMLElement>('[data-meta="a"]')!,
+      b: document.querySelector<HTMLElement>('[data-meta="b"]')!,
+    };
+    const resultado = document.querySelector<HTMLElement>("[data-resultado]")!;
+    const placar = document.querySelector<HTMLElement>("[data-placar]")!;
+    const seccoes = document.querySelector<HTMLElement>("[data-seccoes]")!;
+    const aviso = document.querySelector<HTMLElement>("[data-aviso]")!;
+    const sugestoes = document.querySelector<HTMLElement>("[data-sugestoes]");
+
+    /* Quem está à frente, respeitada a polaridade. O limiar dos 3 % é o mesmo
+       da comparação com a mediana nas fichas. */
+    function vencedor(va: number, vb: number, p: string): "a" | "b" | "igual" | null {
+      if (p === "neutro") return null;
+      const ref = Math.max(Math.abs(va), Math.abs(vb));
+      if (ref === 0 || Math.abs(va - vb) / ref < 0.03) return "igual";
+      const aMaior = va > vb;
+      return (p === "subir_e_bom" ? aMaior : !aMaior) ? "a" : "b";
+    }
+
+    const POLARIDADE: Record<string, string> = {
+      subir_e_bom: "mais alto é melhor",
+      subir_e_mau: "mais baixo é melhor",
+      neutro: "sem leitura de melhor ou pior",
+    };
+
+    const el = (tag: string, cls: string | null, texto?: string) => {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (texto !== undefined) e.textContent = texto;
+      return e;
+    };
+
+    function meta(u: U): string {
+      const partes = [u.d, u.r];
+      if (u.g) partes.push(u.g);
+      if (u.popf) partes.push(`${u.popf} utentes inscritos`);
+      return partes.join(" · ");
+    }
+
+    function render() {
+      const a = porId.get(sels.a.value) ?? null;
+      const b = porId.get(sels.b.value) ?? null;
+      metas.a.textContent = a ? meta(a) : "";
+      metas.b.textContent = b ? meta(b) : "";
+
+      aviso.hidden = true;
+      if (!a || !b || a.id === b.id) {
+        resultado.hidden = true;
+        if (a && b && a.id === b.id) {
+          aviso.hidden = false;
+          aviso.textContent = "Escolha duas unidades diferentes.";
+        }
+        return;
+      }
+      if (sugestoes) sugestoes.hidden = true;
+
+      if (a.g && b.g && a.g !== b.g) {
+        aviso.hidden = false;
+        aviso.textContent =
+          `Estas unidades pertencem a grupos de comparação diferentes ` +
+          `(${a.g} e ${b.g}): a ACSS não as considera pares. A diferença ` +
+          `pode dizer mais sobre a natureza de cada uma do que sobre o desempenho.`;
+      }
+
+      /* O placar: em quantos indicadores comparáveis cada uma está à frente. */
+      let nA = 0, nB = 0, nIgual = 0, nComparaveis = 0;
+      const linhasPorGrupo = new Map<string, HTMLElement[]>();
+
+      for (const ind of DADOS.indicadores) {
+        const va = a.v[ind.id];
+        const vb = b.v[ind.id];
+        if (!va || !vb) continue;
+        const quem = vencedor(va[0], vb[0], ind.p);
+        if (quem === "a") { nA++; nComparaveis++; }
+        else if (quem === "b") { nB++; nComparaveis++; }
+        else if (quem === "igual") { nIgual++; nComparaveis++; }
+
+        const linha = el("div", "cmp");
+        linha.append(el("h3", "cmp__titulo", ind.t));
+
+        const corpo = el("div", "cmp__corpo");
+        const valA = el("p", `cmp__valor num cmp__valor--a${quem === "a" ? " cmp__valor--vence" : ""}`, va[1]);
+        const valB = el("p", `cmp__valor num cmp__valor--b${quem === "b" ? " cmp__valor--vence" : ""}`, vb[1]);
+
+        /* As barras: comprimento proporcional ao valor, a partir do centro.
+           A cor diz o lado (A ou B), nunca sozinha o veredito — o veredito
+           está escrito por baixo. */
+        const escala = Math.max(Math.abs(va[0]), Math.abs(vb[0])) || 1;
+        const barras = el("div", "cmp__barras");
+        const barraA = el("div", "cmp__barra cmp__barra--a");
+        barraA.style.setProperty("--w", `${(100 * Math.abs(va[0])) / escala}%`);
+        const barraB = el("div", "cmp__barra cmp__barra--b");
+        barraB.style.setProperty("--w", `${(100 * Math.abs(vb[0])) / escala}%`);
+        barras.append(barraA, barraB);
+        barras.setAttribute("aria-hidden", "true");
+
+        corpo.append(valA, barras, valB);
+        linha.append(corpo);
+
+        const veredicto =
+          quem === "a" ? `à frente: ${a.n}` :
+          quem === "b" ? `à frente: ${b.n}` :
+          quem === "igual" ? "em linha uma com a outra" : "";
+        const nota = [
+          POLARIDADE[ind.p] ?? "",
+          veredicto,
+          ind.mf !== null ? `mediana nacional ${ind.mf}` : "",
+        ].filter(Boolean).join(" · ");
+        linha.append(el("p", "cmp__nota", nota));
+
+        if (!linhasPorGrupo.has(ind.g)) linhasPorGrupo.set(ind.g, []);
+        linhasPorGrupo.get(ind.g)!.push(linha);
+      }
+
+      placar.innerHTML = "";
+      const frase = el("p", "placar__frase");
+      frase.append(
+        el("strong", null, `${nComparaveis}`),
+        document.createTextNode(" indicadores com leitura de melhor ou pior em ambas: "),
+        el("strong", "placar__a", `${a.n} à frente em ${nA}`),
+        document.createTextNode(" · "),
+        el("span", null, `em linha em ${nIgual}`),
+        document.createTextNode(" · "),
+        el("strong", "placar__b", `${b.n} à frente em ${nB}`),
+        document.createTextNode("."),
+      );
+      placar.append(frase);
+      const segmentos = el("div", "placar__barra");
+      segmentos.setAttribute("aria-hidden", "true");
+      for (const [cls, n] of [["a", nA], ["igual", nIgual], ["b", nB]] as const) {
+        if (!n) continue;
+        const seg = el("div", `placar__seg placar__seg--${cls}`);
+        seg.style.setProperty("--w", `${(100 * n) / (nComparaveis || 1)}%`);
+        segmentos.append(seg);
+      }
+      placar.append(segmentos);
+      const fichas = el("p", "placar__fichas");
+      const la = el("a", null, `Ficha: ${a.n}`) as HTMLAnchorElement;
+      la.href = a.u;
+      const lb = el("a", null, `Ficha: ${b.n}`) as HTMLAnchorElement;
+      lb.href = b.u;
+      fichas.append(la, document.createTextNode(" · "), lb);
+      placar.append(fichas);
+
+      seccoes.innerHTML = "";
+      for (const s of DADOS.seccoes) {
+        const linhas = linhasPorGrupo.get(s.id);
+        if (!linhas?.length) continue;
+        const sec = el("section", "sec");
+        const banda = el("div", "sec-band");
+        banda.append(el("h2", null, s.t), el("span", "ln"), el("span", "n", s.l));
+        sec.append(banda, ...linhas);
+        seccoes.append(sec);
+      }
+
+      resultado.hidden = false;
+    }
+
+    function lerHash() {
+      const p = new URLSearchParams(location.hash.slice(1));
+      const a = p.get("a") ?? "";
+      const b = p.get("b") ?? "";
+      if (porId.has(a)) sels.a.value = a;
+      if (porId.has(b)) sels.b.value = b;
+      render();
+    }
+
+    function escreverHash() {
+      const p = new URLSearchParams();
+      if (sels.a.value) p.set("a", sels.a.value);
+      if (sels.b.value) p.set("b", sels.b.value);
+      const h = p.toString();
+      history.replaceState(null, "", h ? `#${h}` : location.pathname);
+    }
+
+    for (const sel of [sels.a, sels.b]) {
+      sel.addEventListener("change", () => { escreverHash(); render(); });
+    }
+    document.querySelector("[data-troca]")?.addEventListener("click", () => {
+      const t = sels.a.value;
+      sels.a.value = sels.b.value;
+      sels.b.value = t;
+      escreverHash();
+      render();
+    });
+    /* As sugestões e qualquer ligação partilhada mudam só o hash. */
+    addEventListener("hashchange", lerHash);
+    lerHash();
+  </script>
+
+  <style>
+    .pagina { padding: 32px 0 24px; }
+    .sobretitulo {
+      font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+    }
+    .topo h1 { margin: 4px 0 12px; }
+    .topo__intro { font-size: var(--t-md); color: var(--ink-2); }
+
+    .semjs p {
+      border-left: 2px solid var(--baseline); padding-left: 12px;
+      color: var(--ink-2); font-size: var(--t-sm); max-width: 78ch;
+    }
+    :global(html.js) .semjs { display: none; }
+    :global(html:not(.js)) .duelo,
+    :global(html:not(.js)) .sugestoes { display: none; }
+
+    /* ── o duelo ─────────────────────────────────────────────────────────── */
+    .duelo {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px;
+      align-items: start; margin-top: 26px; padding-top: 22px;
+      border-top: 1px solid var(--grid);
+    }
+    @media (max-width: 48rem) {
+      .duelo { grid-template-columns: 1fr; }
+      .duelo__troca { justify-self: start; }
+    }
+    .duelo .flabel { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .duelo__letra {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 6px;
+      font: 750 var(--t-2xs)/1 system-ui, sans-serif; color: #fff;
+    }
+    .duelo__letra--a { background: var(--accent); }
+    .duelo__letra--b { background: var(--cat3); }
+    .duelo select { width: 100%; font-size: var(--t-sm); padding: 10px 12px; }
+    .duelo__meta { margin: 8px 0 0; font-size: var(--t-2xs); color: var(--muted); min-height: 1.3em; }
+    .duelo__troca {
+      align-self: center; margin-top: 14px;
+      font-size: var(--t-lg); line-height: 1; color: var(--ink-2);
+      background: transparent; border: 1px solid var(--baseline);
+      border-radius: 999px; width: 42px; height: 42px; cursor: pointer;
+    }
+    .duelo__troca:hover { color: var(--ink); border-color: var(--ink-2); }
+
+    .sugestoes { margin: 14px 0 0; font-size: var(--t-xs); color: var(--muted); }
+
+    .aviso-grupos {
+      margin: 18px 0 0; font-size: var(--t-xs); color: var(--ink-2);
+      border-left: 2px solid var(--warn); padding: 2px 0 2px 12px; max-width: 90ch;
+    }
+
+    /* ── o placar ───────────────────────────────────────────────────────── */
+    .resultado { margin-top: 10px; }
+    .placar { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--grid); }
+    .placar__frase { margin: 0; font-size: var(--t-sm); color: var(--ink-2); max-width: 90ch; }
+    :global(.placar__a) { color: var(--accent-texto); }
+    :global(.placar__b) { color: var(--cat3-texto); }
+    :global(.placar__barra) {
+      display: flex; height: 8px; border-radius: 4px; overflow: hidden;
+      margin-top: 12px; background: var(--grid); max-width: 44rem;
+    }
+    :global(.placar__seg) { width: var(--w); }
+    :global(.placar__seg--a) { background: var(--accent); }
+    :global(.placar__seg--igual) { background: var(--baseline); }
+    :global(.placar__seg--b) { background: var(--cat3); }
+    :global(.placar__fichas) { margin: 12px 0 0; font-size: var(--t-2xs); }
+    :global(.placar__fichas a) { color: var(--ink-2); }
+    :global(.placar__fichas a:hover) { color: var(--accent-texto); }
+
+    /* ── as linhas ──────────────────────────────────────────────────────── */
+    :global(.cmp) { padding: 16px 0 14px; border-bottom: 1px solid var(--grid); }
+    :global(.cmp__titulo) { margin: 0; font-size: var(--t-sm); font-weight: 700; }
+    :global(.cmp__corpo) {
+      display: grid; grid-template-columns: minmax(7.5rem, auto) 1fr minmax(7.5rem, auto);
+      gap: 14px; align-items: center; margin-top: 8px;
+    }
+    :global(.cmp__valor) {
+      margin: 0; font-size: var(--t-lg); font-weight: 750; letter-spacing: -0.02em;
+    }
+    :global(.cmp__valor--a) { color: var(--accent-texto); }
+    :global(.cmp__valor--b) { color: var(--cat3-texto); text-align: right; }
+    :global(.cmp__valor--vence) { font-size: var(--t-xl); }
+    /* Espelhadas a partir de um eixo central: A cresce para a esquerda,
+       B para a direita, e o comprimento é proporcional ao valor. */
+    :global(.cmp__barras) {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 3px;
+      align-items: center;
+    }
+    :global(.cmp__barra) {
+      height: 7px; border-radius: 3.5px; width: var(--w); min-width: 2px;
+    }
+    :global(.cmp__barra--a) { grid-column: 1; background: var(--accent); justify-self: end; }
+    :global(.cmp__barra--b) { grid-column: 2; background: var(--cat3); justify-self: start; }
+    :global(.cmp__nota) { margin: 6px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+    @media (max-width: 34rem) {
+      :global(.cmp__corpo) { grid-template-columns: 1fr 1fr; }
+      :global(.cmp__barras) { grid-column: 1 / -1; grid-row: 2; }
+      :global(.cmp__valor--b) { text-align: right; }
+    }
+
+    :global([data-seccoes] .sec) { margin-top: 26px; }
+
+    .cautela-fim {
+      font-size: var(--t-xs); color: var(--ink-2);
+      border-left: 2px solid var(--warn); padding: 2px 0 2px 12px;
+      margin: 26px 0 0; max-width: 90ch;
+    }
+  </style>
+</Base>

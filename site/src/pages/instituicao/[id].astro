@@ -141,6 +141,70 @@ const medianaDoGrupo = (iid: string) => {
   return m ? { grupo: grupoDaUnidade, ...m } : null;
 };
 
+/* Formas novas dentro do cartão, onde a série mensal não chega:
+
+   · Calendário — ocupação e urgências são sazonais, e na linha temporal doze
+     invernos ficam a onze picos de distância; em calendário caem na mesma
+     coluna.
+   · Percentil — «está a melhorar face aos pares, ou só a acompanhar a maré?»
+     Uma unidade cujo prazo de pagamento sobe pode estar a subir menos do que
+     todas as outras. Só em indicadores com polaridade: num neutro, «melhor do
+     que X %» seria uma afirmação que os dados não sustentam. */
+const COM_CALENDARIO = new Set(["ocupacao-internamento", "urgencia-atendimentos"]);
+const COM_PERCENTIL = new Set([
+  "lic-dentro-tmrg",
+  "cesarianas",
+  "prazo-medio-pagamento",
+  "reinternamentos-30-dias",
+]);
+
+const percentilDe = (iid: string) => {
+  const meta = nac[iid];
+  const proprio = f.indicadores[iid];
+  if (!meta || !proprio || meta.polaridade === "neutro") return null;
+  /* Universo: o grupo da ACSS quando tem oito ou mais unidades a publicar o
+     indicador — abaixo disso cada posição salta 15 pontos e a linha é ruído —,
+     senão o país inteiro. O rótulo diz sempre qual é. */
+  const doGrupo = grupoDaUnidade
+    ? todasFichas.filter(
+        (x) => x.grupo_comparacao?.grupo === grupoDaUnidade && x.indicadores[iid],
+      )
+    : [];
+  const universo =
+    doGrupo.length >= 8 ? doGrupo : todasFichas.filter((x) => x.indicadores[iid]);
+  const rotulo =
+    doGrupo.length >= 8
+      ? `entre as ${doGrupo.length} unidades do ${grupoDaUnidade}`
+      : `entre as ${universo.length} unidades do país`;
+  const outros = universo.filter((x) => x.id !== f.id);
+  if (outros.length < 4) return null;
+  const porMes = outros.map(
+    (x) =>
+      new Map(
+        x.indicadores[iid]!.serie.filter((p) => p.valor !== null).map((p) => [
+          p.mes,
+          p.valor as number,
+        ]),
+      ),
+  );
+  const sobe = meta.polaridade === "subir_e_bom";
+  const pontos: { mes: string; pct: number }[] = [];
+  for (const p of proprio.serie) {
+    if (p.valor === null) continue;
+    const valores = porMes
+      .map((m) => m.get(p.mes))
+      .filter((v): v is number => v !== undefined);
+    /* Meses em que poucos pares publicam distorcem a posição; ficam de fora. */
+    if (valores.length < Math.max(4, Math.floor(outros.length * 0.6))) continue;
+    const ultrapassadas = valores.filter((v) =>
+      sobe ? v < p.valor! : v > p.valor!,
+    ).length;
+    pontos.push({ mes: p.mes, pct: (100 * ultrapassadas) / valores.length });
+  }
+  if (pontos.length < 12) return null;
+  return { pontos, universo: rotulo };
+};
+
 /* Amplitude da série mais longa — a prova de que o crosswalk fez o seu
    trabalho, e o argumento para o leitor confiar no gráfico. */
 const meses = Object.values(f.indicadores).flatMap((d) =>
@@ -163,6 +227,22 @@ const SECCOES = [
   ...(temVeredito ? [{ id: "veredito", rotulo: "Leitura de conjunto" }] : []),
   ...porGrupo.map((g) => ({ id: `g-${g.id}`, rotulo: g.titulo })),
 ];
+
+/* Anterior e seguinte dentro do grupo de comparação, em anel: a ficha deixa de
+   ser um beco. Fora de um grupo (não há hoje nenhuma unidade assim), a
+   navegação simplesmente não aparece. */
+const vizinhos = (() => {
+  if (!grupoDaUnidade) return null;
+  const doGrupo = todasFichas
+    .filter((x) => x.grupo_comparacao?.grupo === grupoDaUnidade)
+    .sort((a, b) => a.nome_curto.localeCompare(b.nome_curto, "pt"));
+  if (doGrupo.length < 2) return null;
+  const i = doGrupo.findIndex((x) => x.id === f.id);
+  return {
+    anterior: doGrupo[(i - 1 + doGrupo.length) % doGrupo.length],
+    seguinte: doGrupo[(i + 1) % doGrupo.length],
+  };
+})();
 ---
 
 <Base titulo={f.nome_curto} descricao={descricao}>
@@ -215,6 +295,18 @@ const SECCOES = [
           )
         }
       </dl>
+
+      {/* A promessa do portal é que cada número se reproduz. Os dados da ficha
+          inteira descarregam-se daqui: o JSON é o próprio ficheiro de que esta
+          página é feita, o CSV é a série achatada para folha de cálculo. */}
+      <p class="ficha__dados num">
+        Dados desta ficha:{" "}
+        <a href={ligacao(`/dados/${f.id}.json`)} download>JSON</a>
+        <span aria-hidden="true"> · </span>
+        <a href={ligacao(`/dados/${f.id}.csv`)} download>CSV</a>
+        <span aria-hidden="true"> · </span>
+        <a href={ligacao("/metodologia/")}>como são calculados</a>
+      </p>
     </header>
 
     {
@@ -230,7 +322,15 @@ const SECCOES = [
             oncologia ao lado de uma unidade local, e nenhuma das duas devia ser
             lida contra a outra. A ACSS agrupa as instituições por semelhança de
             custo, e é dentro do {f.grupo_comparacao.grupo} que esta unidade tem
-            pares: {f.grupo_comparacao.pares.map((p) => p.nome_curto).join(", ")}.
+            pares:{" "}
+            {/* Cada par é uma porta, não só um nome: citar unidades sem as
+                ligar obrigava a voltar à lista e procurá-las uma a uma. */}
+            {f.grupo_comparacao.pares.map((p, i) => (
+              <>
+                {i > 0 && ", "}
+                <a href={ligacao(`/instituicao/${p.id}/`)}>{p.nome_curto}</a>
+              </>
+            ))}.
           </p>
           <p class="pares__nota">
             {f.grupo_comparacao.definicao}{" "}
@@ -316,6 +416,8 @@ const SECCOES = [
               grupo={grupoDaUnidade}
               ranking={COM_RANKING.has(iid) ? barrasRanking(iid) : null}
               fator={FATOR[d.unidade] ?? null}
+              calendario={COM_CALENDARIO.has(iid)}
+              percentil={COM_PERCENTIL.has(iid) ? percentilDe(iid) : null}
             />
           ))}
           {g.id === "seguranca" && enfermeirosUlceras.some((p) => p.id === f.id) && (
@@ -356,6 +458,24 @@ const SECCOES = [
           )}
         </section>
       ))
+    }
+
+    {
+      vizinhos && f.grupo_comparacao && (
+        <nav class="viz" aria-label="Outras unidades do grupo">
+          <a class="viz__lado viz__lado--ant" href={ligacao(`/instituicao/${vizinhos.anterior.id}/`)}>
+            <span class="viz__rot">‹ Anterior no grupo</span>
+            <span class="viz__nome">{vizinhos.anterior.nome_curto}</span>
+          </a>
+          <a class="viz__grupo" href={ligacao(`/grupo/${f.grupo_comparacao.grupo.replace(/^Grupo\s+/i, "").toLowerCase()}/`)}>
+            {f.grupo_comparacao.grupo}
+          </a>
+          <a class="viz__lado viz__lado--seg" href={ligacao(`/instituicao/${vizinhos.seguinte.id}/`)}>
+            <span class="viz__rot">Seguinte no grupo ›</span>
+            <span class="viz__nome">{vizinhos.seguinte.nome_curto}</span>
+          </a>
+        </nav>
+      )
     }
    </div>
 
@@ -479,6 +599,34 @@ const SECCOES = [
   .ficha__nota {
     font-size: var(--t-xs); color: var(--ink-2);
     border-left: 2px solid var(--baseline); padding-left: 12px; margin: 18px 0 0;
+  }
+
+  .ficha__dados { margin: 10px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+  .ficha__dados a { color: var(--ink-2); }
+  .ficha__dados a:hover { color: var(--accent-texto); }
+
+  /* Anterior · grupo · seguinte: o corredor entre fichas do mesmo grupo. */
+  .viz {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px;
+    align-items: center; margin-top: 36px; padding-top: 18px;
+    border-top: 1px solid var(--grid);
+  }
+  .viz__lado { display: flex; flex-direction: column; gap: 2px; text-decoration: none; min-height: 24px; }
+  .viz__lado--seg { text-align: right; }
+  .viz__rot {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .viz__nome { font-weight: 650; font-size: var(--t-sm); color: var(--ink-2); }
+  .viz__lado:hover .viz__nome, .viz__lado:focus-visible .viz__nome { color: var(--accent-texto); }
+  .viz__grupo {
+    font-size: var(--t-2xs); color: var(--ink-2); text-decoration: none;
+    border: 1px solid var(--baseline); border-radius: 999px; padding: 6px 12px;
+  }
+  .viz__grupo:hover { color: var(--ink); border-color: var(--ink-2); }
+  @media (max-width: 34rem) {
+    .viz { grid-template-columns: 1fr 1fr; }
+    .viz__grupo { display: none; }
   }
 
   .indice { padding: 18px 0 0; }

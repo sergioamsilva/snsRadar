@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import Icone from "../components/Icone.astro";
-import { ligacao } from "../lib/dados";
+import { indice, ligacao } from "../lib/dados";
 
 interface Props {
   titulo: string;
@@ -18,9 +18,20 @@ const aqui = Astro.url.pathname;
 const SECCOES = [
   { href: ligacao("/perguntas/"), rotulo: "Perguntas" },
   { href: ligacao("/instituicoes/"), rotulo: "Instituições" },
+  { href: ligacao("/comparar/"), rotulo: "Comparar" },
   { href: ligacao("/"), rotulo: "Painel" },
   { href: ligacao("/metodologia/"), rotulo: "Metodologia" },
 ];
+
+/* A procura global: as 43 unidades, embebidas em cada página (~3 KB) para que
+   saltar para uma ficha não dependa de estar na página da lista. A procura da
+   abertura filtra a lista; esta navega — são gestos diferentes. */
+const SALTO = indice().map((i) => ({
+  u: ligacao(`/instituicao/${i.id}/`),
+  n: i.nome_curto,
+  m: `${i.distrito} · ${i.regiao}${i.grupo_acss ? ` · ${i.grupo_acss}` : ""}`,
+  b: `${i.nome_curto} ${i.distrito} ${i.regiao} ${i.grupo_acss ?? ""}`.toLowerCase(),
+}));
 ---
 
 <!doctype html>
@@ -100,12 +111,46 @@ const SECCOES = [
           ))
         }
         <button
-          class="chip fim"
+          class="chip fim salto__abrir"
+          type="button"
+          data-salto-abrir
+          aria-label="Procurar unidade de saúde — tecla de atalho: barra"
+        >
+          <Icone nome="lupa" tamanho={14} /> Procurar
+        </button>
+        <button
+          class="chip"
           type="button"
           data-tema
           aria-label="Alternar entre tema claro e escuro">Tema</button
         >
       </nav>
+
+      {/* A paleta de procura. Um <dialog> nativo: foco preso, Esc fecha,
+          fundo escurecido — sem reinventar nada. Sem JavaScript, o botão que
+          o abre não aparece; a lista de instituições continua a ser o caminho. */}
+      <dialog class="salto" data-salto aria-label="Procurar unidade de saúde">
+        <div class="salto__campo">
+          <Icone nome="lupa" tamanho={18} class="salto__lupa" />
+          <input
+            type="search"
+            placeholder="Nome, distrito, região ou grupo…"
+            autocomplete="off"
+            data-salto-campo
+            aria-label="Procurar unidade de saúde"
+          />
+          <button class="salto__fechar" type="button" data-salto-fechar>Esc</button>
+        </div>
+        <p class="salto__n" data-salto-n aria-live="polite"></p>
+        <ul class="salto__resultados" data-salto-resultados></ul>
+        <p class="salto__dica">Enter abre o primeiro resultado</p>
+      </dialog>
+      <script
+        type="application/json"
+        is:inline
+        data-salto-dados
+        set:html={JSON.stringify(SALTO)}
+      />
 
       <main id="conteudo">
         <slot />
@@ -144,7 +189,7 @@ const SECCOES = [
           </div>
         </div>
         <p class="rodape-fim">
-          snsRadar, {ano} · <a href="https://github.com/sergioamsilva/snsRadar" rel="noopener">código no GitHub</a> · <a href="mailto:radar@cybersec.pt">radar@cybersec.pt</a>
+          snsRadar, {ano} · <a href={ligacao("/alteracoes/")}>registo de alterações</a> · <a href="https://github.com/sergioamsilva/snsRadar" rel="noopener">código no GitHub</a> · <a href="mailto:radar@cybersec.pt">radar@cybersec.pt</a>
         </p>
       </footer>
     </div>
@@ -159,17 +204,101 @@ const SECCOES = [
         raiz.dataset.theme = escuro ? "light" : "dark";
         localStorage.setItem("snsradar-tema", raiz.dataset.theme);
       });
+
+      /* ── a paleta de procura ──────────────────────────────────────────── */
+      {
+        const dialogo = document.querySelector<HTMLDialogElement>("[data-salto]");
+        const campo = document.querySelector<HTMLInputElement>("[data-salto-campo]");
+        const resultados = document.querySelector<HTMLUListElement>("[data-salto-resultados]");
+        const n = document.querySelector<HTMLElement>("[data-salto-n]");
+        const dados: { u: string; n: string; m: string; b: string }[] = JSON.parse(
+          document.querySelector("[data-salto-dados]")?.textContent ?? "[]",
+        );
+        const semAcentos = (s: string) =>
+          s.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+        const indexadas = dados.map((d) => ({ ...d, b: semAcentos(d.b) }));
+
+        const desenhar = (q: string) => {
+          if (!resultados || !n) return;
+          const termo = semAcentos(q.trim().toLowerCase());
+          const achadas =
+            termo === ""
+              ? []
+              : indexadas
+                  .filter((d) => d.b.includes(termo))
+                  // Quem corresponde no nome vem antes de quem corresponde só
+                  // no distrito ou no grupo.
+                  .sort((a, b) => {
+                    const an = semAcentos(a.n.toLowerCase()).includes(termo) ? 0 : 1;
+                    const bn = semAcentos(b.n.toLowerCase()).includes(termo) ? 0 : 1;
+                    return an - bn || a.n.localeCompare(b.n, "pt");
+                  })
+                  .slice(0, 8);
+          resultados.innerHTML = "";
+          for (const d of achadas) {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = d.u;
+            const nome = document.createElement("span");
+            nome.className = "salto__nome";
+            nome.textContent = d.n;
+            const meta = document.createElement("span");
+            meta.className = "salto__meta";
+            meta.textContent = d.m;
+            a.append(nome, meta);
+            li.append(a);
+            resultados.append(li);
+          }
+          n.textContent =
+            termo === ""
+              ? ""
+              : `${achadas.length === 0 ? "nenhuma unidade" : achadas.length === 1 ? "1 unidade" : `${achadas.length} unidades`}`;
+        };
+
+        const abrir = () => {
+          if (!dialogo || dialogo.open) return;
+          dialogo.showModal();
+          campo?.focus();
+        };
+
+        document.querySelector("[data-salto-abrir]")?.addEventListener("click", abrir);
+        document.querySelector("[data-salto-fechar]")?.addEventListener("click", () => dialogo?.close());
+        // A barra abre a procura de qualquer sítio — salvo quando já se está a
+        // escrever noutro campo.
+        document.addEventListener("keydown", (ev) => {
+          if (ev.key !== "/" || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+          const alvo = ev.target as HTMLElement;
+          if (alvo.closest("input, textarea, select, [contenteditable]")) return;
+          ev.preventDefault();
+          abrir();
+        });
+        // Clicar no fundo escurecido fecha: o alvo é o próprio <dialog> só
+        // quando o clique cai fora da caixa.
+        dialogo?.addEventListener("click", (ev) => {
+          if (ev.target === dialogo) dialogo.close();
+        });
+        dialogo?.addEventListener("close", () => {
+          if (campo) campo.value = "";
+          desenhar("");
+        });
+        campo?.addEventListener("input", () => desenhar(campo.value));
+        campo?.addEventListener("keydown", (ev) => {
+          if (ev.key !== "Enter") return;
+          const primeiro = resultados?.querySelector("a");
+          if (primeiro) location.href = primeiro.href;
+        });
+      }
     </script>
 
     <style is:global>
       /* Os títulos do rodapé estão em global.css; aqui só se acomoda o ícone
          ao lado, sem lhe mexer no corpo nem no espaçamento entre letras. */
-      footer .cols h4 {
+      footer .cols h2 {
         display: flex;
         align-items: center;
         gap: 7px;
       }
-      footer .cols h4 .icone {
+      footer .cols h2 .icone {
         color: var(--muted);
       }
     </style>
@@ -177,6 +306,113 @@ const SECCOES = [
       .rodape-fim {
         margin-top: 22px;
         font-size: var(--t-2xs);
+        color: var(--muted);
+      }
+
+      /* ── paleta de procura ──────────────────────────────────────────────
+         Sem JavaScript nem o botão nem o diálogo servem de nada. */
+      :global(html:not(.js)) .salto__abrir,
+      :global(html:not(.js)) .salto {
+        display: none;
+      }
+      .salto__abrir { display: inline-flex; align-items: center; gap: 6px; }
+      .salto__abrir :global(.icone) { color: var(--muted); }
+      .salto__abrir:hover :global(.icone) { color: var(--accent-texto); }
+
+      .salto {
+        width: min(560px, 92vw);
+        margin: 12vh auto 0;
+        padding: 0;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--page);
+        color: var(--ink);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      }
+      .salto::backdrop {
+        background: rgba(8, 8, 10, 0.45);
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px);
+      }
+      .salto__campo {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--grid);
+      }
+      .salto__campo :global(.icone) {
+        position: absolute;
+        left: 14px;
+        color: var(--muted);
+        pointer-events: none;
+      }
+      .salto__campo input {
+        flex: 1;
+        font-size: var(--t-md);
+        padding: 14px 12px 14px 44px;
+        border: none;
+        background: transparent;
+        color: var(--ink);
+      }
+      .salto__campo input:focus { outline: none; }
+      .salto__campo:focus-within :global(.icone) { color: var(--accent); }
+      .salto__fechar {
+        flex: none;
+        margin-right: 12px;
+        font: 600 var(--t-3xs)/1 system-ui, sans-serif;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--baseline);
+        border-radius: 6px;
+        padding: 5px 7px;
+        cursor: pointer;
+      }
+      .salto__fechar:hover { color: var(--ink); border-color: var(--ink-2); }
+      .salto__n {
+        margin: 0;
+        padding: 8px 16px 0;
+        font-size: var(--t-3xs);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        min-height: 1em;
+      }
+      .salto__resultados {
+        list-style: none;
+        margin: 4px 0 0;
+        padding: 0 6px;
+        max-height: 46vh;
+        overflow-y: auto;
+      }
+      /* Os resultados são criados por JavaScript: o escopo do Astro não os
+         apanha, e sem :global ficavam com o estilo de ligação por defeito —
+         nome e distrito colados, tudo sublinhado. */
+      .salto__resultados :global(a) {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 10px 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--ink);
+      }
+      .salto__resultados :global(a:hover),
+      .salto__resultados :global(a:focus-visible) {
+        background: var(--surface);
+      }
+      .salto__resultados :global(.salto__nome) { font-weight: 650; font-size: var(--t-sm); }
+      .salto__resultados :global(.salto__meta) {
+        font-size: var(--t-2xs);
+        color: var(--muted);
+        text-align: right;
+        white-space: nowrap;
+      }
+      .salto__dica {
+        margin: 0;
+        padding: 10px 16px 12px;
+        font-size: var(--t-3xs);
         color: var(--muted);
       }
     </style>

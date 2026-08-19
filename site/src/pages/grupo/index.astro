@@ -1,0 +1,177 @@
+---
+/**
+ * A porta dos grupos. As páginas `/grupo/b/` a `/grupo/f/` existiam sem
+ * índice: chegava-se por um chip na lista ou por uma ficha, nunca de frente.
+ * Esta página apresenta o sistema de comparação da ACSS de uma vez — e mostra,
+ * grupo a grupo, onde cada um mais se afasta do país, que é a pergunta que
+ * distingue «grupos de custo» de «grupos de geografia».
+ */
+import Base from "../../layouts/Base.astro";
+import Movimento from "../../components/Movimento.astro";
+import { ficha, indice, nacional, formatar, ligacao } from "../../lib/dados";
+
+const nac = nacional();
+const todas = indice().map((i) => ficha(i.id));
+
+const nomes = [
+  ...new Set(
+    todas.map((f) => f.grupo_comparacao?.grupo).filter((g): g is string => !!g),
+  ),
+].sort();
+
+const grupos = nomes.map((nome) => {
+  const membros = todas
+    .filter((f) => f.grupo_comparacao?.grupo === nome)
+    .sort((a, b) => a.nome_curto.localeCompare(b.nome_curto, "pt"));
+  const populacao = membros.reduce((s, m) => s + (m.populacao?.inscritos ?? 0), 0);
+  const distritos = new Set(membros.map((m) => m.distrito)).size;
+
+  /* O desvio mais expressivo do grupo face ao país — o mesmo cálculo da
+     página do grupo, reduzido ao seu primeiro lugar. As contagens ficam de
+     fora: um grupo de hospitais grandes faz mais angioplastias por ser
+     grande, e «+1620 %» diria dimensão, não desempenho. */
+  let maior: { titulo: string; desvio: number } | null = null;
+  for (const [iid, n] of Object.entries(nac)) {
+    if (n.unidade === "contagem") continue;
+    const g = n.mediana_por_grupo?.[nome];
+    if (!g || n.mediana_instituicoes === null || n.mediana_instituicoes === 0) continue;
+    const desvio = (g.mediana - n.mediana_instituicoes) / Math.abs(n.mediana_instituicoes);
+    if (!maior || Math.abs(desvio) > Math.abs(maior.desvio)) {
+      maior = { titulo: n.titulo, desvio };
+    }
+  }
+  return {
+    nome,
+    href: ligacao(`/grupo/${nome.replace(/^Grupo\s+/i, "").toLowerCase()}/`),
+    membros,
+    populacao,
+    distritos,
+    maior,
+  };
+});
+
+const pc = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 0 });
+const descricao =
+  "Os grupos de comparação do benchmarking da ACSS: quem pertence a cada um, " +
+  "que população servem e onde cada grupo mais se afasta do país.";
+---
+
+<Base titulo="Grupos de comparação" descricao={descricao}>
+  <div class="pagina">
+    <nav class="migalhas" aria-label="Percurso">
+      <a href={ligacao("/instituicoes/")}>Instituições</a>
+      <span aria-hidden="true">›</span>
+      <span>Grupos de comparação</span>
+    </nav>
+
+    <header class="topo">
+      <p class="sobretitulo">Benchmarking Hospitalar da ACSS</p>
+      <h1>Os grupos de comparação</h1>
+      <p class="topo__intro medida">
+        A ACSS agrupa as instituições pelo que custam, não pelo sítio onde
+        ficam: é dentro de cada grupo que uma unidade tem pares. Um instituto
+        de oncologia lido contra uma unidade local diria pouco sobre qualquer
+        dos dois — e há grupos inteiros sistematicamente acima ou abaixo do
+        país, o que a mediana nacional esconde.
+      </p>
+    </header>
+
+    <div class="grelha">
+      {grupos.map((g) => (
+        <a class="cartao" href={g.href} data-entrada>
+          <h2>{g.nome}</h2>
+          <dl class="cartao__numeros">
+            <div>
+              <dt>Unidades</dt>
+              <dd class="num" data-contar={g.membros.length}>{g.membros.length}</dd>
+            </div>
+            <div>
+              <dt>Distritos</dt>
+              <dd class="num" data-contar={g.distritos}>{g.distritos}</dd>
+            </div>
+            <div>
+              <dt>População</dt>
+              <dd class="num">{g.populacao ? formatar(g.populacao, "contagem") : "—"}</dd>
+            </div>
+          </dl>
+          {g.maior && (
+            <p class="cartao__desvio">
+              Onde mais se afasta do país: <strong>{g.maior.titulo}</strong>,{" "}
+              <span class="num">
+                {g.maior.desvio > 0 ? "+" : ""}{pc.format(100 * g.maior.desvio)} %
+              </span>{" "}
+              face à mediana nacional.
+            </p>
+          )}
+          <p class="cartao__membros">
+            {g.membros.map((m) => m.nome_curto).join(" · ")}
+          </p>
+          <span class="cartao__ir" aria-hidden="true">Ver o grupo →</span>
+        </a>
+      ))}
+    </div>
+
+    <p class="nota medida">
+      Grupos de financiamento determinados pela ACSS com recurso a clustering
+      hierárquico sobre variáveis de custo. Cada página de grupo mostra o mapa
+      das suas unidades e a mediana do grupo ao lado da nacional, indicador a
+      indicador.
+    </p>
+  </div>
+  <Movimento />
+</Base>
+
+<style>
+  .pagina { padding: 0 0 24px; }
+  .migalhas {
+    font-size: var(--t-2xs); color: var(--muted); margin: 24px 0 8px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .migalhas a { display: inline-flex; align-items: center; min-height: 24px; }
+  .sobretitulo {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+  }
+  .topo h1 { margin: 4px 0 12px; }
+  .topo__intro { font-size: var(--t-md); color: var(--ink-2); }
+
+  .grelha {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    gap: 16px; margin-top: 28px;
+  }
+  .cartao {
+    display: flex; flex-direction: column; gap: 12px;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface); padding: 18px 20px 16px;
+    text-decoration: none; color: inherit; position: relative;
+  }
+  /* O mesmo gesto das listas: a régua de acento cresce no filete de baixo. */
+  .cartao::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+    background: var(--accent); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.25, 1);
+    border-radius: 0 0 2px 2px;
+  }
+  .cartao:hover::after, .cartao:focus-visible::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .cartao::after { transition: none; }
+  }
+  .cartao h2 { font-size: var(--t-lg); margin: 0; }
+  .cartao__numeros {
+    display: grid; grid-template-columns: repeat(3, auto); gap: 0 26px;
+    margin: 0; justify-content: start;
+  }
+  .cartao__numeros dt {
+    font-size: var(--t-3xs); text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); font-weight: 600;
+  }
+  .cartao__numeros dd {
+    margin: 2px 0 0; font-size: var(--t-lg); font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+  .cartao__desvio { margin: 0; font-size: var(--t-xs); color: var(--ink-2); }
+  .cartao__membros { margin: 0; font-size: var(--t-2xs); color: var(--muted); }
+  .cartao__ir { font-size: var(--t-2xs); color: var(--accent-texto); font-weight: 600; }
+
+  .nota { margin-top: 26px; font-size: var(--t-xs); color: var(--muted); }
+</style>

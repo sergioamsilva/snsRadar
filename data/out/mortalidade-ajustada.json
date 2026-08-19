@@ -501,10 +501,10 @@
     "2026-06"
   ],
   "instituicoes_sem_smr": {
-    "uls-loures-odivelas": "letalidade caiu de 7.7% em 2021 para 4.4% em 2025",
-    "uls-sao-jose": "letalidade caiu de 4.9% em 2021 para 1.4% em 2025",
+    "ipo-coimbra": "letalidade caiu de 6.6% em 2021 para 0.3% em 2025",
     "uls-baixo-alentejo": "letalidade caiu de 7.7% em 2021 para 4.6% em 2025",
-    "ipo-coimbra": "letalidade caiu de 6.6% em 2021 para 0.3% em 2025"
+    "uls-loures-odivelas": "letalidade caiu de 7.7% em 2021 para 4.4% em 2025",
+    "uls-sao-jose": "letalidade caiu de 4.9% em 2021 para 1.4% em 2025"
   },
   "metodo": "Padronização indireta por capítulo CID, faixa etária e sexo. SMR = óbitos observados ÷ esperados dada a casuística do hospital. Intervalo de confiança de 95% pela aproximação de Byar."
 }

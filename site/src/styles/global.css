@@ -506,7 +506,7 @@ footer .cols {
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
-footer h4 {
+footer h2 {
   font-size: var(--t-3xs);
   font-weight: 700;
   letter-spacing: 0.12em;

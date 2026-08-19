@@ -59,6 +59,9 @@ export type PontoFunil = {
 /** Uma unidade num ordenamento por volume. */
 export type Barra = { id: string; nome_curto: string; valor: number };
 
+/** Posição mensal entre pares (0–100, polaridade já aplicada). */
+export type PontoPercentil = { mes: string; pct: number };
+
 /** Uma unidade num gráfico de declive, entre duas medidas relacionadas. */
 export type ParDeclive = {
   id: string;
@@ -231,8 +234,17 @@ export type Nacional = Record<
 export const ligacao = (caminho: string): string =>
   `${import.meta.env.BASE_URL.replace(/\/$/, "")}${caminho}`;
 
-const ler = <T>(p: string): T =>
-  JSON.parse(fs.readFileSync(path.join(RAIZ, p), "utf-8"));
+/* Cache por caminho, para todo o build. Sem ela, cada página de instituição e
+   de grupo relia e reinterpretava as 43 fichas inteiras (44 MB) — O(n²) de
+   leitura e parse ao longo do build. Os objetos devolvidos são partilhados
+   entre páginas: quem os recebe não os altera. */
+const memo = new Map<string, unknown>();
+const ler = <T>(p: string): T => {
+  if (!memo.has(p)) {
+    memo.set(p, JSON.parse(fs.readFileSync(path.join(RAIZ, p), "utf-8")));
+  }
+  return memo.get(p) as T;
+};
 
 export const indice = (): {
   id: string;

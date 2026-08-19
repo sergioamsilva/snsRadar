@@ -1,0 +1,74 @@
+---
+/**
+ * O registo de alterações, em página. Os números deste portal são citáveis e
+ * alguns já mudaram; quem os citou merece um sítio dentro do portal — e um
+ * feed — que lhe diga o quê e quando, sem precisar de saber o que é o GitHub.
+ */
+import Base from "../layouts/Base.astro";
+import { ligacao } from "../lib/dados";
+import { alteracoes } from "../lib/alteracoes";
+
+const { intro, entradas } = alteracoes();
+const descricao =
+  "O que mudou nos números do snsRadar: indicadores acrescentados, definições " +
+  "alteradas, correções a valores que estiveram publicados.";
+---
+
+<Base titulo="Registo de alterações" descricao={descricao}>
+  <div class="pagina">
+    <header class="topo">
+      <p class="sobretitulo">Transparência sobre nós próprios</p>
+      <h1>Registo de alterações</h1>
+      <div class="intro medida" set:html={intro} />
+      <p class="feed num">
+        <a href={ligacao("/alteracoes.xml")}>Feed deste registo (Atom)</a> —
+        para ser avisado quando um número citável mudar.
+      </p>
+    </header>
+
+    {entradas.map((e) => (
+      <section class="entrada" id={e.iso}>
+        <h2>
+          <a class="entrada__ancora" href={`#${e.iso}`}>{e.data}</a>
+        </h2>
+        <div class="entrada__corpo medida" set:html={e.html} />
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .pagina { padding: 32px 0 24px; }
+  .sobretitulo {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+  }
+  .topo h1 { margin: 4px 0 12px; }
+  .intro { font-size: var(--t-sm); color: var(--ink-2); }
+  .intro :global(p) { margin: 10px 0 0; }
+  .feed { margin: 16px 0 0; font-size: var(--t-2xs); color: var(--muted); }
+
+  .entrada {
+    margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--grid);
+    scroll-margin-top: 62px;
+  }
+  .entrada h2 { font-size: var(--t-lg); margin: 0; }
+  .entrada__ancora { color: inherit; text-decoration: none; }
+  .entrada__ancora:hover { color: var(--accent-texto); }
+
+  .entrada__corpo { font-size: var(--t-sm); color: var(--ink-2); }
+  .entrada__corpo :global(h3) {
+    font-size: var(--t-md); color: var(--ink); margin: 22px 0 6px;
+  }
+  .entrada__corpo :global(p) { margin: 8px 0 0; }
+  .entrada__corpo :global(ul) { margin: 8px 0 0; padding-left: 22px; }
+  .entrada__corpo :global(li) { margin: 5px 0 0; }
+  .entrada__corpo :global(blockquote) {
+    margin: 10px 0 0; padding: 2px 0 2px 12px;
+    border-left: 2px solid var(--baseline); color: var(--muted);
+  }
+  .entrada__corpo :global(code) {
+    font-size: 0.92em; background: var(--surface);
+    border: 1px solid var(--grid); border-radius: 4px; padding: 1px 5px;
+  }
+</style>

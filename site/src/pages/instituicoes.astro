@@ -33,6 +33,16 @@ const regioes = porRegiao.map((r) => ({
     .filter((i) => i.regiao === r)
     .sort((a, b) => a.nome_curto.localeCompare(b.nome_curto, "pt")),
 }));
+
+/* Filtros estruturados, a par do texto livre: região, natureza e grupo ACSS
+   são as três formas de recortar a lista que o índice já conhece. Derivados
+   dos dados — um tipo novo aparece aqui sem tocar nesta página. */
+const ROTULO_TIPO: Record<string, string> = {
+  uls: "ULS",
+  oncologico: "Institutos de oncologia",
+  ppp: "PPP",
+};
+const tipos = [...new Set(lista.map((i) => i.tipo))].sort();
 ---
 
 <Base
@@ -65,17 +75,62 @@ const regioes = porRegiao.map((r) => ({
                 </a>
               </li>
             ))}
+            <li>
+              <a href={ligacao("/grupo/")}>O que são os grupos →</a>
+            </li>
           </ul>
         </nav>
       )}
 
       <p class="lista__intro">
         Escreva na caixa de procura lá em cima, ou aponte para um ponto do mapa:
-        os dois filtram esta lista ao mesmo tempo.
+        os dois filtram esta lista ao mesmo tempo.{" "}
         <strong class="num">{formatar(semMedico, "contagem")}</strong> pessoas
         inscritas no SNS não têm médico de família atribuído
         ({formatarMesPorExtenso(periodoPop)}).
       </p>
+
+      {/* Filtros estruturados. Combinam-se entre si e com o texto livre, e o
+          estado fica no endereço — «as unidades do Norte» passa a ser uma
+          ligação que se envia, não uma sequência de gestos a repetir. Sem
+          JavaScript não filtram nada, e por isso não aparecem. */}
+      <div class="filtros" data-filtros>
+        <div class="filtros__grupo" role="group" aria-label="Filtrar por região">
+          <p class="flabel">Região</p>
+          <div class="filtros__chips">
+            {porRegiao.map((r) => (
+              <button class="chip" type="button" data-filtro="regiao" data-valor={r} aria-pressed="false">
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="filtros__grupo" role="group" aria-label="Filtrar por natureza">
+          <p class="flabel">Natureza</p>
+          <div class="filtros__chips">
+            {tipos.map((t) => (
+              <button class="chip" type="button" data-filtro="tipo" data-valor={t} aria-pressed="false">
+                {ROTULO_TIPO[t] ?? t}
+              </button>
+            ))}
+          </div>
+        </div>
+        {clusters.length > 0 && (
+          <div class="filtros__grupo" role="group" aria-label="Filtrar por grupo de comparação">
+            <p class="flabel">Grupo ACSS</p>
+            <div class="filtros__chips">
+              {clusters.map((g) => (
+                <button class="chip" type="button" data-filtro="grupo" data-valor={g} aria-pressed="false">
+                  {g.replace(/^Grupo\s+/i, "")}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        <button class="filtros__limpar" type="button" data-limpar hidden>
+          Limpar filtros
+        </button>
+      </div>
 
       {
         regioes.map((r) => (
@@ -86,6 +141,9 @@ const regioes = porRegiao.map((r) => ({
                 <li
                   data-item
                   data-busca={`${i.nome_curto} ${i.distrito} ${i.regiao} ${i.grupo_acss ?? ""}`.toLowerCase()}
+                  data-regiao={i.regiao}
+                  data-tipo={i.tipo}
+                  data-grupo={i.grupo_acss ?? ""}
                 >
                   <a href={ligacao(`/instituicao/${i.id}/`)}>
                     <span class="regiao__nome">{i.nome_curto}</span>
@@ -127,17 +185,30 @@ const regioes = porRegiao.map((r) => ({
   const pontos = [...document.querySelectorAll<SVGElement>("[data-ponto]")];
   const vazio = document.querySelector<HTMLElement>("[data-vazio]");
   const contagem = document.querySelector<HTMLElement>("[data-contagem]");
+  const chips = [...document.querySelectorAll<HTMLButtonElement>("[data-filtro]")];
+  const limpar = document.querySelector<HTMLButtonElement>("[data-limpar]");
 
   // Sem acentos: quem escreve «Tras-os-Montes» tem de encontrar o hospital.
   const semAcentos = (s: string) =>
     s.normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
-  campo?.addEventListener("input", () => {
-    const q = semAcentos(campo.value.trim().toLowerCase());
+  /* O estado dos filtros. Uma escolha por dimensão, combinável com o texto —
+     e espelhado no endereço, para que «as ULS do Norte» seja uma ligação que
+     se envia e não uma sequência de gestos a repetir. */
+  const estado = { q: "", regiao: "", tipo: "", grupo: "" };
+
+  const corresponde = (d: DOMStringMap) => {
+    if (estado.regiao && d.regiao !== estado.regiao) return false;
+    if (estado.tipo && d.tipo !== estado.tipo) return false;
+    if (estado.grupo && d.grupo !== estado.grupo) return false;
+    if (estado.q === "") return true;
+    return semAcentos(d.busca ?? "").includes(estado.q);
+  };
+
+  function aplicar(escreverUrl = true) {
     let visiveis = 0;
     for (const item of itens) {
-      const alvo = semAcentos(item.dataset.busca ?? "");
-      const mostra = q === "" || alvo.includes(q);
+      const mostra = corresponde(item.dataset);
       item.hidden = !mostra;
       if (mostra) visiveis++;
     }
@@ -150,16 +221,68 @@ const regioes = porRegiao.map((r) => ({
     // tem de continuar reconhecível enquanto se escreve, senão a procura
     // desfaz a própria imagem que ajuda a orientar.
     for (const p of pontos) {
-      const alvo = semAcentos(p.dataset.busca ?? "");
-      if (q === "" || alvo.includes(q)) p.removeAttribute("data-fora");
+      if (corresponde(p.dataset)) p.removeAttribute("data-fora");
       else p.setAttribute("data-fora", "");
     }
+    const aFiltrar =
+      estado.q !== "" || estado.regiao !== "" || estado.tipo !== "" || estado.grupo !== "";
     if (vazio) vazio.hidden = visiveis > 0;
     if (contagem) {
-      contagem.textContent =
-        q === "" ? "" : `${visiveis} ${visiveis === 1 ? "unidade" : "unidades"}`;
+      contagem.textContent = aFiltrar
+        ? `${visiveis} ${visiveis === 1 ? "unidade" : "unidades"}`
+        : "";
     }
+    for (const c of chips) {
+      c.setAttribute(
+        "aria-pressed",
+        String(estado[c.dataset.filtro as "regiao" | "tipo" | "grupo"] === c.dataset.valor),
+      );
+    }
+    if (limpar) limpar.hidden = !aFiltrar;
+    if (escreverUrl) {
+      const p = new URLSearchParams();
+      if (campo?.value.trim()) p.set("q", campo.value.trim());
+      if (estado.regiao) p.set("regiao", estado.regiao);
+      if (estado.tipo) p.set("tipo", estado.tipo);
+      if (estado.grupo) p.set("grupo", estado.grupo);
+      const query = p.toString();
+      history.replaceState(null, "", query ? `?${query}` : location.pathname);
+    }
+  }
+
+  campo?.addEventListener("input", () => {
+    estado.q = semAcentos(campo.value.trim().toLowerCase());
+    aplicar();
   });
+
+  for (const c of chips) {
+    c.addEventListener("click", () => {
+      const dim = c.dataset.filtro as "regiao" | "tipo" | "grupo";
+      estado[dim] = estado[dim] === c.dataset.valor ? "" : (c.dataset.valor ?? "");
+      aplicar();
+    });
+  }
+
+  limpar?.addEventListener("click", () => {
+    estado.q = ""; estado.regiao = ""; estado.tipo = ""; estado.grupo = "";
+    if (campo) campo.value = "";
+    aplicar();
+  });
+
+  /* Chegada por ligação partilhada: o endereço reconstrói o estado. */
+  {
+    const p = new URLSearchParams(location.search);
+    const q = p.get("q") ?? "";
+    if (campo && q) campo.value = q;
+    estado.q = semAcentos(q.trim().toLowerCase());
+    for (const dim of ["regiao", "tipo", "grupo"] as const) {
+      const v = p.get(dim);
+      if (v && chips.some((c) => c.dataset.filtro === dim && c.dataset.valor === v)) {
+        estado[dim] = v;
+      }
+    }
+    if (estado.q || estado.regiao || estado.tipo || estado.grupo) aplicar(false);
+  }
 
   /* ── o mostrador segue o mapa ──────────────────────────────────────────── */
 
@@ -221,6 +344,24 @@ const regioes = porRegiao.map((r) => ({
     max-width: 74ch;
   }
   .lista__intro strong { color: var(--ink); font-weight: 750; }
+
+  /* Sem JavaScript os chips não filtram nada: não aparecem, como a procura. */
+  :global(html:not(.js)) .filtros { display: none; }
+  .filtros {
+    display: grid; gap: 10px; margin: 0 0 26px; padding: 14px 0 16px;
+    border-block: 1px solid var(--grid);
+  }
+  .filtros__grupo { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .filtros__grupo .flabel { flex: none; min-width: 7.5rem; margin: 0; }
+  .filtros__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filtros__limpar {
+    justify-self: start; margin-top: 2px;
+    font: 600 var(--t-2xs)/1 system-ui, sans-serif;
+    color: var(--muted); background: none; border: none;
+    text-decoration: underline; cursor: pointer; padding: 4px 0;
+    min-height: 24px;
+  }
+  .filtros__limpar:hover { color: var(--ink); }
 
   .regiao { margin-bottom: 8px; }
   .regiao__lista {

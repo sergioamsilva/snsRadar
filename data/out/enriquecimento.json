@@ -504,8 +504,8 @@
     "instituicoes_sem_smr": {
       "uls-loures-odivelas": "letalidade caiu de 7.7% em 2021 para 4.4% em 2025",
       "uls-sao-jose": "letalidade caiu de 4.9% em 2021 para 1.4% em 2025",
-      "ipo-coimbra": "letalidade caiu de 6.6% em 2021 para 0.3% em 2025",
-      "uls-baixo-alentejo": "letalidade caiu de 7.7% em 2021 para 4.6% em 2025"
+      "uls-baixo-alentejo": "letalidade caiu de 7.7% em 2021 para 4.6% em 2025",
+      "ipo-coimbra": "letalidade caiu de 6.6% em 2021 para 0.3% em 2025"
     },
     "metodo": "Padronização indireta por capítulo CID, faixa etária e sexo. SMR = óbitos observados ÷ esperados dada a casuística do hospital. Intervalo de confiança de 95% pela aproximação de Byar."
   },
@@ -1279,89 +1279,89 @@
         "acrescimo": 14270414
       }
     },
-    "uls-alentejo-central": {
+    "uls-dao-lafoes": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
       "ate": "2026",
       "cobertura_suficiente": true,
-      "contratos": 11254,
-      "valor": 702551884,
-      "peso_ajuste_direto": 18.5,
+      "contratos": 25173,
+      "valor": 647644527,
+      "peso_ajuste_direto": 40.5,
       "por_ano": [
         {
           "ano": "2012",
-          "contratos": 117,
-          "valor": 10953923
+          "contratos": 6,
+          "valor": 673337
         },
         {
           "ano": "2013",
-          "contratos": 736,
-          "valor": 23887669
+          "contratos": 169,
+          "valor": 4918034
         },
         {
           "ano": "2014",
-          "contratos": 550,
-          "valor": 53632759
+          "contratos": 326,
+          "valor": 35113021
         },
         {
           "ano": "2015",
-          "contratos": 328,
-          "valor": 22875784
+          "contratos": 507,
+          "valor": 15271067
         },
         {
           "ano": "2016",
-          "contratos": 471,
-          "valor": 29432998
+          "contratos": 418,
+          "valor": 11633185
         },
         {
           "ano": "2017",
-          "contratos": 674,
-          "valor": 35304211
+          "contratos": 415,
+          "valor": 14656510
         },
         {
           "ano": "2018",
-          "contratos": 381,
-          "valor": 19038145
+          "contratos": 325,
+          "valor": 11101336
         },
         {
           "ano": "2019",
-          "contratos": 569,
-          "valor": 34166175
+          "contratos": 382,
+          "valor": 11663116
         },
         {
           "ano": "2020",
-          "contratos": 674,
-          "valor": 27288449
+          "contratos": 1665,
+          "valor": 32836925
         },
         {
           "ano": "2021",
-          "contratos": 749,
-          "valor": 46280674
+          "contratos": 3417,
+          "valor": 42440699
         },
         {
           "ano": "2022",
-          "contratos": 1494,
-          "valor": 73023065
+          "contratos": 4958,
+          "valor": 68844772
         },
         {
           "ano": "2023",
-          "contratos": 1113,
-          "valor": 56818996
+          "contratos": 4779,
+          "valor": 79917329
         },
         {
           "ano": "2024",
-          "contratos": 1310,
-          "valor": 91583816
+          "contratos": 3999,
+          "valor": 90153611
         },
         {
           "ano": "2025",
-          "contratos": 1287,
-          "valor": 101382487
+          "contratos": 2488,
+          "valor": 154977196
         },
         {
           "ano": "2026",
-          "contratos": 801,
-          "valor": 76882733
+          "contratos": 1319,
+          "valor": 73444390
         }
       ],
       "maiores_fornecedores": [
@@ -1370,54 +1370,54 @@
           "valor": 23711684
         },
         {
-          "nome": "ATRYS PORTUGAL CENTRO MÉDICO AVANÇADO, S.A.",
-          "valor": 13500435
+          "nome": "EDIVISA - EMPRESA DE CONSTRUÇÕES, S.A.",
+          "valor": 20980459
         },
         {
-          "nome": "MERCK SHARP DOHME",
-          "valor": 12940154
+          "nome": "Serviço de Utilização Comum dos Hospitais",
+          "valor": 14750798
         },
         {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 11873075
+          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
+          "valor": 14674732
         },
         {
-          "nome": "Joaquim Chaves Clínicas Médicas Ambulatório Soc Unip, Lda.",
-          "valor": 10662606
+          "nome": "JANSSEN-CILAG FARMACÊUTICA, LDA",
+          "valor": 13134599
         }
       ],
       "maiores_areas": [
         {
           "divisao": "33",
           "rotulo": "Medicamentos e equipamento médico",
-          "valor": 524254863
+          "valor": 490383813
         },
         {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 77869524
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 45836592
         },
         {
           "divisao": "09",
           "rotulo": "Combustíveis e eletricidade",
-          "valor": 32536310
+          "valor": 34203280
         },
         {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 17675734
+          "divisao": "50",
+          "rotulo": "Reparação e manutenção",
+          "valor": 13358499
         },
         {
-          "divisao": "79",
-          "rotulo": "Serviços a empresas e consultoria",
-          "valor": 10441972
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 12858557
         }
       ],
       "modificacoes": {
-        "contratos_modificados": 92,
-        "valor_inicial": 18704857,
-        "valor_final": 19410803,
-        "acrescimo": 705946
+        "contratos_modificados": 32,
+        "valor_inicial": 25608604,
+        "valor_final": 26171903,
+        "acrescimo": 563299
       }
     },
     "uls-arco-ribeirinho": {
@@ -1561,89 +1561,89 @@
         "acrescimo": 140747
       }
     },
-    "uls-castelo-branco": {
+    "uls-alentejo-central": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
       "ate": "2026",
       "cobertura_suficiente": true,
-      "contratos": 3487,
-      "valor": 156154342,
-      "peso_ajuste_direto": 20.7,
+      "contratos": 11254,
+      "valor": 702551884,
+      "peso_ajuste_direto": 18.5,
       "por_ano": [
         {
           "ano": "2012",
-          "contratos": 46,
-          "valor": 662257
+          "contratos": 117,
+          "valor": 10953923
         },
         {
           "ano": "2013",
-          "contratos": 150,
-          "valor": 2472196
+          "contratos": 736,
+          "valor": 23887669
         },
         {
           "ano": "2014",
-          "contratos": 170,
-          "valor": 28178480
+          "contratos": 550,
+          "valor": 53632759
         },
         {
           "ano": "2015",
-          "contratos": 69,
-          "valor": 4476585
+          "contratos": 328,
+          "valor": 22875784
         },
         {
           "ano": "2016",
-          "contratos": 52,
-          "valor": 1812121
+          "contratos": 471,
+          "valor": 29432998
         },
         {
           "ano": "2017",
-          "contratos": 105,
-          "valor": 3444159
+          "contratos": 674,
+          "valor": 35304211
         },
         {
           "ano": "2018",
-          "contratos": 91,
-          "valor": 7477810
+          "contratos": 381,
+          "valor": 19038145
         },
         {
           "ano": "2019",
-          "contratos": 52,
-          "valor": 3492351
+          "contratos": 569,
+          "valor": 34166175
         },
         {
           "ano": "2020",
-          "contratos": 365,
-          "valor": 4624697
+          "contratos": 674,
+          "valor": 27288449
         },
         {
           "ano": "2021",
-          "contratos": 383,
-          "valor": 7036553
+          "contratos": 749,
+          "valor": 46280674
         },
         {
           "ano": "2022",
-          "contratos": 320,
-          "valor": 13591741
+          "contratos": 1494,
+          "valor": 73023065
         },
         {
           "ano": "2023",
-          "contratos": 350,
-          "valor": 18365064
+          "contratos": 1113,
+          "valor": 56818996
         },
         {
           "ano": "2024",
-          "contratos": 368,
-          "valor": 10916862
+          "contratos": 1310,
+          "valor": 91583816
         },
         {
           "ano": "2025",
-          "contratos": 592,
-          "valor": 30169408
+          "contratos": 1287,
+          "valor": 101382487
         },
         {
           "ano": "2026",
-          "contratos": 374,
-          "valor": 19434057
+          "contratos": 801,
+          "valor": 76882733
         }
       ],
       "maiores_fornecedores": [
@@ -1652,54 +1652,54 @@
           "valor": 23711684
         },
         {
-          "nome": "Serviço de Utilização Comum dos Hospitais",
-          "valor": 4928809
+          "nome": "ATRYS PORTUGAL CENTRO MÉDICO AVANÇADO, S.A.",
+          "valor": 13500435
         },
         {
-          "nome": "Construtora Jerónimo Reis &amp; Afonso, Ldª.",
-          "valor": 3096514
+          "nome": "MERCK SHARP DOHME",
+          "valor": 12940154
         },
         {
-          "nome": "Iberdrola Clientes Portugal, Unipessoal, Lda.",
-          "valor": 2515220
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 11873075
         },
         {
-          "nome": "Endesa Energia, S.A. – Sucursal Portugal",
-          "valor": 2457392
+          "nome": "Joaquim Chaves Clínicas Médicas Ambulatório Soc Unip, Lda.",
+          "valor": 10662606
         }
       ],
       "maiores_areas": [
         {
           "divisao": "33",
           "rotulo": "Medicamentos e equipamento médico",
-          "valor": 53384359
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 36805110
+          "valor": 524254863
         },
         {
           "divisao": "85",
           "rotulo": "Serviços de saúde e ação social",
-          "valor": 18867699
+          "valor": 77869524
         },
         {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 9258561
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 32536310
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 17675734
         },
         {
           "divisao": "79",
           "rotulo": "Serviços a empresas e consultoria",
-          "valor": 6042628
+          "valor": 10441972
         }
       ],
       "modificacoes": {
-        "contratos_modificados": 15,
-        "valor_inicial": 8333564,
-        "valor_final": 9116229,
-        "acrescimo": 782665
+        "contratos_modificados": 92,
+        "valor_inicial": 18704857,
+        "valor_final": 19410803,
+        "acrescimo": 705946
       }
     },
     "uls-nordeste": {
@@ -1836,288 +1836,6 @@
         "valor_inicial": 27040268,
         "valor_final": 32349676,
         "acrescimo": 5309408
-      }
-    },
-    "uls-oeste": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 8859,
-      "valor": 217943766,
-      "peso_ajuste_direto": 21.0,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 14,
-          "valor": 203503
-        },
-        {
-          "ano": "2013",
-          "contratos": 78,
-          "valor": 3084609
-        },
-        {
-          "ano": "2014",
-          "contratos": 3223,
-          "valor": 32391134
-        },
-        {
-          "ano": "2015",
-          "contratos": 229,
-          "valor": 1760031
-        },
-        {
-          "ano": "2016",
-          "contratos": 583,
-          "valor": 3052942
-        },
-        {
-          "ano": "2017",
-          "contratos": 197,
-          "valor": 1719523
-        },
-        {
-          "ano": "2018",
-          "contratos": 398,
-          "valor": 4548633
-        },
-        {
-          "ano": "2019",
-          "contratos": 457,
-          "valor": 10057151
-        },
-        {
-          "ano": "2020",
-          "contratos": 431,
-          "valor": 9485878
-        },
-        {
-          "ano": "2021",
-          "contratos": 429,
-          "valor": 8250940
-        },
-        {
-          "ano": "2022",
-          "contratos": 393,
-          "valor": 22016649
-        },
-        {
-          "ano": "2023",
-          "contratos": 469,
-          "valor": 19076586
-        },
-        {
-          "ano": "2024",
-          "contratos": 772,
-          "valor": 41209207
-        },
-        {
-          "ano": "2025",
-          "contratos": 844,
-          "valor": 37534774
-        },
-        {
-          "ano": "2026",
-          "contratos": 342,
-          "valor": 23552206
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "Serviço de Utilização Comum dos Hospitais",
-          "valor": 9917914
-        },
-        {
-          "nome": "Associação de Socorros da Freguesia da Encarnação",
-          "valor": 6148550
-        },
-        {
-          "nome": "KNOWER PROJECTS, S.A.",
-          "valor": 5475559
-        },
-        {
-          "nome": "GS24 - HEALTHCARE SOLUTIONS, S.A.",
-          "valor": 3693156
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 83532323
-        },
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 49474381
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 31657793
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 9016285
-        },
-        {
-          "divisao": "90",
-          "rotulo": "Resíduos, limpeza e ambiente",
-          "valor": 7053071
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 193,
-        "valor_inicial": 30776693,
-        "valor_final": 31348703,
-        "acrescimo": 572010
-      }
-    },
-    "uls-dao-lafoes": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 25173,
-      "valor": 647644527,
-      "peso_ajuste_direto": 40.5,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 6,
-          "valor": 673337
-        },
-        {
-          "ano": "2013",
-          "contratos": 169,
-          "valor": 4918034
-        },
-        {
-          "ano": "2014",
-          "contratos": 326,
-          "valor": 35113021
-        },
-        {
-          "ano": "2015",
-          "contratos": 507,
-          "valor": 15271067
-        },
-        {
-          "ano": "2016",
-          "contratos": 418,
-          "valor": 11633185
-        },
-        {
-          "ano": "2017",
-          "contratos": 415,
-          "valor": 14656510
-        },
-        {
-          "ano": "2018",
-          "contratos": 325,
-          "valor": 11101336
-        },
-        {
-          "ano": "2019",
-          "contratos": 382,
-          "valor": 11663116
-        },
-        {
-          "ano": "2020",
-          "contratos": 1665,
-          "valor": 32836925
-        },
-        {
-          "ano": "2021",
-          "contratos": 3417,
-          "valor": 42440699
-        },
-        {
-          "ano": "2022",
-          "contratos": 4958,
-          "valor": 68844772
-        },
-        {
-          "ano": "2023",
-          "contratos": 4779,
-          "valor": 79917329
-        },
-        {
-          "ano": "2024",
-          "contratos": 3999,
-          "valor": 90153611
-        },
-        {
-          "ano": "2025",
-          "contratos": 2488,
-          "valor": 154977196
-        },
-        {
-          "ano": "2026",
-          "contratos": 1319,
-          "valor": 73444390
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "EDIVISA - EMPRESA DE CONSTRUÇÕES, S.A.",
-          "valor": 20980459
-        },
-        {
-          "nome": "Serviço de Utilização Comum dos Hospitais",
-          "valor": 14750798
-        },
-        {
-          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
-          "valor": 14674732
-        },
-        {
-          "nome": "JANSSEN-CILAG FARMACÊUTICA, LDA",
-          "valor": 13134599
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 490383813
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 45836592
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 34203280
-        },
-        {
-          "divisao": "50",
-          "rotulo": "Reparação e manutenção",
-          "valor": 13358499
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 12858557
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 32,
-        "valor_inicial": 25608604,
-        "valor_final": 26171903,
-        "acrescimo": 563299
       }
     },
     "uls-alto-ave": {
@@ -2261,6 +1979,147 @@
         "acrescimo": 466553
       }
     },
+    "uls-castelo-branco": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 3487,
+      "valor": 156154342,
+      "peso_ajuste_direto": 20.7,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 46,
+          "valor": 662257
+        },
+        {
+          "ano": "2013",
+          "contratos": 150,
+          "valor": 2472196
+        },
+        {
+          "ano": "2014",
+          "contratos": 170,
+          "valor": 28178480
+        },
+        {
+          "ano": "2015",
+          "contratos": 69,
+          "valor": 4476585
+        },
+        {
+          "ano": "2016",
+          "contratos": 52,
+          "valor": 1812121
+        },
+        {
+          "ano": "2017",
+          "contratos": 105,
+          "valor": 3444159
+        },
+        {
+          "ano": "2018",
+          "contratos": 91,
+          "valor": 7477810
+        },
+        {
+          "ano": "2019",
+          "contratos": 52,
+          "valor": 3492351
+        },
+        {
+          "ano": "2020",
+          "contratos": 365,
+          "valor": 4624697
+        },
+        {
+          "ano": "2021",
+          "contratos": 383,
+          "valor": 7036553
+        },
+        {
+          "ano": "2022",
+          "contratos": 320,
+          "valor": 13591741
+        },
+        {
+          "ano": "2023",
+          "contratos": 350,
+          "valor": 18365064
+        },
+        {
+          "ano": "2024",
+          "contratos": 368,
+          "valor": 10916862
+        },
+        {
+          "ano": "2025",
+          "contratos": 592,
+          "valor": 30169408
+        },
+        {
+          "ano": "2026",
+          "contratos": 374,
+          "valor": 19434057
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "Serviço de Utilização Comum dos Hospitais",
+          "valor": 4928809
+        },
+        {
+          "nome": "Construtora Jerónimo Reis &amp; Afonso, Ldª.",
+          "valor": 3096514
+        },
+        {
+          "nome": "Iberdrola Clientes Portugal, Unipessoal, Lda.",
+          "valor": 2515220
+        },
+        {
+          "nome": "Endesa Energia, S.A. – Sucursal Portugal",
+          "valor": 2457392
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 53384359
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 36805110
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 18867699
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 9258561
+        },
+        {
+          "divisao": "79",
+          "rotulo": "Serviços a empresas e consultoria",
+          "valor": 6042628
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 15,
+        "valor_inicial": 8333564,
+        "valor_final": 9116229,
+        "acrescimo": 782665
+      }
+    },
     "uls-estuario-tejo": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2021",
@@ -2357,6 +2216,147 @@
         "acrescimo": 353774
       }
     },
+    "uls-oeste": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 8859,
+      "valor": 217943766,
+      "peso_ajuste_direto": 21.0,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 14,
+          "valor": 203503
+        },
+        {
+          "ano": "2013",
+          "contratos": 78,
+          "valor": 3084609
+        },
+        {
+          "ano": "2014",
+          "contratos": 3223,
+          "valor": 32391134
+        },
+        {
+          "ano": "2015",
+          "contratos": 229,
+          "valor": 1760031
+        },
+        {
+          "ano": "2016",
+          "contratos": 583,
+          "valor": 3052942
+        },
+        {
+          "ano": "2017",
+          "contratos": 197,
+          "valor": 1719523
+        },
+        {
+          "ano": "2018",
+          "contratos": 398,
+          "valor": 4548633
+        },
+        {
+          "ano": "2019",
+          "contratos": 457,
+          "valor": 10057151
+        },
+        {
+          "ano": "2020",
+          "contratos": 431,
+          "valor": 9485878
+        },
+        {
+          "ano": "2021",
+          "contratos": 429,
+          "valor": 8250940
+        },
+        {
+          "ano": "2022",
+          "contratos": 393,
+          "valor": 22016649
+        },
+        {
+          "ano": "2023",
+          "contratos": 469,
+          "valor": 19076586
+        },
+        {
+          "ano": "2024",
+          "contratos": 772,
+          "valor": 41209207
+        },
+        {
+          "ano": "2025",
+          "contratos": 844,
+          "valor": 37534774
+        },
+        {
+          "ano": "2026",
+          "contratos": 342,
+          "valor": 23552205
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "Serviço de Utilização Comum dos Hospitais",
+          "valor": 9917914
+        },
+        {
+          "nome": "Associação de Socorros da Freguesia da Encarnação",
+          "valor": 6148550
+        },
+        {
+          "nome": "KNOWER PROJECTS, S.A.",
+          "valor": 5475559
+        },
+        {
+          "nome": "GS24 - HEALTHCARE SOLUTIONS, S.A.",
+          "valor": 3693156
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 83532323
+        },
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 49474381
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 31657793
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 9016285
+        },
+        {
+          "divisao": "90",
+          "rotulo": "Resíduos, limpeza e ambiente",
+          "valor": 7053071
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 193,
+        "valor_inicial": 30776693,
+        "valor_final": 31348703,
+        "acrescimo": 572010
+      }
+    },
     "uls-santa-maria": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
@@ -2434,7 +2434,7 @@
         {
           "ano": "2025",
           "contratos": 5090,
-          "valor": 517768004
+          "valor": 517768005
         },
         {
           "ano": "2026",
@@ -2496,570 +2496,6 @@
         "valor_inicial": 130456014,
         "valor_final": 129994258,
         "acrescimo": -461756
-      }
-    },
-    "uls-gaia-espinho": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 51334,
-      "valor": 1191081357,
-      "peso_ajuste_direto": 38.7,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 1,
-          "valor": 3924
-        },
-        {
-          "ano": "2013",
-          "contratos": 1915,
-          "valor": 12651446
-        },
-        {
-          "ano": "2014",
-          "contratos": 3687,
-          "valor": 101408878
-        },
-        {
-          "ano": "2015",
-          "contratos": 7715,
-          "valor": 97074852
-        },
-        {
-          "ano": "2016",
-          "contratos": 5990,
-          "valor": 78257457
-        },
-        {
-          "ano": "2017",
-          "contratos": 3034,
-          "valor": 58963145
-        },
-        {
-          "ano": "2018",
-          "contratos": 1120,
-          "valor": 64413519
-        },
-        {
-          "ano": "2019",
-          "contratos": 3282,
-          "valor": 45001815
-        },
-        {
-          "ano": "2020",
-          "contratos": 3239,
-          "valor": 56050377
-        },
-        {
-          "ano": "2021",
-          "contratos": 2293,
-          "valor": 73762063
-        },
-        {
-          "ano": "2022",
-          "contratos": 1105,
-          "valor": 42979501
-        },
-        {
-          "ano": "2023",
-          "contratos": 1703,
-          "valor": 75687786
-        },
-        {
-          "ano": "2024",
-          "contratos": 5359,
-          "valor": 207759814
-        },
-        {
-          "ano": "2025",
-          "contratos": 7623,
-          "valor": 165793187
-        },
-        {
-          "ano": "2026",
-          "contratos": 3268,
-          "valor": 111273592
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "GILEAD SCIENCES, LDA",
-          "valor": 30191703
-        },
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
-          "valor": 19740054
-        },
-        {
-          "nome": "MERCK SHARP DOHME",
-          "valor": 17804637
-        },
-        {
-          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
-          "valor": 15005431
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 872796467
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 75460422
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 43294512
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 39702794
-        },
-        {
-          "divisao": "50",
-          "rotulo": "Reparação e manutenção",
-          "valor": 24833783
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 78,
-        "valor_inicial": 69515030,
-        "valor_final": 77689442,
-        "acrescimo": 8174412
-      }
-    },
-    "uls-povoa-varzim-vila-conde": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 2594,
-      "valor": 77286416,
-      "peso_ajuste_direto": 12.7,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 1,
-          "valor": 600626
-        },
-        {
-          "ano": "2013",
-          "contratos": 48,
-          "valor": 1681079
-        },
-        {
-          "ano": "2014",
-          "contratos": 87,
-          "valor": 25203592
-        },
-        {
-          "ano": "2015",
-          "contratos": 80,
-          "valor": 2732569
-        },
-        {
-          "ano": "2016",
-          "contratos": 99,
-          "valor": 1376152
-        },
-        {
-          "ano": "2017",
-          "contratos": 340,
-          "valor": 4934107
-        },
-        {
-          "ano": "2018",
-          "contratos": 145,
-          "valor": 1581053
-        },
-        {
-          "ano": "2019",
-          "contratos": 192,
-          "valor": 2406654
-        },
-        {
-          "ano": "2020",
-          "contratos": 224,
-          "valor": 3088175
-        },
-        {
-          "ano": "2021",
-          "contratos": 160,
-          "valor": 3692466
-        },
-        {
-          "ano": "2022",
-          "contratos": 148,
-          "valor": 4285449
-        },
-        {
-          "ano": "2023",
-          "contratos": 159,
-          "valor": 5593638
-        },
-        {
-          "ano": "2024",
-          "contratos": 198,
-          "valor": 5262599
-        },
-        {
-          "ano": "2025",
-          "contratos": 418,
-          "valor": 6789378
-        },
-        {
-          "ano": "2026",
-          "contratos": 295,
-          "valor": 8058879
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "SIEMENS HEALTHCARE DIAGNOSTICS LDA",
-          "valor": 1464850
-        },
-        {
-          "nome": "GALP Power, S.A.",
-          "valor": 980168
-        },
-        {
-          "nome": "Santa Casa da Misericórdia de Vila do Conde",
-          "valor": 930577
-        },
-        {
-          "nome": "J. da Silva Faria, Lda",
-          "valor": 885182
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 27643506
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 26158785
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 6666606
-        },
-        {
-          "divisao": "72",
-          "rotulo": "Serviços informáticos",
-          "valor": 3387285
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 3343574
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 2,
-        "valor_inicial": 1006618,
-        "valor_final": 1145351,
-        "acrescimo": 138733
-      }
-    },
-    "uls-santo-antonio": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 9977,
-      "valor": 1783845240,
-      "peso_ajuste_direto": 23.6,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 12,
-          "valor": 367930
-        },
-        {
-          "ano": "2013",
-          "contratos": 53,
-          "valor": 3632292
-        },
-        {
-          "ano": "2014",
-          "contratos": 73,
-          "valor": 29612277
-        },
-        {
-          "ano": "2015",
-          "contratos": 71,
-          "valor": 9792172
-        },
-        {
-          "ano": "2016",
-          "contratos": 88,
-          "valor": 3597315
-        },
-        {
-          "ano": "2017",
-          "contratos": 917,
-          "valor": 22801926
-        },
-        {
-          "ano": "2018",
-          "contratos": 405,
-          "valor": 40148328
-        },
-        {
-          "ano": "2019",
-          "contratos": 711,
-          "valor": 84910527
-        },
-        {
-          "ano": "2020",
-          "contratos": 728,
-          "valor": 55521479
-        },
-        {
-          "ano": "2021",
-          "contratos": 837,
-          "valor": 97666384
-        },
-        {
-          "ano": "2022",
-          "contratos": 1191,
-          "valor": 233011474
-        },
-        {
-          "ano": "2023",
-          "contratos": 1387,
-          "valor": 219853842
-        },
-        {
-          "ano": "2024",
-          "contratos": 1214,
-          "valor": 274757003
-        },
-        {
-          "ano": "2025",
-          "contratos": 1482,
-          "valor": 375948669
-        },
-        {
-          "ano": "2026",
-          "contratos": 808,
-          "valor": 332223621
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "Alnypt, Sociedade Unipessoal, Lda.",
-          "valor": 338145057
-        },
-        {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
-          "valor": 52213902
-        },
-        {
-          "nome": "LABORATORIOS  PFIZER, LDA.",
-          "valor": 48427477
-        },
-        {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 29719924
-        },
-        {
-          "nome": "LABORATORIOS PFIZER",
-          "valor": 29416808
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 1496383562
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 50909757
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 38092583
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 35526937
-        },
-        {
-          "divisao": "50",
-          "rotulo": "Reparação e manutenção",
-          "valor": 31780280
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 21,
-        "valor_inicial": 25220304,
-        "valor_final": 30454011,
-        "acrescimo": 5233707
-      }
-    },
-    "uls-sao-joao": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 11549,
-      "valor": 1231436210,
-      "peso_ajuste_direto": 36.7,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 80,
-          "valor": 6275499
-        },
-        {
-          "ano": "2013",
-          "contratos": 176,
-          "valor": 5987979
-        },
-        {
-          "ano": "2014",
-          "contratos": 302,
-          "valor": 15962390
-        },
-        {
-          "ano": "2015",
-          "contratos": 337,
-          "valor": 15984504
-        },
-        {
-          "ano": "2016",
-          "contratos": 264,
-          "valor": 15665595
-        },
-        {
-          "ano": "2017",
-          "contratos": 345,
-          "valor": 35248315
-        },
-        {
-          "ano": "2018",
-          "contratos": 512,
-          "valor": 33397351
-        },
-        {
-          "ano": "2019",
-          "contratos": 607,
-          "valor": 96789734
-        },
-        {
-          "ano": "2020",
-          "contratos": 1026,
-          "valor": 78025420
-        },
-        {
-          "ano": "2021",
-          "contratos": 1248,
-          "valor": 174224709
-        },
-        {
-          "ano": "2022",
-          "contratos": 1438,
-          "valor": 158318538
-        },
-        {
-          "ano": "2023",
-          "contratos": 1237,
-          "valor": 123037265
-        },
-        {
-          "ano": "2024",
-          "contratos": 1423,
-          "valor": 112031709
-        },
-        {
-          "ano": "2025",
-          "contratos": 1395,
-          "valor": 135079663
-        },
-        {
-          "ano": "2026",
-          "contratos": 1159,
-          "valor": 225407540
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "SUCH | Serviço de Utilização Comum dos Hospitais",
-          "valor": 43862856
-        },
-        {
-          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
-          "valor": 29194770
-        },
-        {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
-          "valor": 28190653
-        },
-        {
-          "nome": "VERTEX PHARMACEUTICALS (PORTUGAL), UNIPESSOAL LDA.",
-          "valor": 24582678
-        },
-        {
-          "nome": "Casais - Engenharia e Construção, S.A.",
-          "valor": 21707692
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 875970659
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 64116902
-        },
-        {
-          "divisao": "50",
-          "rotulo": "Reparação e manutenção",
-          "valor": 57018169
-        },
-        {
-          "divisao": "90",
-          "rotulo": "Resíduos, limpeza e ambiente",
-          "valor": 43895419
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 40260857
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 3,
-        "valor_inicial": 8889290,
-        "valor_final": 10007688,
-        "acrescimo": 1118398
       }
     },
     "uls-entre-douro-vouga": {
@@ -3203,89 +2639,84 @@
         "acrescimo": 3264632
       }
     },
-    "uls-arrabida": {
+    "uls-guarda": {
       "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
+      "desde": "2013",
       "ate": "2026",
       "cobertura_suficiente": true,
-      "contratos": 5755,
-      "valor": 543107911,
-      "peso_ajuste_direto": 28.1,
+      "contratos": 4410,
+      "valor": 234650920,
+      "peso_ajuste_direto": 15.7,
       "por_ano": [
         {
-          "ano": "2012",
-          "contratos": 41,
-          "valor": 14831632
-        },
-        {
           "ano": "2013",
-          "contratos": 162,
-          "valor": 16952933
+          "contratos": 6,
+          "valor": 528068
         },
         {
           "ano": "2014",
-          "contratos": 162,
-          "valor": 34856212
+          "contratos": 41,
+          "valor": 30363770
         },
         {
           "ano": "2015",
-          "contratos": 156,
-          "valor": 9433825
+          "contratos": 94,
+          "valor": 6625056
         },
         {
           "ano": "2016",
-          "contratos": 210,
-          "valor": 14671432
+          "contratos": 104,
+          "valor": 6807893
         },
         {
           "ano": "2017",
-          "contratos": 437,
-          "valor": 38358014
+          "contratos": 74,
+          "valor": 4014232
         },
         {
           "ano": "2018",
-          "contratos": 497,
-          "valor": 41791032
+          "contratos": 96,
+          "valor": 7935428
         },
         {
           "ano": "2019",
-          "contratos": 631,
-          "valor": 42719646
+          "contratos": 180,
+          "valor": 17019853
         },
         {
           "ano": "2020",
-          "contratos": 584,
-          "valor": 31860320
+          "contratos": 281,
+          "valor": 7761732
         },
         {
           "ano": "2021",
-          "contratos": 679,
-          "valor": 46168958
+          "contratos": 429,
+          "valor": 14547154
         },
         {
           "ano": "2022",
-          "contratos": 408,
-          "valor": 50085671
+          "contratos": 490,
+          "valor": 28311442
         },
         {
           "ano": "2023",
-          "contratos": 373,
-          "valor": 27684269
+          "contratos": 549,
+          "valor": 24904628
         },
         {
           "ano": "2024",
-          "contratos": 551,
-          "valor": 63111738
+          "contratos": 750,
+          "valor": 23165148
         },
         {
           "ano": "2025",
-          "contratos": 682,
-          "valor": 84703357
+          "contratos": 780,
+          "valor": 36850334
         },
         {
           "ano": "2026",
-          "contratos": 182,
-          "valor": 25878872
+          "contratos": 536,
+          "valor": 25816183
         }
       ],
       "maiores_fornecedores": [
@@ -3294,195 +2725,54 @@
           "valor": 23711684
         },
         {
-          "nome": "FERREIRA CONSTRUCAO S A",
-          "valor": 22020144
+          "nome": "IELAC - Instalações Eletricas e Ar Condicionado, Ldª:",
+          "valor": 7877000
         },
         {
-          "nome": "LABESFAL-LAB. ALMIRO, SA.",
-          "valor": 6758462
+          "nome": "MERCK SHARP DOHME",
+          "valor": 4394893
         },
         {
-          "nome": "Merck Sharp &amp; Dohme, Lda",
-          "valor": 6618777
+          "nome": "Abbott Laboratórios, Lda.",
+          "valor": 4089144
         },
         {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
-          "valor": 5349827
+          "nome": "CSL Behring, Lda",
+          "valor": 3736055
         }
       ],
       "maiores_areas": [
         {
           "divisao": "33",
           "rotulo": "Medicamentos e equipamento médico",
-          "valor": 393555262
+          "valor": 113870488
         },
         {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 39387377
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 40104459
         },
         {
           "divisao": "45",
           "rotulo": "Trabalhos de construção",
-          "valor": 31280353
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 25781761
-        },
-        {
-          "divisao": "90",
-          "rotulo": "Resíduos, limpeza e ambiente",
-          "valor": 9881726
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 3,
-        "valor_inicial": 1110557,
-        "valor_final": 1328118,
-        "acrescimo": 217562
-      }
-    },
-    "uls-tras-os-montes-alto-douro": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 4831,
-      "valor": 411843245,
-      "peso_ajuste_direto": 35.6,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 76,
-          "valor": 5070899
-        },
-        {
-          "ano": "2013",
-          "contratos": 43,
-          "valor": 710641
-        },
-        {
-          "ano": "2014",
-          "contratos": 31,
-          "valor": 25714741
-        },
-        {
-          "ano": "2015",
-          "contratos": 154,
-          "valor": 10029508
-        },
-        {
-          "ano": "2016",
-          "contratos": 219,
-          "valor": 3653342
-        },
-        {
-          "ano": "2017",
-          "contratos": 452,
-          "valor": 16326679
-        },
-        {
-          "ano": "2018",
-          "contratos": 379,
-          "valor": 5608387
-        },
-        {
-          "ano": "2019",
-          "contratos": 220,
-          "valor": 21594433
-        },
-        {
-          "ano": "2020",
-          "contratos": 419,
-          "valor": 33803287
-        },
-        {
-          "ano": "2021",
-          "contratos": 261,
-          "valor": 29532256
-        },
-        {
-          "ano": "2022",
-          "contratos": 491,
-          "valor": 33465508
-        },
-        {
-          "ano": "2023",
-          "contratos": 493,
-          "valor": 43890784
-        },
-        {
-          "ano": "2024",
-          "contratos": 309,
-          "valor": 40761518
-        },
-        {
-          "ano": "2025",
-          "contratos": 704,
-          "valor": 80052993
-        },
-        {
-          "ano": "2026",
-          "contratos": 580,
-          "valor": 61628269
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "ITAU - Instituto Técnico de Alimentação Humana, S.A.",
-          "valor": 18800227
-        },
-        {
-          "nome": "KONICA MINOLTA BUSINESS SOLUTIONS PORTUGAL, UNIPESSOAL, LDA",
-          "valor": 9215548
-        },
-        {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA",
-          "valor": 8424864
-        },
-        {
-          "nome": "Abbott Laboratórios, Lda",
-          "valor": 8139631
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 206417285
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 47972740
+          "valor": 20723542
         },
         {
           "divisao": "55",
           "rotulo": "Hotelaria e restauração",
-          "valor": 37766953
+          "valor": 9897653
         },
         {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 26211003
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 20569034
+          "divisao": "79",
+          "rotulo": "Serviços a empresas e consultoria",
+          "valor": 9867223
         }
       ],
       "modificacoes": {
-        "contratos_modificados": 9,
-        "valor_inicial": 3770899,
-        "valor_final": 4896510,
-        "acrescimo": 1125611
+        "contratos_modificados": 118,
+        "valor_inicial": 17340119,
+        "valor_final": 23524075,
+        "acrescimo": 6183956
       }
     },
     "uls-lisboa-ocidental": {
@@ -3626,6 +2916,570 @@
         "acrescimo": 2290005
       }
     },
+    "uls-gaia-espinho": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 51334,
+      "valor": 1191081357,
+      "peso_ajuste_direto": 38.7,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 1,
+          "valor": 3924
+        },
+        {
+          "ano": "2013",
+          "contratos": 1915,
+          "valor": 12651446
+        },
+        {
+          "ano": "2014",
+          "contratos": 3687,
+          "valor": 101408878
+        },
+        {
+          "ano": "2015",
+          "contratos": 7715,
+          "valor": 97074852
+        },
+        {
+          "ano": "2016",
+          "contratos": 5990,
+          "valor": 78257457
+        },
+        {
+          "ano": "2017",
+          "contratos": 3034,
+          "valor": 58963145
+        },
+        {
+          "ano": "2018",
+          "contratos": 1120,
+          "valor": 64413519
+        },
+        {
+          "ano": "2019",
+          "contratos": 3282,
+          "valor": 45001815
+        },
+        {
+          "ano": "2020",
+          "contratos": 3239,
+          "valor": 56050377
+        },
+        {
+          "ano": "2021",
+          "contratos": 2293,
+          "valor": 73762063
+        },
+        {
+          "ano": "2022",
+          "contratos": 1105,
+          "valor": 42979501
+        },
+        {
+          "ano": "2023",
+          "contratos": 1703,
+          "valor": 75687786
+        },
+        {
+          "ano": "2024",
+          "contratos": 5359,
+          "valor": 207759814
+        },
+        {
+          "ano": "2025",
+          "contratos": 7623,
+          "valor": 165793187
+        },
+        {
+          "ano": "2026",
+          "contratos": 3268,
+          "valor": 111273592
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "GILEAD SCIENCES, LDA",
+          "valor": 30191703
+        },
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
+          "valor": 19740054
+        },
+        {
+          "nome": "MERCK SHARP DOHME",
+          "valor": 17804637
+        },
+        {
+          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
+          "valor": 15005431
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 872796467
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 75460422
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 43294512
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 39702794
+        },
+        {
+          "divisao": "50",
+          "rotulo": "Reparação e manutenção",
+          "valor": 24833783
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 78,
+        "valor_inicial": 69515030,
+        "valor_final": 77689442,
+        "acrescimo": 8174412
+      }
+    },
+    "uls-arrabida": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 5755,
+      "valor": 543107911,
+      "peso_ajuste_direto": 28.1,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 41,
+          "valor": 14831632
+        },
+        {
+          "ano": "2013",
+          "contratos": 162,
+          "valor": 16952933
+        },
+        {
+          "ano": "2014",
+          "contratos": 162,
+          "valor": 34856212
+        },
+        {
+          "ano": "2015",
+          "contratos": 156,
+          "valor": 9433825
+        },
+        {
+          "ano": "2016",
+          "contratos": 210,
+          "valor": 14671432
+        },
+        {
+          "ano": "2017",
+          "contratos": 437,
+          "valor": 38358014
+        },
+        {
+          "ano": "2018",
+          "contratos": 497,
+          "valor": 41791032
+        },
+        {
+          "ano": "2019",
+          "contratos": 631,
+          "valor": 42719646
+        },
+        {
+          "ano": "2020",
+          "contratos": 584,
+          "valor": 31860320
+        },
+        {
+          "ano": "2021",
+          "contratos": 679,
+          "valor": 46168958
+        },
+        {
+          "ano": "2022",
+          "contratos": 408,
+          "valor": 50085671
+        },
+        {
+          "ano": "2023",
+          "contratos": 373,
+          "valor": 27684269
+        },
+        {
+          "ano": "2024",
+          "contratos": 551,
+          "valor": 63111738
+        },
+        {
+          "ano": "2025",
+          "contratos": 682,
+          "valor": 84703357
+        },
+        {
+          "ano": "2026",
+          "contratos": 182,
+          "valor": 25878872
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "FERREIRA CONSTRUCAO S A",
+          "valor": 22020144
+        },
+        {
+          "nome": "LABESFAL-LAB. ALMIRO, SA.",
+          "valor": 6758462
+        },
+        {
+          "nome": "Merck Sharp &amp; Dohme, Lda",
+          "valor": 6618777
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
+          "valor": 5349827
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 393555262
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 39387377
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 31280353
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 25781761
+        },
+        {
+          "divisao": "90",
+          "rotulo": "Resíduos, limpeza e ambiente",
+          "valor": 9881726
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 3,
+        "valor_inicial": 1110557,
+        "valor_final": 1328118,
+        "acrescimo": 217562
+      }
+    },
+    "uls-sao-joao": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 11549,
+      "valor": 1231436210,
+      "peso_ajuste_direto": 36.7,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 80,
+          "valor": 6275499
+        },
+        {
+          "ano": "2013",
+          "contratos": 176,
+          "valor": 5987979
+        },
+        {
+          "ano": "2014",
+          "contratos": 302,
+          "valor": 15962390
+        },
+        {
+          "ano": "2015",
+          "contratos": 337,
+          "valor": 15984504
+        },
+        {
+          "ano": "2016",
+          "contratos": 264,
+          "valor": 15665595
+        },
+        {
+          "ano": "2017",
+          "contratos": 345,
+          "valor": 35248315
+        },
+        {
+          "ano": "2018",
+          "contratos": 512,
+          "valor": 33397351
+        },
+        {
+          "ano": "2019",
+          "contratos": 607,
+          "valor": 96789734
+        },
+        {
+          "ano": "2020",
+          "contratos": 1026,
+          "valor": 78025420
+        },
+        {
+          "ano": "2021",
+          "contratos": 1248,
+          "valor": 174224709
+        },
+        {
+          "ano": "2022",
+          "contratos": 1438,
+          "valor": 158318538
+        },
+        {
+          "ano": "2023",
+          "contratos": 1237,
+          "valor": 123037265
+        },
+        {
+          "ano": "2024",
+          "contratos": 1423,
+          "valor": 112031709
+        },
+        {
+          "ano": "2025",
+          "contratos": 1395,
+          "valor": 135079663
+        },
+        {
+          "ano": "2026",
+          "contratos": 1159,
+          "valor": 225407540
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "SUCH | Serviço de Utilização Comum dos Hospitais",
+          "valor": 43862856
+        },
+        {
+          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
+          "valor": 29194770
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
+          "valor": 28190653
+        },
+        {
+          "nome": "VERTEX PHARMACEUTICALS (PORTUGAL), UNIPESSOAL LDA.",
+          "valor": 24582678
+        },
+        {
+          "nome": "Casais - Engenharia e Construção, S.A.",
+          "valor": 21707692
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 875970659
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 64116902
+        },
+        {
+          "divisao": "50",
+          "rotulo": "Reparação e manutenção",
+          "valor": 57018169
+        },
+        {
+          "divisao": "90",
+          "rotulo": "Resíduos, limpeza e ambiente",
+          "valor": 43895419
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 40260857
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 3,
+        "valor_inicial": 8889290,
+        "valor_final": 10007688,
+        "acrescimo": 1118398
+      }
+    },
+    "uls-santo-antonio": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 9977,
+      "valor": 1783845240,
+      "peso_ajuste_direto": 23.6,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 12,
+          "valor": 367930
+        },
+        {
+          "ano": "2013",
+          "contratos": 53,
+          "valor": 3632292
+        },
+        {
+          "ano": "2014",
+          "contratos": 73,
+          "valor": 29612277
+        },
+        {
+          "ano": "2015",
+          "contratos": 71,
+          "valor": 9792172
+        },
+        {
+          "ano": "2016",
+          "contratos": 88,
+          "valor": 3597315
+        },
+        {
+          "ano": "2017",
+          "contratos": 917,
+          "valor": 22801926
+        },
+        {
+          "ano": "2018",
+          "contratos": 405,
+          "valor": 40148328
+        },
+        {
+          "ano": "2019",
+          "contratos": 711,
+          "valor": 84910527
+        },
+        {
+          "ano": "2020",
+          "contratos": 728,
+          "valor": 55521479
+        },
+        {
+          "ano": "2021",
+          "contratos": 837,
+          "valor": 97666384
+        },
+        {
+          "ano": "2022",
+          "contratos": 1191,
+          "valor": 233011474
+        },
+        {
+          "ano": "2023",
+          "contratos": 1387,
+          "valor": 219853842
+        },
+        {
+          "ano": "2024",
+          "contratos": 1214,
+          "valor": 274757003
+        },
+        {
+          "ano": "2025",
+          "contratos": 1482,
+          "valor": 375948669
+        },
+        {
+          "ano": "2026",
+          "contratos": 808,
+          "valor": 332223621
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "Alnypt, Sociedade Unipessoal, Lda.",
+          "valor": 338145057
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
+          "valor": 52213902
+        },
+        {
+          "nome": "LABORATORIOS  PFIZER, LDA.",
+          "valor": 48427477
+        },
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 29719924
+        },
+        {
+          "nome": "LABORATORIOS PFIZER",
+          "valor": 29416808
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 1496383562
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 50909757
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 38092583
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 35526937
+        },
+        {
+          "divisao": "50",
+          "rotulo": "Reparação e manutenção",
+          "valor": 31780280
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 21,
+        "valor_inicial": 25220304,
+        "valor_final": 30454011,
+        "acrescimo": 5233707
+      }
+    },
     "uls-alto-minho": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
@@ -3765,6 +3619,147 @@
         "valor_inicial": 4712656,
         "valor_final": 5899994,
         "acrescimo": 1187338
+      }
+    },
+    "uls-tras-os-montes-alto-douro": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 4831,
+      "valor": 411843245,
+      "peso_ajuste_direto": 35.6,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 76,
+          "valor": 5070899
+        },
+        {
+          "ano": "2013",
+          "contratos": 43,
+          "valor": 710641
+        },
+        {
+          "ano": "2014",
+          "contratos": 31,
+          "valor": 25714741
+        },
+        {
+          "ano": "2015",
+          "contratos": 154,
+          "valor": 10029508
+        },
+        {
+          "ano": "2016",
+          "contratos": 219,
+          "valor": 3653342
+        },
+        {
+          "ano": "2017",
+          "contratos": 452,
+          "valor": 16326679
+        },
+        {
+          "ano": "2018",
+          "contratos": 379,
+          "valor": 5608387
+        },
+        {
+          "ano": "2019",
+          "contratos": 220,
+          "valor": 21594433
+        },
+        {
+          "ano": "2020",
+          "contratos": 419,
+          "valor": 33803287
+        },
+        {
+          "ano": "2021",
+          "contratos": 261,
+          "valor": 29532256
+        },
+        {
+          "ano": "2022",
+          "contratos": 491,
+          "valor": 33465508
+        },
+        {
+          "ano": "2023",
+          "contratos": 493,
+          "valor": 43890784
+        },
+        {
+          "ano": "2024",
+          "contratos": 309,
+          "valor": 40761518
+        },
+        {
+          "ano": "2025",
+          "contratos": 704,
+          "valor": 80052993
+        },
+        {
+          "ano": "2026",
+          "contratos": 580,
+          "valor": 61628269
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "ITAU - Instituto Técnico de Alimentação Humana, S.A.",
+          "valor": 18800227
+        },
+        {
+          "nome": "KONICA MINOLTA BUSINESS SOLUTIONS PORTUGAL, UNIPESSOAL, LDA",
+          "valor": 9215548
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA",
+          "valor": 8424864
+        },
+        {
+          "nome": "Abbott Laboratórios, Lda",
+          "valor": 8139631
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 206417285
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 47972740
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 37766953
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 26211003
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 20569034
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 9,
+        "valor_inicial": 3770899,
+        "valor_final": 4896510,
+        "acrescimo": 1125611
       }
     },
     "uls-cova-beira": {
@@ -3994,84 +3989,89 @@
         "acrescimo": 2324273
       }
     },
-    "uls-guarda": {
+    "uls-povoa-varzim-vila-conde": {
       "fonte": "IMPIC · Portal BASE",
-      "desde": "2013",
+      "desde": "2012",
       "ate": "2026",
       "cobertura_suficiente": true,
-      "contratos": 4410,
-      "valor": 234650920,
-      "peso_ajuste_direto": 15.7,
+      "contratos": 2594,
+      "valor": 77286416,
+      "peso_ajuste_direto": 12.7,
       "por_ano": [
         {
+          "ano": "2012",
+          "contratos": 1,
+          "valor": 600626
+        },
+        {
           "ano": "2013",
-          "contratos": 6,
-          "valor": 528068
+          "contratos": 48,
+          "valor": 1681079
         },
         {
           "ano": "2014",
-          "contratos": 41,
-          "valor": 30363770
+          "contratos": 87,
+          "valor": 25203592
         },
         {
           "ano": "2015",
-          "contratos": 94,
-          "valor": 6625056
+          "contratos": 80,
+          "valor": 2732569
         },
         {
           "ano": "2016",
-          "contratos": 104,
-          "valor": 6807893
+          "contratos": 99,
+          "valor": 1376152
         },
         {
           "ano": "2017",
-          "contratos": 74,
-          "valor": 4014232
+          "contratos": 340,
+          "valor": 4934107
         },
         {
           "ano": "2018",
-          "contratos": 96,
-          "valor": 7935428
+          "contratos": 145,
+          "valor": 1581053
         },
         {
           "ano": "2019",
-          "contratos": 180,
-          "valor": 17019853
+          "contratos": 192,
+          "valor": 2406654
         },
         {
           "ano": "2020",
-          "contratos": 281,
-          "valor": 7761732
+          "contratos": 224,
+          "valor": 3088175
         },
         {
           "ano": "2021",
-          "contratos": 429,
-          "valor": 14547154
+          "contratos": 160,
+          "valor": 3692466
         },
         {
           "ano": "2022",
-          "contratos": 490,
-          "valor": 28311442
+          "contratos": 148,
+          "valor": 4285449
         },
         {
           "ano": "2023",
-          "contratos": 549,
-          "valor": 24904628
+          "contratos": 159,
+          "valor": 5593638
         },
         {
           "ano": "2024",
-          "contratos": 750,
-          "valor": 23165148
+          "contratos": 198,
+          "valor": 5262599
         },
         {
           "ano": "2025",
-          "contratos": 780,
-          "valor": 36850334
+          "contratos": 418,
+          "valor": 6789378
         },
         {
           "ano": "2026",
-          "contratos": 536,
-          "valor": 25816183
+          "contratos": 295,
+          "valor": 8058879
         }
       ],
       "maiores_fornecedores": [
@@ -4080,54 +4080,457 @@
           "valor": 23711684
         },
         {
-          "nome": "IELAC - Instalações Eletricas e Ar Condicionado, Ldª:",
-          "valor": 7877000
+          "nome": "SIEMENS HEALTHCARE DIAGNOSTICS LDA",
+          "valor": 1464850
         },
         {
-          "nome": "MERCK SHARP DOHME",
-          "valor": 4394893
+          "nome": "GALP Power, S.A.",
+          "valor": 980168
         },
         {
-          "nome": "Abbott Laboratórios, Lda.",
-          "valor": 4089144
+          "nome": "Santa Casa da Misericórdia de Vila do Conde",
+          "valor": 930577
         },
         {
-          "nome": "CSL Behring, Lda",
-          "valor": 3736055
+          "nome": "J. da Silva Faria, Lda",
+          "valor": 885182
         }
       ],
       "maiores_areas": [
         {
           "divisao": "33",
           "rotulo": "Medicamentos e equipamento médico",
-          "valor": 113870488
+          "valor": 27643506
         },
         {
           "divisao": "09",
           "rotulo": "Combustíveis e eletricidade",
-          "valor": 40104459
+          "valor": 26158785
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 6666606
+        },
+        {
+          "divisao": "72",
+          "rotulo": "Serviços informáticos",
+          "valor": 3387285
         },
         {
           "divisao": "45",
           "rotulo": "Trabalhos de construção",
-          "valor": 20723542
+          "valor": 3343574
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 2,
+        "valor_inicial": 1006618,
+        "valor_final": 1145351,
+        "acrescimo": 138733
+      }
+    },
+    "uls-almada-seixal": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2013",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 24952,
+      "valor": 935037242,
+      "peso_ajuste_direto": 33.3,
+      "por_ano": [
+        {
+          "ano": "2013",
+          "contratos": 4,
+          "valor": 1129724
+        },
+        {
+          "ano": "2014",
+          "contratos": 90,
+          "valor": 27599761
+        },
+        {
+          "ano": "2015",
+          "contratos": 777,
+          "valor": 17627627
+        },
+        {
+          "ano": "2016",
+          "contratos": 1848,
+          "valor": 39953570
+        },
+        {
+          "ano": "2017",
+          "contratos": 1140,
+          "valor": 40731701
+        },
+        {
+          "ano": "2018",
+          "contratos": 1245,
+          "valor": 46285982
+        },
+        {
+          "ano": "2019",
+          "contratos": 862,
+          "valor": 40426857
+        },
+        {
+          "ano": "2020",
+          "contratos": 2259,
+          "valor": 71221311
+        },
+        {
+          "ano": "2021",
+          "contratos": 2100,
+          "valor": 84125906
+        },
+        {
+          "ano": "2022",
+          "contratos": 2436,
+          "valor": 82900920
+        },
+        {
+          "ano": "2023",
+          "contratos": 2650,
+          "valor": 109714389
+        },
+        {
+          "ano": "2024",
+          "contratos": 2669,
+          "valor": 115091111
+        },
+        {
+          "ano": "2025",
+          "contratos": 3507,
+          "valor": 149842630
+        },
+        {
+          "ano": "2026",
+          "contratos": 3365,
+          "valor": 108385753
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "VIIVHIV HEALTHCARE, UNIPESSOAL. LDA",
+          "valor": 16980715
+        },
+        {
+          "nome": "GILEAD SCIENCES LDA.",
+          "valor": 16700064
+        },
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 15473469
+        },
+        {
+          "nome": "Serviço de Utilização Comum dos Hospitais",
+          "valor": 12470182
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 754193646
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 31379279
+        },
+        {
+          "divisao": "50",
+          "rotulo": "Reparação e manutenção",
+          "valor": 27995925
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 24574150
         },
         {
           "divisao": "55",
           "rotulo": "Hotelaria e restauração",
-          "valor": 9897653
+          "valor": 19508844
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 112,
+        "valor_inicial": 40030369,
+        "valor_final": 44710980,
+        "acrescimo": 4680611
+      }
+    },
+    "uls-matosinhos": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2014",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 5501,
+      "valor": 355752439,
+      "peso_ajuste_direto": 18.2,
+      "por_ano": [
+        {
+          "ano": "2014",
+          "contratos": 9,
+          "valor": 25537081
+        },
+        {
+          "ano": "2015",
+          "contratos": 48,
+          "valor": 4640348
+        },
+        {
+          "ano": "2016",
+          "contratos": 204,
+          "valor": 4367718
+        },
+        {
+          "ano": "2017",
+          "contratos": 589,
+          "valor": 23059127
+        },
+        {
+          "ano": "2018",
+          "contratos": 453,
+          "valor": 25983208
+        },
+        {
+          "ano": "2019",
+          "contratos": 795,
+          "valor": 27179304
+        },
+        {
+          "ano": "2020",
+          "contratos": 752,
+          "valor": 21752625
+        },
+        {
+          "ano": "2021",
+          "contratos": 364,
+          "valor": 24251307
+        },
+        {
+          "ano": "2022",
+          "contratos": 469,
+          "valor": 31163929
+        },
+        {
+          "ano": "2023",
+          "contratos": 761,
+          "valor": 62475127
+        },
+        {
+          "ano": "2024",
+          "contratos": 584,
+          "valor": 64300172
+        },
+        {
+          "ano": "2025",
+          "contratos": 364,
+          "valor": 25066393
+        },
+        {
+          "ano": "2026",
+          "contratos": 109,
+          "valor": 15976100
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "Janssen-Cilag Farmacêutica, Lda.",
+          "valor": 10153357
+        },
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 6861782
+        },
+        {
+          "nome": "MERCK SHARP DOHME",
+          "valor": 6365247
+        },
+        {
+          "nome": "VIIVHIV HEALTHCARE UNIPESSOAL, LDA",
+          "valor": 4961756
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 259840519
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 35574549
+        },
+        {
+          "divisao": "72",
+          "rotulo": "Serviços informáticos",
+          "valor": 10687143
+        },
+        {
+          "divisao": "90",
+          "rotulo": "Resíduos, limpeza e ambiente",
+          "valor": 10239065
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 6081132
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 18,
+        "valor_inicial": 6540769,
+        "valor_final": 7059857,
+        "acrescimo": 519088
+      }
+    },
+    "uls-regiao-leiria": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2013",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 19887,
+      "valor": 628355485,
+      "peso_ajuste_direto": 16.5,
+      "por_ano": [
+        {
+          "ano": "2013",
+          "contratos": 1,
+          "valor": 5691
+        },
+        {
+          "ano": "2014",
+          "contratos": 19,
+          "valor": 26319014
+        },
+        {
+          "ano": "2015",
+          "contratos": 453,
+          "valor": 9468498
+        },
+        {
+          "ano": "2016",
+          "contratos": 1018,
+          "valor": 28870634
+        },
+        {
+          "ano": "2017",
+          "contratos": 1655,
+          "valor": 31058712
+        },
+        {
+          "ano": "2018",
+          "contratos": 1784,
+          "valor": 18498056
+        },
+        {
+          "ano": "2019",
+          "contratos": 1532,
+          "valor": 29678046
+        },
+        {
+          "ano": "2020",
+          "contratos": 2005,
+          "valor": 37515458
+        },
+        {
+          "ano": "2021",
+          "contratos": 1923,
+          "valor": 40163714
+        },
+        {
+          "ano": "2022",
+          "contratos": 1592,
+          "valor": 56522025
+        },
+        {
+          "ano": "2023",
+          "contratos": 2148,
+          "valor": 65423534
+        },
+        {
+          "ano": "2024",
+          "contratos": 2292,
+          "valor": 81896959
+        },
+        {
+          "ano": "2025",
+          "contratos": 2150,
+          "valor": 105509946
+        },
+        {
+          "ano": "2026",
+          "contratos": 1315,
+          "valor": 97425197
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 10705679
+        },
+        {
+          "nome": "NOVARTIS FARMA-PROD.FARMACÊUTICOS,SA.",
+          "valor": 9463575
+        },
+        {
+          "nome": "UNISELF - Sociedade de Restaurantes Públicos e Privados, SA",
+          "valor": 7887652
+        },
+        {
+          "nome": "Merck Sharp &amp; Dohme, Lda",
+          "valor": 7838158
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 495355307
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 31055912
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 22195288
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 16449444
         },
         {
           "divisao": "79",
           "rotulo": "Serviços a empresas e consultoria",
-          "valor": 9867223
+          "valor": 13824761
         }
       ],
       "modificacoes": {
-        "contratos_modificados": 118,
-        "valor_inicial": 17340119,
-        "valor_final": 23524075,
-        "acrescimo": 6183956
+        "contratos_modificados": 11,
+        "valor_inicial": 1933695,
+        "valor_final": 2560991,
+        "acrescimo": 627296
       }
     },
     "uls-sao-jose": {
@@ -4271,142 +4674,6 @@
         "acrescimo": 1347681
       }
     },
-    "uls-medio-tejo": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2013",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 7050,
-      "valor": 457927317,
-      "peso_ajuste_direto": 41.9,
-      "por_ano": [
-        {
-          "ano": "2013",
-          "contratos": 32,
-          "valor": 3606792
-        },
-        {
-          "ano": "2014",
-          "contratos": 55,
-          "valor": 37510498
-        },
-        {
-          "ano": "2015",
-          "contratos": 76,
-          "valor": 11212603
-        },
-        {
-          "ano": "2016",
-          "contratos": 287,
-          "valor": 20247615
-        },
-        {
-          "ano": "2017",
-          "contratos": 363,
-          "valor": 24688233
-        },
-        {
-          "ano": "2018",
-          "contratos": 353,
-          "valor": 17027931
-        },
-        {
-          "ano": "2019",
-          "contratos": 594,
-          "valor": 36266503
-        },
-        {
-          "ano": "2020",
-          "contratos": 538,
-          "valor": 31312119
-        },
-        {
-          "ano": "2021",
-          "contratos": 561,
-          "valor": 30277640
-        },
-        {
-          "ano": "2022",
-          "contratos": 598,
-          "valor": 30756250
-        },
-        {
-          "ano": "2023",
-          "contratos": 594,
-          "valor": 34469285
-        },
-        {
-          "ano": "2024",
-          "contratos": 525,
-          "valor": 24388713
-        },
-        {
-          "ano": "2025",
-          "contratos": 1410,
-          "valor": 81651424
-        },
-        {
-          "ano": "2026",
-          "contratos": 1064,
-          "valor": 74511710
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "Cruz Vermelha Portuguesa",
-          "valor": 18907495
-        },
-        {
-          "nome": "GS24 - HEALTHCARE SOLUTIONS, S.A.",
-          "valor": 8797898
-        },
-        {
-          "nome": "Ambulâncias Crespo, Lda",
-          "valor": 7772354
-        },
-        {
-          "nome": "Serviço de Utilização Comum dos Hospitais",
-          "valor": 6411929
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 174816875
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 147374981
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 41438594
-        },
-        {
-          "divisao": "90",
-          "rotulo": "Resíduos, limpeza e ambiente",
-          "valor": 16382209
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 12829087
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 7,
-        "valor_inicial": 5178354,
-        "valor_final": 6074810,
-        "acrescimo": 896456
-      }
-    },
     "ipo-coimbra": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2013",
@@ -4543,84 +4810,89 @@
         "acrescimo": 12507343
       }
     },
-    "uls-almada-seixal": {
+    "uls-baixo-alentejo": {
       "fonte": "IMPIC · Portal BASE",
-      "desde": "2013",
+      "desde": "2012",
       "ate": "2026",
       "cobertura_suficiente": true,
-      "contratos": 24952,
-      "valor": 935037242,
-      "peso_ajuste_direto": 33.3,
+      "contratos": 9309,
+      "valor": 225574497,
+      "peso_ajuste_direto": 21.5,
       "por_ano": [
         {
+          "ano": "2012",
+          "contratos": 5,
+          "valor": 65889
+        },
+        {
           "ano": "2013",
-          "contratos": 4,
-          "valor": 1129724
+          "contratos": 13,
+          "valor": 834965
         },
         {
           "ano": "2014",
-          "contratos": 90,
-          "valor": 27599761
+          "contratos": 59,
+          "valor": 27670369
         },
         {
           "ano": "2015",
-          "contratos": 777,
-          "valor": 17627627
+          "contratos": 32,
+          "valor": 2220707
         },
         {
           "ano": "2016",
-          "contratos": 1848,
-          "valor": 39953570
+          "contratos": 2,
+          "valor": 217697
         },
         {
           "ano": "2017",
-          "contratos": 1140,
-          "valor": 40731701
+          "contratos": 402,
+          "valor": 1106468
         },
         {
           "ano": "2018",
-          "contratos": 1245,
-          "valor": 46285982
+          "contratos": 89,
+          "valor": 7860619
         },
         {
           "ano": "2019",
-          "contratos": 862,
-          "valor": 40426857
+          "contratos": 791,
+          "valor": 10402487
         },
         {
           "ano": "2020",
-          "contratos": 2259,
-          "valor": 71221311
+          "contratos": 1750,
+          "valor": 16201767
         },
         {
           "ano": "2021",
-          "contratos": 2100,
-          "valor": 84125906
+          "contratos": 1484,
+          "valor": 37075123
         },
         {
           "ano": "2022",
-          "contratos": 2436,
-          "valor": 82900920
+          "contratos": 1197,
+          "valor": 28085080
         },
         {
           "ano": "2023",
-          "contratos": 2650,
-          "valor": 109714389
+          "contratos": 1005,
+          "valor": 21769417
         },
         {
           "ano": "2024",
-          "contratos": 2669,
-          "valor": 115091111
+          "contratos": 793,
+          "valor": 23929056
         },
         {
           "ano": "2025",
-          "contratos": 3507,
-          "valor": 149842630
+          "contratos": 1064,
+          "valor": 32850203
         },
         {
           "ano": "2026",
-          "contratos": 3365,
-          "valor": 108385753
+          "contratos": 623,
+          "valor": 15284650
         }
       ],
       "maiores_fornecedores": [
@@ -4629,185 +4901,54 @@
           "valor": 23711684
         },
         {
-          "nome": "VIIVHIV HEALTHCARE, UNIPESSOAL. LDA",
-          "valor": 16980715
+          "nome": "Eurest Portugal Lda",
+          "valor": 10170910
         },
         {
-          "nome": "GILEAD SCIENCES LDA.",
-          "valor": 16700064
+          "nome": "Eurest Portugal",
+          "valor": 3731064
         },
         {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 15473469
+          "nome": "AD-ABC-Ass.p/Desenv.C.Acad.Inv.e Form.Bioméd.Alg",
+          "valor": 3340000
         },
         {
-          "nome": "Serviço de Utilização Comum dos Hospitais",
-          "valor": 12470182
+          "nome": "MEDTRONIC PORTUGAL, LDA.",
+          "valor": 2883111
         }
       ],
       "maiores_areas": [
         {
           "divisao": "33",
           "rotulo": "Medicamentos e equipamento médico",
-          "valor": 754193646
+          "valor": 129348418
         },
         {
           "divisao": "09",
           "rotulo": "Combustíveis e eletricidade",
-          "valor": 31379279
-        },
-        {
-          "divisao": "50",
-          "rotulo": "Reparação e manutenção",
-          "valor": 27995925
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 24574150
+          "valor": 30027194
         },
         {
           "divisao": "55",
           "rotulo": "Hotelaria e restauração",
-          "valor": 19508844
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 112,
-        "valor_inicial": 40030369,
-        "valor_final": 44710980,
-        "acrescimo": 4680611
-      }
-    },
-    "uls-medio-ave": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2014",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 1505,
-      "valor": 92616726,
-      "peso_ajuste_direto": 12.5,
-      "por_ano": [
-        {
-          "ano": "2014",
-          "contratos": 3,
-          "valor": 25410454
+          "valor": 18200388
         },
         {
-          "ano": "2015",
-          "contratos": 101,
-          "valor": 3262283
-        },
-        {
-          "ano": "2016",
-          "contratos": 43,
-          "valor": 1059774
-        },
-        {
-          "ano": "2017",
-          "contratos": 44,
-          "valor": 902048
-        },
-        {
-          "ano": "2018",
-          "contratos": 107,
-          "valor": 2883870
-        },
-        {
-          "ano": "2019",
-          "contratos": 179,
-          "valor": 7152089
-        },
-        {
-          "ano": "2020",
-          "contratos": 122,
-          "valor": 3529546
-        },
-        {
-          "ano": "2021",
-          "contratos": 165,
-          "valor": 8506702
-        },
-        {
-          "ano": "2022",
-          "contratos": 168,
-          "valor": 6753271
-        },
-        {
-          "ano": "2023",
-          "contratos": 104,
-          "valor": 5509786
-        },
-        {
-          "ano": "2024",
-          "contratos": 103,
-          "valor": 3740447
-        },
-        {
-          "ano": "2025",
-          "contratos": 142,
-          "valor": 7365198
-        },
-        {
-          "ano": "2026",
-          "contratos": 224,
-          "valor": 16541257
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "UNISELF - SOCIEDADE DE RESTAURANTES PUBLICOS E PRIVADOS, SA",
-          "valor": 3427121
-        },
-        {
-          "nome": "FIELNORTE - Construção e Engenharia Civil, Lda.",
-          "valor": 3195607
-        },
-        {
-          "nome": "CONSTRUÇÕES CORTE RECTO - ENGENHARIA E CONSTRUÇÃO, SA",
-          "valor": 2905118
-        },
-        {
-          "nome": "ABBOTT, Laboratórios, Lda",
-          "valor": 2793973
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 29961477
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 29887647
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 6996488
         },
         {
           "divisao": "45",
           "rotulo": "Trabalhos de construção",
-          "valor": 8934398
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 6635626
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 4973860
+          "valor": 6588553
         }
       ],
       "modificacoes": {
-        "contratos_modificados": 5,
-        "valor_inicial": 1517093,
-        "valor_final": 1520902,
-        "acrescimo": 3809
+        "contratos_modificados": 112,
+        "valor_inicial": 18649291,
+        "valor_final": 18620881,
+        "acrescimo": -28410
       }
     },
     "ipo-lisboa": {
@@ -4951,273 +5092,6 @@
         "acrescimo": 19582683
       }
     },
-    "uls-regiao-leiria": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2013",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 19887,
-      "valor": 628355485,
-      "peso_ajuste_direto": 16.5,
-      "por_ano": [
-        {
-          "ano": "2013",
-          "contratos": 1,
-          "valor": 5691
-        },
-        {
-          "ano": "2014",
-          "contratos": 19,
-          "valor": 26319014
-        },
-        {
-          "ano": "2015",
-          "contratos": 453,
-          "valor": 9468498
-        },
-        {
-          "ano": "2016",
-          "contratos": 1018,
-          "valor": 28870634
-        },
-        {
-          "ano": "2017",
-          "contratos": 1655,
-          "valor": 31058712
-        },
-        {
-          "ano": "2018",
-          "contratos": 1784,
-          "valor": 18498056
-        },
-        {
-          "ano": "2019",
-          "contratos": 1532,
-          "valor": 29678046
-        },
-        {
-          "ano": "2020",
-          "contratos": 2005,
-          "valor": 37515458
-        },
-        {
-          "ano": "2021",
-          "contratos": 1923,
-          "valor": 40163714
-        },
-        {
-          "ano": "2022",
-          "contratos": 1592,
-          "valor": 56522025
-        },
-        {
-          "ano": "2023",
-          "contratos": 2148,
-          "valor": 65423534
-        },
-        {
-          "ano": "2024",
-          "contratos": 2292,
-          "valor": 81896959
-        },
-        {
-          "ano": "2025",
-          "contratos": 2150,
-          "valor": 105509946
-        },
-        {
-          "ano": "2026",
-          "contratos": 1315,
-          "valor": 97425197
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 10705679
-        },
-        {
-          "nome": "NOVARTIS FARMA-PROD.FARMACÊUTICOS,SA.",
-          "valor": 9463575
-        },
-        {
-          "nome": "UNISELF - Sociedade de Restaurantes Públicos e Privados, SA",
-          "valor": 7887652
-        },
-        {
-          "nome": "Merck Sharp &amp; Dohme, Lda",
-          "valor": 7838158
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 495355307
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 31055912
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 22195288
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 16449444
-        },
-        {
-          "divisao": "79",
-          "rotulo": "Serviços a empresas e consultoria",
-          "valor": 13824761
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 11,
-        "valor_inicial": 1933695,
-        "valor_final": 2560991,
-        "acrescimo": 627296
-      }
-    },
-    "uls-matosinhos": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2014",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 5501,
-      "valor": 355752439,
-      "peso_ajuste_direto": 18.2,
-      "por_ano": [
-        {
-          "ano": "2014",
-          "contratos": 9,
-          "valor": 25537081
-        },
-        {
-          "ano": "2015",
-          "contratos": 48,
-          "valor": 4640348
-        },
-        {
-          "ano": "2016",
-          "contratos": 204,
-          "valor": 4367718
-        },
-        {
-          "ano": "2017",
-          "contratos": 589,
-          "valor": 23059127
-        },
-        {
-          "ano": "2018",
-          "contratos": 453,
-          "valor": 25983208
-        },
-        {
-          "ano": "2019",
-          "contratos": 795,
-          "valor": 27179304
-        },
-        {
-          "ano": "2020",
-          "contratos": 752,
-          "valor": 21752625
-        },
-        {
-          "ano": "2021",
-          "contratos": 364,
-          "valor": 24251307
-        },
-        {
-          "ano": "2022",
-          "contratos": 469,
-          "valor": 31163929
-        },
-        {
-          "ano": "2023",
-          "contratos": 761,
-          "valor": 62475127
-        },
-        {
-          "ano": "2024",
-          "contratos": 584,
-          "valor": 64300172
-        },
-        {
-          "ano": "2025",
-          "contratos": 364,
-          "valor": 25066393
-        },
-        {
-          "ano": "2026",
-          "contratos": 109,
-          "valor": 15976100
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "Janssen-Cilag Farmacêutica, Lda.",
-          "valor": 10153357
-        },
-        {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 6861782
-        },
-        {
-          "nome": "MERCK SHARP DOHME",
-          "valor": 6365247
-        },
-        {
-          "nome": "VIIVHIV HEALTHCARE UNIPESSOAL, LDA",
-          "valor": 4961756
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 259840519
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 35574549
-        },
-        {
-          "divisao": "72",
-          "rotulo": "Serviços informáticos",
-          "valor": 10687143
-        },
-        {
-          "divisao": "90",
-          "rotulo": "Resíduos, limpeza e ambiente",
-          "valor": 10239065
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 6081132
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 18,
-        "valor_inicial": 6540769,
-        "valor_final": 7059857,
-        "acrescimo": 519088
-      }
-    },
     "uls-baixo-mondego": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
@@ -5354,89 +5228,84 @@
         "acrescimo": 258597
       }
     },
-    "uls-baixo-alentejo": {
+    "uls-medio-tejo": {
       "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
+      "desde": "2013",
       "ate": "2026",
       "cobertura_suficiente": true,
-      "contratos": 9309,
-      "valor": 225574497,
-      "peso_ajuste_direto": 21.5,
+      "contratos": 7050,
+      "valor": 457927317,
+      "peso_ajuste_direto": 41.9,
       "por_ano": [
         {
-          "ano": "2012",
-          "contratos": 5,
-          "valor": 65889
-        },
-        {
           "ano": "2013",
-          "contratos": 13,
-          "valor": 834965
+          "contratos": 32,
+          "valor": 3606792
         },
         {
           "ano": "2014",
-          "contratos": 59,
-          "valor": 27670369
+          "contratos": 55,
+          "valor": 37510498
         },
         {
           "ano": "2015",
-          "contratos": 32,
-          "valor": 2220707
+          "contratos": 76,
+          "valor": 11212603
         },
         {
           "ano": "2016",
-          "contratos": 2,
-          "valor": 217697
+          "contratos": 287,
+          "valor": 20247615
         },
         {
           "ano": "2017",
-          "contratos": 402,
-          "valor": 1106468
+          "contratos": 363,
+          "valor": 24688233
         },
         {
           "ano": "2018",
-          "contratos": 89,
-          "valor": 7860619
+          "contratos": 353,
+          "valor": 17027931
         },
         {
           "ano": "2019",
-          "contratos": 791,
-          "valor": 10402487
+          "contratos": 594,
+          "valor": 36266503
         },
         {
           "ano": "2020",
-          "contratos": 1750,
-          "valor": 16201767
+          "contratos": 538,
+          "valor": 31312119
         },
         {
           "ano": "2021",
-          "contratos": 1484,
-          "valor": 37075123
+          "contratos": 561,
+          "valor": 30277640
         },
         {
           "ano": "2022",
-          "contratos": 1197,
-          "valor": 28085080
+          "contratos": 598,
+          "valor": 30756250
         },
         {
           "ano": "2023",
-          "contratos": 1005,
-          "valor": 21769417
+          "contratos": 594,
+          "valor": 34469285
         },
         {
           "ano": "2024",
-          "contratos": 793,
-          "valor": 23929056
+          "contratos": 525,
+          "valor": 24388713
         },
         {
           "ano": "2025",
-          "contratos": 1064,
-          "valor": 32850203
+          "contratos": 1410,
+          "valor": 81651424
         },
         {
           "ano": "2026",
-          "contratos": 623,
-          "valor": 15284650
+          "contratos": 1064,
+          "valor": 74511710
         }
       ],
       "maiores_fornecedores": [
@@ -5445,54 +5314,54 @@
           "valor": 23711684
         },
         {
-          "nome": "Eurest Portugal Lda",
-          "valor": 10170910
+          "nome": "Cruz Vermelha Portuguesa",
+          "valor": 18907495
         },
         {
-          "nome": "Eurest Portugal",
-          "valor": 3731064
+          "nome": "GS24 - HEALTHCARE SOLUTIONS, S.A.",
+          "valor": 8797898
         },
         {
-          "nome": "AD-ABC-Ass.p/Desenv.C.Acad.Inv.e Form.Bioméd.Alg",
-          "valor": 3340000
+          "nome": "Ambulâncias Crespo, Lda",
+          "valor": 7772354
         },
         {
-          "nome": "MEDTRONIC PORTUGAL, LDA.",
-          "valor": 2883111
+          "nome": "Serviço de Utilização Comum dos Hospitais",
+          "valor": 6411929
         }
       ],
       "maiores_areas": [
         {
           "divisao": "33",
           "rotulo": "Medicamentos e equipamento médico",
-          "valor": 129348418
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 30027194
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 18200388
+          "valor": 174816875
         },
         {
           "divisao": "85",
           "rotulo": "Serviços de saúde e ação social",
-          "valor": 6996488
+          "valor": 147374981
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 41438594
+        },
+        {
+          "divisao": "90",
+          "rotulo": "Resíduos, limpeza e ambiente",
+          "valor": 16382209
         },
         {
           "divisao": "45",
           "rotulo": "Trabalhos de construção",
-          "valor": 6588553
+          "valor": 12829087
         }
       ],
       "modificacoes": {
-        "contratos_modificados": 112,
-        "valor_inicial": 18649291,
-        "valor_final": 18620881,
-        "acrescimo": -28410
+        "contratos_modificados": 7,
+        "valor_inicial": 5178354,
+        "valor_final": 6074810,
+        "acrescimo": 896456
       }
     },
     "uls-braga": {
@@ -5737,6 +5606,137 @@
         "acrescimo": 124021
       }
     },
+    "uls-medio-ave": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2014",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 1505,
+      "valor": 92616726,
+      "peso_ajuste_direto": 12.5,
+      "por_ano": [
+        {
+          "ano": "2014",
+          "contratos": 3,
+          "valor": 25410454
+        },
+        {
+          "ano": "2015",
+          "contratos": 101,
+          "valor": 3262283
+        },
+        {
+          "ano": "2016",
+          "contratos": 43,
+          "valor": 1059774
+        },
+        {
+          "ano": "2017",
+          "contratos": 44,
+          "valor": 902048
+        },
+        {
+          "ano": "2018",
+          "contratos": 107,
+          "valor": 2883870
+        },
+        {
+          "ano": "2019",
+          "contratos": 179,
+          "valor": 7152089
+        },
+        {
+          "ano": "2020",
+          "contratos": 122,
+          "valor": 3529546
+        },
+        {
+          "ano": "2021",
+          "contratos": 165,
+          "valor": 8506702
+        },
+        {
+          "ano": "2022",
+          "contratos": 168,
+          "valor": 6753271
+        },
+        {
+          "ano": "2023",
+          "contratos": 104,
+          "valor": 5509786
+        },
+        {
+          "ano": "2024",
+          "contratos": 103,
+          "valor": 3740447
+        },
+        {
+          "ano": "2025",
+          "contratos": 142,
+          "valor": 7365198
+        },
+        {
+          "ano": "2026",
+          "contratos": 224,
+          "valor": 16541257
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "UNISELF - SOCIEDADE DE RESTAURANTES PUBLICOS E PRIVADOS, SA",
+          "valor": 3427121
+        },
+        {
+          "nome": "FIELNORTE - Construção e Engenharia Civil, Lda.",
+          "valor": 3195607
+        },
+        {
+          "nome": "CONSTRUÇÕES CORTE RECTO - ENGENHARIA E CONSTRUÇÃO, SA",
+          "valor": 2905118
+        },
+        {
+          "nome": "ABBOTT, Laboratórios, Lda",
+          "valor": 2793973
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 29961477
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 29887647
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 8934398
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 6635626
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 4973860
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 5,
+        "valor_inicial": 1517093,
+        "valor_final": 1520902,
+        "acrescimo": 3809
+      }
+    },
     "hospital-jose-luciano-castro": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
@@ -5959,6 +5959,414 @@
         "acrescimo": -270667
       }
     },
+    "uls-leziria": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2012",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 8179,
+      "valor": 337015291,
+      "peso_ajuste_direto": 22.4,
+      "por_ano": [
+        {
+          "ano": "2012",
+          "contratos": 19,
+          "valor": 897009
+        },
+        {
+          "ano": "2013",
+          "contratos": 71,
+          "valor": 3559542
+        },
+        {
+          "ano": "2014",
+          "contratos": 593,
+          "valor": 28585346
+        },
+        {
+          "ano": "2015",
+          "contratos": 134,
+          "valor": 4252646
+        },
+        {
+          "ano": "2016",
+          "contratos": 354,
+          "valor": 15111048
+        },
+        {
+          "ano": "2017",
+          "contratos": 532,
+          "valor": 15249239
+        },
+        {
+          "ano": "2018",
+          "contratos": 608,
+          "valor": 10797792
+        },
+        {
+          "ano": "2019",
+          "contratos": 611,
+          "valor": 23729633
+        },
+        {
+          "ano": "2020",
+          "contratos": 504,
+          "valor": 17529405
+        },
+        {
+          "ano": "2021",
+          "contratos": 459,
+          "valor": 24362857
+        },
+        {
+          "ano": "2022",
+          "contratos": 576,
+          "valor": 23780385
+        },
+        {
+          "ano": "2023",
+          "contratos": 666,
+          "valor": 18437832
+        },
+        {
+          "ano": "2024",
+          "contratos": 1203,
+          "valor": 30988056
+        },
+        {
+          "ano": "2025",
+          "contratos": 1033,
+          "valor": 63340226
+        },
+        {
+          "ano": "2026",
+          "contratos": 816,
+          "valor": 56394274
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "Associação Humanitária de Bombeiros Voluntários de Pernes",
+          "valor": 12236057
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
+          "valor": 7266289
+        },
+        {
+          "nome": "MERCK SHARP DOHME",
+          "valor": 4859262
+        },
+        {
+          "nome": "GILEAD SCIENCES LDA.",
+          "valor": 4481094
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 196559757
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 35860509
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 30130144
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 14718419
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 14037164
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 33,
+        "valor_inicial": 7068306,
+        "valor_final": 8166286,
+        "acrescimo": 1097981
+      }
+    },
+    "uls-algarve": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2013",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 35083,
+      "valor": 1440492735,
+      "peso_ajuste_direto": 31.0,
+      "por_ano": [
+        {
+          "ano": "2013",
+          "contratos": 618,
+          "valor": 27011948
+        },
+        {
+          "ano": "2014",
+          "contratos": 2650,
+          "valor": 83509503
+        },
+        {
+          "ano": "2015",
+          "contratos": 2421,
+          "valor": 71292344
+        },
+        {
+          "ano": "2016",
+          "contratos": 2259,
+          "valor": 73879579
+        },
+        {
+          "ano": "2017",
+          "contratos": 1937,
+          "valor": 66995114
+        },
+        {
+          "ano": "2018",
+          "contratos": 1277,
+          "valor": 47101177
+        },
+        {
+          "ano": "2019",
+          "contratos": 2376,
+          "valor": 77717586
+        },
+        {
+          "ano": "2020",
+          "contratos": 2517,
+          "valor": 97656337
+        },
+        {
+          "ano": "2021",
+          "contratos": 2596,
+          "valor": 113642380
+        },
+        {
+          "ano": "2022",
+          "contratos": 2913,
+          "valor": 128760266
+        },
+        {
+          "ano": "2023",
+          "contratos": 3690,
+          "valor": 122666902
+        },
+        {
+          "ano": "2024",
+          "contratos": 3848,
+          "valor": 174856124
+        },
+        {
+          "ano": "2025",
+          "contratos": 3775,
+          "valor": 203898148
+        },
+        {
+          "ano": "2026",
+          "contratos": 2206,
+          "valor": 151505327
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 33924279
+        },
+        {
+          "nome": "GILEAD SCIENCES, LDA.",
+          "valor": 27118361
+        },
+        {
+          "nome": "Quadrantes Faro, Unidade de Radioterapia do Algarve, Lda.",
+          "valor": 23230119
+        },
+        {
+          "nome": "GILEAD SCIENCES LDA.",
+          "valor": 21777189
+        },
+        {
+          "nome": "Gilead Sciences, Lda.",
+          "valor": 21534241
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 1177480728
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 93413762
+        },
+        {
+          "divisao": "50",
+          "rotulo": "Reparação e manutenção",
+          "valor": 42394086
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 28033810
+        },
+        {
+          "divisao": "79",
+          "rotulo": "Serviços a empresas e consultoria",
+          "valor": 22149832
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 322,
+        "valor_inicial": 16833967,
+        "valor_final": 22545616,
+        "acrescimo": 5711649
+      }
+    },
+    "ipo-porto": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2014",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 73441,
+      "valor": 1432303189,
+      "peso_ajuste_direto": 46.8,
+      "por_ano": [
+        {
+          "ano": "2014",
+          "contratos": 5,
+          "valor": 32265937
+        },
+        {
+          "ano": "2015",
+          "contratos": 8,
+          "valor": 4154265
+        },
+        {
+          "ano": "2016",
+          "contratos": 22,
+          "valor": 12572393
+        },
+        {
+          "ano": "2017",
+          "contratos": 574,
+          "valor": 70229628
+        },
+        {
+          "ano": "2018",
+          "contratos": 1122,
+          "valor": 76921749
+        },
+        {
+          "ano": "2019",
+          "contratos": 1547,
+          "valor": 93255164
+        },
+        {
+          "ano": "2020",
+          "contratos": 3311,
+          "valor": 86719451
+        },
+        {
+          "ano": "2021",
+          "contratos": 16266,
+          "valor": 129420159
+        },
+        {
+          "ano": "2022",
+          "contratos": 7372,
+          "valor": 132634307
+        },
+        {
+          "ano": "2023",
+          "contratos": 2864,
+          "valor": 154364086
+        },
+        {
+          "ano": "2024",
+          "contratos": 18984,
+          "valor": 183042441
+        },
+        {
+          "ano": "2025",
+          "contratos": 15256,
+          "valor": 211207808
+        },
+        {
+          "ano": "2026",
+          "contratos": 6110,
+          "valor": 245515801
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 59440609
+        },
+        {
+          "nome": "Ion Beam Applications SA (IBA SA)",
+          "valor": 52999999
+        },
+        {
+          "nome": "MERCK SHARP DOHME",
+          "valor": 51386386
+        },
+        {
+          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
+          "valor": 39887481
+        },
+        {
+          "nome": "NOVARTIS FARMA-PROD.FARMACÊUTICOS,SA.",
+          "valor": 36553651
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 1187853997
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 48782980
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 32112553
+        },
+        {
+          "divisao": "71",
+          "rotulo": "Arquitetura e engenharia",
+          "valor": 26067119
+        },
+        {
+          "divisao": "90",
+          "rotulo": "Resíduos, limpeza e ambiente",
+          "valor": 25525021
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 21,
+        "valor_inicial": 8215520,
+        "valor_final": 9661695,
+        "acrescimo": 1446175
+      }
+    },
     "uls-regiao-aveiro": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2012",
@@ -6098,6 +6506,142 @@
         "valor_inicial": 27984003,
         "valor_final": 29691440,
         "acrescimo": 1707437
+      }
+    },
+    "uls-amadora-sintra": {
+      "fonte": "IMPIC · Portal BASE",
+      "desde": "2013",
+      "ate": "2026",
+      "cobertura_suficiente": true,
+      "contratos": 11130,
+      "valor": 705260324,
+      "peso_ajuste_direto": 28.3,
+      "por_ano": [
+        {
+          "ano": "2013",
+          "contratos": 2,
+          "valor": 211860
+        },
+        {
+          "ano": "2014",
+          "contratos": 10,
+          "valor": 27035476
+        },
+        {
+          "ano": "2015",
+          "contratos": 119,
+          "valor": 8902756
+        },
+        {
+          "ano": "2016",
+          "contratos": 721,
+          "valor": 35722538
+        },
+        {
+          "ano": "2017",
+          "contratos": 410,
+          "valor": 14033569
+        },
+        {
+          "ano": "2018",
+          "contratos": 220,
+          "valor": 12538291
+        },
+        {
+          "ano": "2019",
+          "contratos": 299,
+          "valor": 13560501
+        },
+        {
+          "ano": "2020",
+          "contratos": 1003,
+          "valor": 41257704
+        },
+        {
+          "ano": "2021",
+          "contratos": 1328,
+          "valor": 51853870
+        },
+        {
+          "ano": "2022",
+          "contratos": 1469,
+          "valor": 73813637
+        },
+        {
+          "ano": "2023",
+          "contratos": 1327,
+          "valor": 86944883
+        },
+        {
+          "ano": "2024",
+          "contratos": 1401,
+          "valor": 109173760
+        },
+        {
+          "ano": "2025",
+          "contratos": 1438,
+          "valor": 110537405
+        },
+        {
+          "ano": "2026",
+          "contratos": 1383,
+          "valor": 119674075
+        }
+      ],
+      "maiores_fornecedores": [
+        {
+          "nome": "E.D.P.",
+          "valor": 23711684
+        },
+        {
+          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
+          "valor": 23415927
+        },
+        {
+          "nome": "GILEAD SCIENCES LDA.",
+          "valor": 21739996
+        },
+        {
+          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
+          "valor": 13400015
+        },
+        {
+          "nome": "VIIVHIV HELTHCARE-UNIPESSOAL, LDA",
+          "valor": 12235062
+        }
+      ],
+      "maiores_areas": [
+        {
+          "divisao": "33",
+          "rotulo": "Medicamentos e equipamento médico",
+          "valor": 529315367
+        },
+        {
+          "divisao": "09",
+          "rotulo": "Combustíveis e eletricidade",
+          "valor": 26780530
+        },
+        {
+          "divisao": "55",
+          "rotulo": "Hotelaria e restauração",
+          "valor": 20734307
+        },
+        {
+          "divisao": "85",
+          "rotulo": "Serviços de saúde e ação social",
+          "valor": 20037988
+        },
+        {
+          "divisao": "45",
+          "rotulo": "Trabalhos de construção",
+          "valor": 17930286
+        }
+      ],
+      "modificacoes": {
+        "contratos_modificados": 68,
+        "valor_inicial": 50326817,
+        "valor_final": 56306189,
+        "acrescimo": 5979372
       }
     },
     "uls-tamega-sousa": {
@@ -6241,550 +6785,6 @@
         "acrescimo": 2896236
       }
     },
-    "uls-algarve": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2013",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 35083,
-      "valor": 1440492735,
-      "peso_ajuste_direto": 31.0,
-      "por_ano": [
-        {
-          "ano": "2013",
-          "contratos": 618,
-          "valor": 27011948
-        },
-        {
-          "ano": "2014",
-          "contratos": 2650,
-          "valor": 83509503
-        },
-        {
-          "ano": "2015",
-          "contratos": 2421,
-          "valor": 71292344
-        },
-        {
-          "ano": "2016",
-          "contratos": 2259,
-          "valor": 73879579
-        },
-        {
-          "ano": "2017",
-          "contratos": 1937,
-          "valor": 66995114
-        },
-        {
-          "ano": "2018",
-          "contratos": 1277,
-          "valor": 47101177
-        },
-        {
-          "ano": "2019",
-          "contratos": 2376,
-          "valor": 77717586
-        },
-        {
-          "ano": "2020",
-          "contratos": 2517,
-          "valor": 97656337
-        },
-        {
-          "ano": "2021",
-          "contratos": 2596,
-          "valor": 113642380
-        },
-        {
-          "ano": "2022",
-          "contratos": 2913,
-          "valor": 128760266
-        },
-        {
-          "ano": "2023",
-          "contratos": 3690,
-          "valor": 122666902
-        },
-        {
-          "ano": "2024",
-          "contratos": 3848,
-          "valor": 174856124
-        },
-        {
-          "ano": "2025",
-          "contratos": 3775,
-          "valor": 203898148
-        },
-        {
-          "ano": "2026",
-          "contratos": 2206,
-          "valor": 151505327
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 33924279
-        },
-        {
-          "nome": "GILEAD SCIENCES, LDA.",
-          "valor": 27118361
-        },
-        {
-          "nome": "Quadrantes Faro, Unidade de Radioterapia do Algarve, Lda.",
-          "valor": 23230119
-        },
-        {
-          "nome": "GILEAD SCIENCES LDA.",
-          "valor": 21777189
-        },
-        {
-          "nome": "Gilead Sciences, Lda.",
-          "valor": 21534241
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 1177480728
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 93413762
-        },
-        {
-          "divisao": "50",
-          "rotulo": "Reparação e manutenção",
-          "valor": 42394086
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 28033810
-        },
-        {
-          "divisao": "79",
-          "rotulo": "Serviços a empresas e consultoria",
-          "valor": 22149832
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 322,
-        "valor_inicial": 16833967,
-        "valor_final": 22545616,
-        "acrescimo": 5711649
-      }
-    },
-    "uls-leziria": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2012",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 8179,
-      "valor": 337015291,
-      "peso_ajuste_direto": 22.4,
-      "por_ano": [
-        {
-          "ano": "2012",
-          "contratos": 19,
-          "valor": 897009
-        },
-        {
-          "ano": "2013",
-          "contratos": 71,
-          "valor": 3559542
-        },
-        {
-          "ano": "2014",
-          "contratos": 593,
-          "valor": 28585346
-        },
-        {
-          "ano": "2015",
-          "contratos": 134,
-          "valor": 4252646
-        },
-        {
-          "ano": "2016",
-          "contratos": 354,
-          "valor": 15111048
-        },
-        {
-          "ano": "2017",
-          "contratos": 532,
-          "valor": 15249239
-        },
-        {
-          "ano": "2018",
-          "contratos": 608,
-          "valor": 10797792
-        },
-        {
-          "ano": "2019",
-          "contratos": 611,
-          "valor": 23729633
-        },
-        {
-          "ano": "2020",
-          "contratos": 504,
-          "valor": 17529405
-        },
-        {
-          "ano": "2021",
-          "contratos": 459,
-          "valor": 24362857
-        },
-        {
-          "ano": "2022",
-          "contratos": 576,
-          "valor": 23780385
-        },
-        {
-          "ano": "2023",
-          "contratos": 666,
-          "valor": 18437832
-        },
-        {
-          "ano": "2024",
-          "contratos": 1203,
-          "valor": 30988056
-        },
-        {
-          "ano": "2025",
-          "contratos": 1033,
-          "valor": 63340226
-        },
-        {
-          "ano": "2026",
-          "contratos": 816,
-          "valor": 56394274
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "Associação Humanitária de Bombeiros Voluntários de Pernes",
-          "valor": 12236057
-        },
-        {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
-          "valor": 7266289
-        },
-        {
-          "nome": "MERCK SHARP DOHME",
-          "valor": 4859262
-        },
-        {
-          "nome": "GILEAD SCIENCES LDA.",
-          "valor": 4481094
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 196559757
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 35860509
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 30130144
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 14718419
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 14037164
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 33,
-        "valor_inicial": 7068306,
-        "valor_final": 8166286,
-        "acrescimo": 1097981
-      }
-    },
-    "uls-amadora-sintra": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2013",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 11130,
-      "valor": 705260324,
-      "peso_ajuste_direto": 28.3,
-      "por_ano": [
-        {
-          "ano": "2013",
-          "contratos": 2,
-          "valor": 211860
-        },
-        {
-          "ano": "2014",
-          "contratos": 10,
-          "valor": 27035476
-        },
-        {
-          "ano": "2015",
-          "contratos": 119,
-          "valor": 8902756
-        },
-        {
-          "ano": "2016",
-          "contratos": 721,
-          "valor": 35722538
-        },
-        {
-          "ano": "2017",
-          "contratos": 410,
-          "valor": 14033569
-        },
-        {
-          "ano": "2018",
-          "contratos": 220,
-          "valor": 12538291
-        },
-        {
-          "ano": "2019",
-          "contratos": 299,
-          "valor": 13560501
-        },
-        {
-          "ano": "2020",
-          "contratos": 1003,
-          "valor": 41257704
-        },
-        {
-          "ano": "2021",
-          "contratos": 1328,
-          "valor": 51853870
-        },
-        {
-          "ano": "2022",
-          "contratos": 1469,
-          "valor": 73813637
-        },
-        {
-          "ano": "2023",
-          "contratos": 1327,
-          "valor": 86944883
-        },
-        {
-          "ano": "2024",
-          "contratos": 1401,
-          "valor": 109173760
-        },
-        {
-          "ano": "2025",
-          "contratos": 1438,
-          "valor": 110537405
-        },
-        {
-          "ano": "2026",
-          "contratos": 1383,
-          "valor": 119674075
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "E.D.P.",
-          "valor": 23711684
-        },
-        {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 23415927
-        },
-        {
-          "nome": "GILEAD SCIENCES LDA.",
-          "valor": 21739996
-        },
-        {
-          "nome": "JANSSEN CILAG FARMACEUTICA, LDA.",
-          "valor": 13400015
-        },
-        {
-          "nome": "VIIVHIV HELTHCARE-UNIPESSOAL, LDA",
-          "valor": 12235062
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 529315367
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 26780530
-        },
-        {
-          "divisao": "55",
-          "rotulo": "Hotelaria e restauração",
-          "valor": 20734307
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 20037988
-        },
-        {
-          "divisao": "45",
-          "rotulo": "Trabalhos de construção",
-          "valor": 17930286
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 68,
-        "valor_inicial": 50326817,
-        "valor_final": 56306189,
-        "acrescimo": 5979372
-      }
-    },
-    "ipo-porto": {
-      "fonte": "IMPIC · Portal BASE",
-      "desde": "2014",
-      "ate": "2026",
-      "cobertura_suficiente": true,
-      "contratos": 73441,
-      "valor": 1432303189,
-      "peso_ajuste_direto": 46.8,
-      "por_ano": [
-        {
-          "ano": "2014",
-          "contratos": 5,
-          "valor": 32265937
-        },
-        {
-          "ano": "2015",
-          "contratos": 8,
-          "valor": 4154265
-        },
-        {
-          "ano": "2016",
-          "contratos": 22,
-          "valor": 12572393
-        },
-        {
-          "ano": "2017",
-          "contratos": 574,
-          "valor": 70229628
-        },
-        {
-          "ano": "2018",
-          "contratos": 1122,
-          "valor": 76921749
-        },
-        {
-          "ano": "2019",
-          "contratos": 1547,
-          "valor": 93255164
-        },
-        {
-          "ano": "2020",
-          "contratos": 3311,
-          "valor": 86719451
-        },
-        {
-          "ano": "2021",
-          "contratos": 16266,
-          "valor": 129420159
-        },
-        {
-          "ano": "2022",
-          "contratos": 7372,
-          "valor": 132634307
-        },
-        {
-          "ano": "2023",
-          "contratos": 2864,
-          "valor": 154364086
-        },
-        {
-          "ano": "2024",
-          "contratos": 18984,
-          "valor": 183042441
-        },
-        {
-          "ano": "2025",
-          "contratos": 15256,
-          "valor": 211207808
-        },
-        {
-          "ano": "2026",
-          "contratos": 6110,
-          "valor": 245515801
-        }
-      ],
-      "maiores_fornecedores": [
-        {
-          "nome": "ROCHE FARMACÊUTICA QUIMICA, LDA.",
-          "valor": 59440609
-        },
-        {
-          "nome": "Ion Beam Applications SA (IBA SA)",
-          "valor": 52999999
-        },
-        {
-          "nome": "MERCK SHARP DOHME",
-          "valor": 51386386
-        },
-        {
-          "nome": "ROCHE FARMACEUTICA QUIMICA, LDA",
-          "valor": 39887481
-        },
-        {
-          "nome": "NOVARTIS FARMA-PROD.FARMACÊUTICOS,SA.",
-          "valor": 36553651
-        }
-      ],
-      "maiores_areas": [
-        {
-          "divisao": "33",
-          "rotulo": "Medicamentos e equipamento médico",
-          "valor": 1187853997
-        },
-        {
-          "divisao": "09",
-          "rotulo": "Combustíveis e eletricidade",
-          "valor": 48782980
-        },
-        {
-          "divisao": "85",
-          "rotulo": "Serviços de saúde e ação social",
-          "valor": 32112553
-        },
-        {
-          "divisao": "71",
-          "rotulo": "Arquitetura e engenharia",
-          "valor": 26067119
-        },
-        {
-          "divisao": "90",
-          "rotulo": "Resíduos, limpeza e ambiente",
-          "valor": 25525021
-        }
-      ],
-      "modificacoes": {
-        "contratos_modificados": 21,
-        "valor_inicial": 8215520,
-        "valor_final": 9661695,
-        "acrescimo": 1446175
-      }
-    },
     "uls-litoral-alentejano": {
       "fonte": "IMPIC · Portal BASE",
       "desde": "2014",
@@ -6921,65 +6921,65 @@
     {
       "instituicao": "uls-santa-maria",
       "nossos_contratos": 51965,
-      "servidor_contratos": 52143,
+      "servidor_contratos": 52199,
       "nosso_valor": 3805985353,
-      "servidor_valor": 3830048748,
-      "desvio_pct": -0.6
+      "servidor_valor": 3831269753,
+      "desvio_pct": -0.7
     },
     {
       "instituicao": "uls-coimbra",
       "nossos_contratos": 37577,
-      "servidor_contratos": 37861,
+      "servidor_contratos": 37923,
       "nosso_valor": 2918789477,
-      "servidor_valor": 2966284781,
-      "desvio_pct": -1.6
+      "servidor_valor": 2968751003,
+      "desvio_pct": -1.7
     },
     {
       "instituicao": "uls-sao-jose",
       "nossos_contratos": 38512,
-      "servidor_contratos": 39168,
+      "servidor_contratos": 39214,
       "nosso_valor": 2535077570,
-      "servidor_valor": 2644735217,
-      "desvio_pct": -4.1
+      "servidor_valor": 2646890953,
+      "desvio_pct": -4.2
     },
     {
       "instituicao": "uls-santo-antonio",
       "nossos_contratos": 9977,
-      "servidor_contratos": 10518,
+      "servidor_contratos": 10620,
       "nosso_valor": 1783845240,
-      "servidor_valor": 1852583657,
-      "desvio_pct": -3.7
+      "servidor_valor": 1855769501,
+      "desvio_pct": -3.9
     },
     {
       "instituicao": "uls-algarve",
       "nossos_contratos": 35083,
-      "servidor_contratos": 35194,
+      "servidor_contratos": 35215,
       "nosso_valor": 1440492735,
-      "servidor_valor": 1446107628,
-      "desvio_pct": -0.4
+      "servidor_valor": 1448123676,
+      "desvio_pct": -0.5
     },
     {
       "instituicao": "ipo-porto",
       "nossos_contratos": 73441,
-      "servidor_contratos": 74038,
+      "servidor_contratos": 74375,
       "nosso_valor": 1432303189,
-      "servidor_valor": 1437081317,
-      "desvio_pct": -0.3
+      "servidor_valor": 1438620828,
+      "desvio_pct": -0.4
     },
     {
       "instituicao": "uls-lisboa-ocidental",
       "nossos_contratos": 13758,
-      "servidor_contratos": 14706,
+      "servidor_contratos": 14745,
       "nosso_valor": 1389470074,
-      "servidor_valor": 1408709725,
-      "desvio_pct": -1.4
+      "servidor_valor": 1410371331,
+      "desvio_pct": -1.5
     },
     {
       "instituicao": "uls-sao-joao",
       "nossos_contratos": 11549,
-      "servidor_contratos": 11578,
+      "servidor_contratos": 11597,
       "nosso_valor": 1231436210,
-      "servidor_valor": 1239870080,
+      "servidor_valor": 1240447142,
       "desvio_pct": -0.7
     }
   ],
@@ -7132,7 +7132,7 @@
       "anos": 3
     },
     "uls-santa-maria": {
-      "valor_contratado": 1452540413,
+      "valor_contratado": 1452540414,
       "doente_padrao": 354570,
       "euros_por_doente_padrao": 4096.6,
       "periodo": "2024..2026",
@@ -7265,7 +7265,7 @@
       "anos": 3
     },
     "uls-oeste": {
-      "valor_contratado": 102296187,
+      "valor_contratado": 102296186,
       "doente_padrao": 59529,
       "euros_por_doente_padrao": 1718.4,
       "periodo": "2024..2026",

@@ -149,6 +149,9 @@ const semMdfNacional = todas.reduce(
       <div class="escolha">
         <label class="flabel" for="distrito">O meu distrito</label>
         <select id="distrito" data-distrito>
+          {/* «Todo o país» é a mesma vista que a página tem sem JavaScript:
+              tudo, com os distritos como subtítulos. */}
+          <option value="">Todo o país</option>
           {distritos.map((d) => <option value={d}>{d}</option>)}
         </select>
       </div>
@@ -293,10 +296,16 @@ const semMdfNacional = todas.reduce(
     const blocos = [...document.querySelectorAll<HTMLElement>("[data-distrito-bloco]")];
 
     function mostrar(distrito: string) {
-      for (const b of blocos) b.hidden = b.dataset.distritoBloco !== distrito;
+      // Vazio é «todo o país»: mostra tudo e devolve os rótulos de distrito,
+      // que com um distrito escolhido seriam redundantes.
+      for (const b of blocos)
+        b.hidden = distrito !== "" && b.dataset.distritoBloco !== distrito;
+      document.documentElement.classList.toggle("pais-inteiro", distrito === "");
       const p = new URLSearchParams(location.hash.slice(1));
-      p.set("d", distrito);
-      history.replaceState(null, "", "#" + p.toString());
+      if (distrito) p.set("d", distrito);
+      else p.delete("d");
+      const h = p.toString();
+      history.replaceState(null, "", h ? "#" + h : location.pathname);
     }
 
     if (sel) {
@@ -346,7 +355,9 @@ const semMdfNacional = todas.reduce(
     font-size: var(--t-3xs); font-weight: 700; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--muted); margin: 18px 0 4px;
   }
-  html.js .q__rotulo { display: none; }
+  /* Com um distrito escolhido, o rótulo repetia o <select>; em «todo o país»
+     volta, porque é ele que separa os blocos. */
+  html.js:not(.pais-inteiro) .q__rotulo { display: none; }
   html.js .escolha { display: block; }
   .escolha { display: none; }
 

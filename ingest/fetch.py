@@ -41,6 +41,12 @@ NUCLEO = [
     "partos-e-cesarianas",
     "cirurgias-em-ambulatorio",
     "morbilidade-e-mortalidade-hospitalar",
+    # Consumo de antibióticos de reserva (INFARMED). Alimentam seis indicadores
+    # de qualidade; fora desta lista envelheciam em silêncio, servidos por uma
+    # descarga antiga de `--todos` que nunca era renovada.
+    "antibioticos-carbapenemes",
+    "antibioticos-fluoroquinolonas",
+    "antibioticos-cefalosporinas",
     # Capacidade e recursos
     "ocupacao-do-internamento",
     "lotacao-praticada-por-tipo-de-cama",

@@ -1,0 +1,128 @@
+---
+/**
+ * Heatmap de calendário: os anos em linhas, os meses em colunas.
+ *
+ * A linha temporal da série esconde a sazonalidade — doze invernos ficam a
+ * onze picos de distância uns dos outros. Aqui os janeiros caem todos na mesma
+ * coluna, e a pergunta «isto é o inverno ou é este ano?» responde-se com os
+ * olhos, num relance vertical.
+ *
+ * Escala sequencial de uma só cor (a de acento, misturada com a superfície):
+ * intensidade é magnitude, e o claro/escuro do tema resolve-se sozinho porque
+ * a mistura parte dos tokens. A cor nunca carrega sozinha a leitura: o máximo
+ * e o mínimo levam contorno, cada célula tem o valor no `title`, e o resumo
+ * inteiro vai no `aria-label`.
+ */
+import type { Ponto } from "../lib/dados";
+import { formatar, formatarMes } from "../lib/dados";
+
+interface Props {
+  serie: Ponto[];
+  unidade: string;
+  titulo: string;
+}
+const { serie, unidade, titulo } = Astro.props;
+
+const pontos = serie.filter((p) => p.valor !== null) as (Ponto & { valor: number })[];
+
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+
+let anos: string[] = [];
+let celulas = new Map<string, { valor: number; t: number }>();
+let extremos: { max: Ponto & { valor: number }; min: Ponto & { valor: number } } | null = null;
+
+if (pontos.length >= 24) {
+  const valores = pontos.map((p) => p.valor);
+  const min = Math.min(...valores);
+  const max = Math.max(...valores);
+  const amplitude = max - min || 1;
+  anos = [...new Set(pontos.map((p) => p.mes.slice(0, 4)))].sort();
+  for (const p of pontos) {
+    celulas.set(p.mes, { valor: p.valor, t: (p.valor - min) / amplitude });
+  }
+  const iMax = pontos.reduce((b, p, i) => (p.valor > pontos[b].valor ? i : b), 0);
+  const iMin = pontos.reduce((b, p, i) => (p.valor < pontos[b].valor ? i : b), 0);
+  extremos = { max: pontos[iMax], min: pontos[iMin] };
+}
+
+const resumo = extremos
+  ? `${titulo}, mês a mês de ${anos[0]} a ${anos[anos.length - 1]}, em calendário: ` +
+    `cada linha é um ano, cada coluna um mês, e a intensidade da cor é o valor. ` +
+    `Máximo ${formatar(extremos.max.valor, unidade)} em ${formatarMes(extremos.max.mes)}; ` +
+    `mínimo ${formatar(extremos.min.valor, unidade)} em ${formatarMes(extremos.min.mes)}.`
+  : "";
+---
+
+{
+  extremos && (
+    <figure class="cal">
+      <figcaption class="cal__rot">O ano dentro do ano</figcaption>
+      <div class="cal__grelha" role="img" aria-label={resumo} style={`--colunas:${12}`}>
+        <span class="cal__canto" aria-hidden="true" />
+        {MESES.map((m) => (
+          <span class="cal__mes" aria-hidden="true">{m.slice(0, 1)}</span>
+        ))}
+        {anos.map((ano) => (
+          <>
+            <span class="cal__ano num" aria-hidden="true">{ano}</span>
+            {MESES.map((_, i) => {
+              const chave = `${ano}-${String(i + 1).padStart(2, "0")}`;
+              const c = celulas.get(chave);
+              if (!c) return <span class="cal__celula cal__celula--vazia" aria-hidden="true" />;
+              const eExtremo = chave === extremos!.max.mes || chave === extremos!.min.mes;
+              return (
+                <span
+                  class={`cal__celula${eExtremo ? " cal__celula--extremo" : ""}`}
+                  style={`--t:${(8 + c.t * 72).toFixed(1)}%`}
+                  title={`${formatarMes(chave)} · ${formatar(c.valor, unidade)}`}
+                  aria-hidden="true"
+                />
+              );
+            })}
+          </>
+        ))}
+      </div>
+      <p class="cal__legenda">
+        mais escuro = mais alto · contorno = máximo e mínimo · em branco, meses
+        sem apuramento
+      </p>
+    </figure>
+  )
+}
+
+<style>
+  .cal { margin: 18px 0 0; }
+  .cal__rot {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .cal__grelha {
+    display: grid;
+    grid-template-columns: auto repeat(var(--colunas), 1fr);
+    gap: 2px;
+    align-items: stretch;
+  }
+  .cal__mes {
+    font-size: var(--t-3xs); color: var(--muted); text-align: center;
+    line-height: 1.4;
+  }
+  .cal__ano {
+    font-size: var(--t-3xs); color: var(--muted);
+    padding-right: 7px; align-self: center; line-height: 1;
+  }
+  .cal__celula {
+    min-height: 15px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--accent) var(--t), var(--surface));
+  }
+  .cal__celula--vazia {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--grid);
+  }
+  .cal__celula--extremo {
+    box-shadow: inset 0 0 0 2px var(--ink);
+  }
+  .cal__legenda {
+    margin: 8px 0 0; font-size: var(--t-3xs); color: var(--muted);
+  }
+</style>

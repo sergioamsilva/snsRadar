@@ -286,929 +286,389 @@
     "sem_medico_familia": 1672130
   },
   "ine_municipios": {
-    "16G1822": {
-      "nome": "Vila Nova de Paiva",
-      "total": 4305.0
-    },
-    "16G1823": {
-      "nome": "Viseu",
-      "total": 106199.0
-    },
-    "16G1824": {
-      "nome": "Vouzela",
-      "total": 9581.0
-    },
-    "16H0508": {
-      "nome": "Proença-a-Nova",
-      "total": 6946.0
-    },
-    "16H0502": {
-      "nome": "Castelo Branco",
-      "total": 57148.0
-    },
-    "16H0505": {
-      "nome": "Idanha-a-Nova",
-      "total": 8536.0
-    },
-    "16H0506": {
-      "nome": "Oleiros",
-      "total": 4468.0
-    },
-    "16H0507": {
-      "nome": "Penamacor",
-      "total": 4340.0
-    },
-    "16I1417": {
-      "nome": "Sardoal",
-      "total": 3654.0
-    },
-    "16I1418": {
-      "nome": "Tomar",
-      "total": 37446.0
-    },
-    "16I1419": {
-      "nome": "Torres Novas",
-      "total": 35445.0
-    },
-    "16I1420": {
-      "nome": "Vila Nova da Barquinha",
-      "total": 7469.0
-    },
-    "16I1421": {
-      "nome": "Ourém",
-      "total": 47159.0
-    },
-    "16J0501": {
-      "nome": "Belmonte",
-      "total": 6076.0
-    },
-    "16J0503": {
-      "nome": "Covilhã",
-      "total": 50165.0
-    },
-    "16J0504": {
-      "nome": "Fundão",
-      "total": 27377.0
-    },
-    "16J0902": {
-      "nome": "Almeida",
-      "total": 5639.0
-    },
-    "16I0509": {
-      "nome": "Sertã",
-      "total": 14818.0
-    },
-    "16H0511": {
-      "nome": "Vila Velha de Ródão",
-      "total": 3279.0
-    },
-    "16I0510": {
-      "nome": "Vila de Rei",
-      "total": 3227.0
-    },
-    "16I1410": {
-      "nome": "Entroncamento",
-      "total": 22883.0
-    },
-    "16I1401": {
-      "nome": "Abrantes",
-      "total": 35484.0
-    },
-    "16I1402": {
-      "nome": "Alcanena",
-      "total": 13189.0
-    },
-    "16I1408": {
-      "nome": "Constância",
-      "total": 3916.0
-    },
-    "16I1411": {
-      "nome": "Ferreira do Zêzere",
-      "total": 7966.0
-    },
-    "16I1413": {
-      "nome": "Mação",
-      "total": 6275.0
-    },
-    "16J0903": {
-      "nome": "Celorico da Beira",
-      "total": 6552.0
-    },
-    "16J0904": {
-      "nome": "Figueira de Castelo Rodrigo",
-      "total": 4968.0
-    },
-    "16J0905": {
-      "nome": "Fornos de Algodres",
-      "total": 4162.0
-    },
-    "16J0906": {
-      "nome": "Gouveia",
-      "total": 11905.0
-    },
-    "16J0911": {
-      "nome": "Sabugal",
-      "total": 9482.0
-    },
-    "16J0912": {
-      "nome": "Seia",
-      "total": 21745.0
-    },
-    "16J0907": {
-      "nome": "Guarda",
-      "total": 40570.0
-    },
-    "16J0908": {
-      "nome": "Manteigas",
-      "total": 2996.0
-    },
-    "16J0909": {
-      "nome": "Mêda",
-      "total": 4407.0
-    },
-    "16J0910": {
-      "nome": "Pinhel",
-      "total": 8009.0
-    },
-    "1701105": {
-      "nome": "Cascais",
-      "total": 241537.0
-    },
-    "16J0913": {
-      "nome": "Trancoso",
-      "total": 8029.0
-    },
-    "1701106": {
-      "nome": "Lisboa",
-      "total": 655542.0
-    },
-    "1701107": {
-      "nome": "Loures",
-      "total": 227301.0
-    },
-    "1701109": {
-      "nome": "Mafra",
-      "total": 93994.0
-    },
-    "1701110": {
-      "nome": "Oeiras",
-      "total": 185767.0
-    },
-    "1701111": {
-      "nome": "Sintra",
-      "total": 432915.0
-    },
-    "1701114": {
-      "nome": "Vila Franca de Xira",
-      "total": 148155.0
-    },
-    "1701116": {
-      "nome": "Odivelas",
-      "total": 180033.0
-    },
-    "1701502": {
-      "nome": "Alcochete",
-      "total": 20067.0
-    },
-    "1701115": {
-      "nome": "Amadora",
-      "total": 196563.0
-    },
-    "1701503": {
-      "nome": "Almada",
-      "total": 197221.0
-    },
-    "1701504": {
-      "nome": "Barreiro",
-      "total": 87938.0
-    },
-    "1701506": {
-      "nome": "Moita",
-      "total": 74300.0
-    },
-    "1701507": {
-      "nome": "Montijo",
-      "total": 64411.0
-    },
-    "1701508": {
-      "nome": "Palmela",
-      "total": 73249.0
-    },
-    "1701510": {
-      "nome": "Seixal",
-      "total": 188623.0
-    },
-    "1701511": {
-      "nome": "Sesimbra",
-      "total": 58124.0
-    },
-    "1701512": {
-      "nome": "Setúbal",
-      "total": 137653.0
-    },
-    "1840201": {
-      "nome": "Aljustrel",
-      "total": 9051.0
-    },
-    "1840202": {
-      "nome": "Almodôvar",
-      "total": 6979.0
-    },
-    "1810211": {
-      "nome": "Odemira",
-      "total": 44712.0
-    },
-    "1811501": {
-      "nome": "Alcácer do Sal",
-      "total": 11920.0
-    },
-    "1811505": {
-      "nome": "Grândola",
-      "total": 14903.0
-    },
-    "1811509": {
-      "nome": "Santiago do Cacém",
-      "total": 29697.0
-    },
-    "1811513": {
-      "nome": "Sines",
-      "total": 16678.0
-    },
-    "1840203": {
-      "nome": "Alvito",
-      "total": 2287.0
-    },
-    "1840204": {
-      "nome": "Barrancos",
-      "total": 1429.0
-    },
-    "1840205": {
-      "nome": "Beja",
-      "total": 38661.0
-    },
-    "1840206": {
-      "nome": "Castro Verde",
-      "total": 7055.0
-    },
-    "1840207": {
-      "nome": "Cuba",
-      "total": 4779.0
-    },
-    "1840213": {
-      "nome": "Serpa",
-      "total": 14776.0
-    },
-    "1840214": {
-      "nome": "Vidigueira",
-      "total": 5546.0
-    },
-    "1840208": {
-      "nome": "Ferreira do Alentejo",
-      "total": 9245.0
-    },
-    "1840209": {
-      "nome": "Mértola",
-      "total": 6088.0
-    },
-    "1840210": {
-      "nome": "Moura",
-      "total": 13559.0
-    },
-    "1840212": {
-      "nome": "Ourique",
-      "total": 5074.0
-    },
-    "1851409": {
-      "nome": "Coruche",
-      "total": 17773.0
-    },
-    "1851412": {
-      "nome": "Golegã",
-      "total": 5584.0
-    },
-    "1851103": {
-      "nome": "Azambuja",
-      "total": 22284.0
-    },
-    "1851403": {
-      "nome": "Almeirim",
-      "total": 23783.0
-    },
-    "1851404": {
-      "nome": "Alpiarça",
-      "total": 7541.0
-    },
-    "1851405": {
-      "nome": "Benavente",
-      "total": 32678.0
-    },
-    "1851406": {
-      "nome": "Cartaxo",
-      "total": 24901.0
-    },
-    "1851414": {
-      "nome": "Rio Maior",
-      "total": 24464.0
-    },
-    "1851415": {
-      "nome": "Salvaterra de Magos",
-      "total": 23079.0
-    },
-    "1851407": {
-      "nome": "Chamusca",
-      "total": 8651.0
-    },
-    "1851416": {
-      "nome": "Santarém",
-      "total": 66711.0
-    },
-    "1861201": {
-      "nome": "Alter do Chão",
-      "total": 3157.0
-    },
-    "1861202": {
-      "nome": "Arronches",
-      "total": 2788.0
-    },
-    "1861203": {
-      "nome": "Avis",
-      "total": 3747.0
-    },
-    "1861205": {
-      "nome": "Castelo de Vide",
-      "total": 3029.0
-    },
-    "1861208": {
-      "nome": "Fronteira",
-      "total": 3014.0
-    },
-    "1861209": {
-      "nome": "Gavião",
-      "total": 3303.0
-    },
-    "1190308": {
-      "nome": "Guimarães",
-      "total": 163814.0
-    },
-    "11A1308": {
-      "nome": "Matosinhos",
-      "total": 180417.0
-    },
-    "1190309": {
-      "nome": "Póvoa de Lanhoso",
-      "total": 21895.0
-    },
-    "1190311": {
-      "nome": "Vieira do Minho",
-      "total": 11683.0
-    },
-    "1190312": {
-      "nome": "Vila Nova de Famalicão",
-      "total": 140750.0
-    },
-    "11A1310": {
-      "nome": "Paredes",
-      "total": 86924.0
-    },
-    "11A1312": {
-      "nome": "Porto",
-      "total": 267236.0
-    },
-    "11A1313": {
-      "nome": "Póvoa de Varzim",
-      "total": 70149.0
-    },
-    "11A1314": {
-      "nome": "Santo Tirso",
-      "total": 69184.0
-    },
-    "11A1315": {
-      "nome": "Valongo",
-      "total": 98264.0
-    },
-    "11A1316": {
-      "nome": "Vila do Conde",
-      "total": 84710.0
-    },
-    "11A1317": {
-      "nome": "Vila Nova de Gaia",
-      "total": 318087.0
-    },
-    "11A1318": {
-      "nome": "Trofa",
-      "total": 40759.0
-    },
-    "1191705": {
-      "nome": "Mondim de Basto",
-      "total": 6215.0
-    },
-    "11A0104": {
-      "nome": "Arouca",
-      "total": 21360.0
-    },
-    "1190314": {
-      "nome": "Vizela",
-      "total": 25102.0
-    },
-    "11A0107": {
-      "nome": "Espinho",
-      "total": 32210.0
-    },
-    "11A0109": {
-      "nome": "Santa Maria da Feira",
-      "total": 141386.0
-    },
-    "11A0113": {
-      "nome": "Oliveira de Azeméis",
-      "total": 69109.0
-    },
-    "11A0116": {
-      "nome": "São João da Madeira",
-      "total": 23995.0
-    },
-    "11A0119": {
-      "nome": "Vale de Cambra",
-      "total": 22008.0
-    },
-    "11A1304": {
-      "nome": "Gondomar",
-      "total": 169122.0
-    },
-    "11A1306": {
-      "nome": "Maia",
-      "total": 140501.0
-    },
-    "11B1702": {
-      "nome": "Boticas",
-      "total": 4781.0
-    },
-    "11B1703": {
-      "nome": "Chaves",
-      "total": 37508.0
-    },
-    "11B1706": {
-      "nome": "Montalegre",
-      "total": 8746.0
-    },
-    "11B1709": {
-      "nome": "Ribeira de Pena",
-      "total": 5875.0
-    },
-    "11B1712": {
-      "nome": "Valpaços",
-      "total": 14288.0
-    },
-    "11B1713": {
-      "nome": "Vila Pouca de Aguiar",
-      "total": 11641.0
-    },
-    "11C0106": {
-      "nome": "Castelo de Paiva",
-      "total": 15743.0
-    },
-    "11C0305": {
-      "nome": "Celorico de Basto",
-      "total": 16254.0
-    },
-    "11C1301": {
-      "nome": "Amarante",
-      "total": 52394.0
-    },
-    "11C1813": {
-      "nome": "Resende",
-      "total": 9641.0
-    },
-    "11C1307": {
-      "nome": "Marco de Canaveses",
-      "total": 50141.0
-    },
-    "11C1302": {
-      "nome": "Baião",
-      "total": 17020.0
-    },
-    "11C1303": {
-      "nome": "Felgueiras",
-      "total": 57046.0
-    },
-    "11C1305": {
-      "nome": "Lousada",
-      "total": 49127.0
-    },
-    "11C1309": {
-      "nome": "Paços de Ferreira",
-      "total": 56443.0
-    },
-    "11D0403": {
-      "nome": "Carrazeda de Ansiães",
-      "total": 5304.0
-    },
-    "11D0404": {
-      "nome": "Freixo de Espada à Cinta",
-      "total": 3039.0
-    },
-    "11C1311": {
-      "nome": "Penafiel",
-      "total": 70849.0
-    },
-    "11C1804": {
-      "nome": "Cinfães",
-      "total": 17626.0
-    },
-    "11D0409": {
-      "nome": "Torre de Moncorvo",
-      "total": 6573.0
-    },
-    "11D0914": {
-      "nome": "Vila Nova de Foz Côa",
-      "total": 5837.0
-    },
-    "11D1701": {
-      "nome": "Alijó",
-      "total": 10161.0
-    },
-    "11D1704": {
-      "nome": "Mesão Frio",
-      "total": 3456.0
-    },
-    "11D1707": {
-      "nome": "Murça",
-      "total": 5201.0
-    },
-    "11D1714": {
-      "nome": "Vila Real",
-      "total": 52139.0
-    },
-    "11D1801": {
-      "nome": "Armamar",
-      "total": 5460.0
-    },
-    "11D1708": {
-      "nome": "Peso da Régua",
-      "total": 14639.0
-    },
-    "11D1710": {
-      "nome": "Sabrosa",
-      "total": 5528.0
-    },
-    "11D1711": {
-      "nome": "Santa Marta de Penaguião",
-      "total": 6142.0
-    },
-    "11D1805": {
-      "nome": "Lamego",
-      "total": 24513.0
-    },
-    "11D1807": {
-      "nome": "Moimenta da Beira",
-      "total": 9639.0
-    },
-    "11D1812": {
-      "nome": "Penedono",
-      "total": 2472.0
-    },
-    "11D1815": {
-      "nome": "São João da Pesqueira",
-      "total": 6557.0
-    },
-    "11D1818": {
-      "nome": "Sernancelhe",
-      "total": 4874.0
-    },
-    "11E0401": {
-      "nome": "Alfândega da Fé",
-      "total": 4298.0
-    },
-    "11E0402": {
-      "nome": "Bragança",
-      "total": 37688.0
-    },
-    "11D1819": {
-      "nome": "Tabuaço",
-      "total": 4570.0
-    },
-    "11D1820": {
-      "nome": "Tarouca",
-      "total": 7234.0
-    },
-    "11E0405": {
-      "nome": "Macedo de Cavaleiros",
-      "total": 13855.0
-    },
-    "1500801": {
-      "nome": "Albufeira",
-      "total": 61294.0
-    },
-    "11E0406": {
-      "nome": "Miranda do Douro",
-      "total": 6158.0
-    },
-    "11E0407": {
-      "nome": "Mirandela",
-      "total": 21724.0
-    },
-    "11E0408": {
-      "nome": "Mogadouro",
-      "total": 8132.0
-    },
-    "11E0410": {
-      "nome": "Vila Flor",
-      "total": 5792.0
-    },
-    "2004802": {
-      "nome": "Santa Cruz das Flores",
-      "total": 2038.0
-    },
     "2004901": {
       "nome": "Corvo",
       "total": 416.0
-    },
-    "3003109": {
-      "nome": "Santana",
-      "total": 6498.0
-    },
-    "3003110": {
-      "nome": "São Vicente",
-      "total": 4755.0
-    },
-    "3003201": {
-      "nome": "Porto Santo",
-      "total": 6345.0
-    },
-    "3003101": {
-      "nome": "Calheta",
-      "total": 11268.0
-    },
-    "3003102": {
-      "nome": "Câmara de Lobos",
-      "total": 32018.0
-    },
-    "3003103": {
-      "nome": "Funchal",
-      "total": 112290.0
-    },
-    "3003104": {
-      "nome": "Machico",
-      "total": 20034.0
-    },
-    "3003105": {
-      "nome": "Ponta do Sol",
-      "total": 8568.0
-    },
-    "3003106": {
-      "nome": "Porto Moniz",
-      "total": 2593.0
-    },
-    "3003107": {
-      "nome": "Ribeira Brava",
-      "total": 12812.0
-    },
-    "3003108": {
-      "nome": "Santa Cruz",
-      "total": 43330.0
-    },
-    "1111601": {
-      "nome": "Arcos de Valdevez",
-      "total": 20416.0
-    },
-    "1111602": {
-      "nome": "Caminha",
-      "total": 16967.0
-    },
-    "1111603": {
-      "nome": "Melgaço",
-      "total": 7197.0
-    },
-    "1111604": {
-      "nome": "Monção",
-      "total": 18267.0
-    },
-    "1111605": {
-      "nome": "Paredes de Coura",
-      "total": 8725.0
-    },
-    "1111606": {
-      "nome": "Ponte da Barca",
-      "total": 11121.0
-    },
-    "1111607": {
-      "nome": "Ponte de Lima",
-      "total": 42084.0
-    },
-    "1111608": {
-      "nome": "Valença",
-      "total": 15351.0
-    },
-    "1111609": {
-      "nome": "Viana do Castelo",
-      "total": 91336.0
-    },
-    "1111610": {
-      "nome": "Vila Nova de Cerveira",
-      "total": 9960.0
-    },
-    "1120302": {
-      "nome": "Barcelos",
-      "total": 120085.0
-    },
-    "1120303": {
-      "nome": "Braga",
-      "total": 209088.0
-    },
-    "1120301": {
-      "nome": "Amares",
-      "total": 19367.0
-    },
-    "1120310": {
-      "nome": "Terras de Bouro",
-      "total": 6357.0
-    },
-    "1120313": {
-      "nome": "Vila Verde",
-      "total": 48114.0
-    },
-    "1120306": {
-      "nome": "Esposende",
-      "total": 37866.0
-    },
-    "1190304": {
-      "nome": "Cabeceiras de Basto",
-      "total": 15383.0
-    },
-    "1190307": {
-      "nome": "Fafe",
-      "total": 49598.0
-    },
-    "1861204": {
-      "nome": "Campo Maior",
-      "total": 8255.0
-    },
-    "1861206": {
-      "nome": "Crato",
-      "total": 3300.0
-    },
-    "1861207": {
-      "nome": "Elvas",
-      "total": 21828.0
-    },
-    "1861210": {
-      "nome": "Marvão",
-      "total": 2945.0
-    },
-    "1861211": {
-      "nome": "Monforte",
-      "total": 2921.0
-    },
-    "1861212": {
-      "nome": "Nisa",
-      "total": 5924.0
-    },
-    "1861213": {
-      "nome": "Ponte de Sor",
-      "total": 15711.0
-    },
-    "1870703": {
-      "nome": "Borba",
-      "total": 6612.0
-    },
-    "1861214": {
-      "nome": "Portalegre",
-      "total": 23870.0
-    },
-    "1861215": {
-      "nome": "Sousel",
-      "total": 4473.0
-    },
-    "1870701": {
-      "nome": "Alandroal",
-      "total": 5095.0
-    },
-    "1870702": {
-      "nome": "Arraiolos",
-      "total": 6729.0
-    },
-    "1870704": {
-      "nome": "Estremoz",
-      "total": 12883.0
-    },
-    "1870705": {
-      "nome": "Évora",
-      "total": 58070.0
-    },
-    "1870706": {
-      "nome": "Montemor-o-Novo",
-      "total": 16430.0
-    },
-    "1870707": {
-      "nome": "Mora",
-      "total": 4120.0
-    },
-    "1870708": {
-      "nome": "Mourão",
-      "total": 2519.0
-    },
-    "1870709": {
-      "nome": "Portel",
-      "total": 5754.0
-    },
-    "1870710": {
-      "nome": "Redondo",
-      "total": 6448.0
-    },
-    "1870711": {
-      "nome": "Reguengos de Monsaraz",
-      "total": 10536.0
-    },
-    "1870712": {
-      "nome": "Vendas Novas",
-      "total": 12571.0
-    },
-    "1870713": {
-      "nome": "Viana do Alentejo",
-      "total": 5500.0
-    },
-    "1870714": {
-      "nome": "Vila Viçosa",
-      "total": 7443.0
-    },
-    "2004101": {
-      "nome": "Vila do Porto",
-      "total": 5549.0
-    },
-    "2004201": {
-      "nome": "Lagoa",
-      "total": 14369.0
-    },
-    "2004202": {
-      "nome": "Nordeste",
-      "total": 4401.0
-    },
-    "2004203": {
-      "nome": "Ponta Delgada",
-      "total": 70946.0
-    },
-    "2004204": {
-      "nome": "Povoação",
-      "total": 5643.0
-    },
-    "2004205": {
-      "nome": "Ribeira Grande",
-      "total": 31694.0
-    },
-    "2004206": {
-      "nome": "Vila Franca do Campo",
-      "total": 10201.0
-    },
-    "2004301": {
-      "nome": "Angra do Heroísmo",
-      "total": 34782.0
-    },
-    "2004302": {
-      "nome": "Vila da Praia da Vitória",
-      "total": 19740.0
-    },
-    "2004401": {
-      "nome": "Santa Cruz da Graciosa",
-      "total": 4123.0
-    },
-    "2004501": {
-      "nome": "Calheta",
-      "total": 3451.0
-    },
-    "2004502": {
-      "nome": "Velas",
-      "total": 5010.0
-    },
-    "2004601": {
-      "nome": "Lajes do Pico",
-      "total": 4530.0
-    },
-    "2004602": {
-      "nome": "Madalena",
-      "total": 6613.0
-    },
-    "2004603": {
-      "nome": "São Roque do Pico",
-      "total": 3408.0
-    },
-    "2004701": {
-      "nome": "Horta",
-      "total": 14995.0
     },
     "2004801": {
       "nome": "Lajes das Flores",
       "total": 1399.0
     },
+    "1840204": {
+      "nome": "Barrancos",
+      "total": 1429.0
+    },
+    "2004802": {
+      "nome": "Santa Cruz das Flores",
+      "total": 2038.0
+    },
+    "1840203": {
+      "nome": "Alvito",
+      "total": 2287.0
+    },
+    "11D1812": {
+      "nome": "Penedono",
+      "total": 2472.0
+    },
     "1500802": {
       "nome": "Alcoutim",
       "total": 2478.0
+    },
+    "1870708": {
+      "nome": "Mourão",
+      "total": 2519.0
+    },
+    "3003106": {
+      "nome": "Porto Moniz",
+      "total": 2593.0
+    },
+    "16F1007": {
+      "nome": "Castanheira de Pêra",
+      "total": 2697.0
+    },
+    "1861202": {
+      "nome": "Arronches",
+      "total": 2788.0
+    },
+    "1861211": {
+      "nome": "Monforte",
+      "total": 2921.0
+    },
+    "1861210": {
+      "nome": "Marvão",
+      "total": 2945.0
+    },
+    "16J0908": {
+      "nome": "Manteigas",
+      "total": 2996.0
+    },
+    "1861208": {
+      "nome": "Fronteira",
+      "total": 3014.0
+    },
+    "1861205": {
+      "nome": "Castelo de Vide",
+      "total": 3029.0
+    },
+    "11D0404": {
+      "nome": "Freixo de Espada à Cinta",
+      "total": 3039.0
+    },
+    "1861201": {
+      "nome": "Alter do Chão",
+      "total": 3157.0
+    },
+    "16I0510": {
+      "nome": "Vila de Rei",
+      "total": 3227.0
+    },
+    "16H0511": {
+      "nome": "Vila Velha de Ródão",
+      "total": 3279.0
+    },
+    "1861206": {
+      "nome": "Crato",
+      "total": 3300.0
+    },
+    "1861209": {
+      "nome": "Gavião",
+      "total": 3303.0
+    },
+    "16E0612": {
+      "nome": "Pampilhosa da Serra",
+      "total": 3326.0
+    },
+    "2004603": {
+      "nome": "São Roque do Pico",
+      "total": 3408.0
+    },
+    "2004501": {
+      "nome": "Calheta",
+      "total": 3451.0
+    },
+    "11D1704": {
+      "nome": "Mesão Frio",
+      "total": 3456.0
+    },
+    "16I1417": {
+      "nome": "Sardoal",
+      "total": 3654.0
+    },
+    "16F1013": {
+      "nome": "Pedrógão Grande",
+      "total": 3708.0
+    },
+    "1861203": {
+      "nome": "Avis",
+      "total": 3747.0
     },
     "11E0411": {
       "nome": "Vimioso",
       "total": 3782.0
     },
-    "11E0412": {
-      "nome": "Vinhais",
-      "total": 7335.0
+    "16E0606": {
+      "nome": "Góis",
+      "total": 3824.0
+    },
+    "16I1408": {
+      "nome": "Constância",
+      "total": 3916.0
+    },
+    "1870707": {
+      "nome": "Mora",
+      "total": 4120.0
+    },
+    "2004401": {
+      "nome": "Santa Cruz da Graciosa",
+      "total": 4123.0
+    },
+    "16J0905": {
+      "nome": "Fornos de Algodres",
+      "total": 4162.0
+    },
+    "11E0401": {
+      "nome": "Alfândega da Fé",
+      "total": 4298.0
+    },
+    "16G1822": {
+      "nome": "Vila Nova de Paiva",
+      "total": 4305.0
+    },
+    "16H0507": {
+      "nome": "Penamacor",
+      "total": 4340.0
+    },
+    "2004202": {
+      "nome": "Nordeste",
+      "total": 4401.0
+    },
+    "16J0909": {
+      "nome": "Mêda",
+      "total": 4407.0
+    },
+    "16H0506": {
+      "nome": "Oleiros",
+      "total": 4468.0
+    },
+    "1861215": {
+      "nome": "Sousel",
+      "total": 4473.0
+    },
+    "2004601": {
+      "nome": "Lajes do Pico",
+      "total": 4530.0
+    },
+    "11D1819": {
+      "nome": "Tabuaço",
+      "total": 4570.0
+    },
+    "3003110": {
+      "nome": "São Vicente",
+      "total": 4755.0
+    },
+    "1840207": {
+      "nome": "Cuba",
+      "total": 4779.0
+    },
+    "11B1702": {
+      "nome": "Boticas",
+      "total": 4781.0
+    },
+    "16G0901": {
+      "nome": "Aguiar da Beira",
+      "total": 4813.0
+    },
+    "11D1818": {
+      "nome": "Sernancelhe",
+      "total": 4874.0
+    },
+    "16J0904": {
+      "nome": "Figueira de Castelo Rodrigo",
+      "total": 4968.0
+    },
+    "2004502": {
+      "nome": "Velas",
+      "total": 5010.0
+    },
+    "1840212": {
+      "nome": "Ourique",
+      "total": 5074.0
+    },
+    "1870701": {
+      "nome": "Alandroal",
+      "total": 5095.0
+    },
+    "11D1707": {
+      "nome": "Murça",
+      "total": 5201.0
+    },
+    "11D0403": {
+      "nome": "Carrazeda de Ansiães",
+      "total": 5304.0
+    },
+    "16F1008": {
+      "nome": "Figueiró dos Vinhos",
+      "total": 5386.0
+    },
+    "11D1801": {
+      "nome": "Armamar",
+      "total": 5460.0
+    },
+    "1870713": {
+      "nome": "Viana do Alentejo",
+      "total": 5500.0
+    },
+    "11D1710": {
+      "nome": "Sabrosa",
+      "total": 5528.0
+    },
+    "1840214": {
+      "nome": "Vidigueira",
+      "total": 5546.0
+    },
+    "2004101": {
+      "nome": "Vila do Porto",
+      "total": 5549.0
+    },
+    "1500809": {
+      "nome": "Monchique",
+      "total": 5566.0
+    },
+    "16E0614": {
+      "nome": "Penela",
+      "total": 5576.0
+    },
+    "1851412": {
+      "nome": "Golegã",
+      "total": 5584.0
+    },
+    "16J0902": {
+      "nome": "Almeida",
+      "total": 5639.0
+    },
+    "2004204": {
+      "nome": "Povoação",
+      "total": 5643.0
+    },
+    "1870709": {
+      "nome": "Portel",
+      "total": 5754.0
+    },
+    "11E0410": {
+      "nome": "Vila Flor",
+      "total": 5792.0
+    },
+    "11D0914": {
+      "nome": "Vila Nova de Foz Côa",
+      "total": 5837.0
+    },
+    "11B1709": {
+      "nome": "Ribeira de Pena",
+      "total": 5875.0
+    },
+    "1861212": {
+      "nome": "Nisa",
+      "total": 5924.0
+    },
+    "16J0501": {
+      "nome": "Belmonte",
+      "total": 6076.0
+    },
+    "1840209": {
+      "nome": "Mértola",
+      "total": 6088.0
+    },
+    "11D1711": {
+      "nome": "Santa Marta de Penaguião",
+      "total": 6142.0
+    },
+    "11E0406": {
+      "nome": "Miranda do Douro",
+      "total": 6158.0
+    },
+    "1191705": {
+      "nome": "Mondim de Basto",
+      "total": 6215.0
+    },
+    "16F1002": {
+      "nome": "Alvaiázere",
+      "total": 6218.0
+    },
+    "16I1413": {
+      "nome": "Mação",
+      "total": 6275.0
+    },
+    "3003201": {
+      "nome": "Porto Santo",
+      "total": 6345.0
+    },
+    "1120310": {
+      "nome": "Terras de Bouro",
+      "total": 6357.0
+    },
+    "1870710": {
+      "nome": "Redondo",
+      "total": 6448.0
+    },
+    "3003109": {
+      "nome": "Santana",
+      "total": 6498.0
+    },
+    "16J0903": {
+      "nome": "Celorico da Beira",
+      "total": 6552.0
+    },
+    "11D1815": {
+      "nome": "São João da Pesqueira",
+      "total": 6557.0
+    },
+    "11D0409": {
+      "nome": "Torre de Moncorvo",
+      "total": 6573.0
+    },
+    "1870703": {
+      "nome": "Borba",
+      "total": 6612.0
+    },
+    "2004602": {
+      "nome": "Madalena",
+      "total": 6613.0
+    },
+    "1870702": {
+      "nome": "Arraiolos",
+      "total": 6729.0
+    },
+    "1500815": {
+      "nome": "Vila do Bispo",
+      "total": 6826.0
+    },
+    "16H0508": {
+      "nome": "Proença-a-Nova",
+      "total": 6946.0
+    },
+    "1840202": {
+      "nome": "Almodôvar",
+      "total": 6979.0
+    },
+    "1840206": {
+      "nome": "Castro Verde",
+      "total": 7055.0
+    },
+    "16G1811": {
+      "nome": "Penalva do Castelo",
+      "total": 7130.0
+    },
+    "1111603": {
+      "nome": "Melgaço",
+      "total": 7197.0
+    },
+    "16E0617": {
+      "nome": "Vila Nova de Poiares",
+      "total": 7231.0
+    },
+    "11D1820": {
+      "nome": "Tarouca",
+      "total": 7234.0
     },
     "1500803": {
       "nome": "Aljezur",
@@ -1218,332 +678,872 @@
       "nome": "Castro Marim",
       "total": 7331.0
     },
-    "1500805": {
-      "nome": "Faro",
-      "total": 78780.0
+    "11E0412": {
+      "nome": "Vinhais",
+      "total": 7335.0
     },
-    "1500806": {
-      "nome": "Lagoa",
-      "total": 27917.0
+    "1870714": {
+      "nome": "Vila Viçosa",
+      "total": 7443.0
     },
-    "1500807": {
-      "nome": "Lagos",
-      "total": 40286.0
+    "16I1420": {
+      "nome": "Vila Nova da Barquinha",
+      "total": 7469.0
     },
-    "1500811": {
-      "nome": "Portimão",
-      "total": 75320.0
+    "1851404": {
+      "nome": "Alpiarça",
+      "total": 7541.0
     },
-    "1500808": {
-      "nome": "Loulé",
-      "total": 91363.0
+    "16I1411": {
+      "nome": "Ferreira do Zêzere",
+      "total": 7966.0
     },
-    "1500809": {
-      "nome": "Monchique",
-      "total": 5566.0
+    "16J0910": {
+      "nome": "Pinhel",
+      "total": 8009.0
     },
-    "1500810": {
-      "nome": "Olhão",
-      "total": 47881.0
+    "16J0913": {
+      "nome": "Trancoso",
+      "total": 8029.0
     },
-    "1500812": {
-      "nome": "São Brás de Alportel",
-      "total": 12168.0
+    "11E0408": {
+      "nome": "Mogadouro",
+      "total": 8132.0
     },
-    "1500813": {
-      "nome": "Silves",
-      "total": 44469.0
+    "1861204": {
+      "nome": "Campo Maior",
+      "total": 8255.0
     },
-    "1500814": {
-      "nome": "Tavira",
-      "total": 32825.0
+    "16H0505": {
+      "nome": "Idanha-a-Nova",
+      "total": 8536.0
     },
-    "1500815": {
-      "nome": "Vila do Bispo",
-      "total": 6826.0
+    "3003105": {
+      "nome": "Ponta do Sol",
+      "total": 8568.0
     },
-    "1500816": {
-      "nome": "Vila Real de Santo António",
-      "total": 22115.0
+    "1851407": {
+      "nome": "Chamusca",
+      "total": 8651.0
     },
-    "16B1001": {
-      "nome": "Alcobaça",
-      "total": 59157.0
+    "1111605": {
+      "nome": "Paredes de Coura",
+      "total": 8725.0
     },
-    "16B1005": {
-      "nome": "Bombarral",
-      "total": 13878.0
+    "11B1706": {
+      "nome": "Montalegre",
+      "total": 8746.0
     },
-    "16B1006": {
-      "nome": "Caldas da Rainha",
-      "total": 57277.0
-    },
-    "16B1011": {
-      "nome": "Nazaré",
-      "total": 16932.0
-    },
-    "16B1012": {
-      "nome": "Óbidos",
-      "total": 13456.0
-    },
-    "16B1014": {
-      "nome": "Peniche",
-      "total": 29746.0
-    },
-    "16D0101": {
-      "nome": "Águeda",
-      "total": 50154.0
-    },
-    "16B1101": {
-      "nome": "Alenquer",
-      "total": 49003.0
-    },
-    "16B1102": {
-      "nome": "Arruda dos Vinhos",
-      "total": 15714.0
-    },
-    "16B1104": {
-      "nome": "Cadaval",
-      "total": 13766.0
-    },
-    "16B1108": {
-      "nome": "Lourinhã",
-      "total": 29007.0
-    },
-    "16B1112": {
-      "nome": "Sobral de Monte Agraço",
-      "total": 11404.0
-    },
-    "16B1113": {
-      "nome": "Torres Vedras",
-      "total": 91589.0
-    },
-    "16E0610": {
-      "nome": "Montemor-o-Velho",
-      "total": 24901.0
-    },
-    "16E0611": {
-      "nome": "Oliveira do Hospital",
-      "total": 19845.0
-    },
-    "16E0612": {
-      "nome": "Pampilhosa da Serra",
-      "total": 3326.0
-    },
-    "16E0613": {
-      "nome": "Penacova",
-      "total": 13193.0
-    },
-    "16E0614": {
-      "nome": "Penela",
-      "total": 5576.0
+    "1840201": {
+      "nome": "Aljustrel",
+      "total": 9051.0
     },
     "16E1808": {
       "nome": "Mortágua",
       "total": 9182.0
     },
-    "16E0615": {
-      "nome": "Soure",
-      "total": 17459.0
-    },
-    "16E0616": {
-      "nome": "Tábua",
-      "total": 11533.0
-    },
-    "16E0617": {
-      "nome": "Vila Nova de Poiares",
-      "total": 7231.0
-    },
-    "16G1816": {
-      "nome": "São Pedro do Sul",
-      "total": 15583.0
-    },
-    "16G0901": {
-      "nome": "Aguiar da Beira",
-      "total": 4813.0
+    "1840208": {
+      "nome": "Ferreira do Alentejo",
+      "total": 9245.0
     },
     "16G1802": {
       "nome": "Carregal do Sal",
       "total": 9406.0
     },
-    "16G1803": {
-      "nome": "Castro Daire",
-      "total": 13359.0
+    "16J0911": {
+      "nome": "Sabugal",
+      "total": 9482.0
     },
-    "16G1806": {
-      "nome": "Mangualde",
-      "total": 19131.0
+    "16G1824": {
+      "nome": "Vouzela",
+      "total": 9581.0
     },
-    "16G1809": {
-      "nome": "Nelas",
-      "total": 13560.0
+    "11D1807": {
+      "nome": "Moimenta da Beira",
+      "total": 9639.0
     },
-    "16G1810": {
-      "nome": "Oliveira de Frades",
-      "total": 10283.0
+    "11C1813": {
+      "nome": "Resende",
+      "total": 9641.0
     },
-    "16G1811": {
-      "nome": "Penalva do Castelo",
-      "total": 7130.0
+    "1111610": {
+      "nome": "Vila Nova de Cerveira",
+      "total": 9960.0
     },
-    "16G1814": {
-      "nome": "Santa Comba Dão",
-      "total": 10951.0
+    "11D1701": {
+      "nome": "Alijó",
+      "total": 10161.0
     },
-    "16F1002": {
-      "nome": "Alvaiázere",
-      "total": 6218.0
-    },
-    "16F1003": {
-      "nome": "Ansião",
-      "total": 12064.0
-    },
-    "16F1004": {
-      "nome": "Batalha",
-      "total": 16770.0
-    },
-    "16F1007": {
-      "nome": "Castanheira de Pêra",
-      "total": 2697.0
-    },
-    "16F1008": {
-      "nome": "Figueiró dos Vinhos",
-      "total": 5386.0
-    },
-    "16F1015": {
-      "nome": "Pombal",
-      "total": 53972.0
-    },
-    "16F1016": {
-      "nome": "Porto de Mós",
-      "total": 24606.0
-    },
-    "16F1009": {
-      "nome": "Leiria",
-      "total": 142208.0
-    },
-    "16F1010": {
-      "nome": "Marinha Grande",
-      "total": 44616.0
-    },
-    "16F1013": {
-      "nome": "Pedrógão Grande",
-      "total": 3708.0
-    },
-    "16D0102": {
-      "nome": "Albergaria-a-Velha",
-      "total": 26118.0
-    },
-    "16D0115": {
-      "nome": "Ovar",
-      "total": 57192.0
-    },
-    "16D0117": {
-      "nome": "Sever do Vouga",
-      "total": 11476.0
-    },
-    "16D0103": {
-      "nome": "Anadia",
-      "total": 28831.0
-    },
-    "16D0105": {
-      "nome": "Aveiro",
-      "total": 89592.0
-    },
-    "16D0108": {
-      "nome": "Estarreja",
-      "total": 27431.0
-    },
-    "16D0110": {
-      "nome": "Ílhavo",
-      "total": 42249.0
+    "2004206": {
+      "nome": "Vila Franca do Campo",
+      "total": 10201.0
     },
     "16D0112": {
       "nome": "Murtosa",
       "total": 10274.0
     },
-    "16D0118": {
-      "nome": "Vagos",
-      "total": 24622.0
+    "16G1810": {
+      "nome": "Oliveira de Frades",
+      "total": 10283.0
     },
-    "16E0602": {
-      "nome": "Cantanhede",
-      "total": 35222.0
+    "1870711": {
+      "nome": "Reguengos de Monsaraz",
+      "total": 10536.0
     },
-    "16D0114": {
-      "nome": "Oliveira do Bairro",
-      "total": 25227.0
+    "16G1814": {
+      "nome": "Santa Comba Dão",
+      "total": 10951.0
     },
-    "16E0601": {
-      "nome": "Arganil",
-      "total": 11338.0
-    },
-    "16E0603": {
-      "nome": "Coimbra",
-      "total": 154224.0
-    },
-    "16E0111": {
-      "nome": "Mealhada",
-      "total": 19758.0
-    },
-    "16E0604": {
-      "nome": "Condeixa-a-Nova",
-      "total": 17369.0
-    },
-    "16E0605": {
-      "nome": "Figueira da Foz",
-      "total": 64468.0
-    },
-    "16E0606": {
-      "nome": "Góis",
-      "total": 3824.0
-    },
-    "16E0607": {
-      "nome": "Lousã",
-      "total": 17800.0
-    },
-    "16E0608": {
-      "nome": "Mira",
-      "total": 12576.0
-    },
-    "16E0609": {
-      "nome": "Miranda do Corvo",
-      "total": 12188.0
+    "1111606": {
+      "nome": "Ponte da Barca",
+      "total": 11121.0
     },
     "16G1817": {
       "nome": "Sátão",
       "total": 11131.0
     },
+    "3003101": {
+      "nome": "Calheta",
+      "total": 11268.0
+    },
+    "16E0601": {
+      "nome": "Arganil",
+      "total": 11338.0
+    },
+    "16B1112": {
+      "nome": "Sobral de Monte Agraço",
+      "total": 11404.0
+    },
+    "16D0117": {
+      "nome": "Sever do Vouga",
+      "total": 11476.0
+    },
+    "16E0616": {
+      "nome": "Tábua",
+      "total": 11533.0
+    },
+    "11B1713": {
+      "nome": "Vila Pouca de Aguiar",
+      "total": 11641.0
+    },
+    "1190311": {
+      "nome": "Vieira do Minho",
+      "total": 11683.0
+    },
+    "16J0906": {
+      "nome": "Gouveia",
+      "total": 11905.0
+    },
+    "1811501": {
+      "nome": "Alcácer do Sal",
+      "total": 11920.0
+    },
+    "16F1003": {
+      "nome": "Ansião",
+      "total": 12064.0
+    },
+    "1500812": {
+      "nome": "São Brás de Alportel",
+      "total": 12168.0
+    },
+    "16E0609": {
+      "nome": "Miranda do Corvo",
+      "total": 12188.0
+    },
+    "1870712": {
+      "nome": "Vendas Novas",
+      "total": 12571.0
+    },
+    "16E0608": {
+      "nome": "Mira",
+      "total": 12576.0
+    },
+    "3003107": {
+      "nome": "Ribeira Brava",
+      "total": 12812.0
+    },
+    "1870704": {
+      "nome": "Estremoz",
+      "total": 12883.0
+    },
+    "16I1402": {
+      "nome": "Alcanena",
+      "total": 13189.0
+    },
+    "16E0613": {
+      "nome": "Penacova",
+      "total": 13193.0
+    },
+    "16G1803": {
+      "nome": "Castro Daire",
+      "total": 13359.0
+    },
+    "16B1012": {
+      "nome": "Óbidos",
+      "total": 13456.0
+    },
+    "1840210": {
+      "nome": "Moura",
+      "total": 13559.0
+    },
+    "16G1809": {
+      "nome": "Nelas",
+      "total": 13560.0
+    },
+    "16B1104": {
+      "nome": "Cadaval",
+      "total": 13766.0
+    },
+    "11E0405": {
+      "nome": "Macedo de Cavaleiros",
+      "total": 13855.0
+    },
+    "16B1005": {
+      "nome": "Bombarral",
+      "total": 13878.0
+    },
+    "11B1712": {
+      "nome": "Valpaços",
+      "total": 14288.0
+    },
+    "2004201": {
+      "nome": "Lagoa",
+      "total": 14369.0
+    },
+    "11D1708": {
+      "nome": "Peso da Régua",
+      "total": 14639.0
+    },
+    "1840213": {
+      "nome": "Serpa",
+      "total": 14776.0
+    },
+    "16I0509": {
+      "nome": "Sertã",
+      "total": 14818.0
+    },
+    "1811505": {
+      "nome": "Grândola",
+      "total": 14903.0
+    },
+    "2004701": {
+      "nome": "Horta",
+      "total": 14995.0
+    },
+    "1111608": {
+      "nome": "Valença",
+      "total": 15351.0
+    },
+    "1190304": {
+      "nome": "Cabeceiras de Basto",
+      "total": 15383.0
+    },
+    "16G1816": {
+      "nome": "São Pedro do Sul",
+      "total": 15583.0
+    },
+    "1861213": {
+      "nome": "Ponte de Sor",
+      "total": 15711.0
+    },
+    "16B1102": {
+      "nome": "Arruda dos Vinhos",
+      "total": 15714.0
+    },
+    "11C0106": {
+      "nome": "Castelo de Paiva",
+      "total": 15743.0
+    },
+    "11C0305": {
+      "nome": "Celorico de Basto",
+      "total": 16254.0
+    },
+    "1870706": {
+      "nome": "Montemor-o-Novo",
+      "total": 16430.0
+    },
+    "1811513": {
+      "nome": "Sines",
+      "total": 16678.0
+    },
+    "16F1004": {
+      "nome": "Batalha",
+      "total": 16770.0
+    },
+    "16B1011": {
+      "nome": "Nazaré",
+      "total": 16932.0
+    },
+    "1111602": {
+      "nome": "Caminha",
+      "total": 16967.0
+    },
+    "11C1302": {
+      "nome": "Baião",
+      "total": 17020.0
+    },
+    "16E0604": {
+      "nome": "Condeixa-a-Nova",
+      "total": 17369.0
+    },
+    "16E0615": {
+      "nome": "Soure",
+      "total": 17459.0
+    },
+    "11C1804": {
+      "nome": "Cinfães",
+      "total": 17626.0
+    },
+    "1851409": {
+      "nome": "Coruche",
+      "total": 17773.0
+    },
+    "16E0607": {
+      "nome": "Lousã",
+      "total": 17800.0
+    },
+    "1111604": {
+      "nome": "Monção",
+      "total": 18267.0
+    },
+    "16G1806": {
+      "nome": "Mangualde",
+      "total": 19131.0
+    },
+    "1120301": {
+      "nome": "Amares",
+      "total": 19367.0
+    },
+    "2004302": {
+      "nome": "Vila da Praia da Vitória",
+      "total": 19740.0
+    },
+    "16E0111": {
+      "nome": "Mealhada",
+      "total": 19758.0
+    },
+    "16E0611": {
+      "nome": "Oliveira do Hospital",
+      "total": 19845.0
+    },
+    "3003104": {
+      "nome": "Machico",
+      "total": 20034.0
+    },
+    "1701502": {
+      "nome": "Alcochete",
+      "total": 20067.0
+    },
+    "1111601": {
+      "nome": "Arcos de Valdevez",
+      "total": 20416.0
+    },
+    "11A0104": {
+      "nome": "Arouca",
+      "total": 21360.0
+    },
+    "11E0407": {
+      "nome": "Mirandela",
+      "total": 21724.0
+    },
+    "16J0912": {
+      "nome": "Seia",
+      "total": 21745.0
+    },
+    "1861207": {
+      "nome": "Elvas",
+      "total": 21828.0
+    },
+    "1190309": {
+      "nome": "Póvoa de Lanhoso",
+      "total": 21895.0
+    },
+    "11A0119": {
+      "nome": "Vale de Cambra",
+      "total": 22008.0
+    },
+    "1500816": {
+      "nome": "Vila Real de Santo António",
+      "total": 22115.0
+    },
+    "1851103": {
+      "nome": "Azambuja",
+      "total": 22284.0
+    },
+    "16I1410": {
+      "nome": "Entroncamento",
+      "total": 22883.0
+    },
+    "1851415": {
+      "nome": "Salvaterra de Magos",
+      "total": 23079.0
+    },
+    "1851403": {
+      "nome": "Almeirim",
+      "total": 23783.0
+    },
+    "1861214": {
+      "nome": "Portalegre",
+      "total": 23870.0
+    },
+    "11A0116": {
+      "nome": "São João da Madeira",
+      "total": 23995.0
+    },
+    "1851414": {
+      "nome": "Rio Maior",
+      "total": 24464.0
+    },
+    "11D1805": {
+      "nome": "Lamego",
+      "total": 24513.0
+    },
+    "16F1016": {
+      "nome": "Porto de Mós",
+      "total": 24606.0
+    },
+    "16D0118": {
+      "nome": "Vagos",
+      "total": 24622.0
+    },
+    "16E0610": {
+      "nome": "Montemor-o-Velho",
+      "total": 24901.0
+    },
+    "1851406": {
+      "nome": "Cartaxo",
+      "total": 24901.0
+    },
+    "1190314": {
+      "nome": "Vizela",
+      "total": 25102.0
+    },
+    "16D0114": {
+      "nome": "Oliveira do Bairro",
+      "total": 25227.0
+    },
+    "16D0102": {
+      "nome": "Albergaria-a-Velha",
+      "total": 26118.0
+    },
     "16G1821": {
       "nome": "Tondela",
       "total": 26447.0
+    },
+    "16J0504": {
+      "nome": "Fundão",
+      "total": 27377.0
+    },
+    "16D0108": {
+      "nome": "Estarreja",
+      "total": 27431.0
+    },
+    "1500806": {
+      "nome": "Lagoa",
+      "total": 27917.0
+    },
+    "16D0103": {
+      "nome": "Anadia",
+      "total": 28831.0
+    },
+    "16B1108": {
+      "nome": "Lourinhã",
+      "total": 29007.0
+    },
+    "1811509": {
+      "nome": "Santiago do Cacém",
+      "total": 29697.0
+    },
+    "16B1014": {
+      "nome": "Peniche",
+      "total": 29746.0
+    },
+    "2004205": {
+      "nome": "Ribeira Grande",
+      "total": 31694.0
+    },
+    "3003102": {
+      "nome": "Câmara de Lobos",
+      "total": 32018.0
+    },
+    "11A0107": {
+      "nome": "Espinho",
+      "total": 32210.0
+    },
+    "1851405": {
+      "nome": "Benavente",
+      "total": 32678.0
+    },
+    "1500814": {
+      "nome": "Tavira",
+      "total": 32825.0
+    },
+    "2004301": {
+      "nome": "Angra do Heroísmo",
+      "total": 34782.0
+    },
+    "16E0602": {
+      "nome": "Cantanhede",
+      "total": 35222.0
+    },
+    "16I1419": {
+      "nome": "Torres Novas",
+      "total": 35445.0
+    },
+    "16I1401": {
+      "nome": "Abrantes",
+      "total": 35484.0
+    },
+    "16I1418": {
+      "nome": "Tomar",
+      "total": 37446.0
+    },
+    "11B1703": {
+      "nome": "Chaves",
+      "total": 37508.0
+    },
+    "11E0402": {
+      "nome": "Bragança",
+      "total": 37688.0
+    },
+    "1120306": {
+      "nome": "Esposende",
+      "total": 37866.0
+    },
+    "1840205": {
+      "nome": "Beja",
+      "total": 38661.0
+    },
+    "1500807": {
+      "nome": "Lagos",
+      "total": 40286.0
+    },
+    "16J0907": {
+      "nome": "Guarda",
+      "total": 40570.0
+    },
+    "11A1318": {
+      "nome": "Trofa",
+      "total": 40759.0
+    },
+    "1111607": {
+      "nome": "Ponte de Lima",
+      "total": 42084.0
+    },
+    "16D0110": {
+      "nome": "Ílhavo",
+      "total": 42249.0
+    },
+    "3003108": {
+      "nome": "Santa Cruz",
+      "total": 43330.0
+    },
+    "1500813": {
+      "nome": "Silves",
+      "total": 44469.0
+    },
+    "16F1010": {
+      "nome": "Marinha Grande",
+      "total": 44616.0
+    },
+    "1810211": {
+      "nome": "Odemira",
+      "total": 44712.0
+    },
+    "16I1421": {
+      "nome": "Ourém",
+      "total": 47159.0
+    },
+    "1500810": {
+      "nome": "Olhão",
+      "total": 47881.0
+    },
+    "1120313": {
+      "nome": "Vila Verde",
+      "total": 48114.0
+    },
+    "16B1101": {
+      "nome": "Alenquer",
+      "total": 49003.0
+    },
+    "11C1305": {
+      "nome": "Lousada",
+      "total": 49127.0
+    },
+    "1190307": {
+      "nome": "Fafe",
+      "total": 49598.0
+    },
+    "11C1307": {
+      "nome": "Marco de Canaveses",
+      "total": 50141.0
+    },
+    "16D0101": {
+      "nome": "Águeda",
+      "total": 50154.0
+    },
+    "16J0503": {
+      "nome": "Covilhã",
+      "total": 50165.0
+    },
+    "11D1714": {
+      "nome": "Vila Real",
+      "total": 52139.0
+    },
+    "11C1301": {
+      "nome": "Amarante",
+      "total": 52394.0
+    },
+    "16F1015": {
+      "nome": "Pombal",
+      "total": 53972.0
+    },
+    "11C1309": {
+      "nome": "Paços de Ferreira",
+      "total": 56443.0
+    },
+    "11C1303": {
+      "nome": "Felgueiras",
+      "total": 57046.0
+    },
+    "16H0502": {
+      "nome": "Castelo Branco",
+      "total": 57148.0
+    },
+    "16D0115": {
+      "nome": "Ovar",
+      "total": 57192.0
+    },
+    "16B1006": {
+      "nome": "Caldas da Rainha",
+      "total": 57277.0
+    },
+    "1870705": {
+      "nome": "Évora",
+      "total": 58070.0
+    },
+    "1701511": {
+      "nome": "Sesimbra",
+      "total": 58124.0
+    },
+    "16B1001": {
+      "nome": "Alcobaça",
+      "total": 59157.0
+    },
+    "1500801": {
+      "nome": "Albufeira",
+      "total": 61294.0
+    },
+    "1701507": {
+      "nome": "Montijo",
+      "total": 64411.0
+    },
+    "16E0605": {
+      "nome": "Figueira da Foz",
+      "total": 64468.0
+    },
+    "1851416": {
+      "nome": "Santarém",
+      "total": 66711.0
+    },
+    "11A0113": {
+      "nome": "Oliveira de Azeméis",
+      "total": 69109.0
+    },
+    "11A1314": {
+      "nome": "Santo Tirso",
+      "total": 69184.0
+    },
+    "11A1313": {
+      "nome": "Póvoa de Varzim",
+      "total": 70149.0
+    },
+    "11C1311": {
+      "nome": "Penafiel",
+      "total": 70849.0
+    },
+    "2004203": {
+      "nome": "Ponta Delgada",
+      "total": 70946.0
+    },
+    "1701508": {
+      "nome": "Palmela",
+      "total": 73249.0
+    },
+    "1701506": {
+      "nome": "Moita",
+      "total": 74300.0
+    },
+    "1500811": {
+      "nome": "Portimão",
+      "total": 75320.0
+    },
+    "1500805": {
+      "nome": "Faro",
+      "total": 78780.0
+    },
+    "11A1316": {
+      "nome": "Vila do Conde",
+      "total": 84710.0
+    },
+    "11A1310": {
+      "nome": "Paredes",
+      "total": 86924.0
+    },
+    "1701504": {
+      "nome": "Barreiro",
+      "total": 87938.0
+    },
+    "16D0105": {
+      "nome": "Aveiro",
+      "total": 89592.0
+    },
+    "1111609": {
+      "nome": "Viana do Castelo",
+      "total": 91336.0
+    },
+    "1500808": {
+      "nome": "Loulé",
+      "total": 91363.0
+    },
+    "16B1113": {
+      "nome": "Torres Vedras",
+      "total": 91589.0
+    },
+    "1701109": {
+      "nome": "Mafra",
+      "total": 93994.0
+    },
+    "11A1315": {
+      "nome": "Valongo",
+      "total": 98264.0
+    },
+    "16G1823": {
+      "nome": "Viseu",
+      "total": 106199.0
+    },
+    "3003103": {
+      "nome": "Funchal",
+      "total": 112290.0
+    },
+    "1120302": {
+      "nome": "Barcelos",
+      "total": 120085.0
+    },
+    "1701512": {
+      "nome": "Setúbal",
+      "total": 137653.0
+    },
+    "11A1306": {
+      "nome": "Maia",
+      "total": 140501.0
+    },
+    "1190312": {
+      "nome": "Vila Nova de Famalicão",
+      "total": 140750.0
+    },
+    "11A0109": {
+      "nome": "Santa Maria da Feira",
+      "total": 141386.0
+    },
+    "16F1009": {
+      "nome": "Leiria",
+      "total": 142208.0
+    },
+    "1701114": {
+      "nome": "Vila Franca de Xira",
+      "total": 148155.0
+    },
+    "16E0603": {
+      "nome": "Coimbra",
+      "total": 154224.0
+    },
+    "1190308": {
+      "nome": "Guimarães",
+      "total": 163814.0
+    },
+    "11A1304": {
+      "nome": "Gondomar",
+      "total": 169122.0
+    },
+    "1701116": {
+      "nome": "Odivelas",
+      "total": 180033.0
+    },
+    "11A1308": {
+      "nome": "Matosinhos",
+      "total": 180417.0
+    },
+    "1701110": {
+      "nome": "Oeiras",
+      "total": 185767.0
+    },
+    "1701510": {
+      "nome": "Seixal",
+      "total": 188623.0
+    },
+    "1701115": {
+      "nome": "Amadora",
+      "total": 196563.0
+    },
+    "1701503": {
+      "nome": "Almada",
+      "total": 197221.0
+    },
+    "1120303": {
+      "nome": "Braga",
+      "total": 209088.0
+    },
+    "1701107": {
+      "nome": "Loures",
+      "total": 227301.0
+    },
+    "1701105": {
+      "nome": "Cascais",
+      "total": 241537.0
+    },
+    "11A1312": {
+      "nome": "Porto",
+      "total": 267236.0
+    },
+    "11A1317": {
+      "nome": "Vila Nova de Gaia",
+      "total": 318087.0
+    },
+    "1701111": {
+      "nome": "Sintra",
+      "total": 432915.0
+    },
+    "1701106": {
+      "nome": "Lisboa",
+      "total": 655542.0
     }
   },
   "ine_agregados": {
     "por_territorio": {
+      "Região Autónoma dos Açores": 243308.0,
       "Região Autónoma da Madeira": 260511.0,
-      "Continente": 10700528.0,
-      "Região Autónoma dos Açores": 243308.0
+      "Continente": 10700528.0
     },
     "por_idade": {
-      "30 - 34 anos": 699565.0,
-      "35 - 39 anos": 713141.0,
-      "40 - 44 anos": 787703.0,
-      "45 - 49 anos": 854959.0,
-      "50 - 54 anos": 794694.0,
-      "65 - 69 anos": 674458.0,
-      "70 - 74 anos": 616856.0,
-      "75 - 79 anos": 517855.0,
-      "80 - 84 anos": 366819.0,
       "85 e mais anos": 394066.0,
-      "5 - 9 anos": 487167.0,
+      "80 - 84 anos": 366819.0,
+      "75 - 79 anos": 517855.0,
       "0 - 4 anos": 429894.0,
-      "55 - 59 anos": 756055.0,
-      "60 - 64 anos": 721569.0,
-      "25 - 29 anos": 683542.0,
+      "5 - 9 anos": 487167.0,
+      "70 - 74 anos": 616856.0,
       "10 - 14 anos": 514994.0,
       "15 - 19 anos": 554978.0,
-      "20 - 24 anos": 636032.0
+      "65 - 69 anos": 674458.0,
+      "30 - 34 anos": 699565.0,
+      "20 - 24 anos": 636032.0,
+      "25 - 29 anos": 683542.0,
+      "35 - 39 anos": 713141.0,
+      "60 - 64 anos": 721569.0,
+      "55 - 59 anos": 756055.0,
+      "50 - 54 anos": 794694.0,
+      "40 - 44 anos": 787703.0,
+      "45 - 49 anos": 854959.0
     }
   },
   "nota": "Denominador = utentes inscritos nos cuidados de saúde primários da ULS, que é a população pela qual a unidade é responsável. Centros de referência (IPO) e a PPP de Cascais não têm lista própria e ficam sem taxas per capita."

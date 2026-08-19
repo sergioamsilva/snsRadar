@@ -1,0 +1,70 @@
+---
+/**
+ * A página que ninguém quer ver, mas que o GitHub Pages serve por nós: o
+ * `404.html` do topo do sítio apanha qualquer endereço que não exista. Sem
+ * ela, quem seguisse uma ligação antiga — e as fichas já mudaram de endereço
+ * com a reforma de 2024 — recebia o 404 genérico do GitHub, sem caminho de
+ * volta.
+ */
+import Base from "../layouts/Base.astro";
+import { indice, ligacao } from "../lib/dados";
+
+const n = indice().length;
+---
+
+<Base
+  titulo="Página não encontrada"
+  descricao="Este endereço não existe no snsRadar."
+>
+  <div class="pagina">
+    <header class="topo">
+      <p class="sobretitulo">Erro 404</p>
+      <h1>Esta página não existe</h1>
+      <p class="topo__intro medida">
+        O endereço pode ter mudado — várias unidades de saúde foram fundidas em
+        Unidades Locais de Saúde na reforma de 2024, e as fichas seguiram-nas.
+        O caminho mais curto é a lista completa.
+      </p>
+    </header>
+    <nav class="saidas" aria-label="Para onde ir">
+      <ul>
+        <li>
+          <a href={ligacao("/instituicoes/")}>As {n} instituições do SNS</a> —
+          com procura por nome, distrito ou região
+        </li>
+        <li><a href={ligacao("/")}>O painel de indicadores</a></li>
+        <li><a href={ligacao("/perguntas/")}>Perguntas de quem usa o SNS</a></li>
+        <li><a href={ligacao("/metodologia/")}>Metodologia</a></li>
+      </ul>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  /* A goteira horizontal já vem do `.wrap` do layout. */
+  .pagina {
+    padding: 40px 0 24px;
+  }
+  .sobretitulo {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+  }
+  .topo h1 {
+    margin: 4px 0 12px;
+  }
+  .topo__intro {
+    font-size: var(--t-md);
+  }
+  .saidas ul {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .saidas li {
+    border-left: 2px solid var(--grid);
+    padding-left: 12px;
+    color: var(--ink-2);
+  }
+</style>

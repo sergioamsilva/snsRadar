@@ -1,0 +1,6 @@
+# O pipeline usa três dependências fora da stdlib, de propósito: quem clona o
+# repositório tem de conseguir verificar os números sem instalar meio mundo.
+# Ver README («Reconstruir do zero») — o .gitignore já assumia este ficheiro.
+duckdb
+pyyaml
+requests

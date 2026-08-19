@@ -1,0 +1,122 @@
+---
+/**
+ * A posição entre pares, ao longo do tempo.
+ *
+ * A série de valores responde a «como está?»; esta responde a «está a melhorar
+ * face aos outros, ou só a acompanhar a maré?». Uma unidade cujo prazo de
+ * pagamento sobe pode estar a subir menos do que todas as outras — a série
+ * mostra a subida, o percentil mostra a ultrapassagem.
+ *
+ * O eixo é fixo, 0 a 100: 100 significa «melhor do que todas as outras nesse
+ * mês», já com a polaridade do indicador aplicada. A mediana (50) é o traço a
+ * meio. O universo — grupo da ACSS ou o país inteiro — está escrito por baixo,
+ * porque um percentil sem universo não afirma nada.
+ */
+import { formatarMes, type PontoPercentil } from "../lib/dados";
+
+interface Props {
+  pontos: PontoPercentil[];
+  /** «entre as 17 unidades do Grupo C», já composto por quem calcula. */
+  universo: string;
+  titulo: string;
+}
+const { pontos, universo, titulo } = Astro.props;
+
+const L = 100;
+const A = 40;
+const margem = { esq: 1, dir: 2.5, topo: 4, base: 6 };
+
+let g: {
+  linha: string;
+  y50: number;
+  ultimo: PontoPercentil;
+  primeiroMes: string;
+  ultimoMes: string;
+  ultimoX: number;
+  ultimoY: number;
+} | null = null;
+
+if (pontos.length >= 12) {
+  const x = (i: number) =>
+    margem.esq + (i / (pontos.length - 1)) * (L - margem.esq - margem.dir);
+  const y = (pct: number) =>
+    margem.topo + (1 - pct / 100) * (A - margem.topo - margem.base);
+  const f2 = (n: number) => n.toFixed(2);
+  g = {
+    linha: pontos.map((p, i) => `${i ? "L" : "M"}${f2(x(i))},${f2(y(p.pct))}`).join(" "),
+    y50: y(50),
+    ultimo: pontos[pontos.length - 1],
+    primeiroMes: pontos[0].mes,
+    ultimoMes: pontos[pontos.length - 1].mes,
+    ultimoX: x(pontos.length - 1),
+    ultimoY: y(pontos[pontos.length - 1].pct),
+  };
+}
+
+const resumo = g
+  ? `${titulo}: posição ${universo}, de ${formatarMes(g.primeiroMes)} a ` +
+    `${formatarMes(g.ultimoMes)}, num eixo de 0 a 100 em que 100 é melhor do ` +
+    `que todas. No último mês, melhor do que ${Math.round(g.ultimo.pct)} % das outras.`
+  : "";
+---
+
+{
+  g && (
+    <figure class="pctl">
+      <figcaption class="pctl__rot">
+        A posição entre pares — melhorar aqui é ultrapassar, não só melhorar
+      </figcaption>
+      <div class="pctl__caixa">
+        <svg viewBox={`0 0 ${L} ${A}`} preserveAspectRatio="none" role="img" aria-label={resumo}>
+          <line x1="0" x2={L} y1={g.y50} y2={g.y50} class="pctl__meio"
+            vector-effect="non-scaling-stroke" />
+          <path d={g.linha} class="pctl__linha" fill="none" vector-effect="non-scaling-stroke" />
+          <line x1={g.ultimoX} x2={g.ultimoX} y1={g.ultimoY} y2={g.ultimoY}
+            class="pctl__ponta" vector-effect="non-scaling-stroke" />
+        </svg>
+        <span class="pctl__eixo pctl__eixo--cima" aria-hidden="true">melhor que todas</span>
+        <span class="pctl__eixo pctl__eixo--baixo" aria-hidden="true">pior que todas</span>
+      </div>
+      <p class="pctl__legenda num">
+        <span>{formatarMes(g.primeiroMes)}</span>
+        <span class="pctl__chave">— · — mediana dos pares</span>
+        <span>{formatarMes(g.ultimoMes)}</span>
+      </p>
+      <p class="pctl__leitura">
+        Em {formatarMes(g.ultimoMes)}, melhor do que{" "}
+        <strong class="num">{Math.round(g.ultimo.pct)} %</strong> das outras
+        unidades, {universo}. A polaridade do indicador já está aplicada.
+      </p>
+    </figure>
+  )
+}
+
+<style>
+  .pctl { margin: 18px 0 0; }
+  .pctl__rot {
+    font-size: var(--t-3xs); font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .pctl__caixa { position: relative; }
+  .pctl svg { display: block; width: 100%; height: 86px; overflow: visible; }
+  .pctl__linha {
+    stroke: var(--cat2, var(--accent)); stroke-width: 1.5;
+    stroke-linejoin: round; stroke-linecap: round;
+  }
+  .pctl__meio { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 3; opacity: 0.7; }
+  .pctl__ponta { stroke: var(--cat2, var(--accent)); stroke-width: 6; stroke-linecap: round; }
+  /* Rótulos em HTML sobre o SVG: dentro dele herdavam a distorção do
+     preserveAspectRatio, como na Europa. */
+  .pctl__eixo {
+    position: absolute; right: 0; font-size: var(--t-3xs); color: var(--muted);
+    line-height: 1;
+  }
+  .pctl__eixo--cima { top: -2px; }
+  .pctl__eixo--baixo { bottom: 0; }
+  .pctl__legenda {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted);
+  }
+  .pctl__leitura { margin: 6px 0 0; font-size: var(--t-2xs); color: var(--ink-2); }
+  .pctl__leitura strong { font-weight: 700; }
+</style>

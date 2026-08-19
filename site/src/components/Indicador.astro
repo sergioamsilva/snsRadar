@@ -11,6 +11,8 @@
 import Serie from "./Serie.astro";
 import Funil from "./Funil.astro";
 import Ranking from "./Ranking.astro";
+import Calendario from "./Calendario.astro";
+import Percentil from "./Percentil.astro";
 import {
   comparar,
   descreverPeriodo,
@@ -20,6 +22,7 @@ import {
   type Barra,
   type Indicador as TIndicador,
   type PontoFunil,
+  type PontoPercentil,
 } from "../lib/dados";
 
 interface Props {
@@ -48,10 +51,15 @@ interface Props {
   fator?: number | null;
   /** Grupo da unidade, para o funil comparar dentro do cluster. */
   grupo?: string | null;
+  /** Desenha também a série em calendário (anos × meses) — para a sazonalidade. */
+  calendario?: boolean;
+  /** Posição mensal entre pares, já orientada pela polaridade. */
+  percentil?: { pontos: PontoPercentil[]; universo: string } | null;
 }
 const { id, dados, mediana, descontinuidade, porMil = null, medianaPorMil = null,
   faixa = [], medianaGrupo = null, id_instituicao = "", funil = null,
-  ranking = null, fator = null, grupo = null } = Astro.props;
+  ranking = null, fator = null, grupo = null, calendario = false,
+  percentil = null } = Astro.props;
 
 /* A forma do desenho segue a natureza do dado, não a conveniência: uma taxa
    compara-se com o país, uma contagem é um volume discreto, e um saldo
@@ -142,7 +150,18 @@ const dataFonte = dados.fonte.atualizado
   data-entrada
 >
   <header class="ind__topo">
-    <h3 class="ind__titulo">{dados.titulo}</h3>
+    <h3 class="ind__titulo">
+      {dados.titulo}
+      {/* Ligação permanente ao cartão. Os `id` sempre existiram — o Veredito
+          liga-lhes — mas quem queria citar um indicador não tinha onde pegar.
+          Sem JavaScript é uma âncora normal; com ele, copia o endereço. */}
+      <a
+        class="ind__ancora"
+        href={`#${id}`}
+        data-ancora
+        aria-label={`Ligação direta: ${dados.titulo}`}
+      >#<span class="ind__ancora-eco" aria-live="polite"></span></a>
+    </h3>
     <p class="ind__periodo num">
       {dados.valor === null && lacuna
         ? `sem apuramento desde ${formatarMes(lacuna.de)}`
@@ -184,8 +203,11 @@ const dataFonte = dados.fonte.atualizado
       grupoAcrescenta && medianaGrupo !== null && (
         <p class={`ind__cmp ind__cmp--${cmpGrupo!.estado} ind__cmp--grupo`}>
           <span class="ind__sinal" aria-hidden="true">{cmpGrupo!.seta}</span>
-          {cmpGrupo!.texto.replace("da mediana nacional", "")}
-          {`da mediana do ${medianaGrupo.grupo}`}
+          {/* O «em linha» não contém «da mediana nacional», e a substituição
+              cega colava «…nacionalda mediana do Grupo E». */}
+          {cmpGrupo!.estado === "semelhante"
+            ? `em linha com a mediana do ${medianaGrupo.grupo}`
+            : `${cmpGrupo!.texto.replace(" da mediana nacional", "")} da mediana do ${medianaGrupo.grupo}`}
           <span class="ind__cmp-nota">
             {` (${medianaGrupo.n_instituicoes} unidades semelhantes: ${formatar(medianaGrupo.mediana, dados.unidade)})`}
           </span>
@@ -281,6 +303,14 @@ const dataFonte = dados.fonte.atualizado
     janelaDe={janelaDe}
   />
 
+  {calendario && (
+    <Calendario serie={dados.serie} unidade={dados.unidade} titulo={dados.titulo} />
+  )}
+
+  {percentil && (
+    <Percentil pontos={percentil.pontos} universo={percentil.universo} titulo={dados.titulo} />
+  )}
+
   {/* Formas que a série mensal não substitui. O funil responde a «este valor
       distingue-se do acaso?», que é a única pergunta legítima num indicador de
       acontecimentos raros; o ordenamento responde a «quantas destas se fazem
@@ -345,6 +375,28 @@ const dataFonte = dados.fonte.atualizado
   </p>
 </article>
 
+<script>
+  /* Copiar o endereço do cartão. Delegado no documento porque este componente
+     aparece dezenas de vezes por página; o Astro só emite o módulo uma vez. */
+  document.addEventListener("click", async (ev) => {
+    const a = (ev.target as HTMLElement).closest<HTMLAnchorElement>("[data-ancora]");
+    if (!a || !navigator.clipboard) return;
+    ev.preventDefault();
+    const alvo = new URL(a.getAttribute("href")!, location.href);
+    history.replaceState(null, "", alvo.hash);
+    try {
+      await navigator.clipboard.writeText(alvo.href);
+      const eco = a.querySelector(".ind__ancora-eco");
+      if (eco) {
+        eco.textContent = "copiado";
+        setTimeout(() => { eco.textContent = ""; }, 1600);
+      }
+    } catch {
+      /* Sem permissão de clipboard, a âncora já ficou no endereço. */
+    }
+  });
+</script>
+
 {/* A ponta da série vive dentro do componente Serie, com escopo próprio. Esta
     regra é global mas presa a `.ind`, que só este ficheiro emite. */}
 <style is:global>
@@ -371,6 +423,19 @@ const dataFonte = dados.fonte.atualizado
     gap: 12px; flex-wrap: wrap;
   }
   .ind__titulo { font-size: var(--t-md); font-weight: 700; letter-spacing: 0; }
+
+  /* Discreta mas sempre presente: escondê-la até ao hover deixava quem navega
+     por toque sem forma de a descobrir. O alvo cumpre os 24×24 px do WCAG 2.2. */
+  .ind__ancora {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 24px; min-height: 24px; margin-left: 2px;
+    font-size: var(--t-xs); font-weight: 600;
+    color: var(--muted); opacity: 0.55; text-decoration: none;
+  }
+  .ind__ancora:hover, .ind__ancora:focus-visible {
+    opacity: 1; color: var(--accent-texto);
+  }
+  .ind__ancora-eco { font-size: var(--t-3xs); font-weight: 400; margin-left: 4px; }
   .ind__periodo { margin: 0; font-size: var(--t-2xs); color: var(--muted); white-space: nowrap; }
 
   .ind__leitura { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 10px; }

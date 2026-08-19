@@ -7,15 +7,18 @@
  *
  *   node scripts/gerar_og.mjs [url]
  *
- * Corre contra um `astro preview` já a servir. O resultado fica em og.png, na
- * raiz, e é versionado — como no csmRadar, para que a publicação não dependa de
- * um navegador estar instalado no servidor de integração.
+ * Corre contra um `astro preview` já a servir. O resultado fica em
+ * site/public/og.png, versionado — como no csmRadar, para que a publicação não
+ * dependa de um navegador estar instalado no servidor de integração. Em
+ * `public/`, o Astro copia-o para o build, e o mesmo ficheiro serve o
+ * desenvolvimento, o preview e a produção; na raiz do repositório só existia
+ * em produção, porque o workflow o copiava à mão.
  */
 import { chromium } from "playwright";
 import path from "node:path";
 
 const url = process.argv[2] ?? "http://127.0.0.1:4400/snsRadar/instituicoes/";
-const saida = path.resolve(process.cwd(), "..", "og.png");
+const saida = path.resolve(process.cwd(), "public", "og.png");
 
 const nav = await chromium.launch();
 // Tema escuro: a abertura é uma banda escura, e o cartão fica com o contraste

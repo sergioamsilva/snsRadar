@@ -9,11 +9,33 @@ import {
   enriquecimento,
   formatarMesPorExtenso,
   formatarData,
+  ligacao,
 } from "../lib/dados";
 import Icone from "../components/Icone.astro";
 
 const n = indice().length;
 const reforma = dadosReforma();
+
+/* O dumbbell da reforma: para cada taxa, dois pontos no mesmo eixo — a
+   variação das 32 transformadas e a das 7 que já eram ULS — ligados por um
+   traço. É a mesma informação da tabela, mas a pergunta «mexeram-se juntas ou
+   separaram-se?» responde-se com o comprimento do traço, sem ler números. As
+   contagens ficam de fora, como na tabela: variação de perímetro não é
+   desempenho. A cor segue o grupo (quem é quem), nunca o veredito. */
+const taxasReforma = reforma.por_indicador.filter((x) => !x.mecanico);
+const halteres = [...taxasReforma]
+  .sort((a, b) => Math.abs(b.diferenca) - Math.abs(a.diferenca))
+  .slice(0, 10);
+const valoresR = halteres.flatMap((x) => [x.variacao_transformadas, x.variacao_controlo]);
+let minR = Math.min(...valoresR, 0);
+let maxR = Math.max(...valoresR, 0);
+const folgaR = (maxR - minR) * 0.08 || 1;
+minR -= folgaR;
+maxR += folgaR;
+const posR = (v: number) => ((v - minR) / (maxR - minR)) * 100;
+const nfR = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 1 });
+const sinalR = (v: number) => `${v > 0 ? "+" : ""}${nfR.format(v)} %`;
+const sinalPp = (v: number) => `${v > 0 ? "+" : ""}${nfR.format(v)} pp`;
 const nac = nacional();
 const indicadores = Object.keys(nac).length;
 
@@ -201,46 +223,96 @@ const SECCOES = [
       indicadores. As maiores diferenças estão nas <strong>contagens</strong>, e
       não querem dizer o que parecem: os médicos das entidades transformadas
       sobem{" "}
-      {reforma.por_indicador.find((x) => x.indicador === "medicos")?.variacao_transformadas}{" "}
+      {nfR.format(reforma.por_indicador.find((x) => x.indicador === "medicos")?.variacao_transformadas ?? 0)}{" "}
       % contra{" "}
-      {reforma.por_indicador.find((x) => x.indicador === "medicos")?.variacao_controlo}{" "}
+      {nfR.format(reforma.por_indicador.find((x) => x.indicador === "medicos")?.variacao_controlo ?? 0)}{" "}
       % no controlo — não é contratação, é a ULS a passar a contar o pessoal dos
       centros de saúde que absorveu. Só as <strong>taxas</strong> admitem leitura
       de desempenho, porque nelas o numerador e o denominador crescem juntos.
     </p>
-    {/* Conteúdo largo rola dentro do seu próprio contentor: a página nunca
-        rola na horizontal, e a 390 px esta tabela transbordava 85 px. */}
-    <div
-      class="reforma-caixa"
-      tabindex="0"
-      role="region"
-      aria-label="Taxas com maior diferença entre entidades transformadas e grupo de controlo"
-    >
-    <table class="reforma">
-      <caption>
-        Taxas com maior diferença entre transformadas e controlo, doze meses
-        antes e depois de janeiro de 2024
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">Indicador</th>
-          <th scope="col" class="num">Transformadas</th>
-          <th scope="col" class="num">Controlo</th>
-          <th scope="col" class="num">Diferença</th>
-        </tr>
-      </thead>
-      <tbody>
-        {reforma.por_indicador.filter((x) => !x.mecanico).slice(0, 8).map((x) => (
-          <tr>
-            <td>{x.titulo}</td>
-            <td class="num">{x.variacao_transformadas > 0 ? "+" : ""}{x.variacao_transformadas} %</td>
-            <td class="num">{x.variacao_controlo > 0 ? "+" : ""}{x.variacao_controlo} %</td>
-            <td class="num"><strong>{x.diferenca > 0 ? "+" : ""}{x.diferenca} pp</strong></td>
-          </tr>
+    {/* O antes/depois como figura: dois pontos por taxa, um traço entre eles.
+        O comprimento do traço é a resposta — mexeram-se juntas ou não. */}
+    <figure class="halteres-fig" data-entrada>
+      <figcaption class="halteres-cap">
+        Variação de cada taxa, doze meses antes contra doze depois de janeiro
+        de 2024 — as dez com maior diferença entre os dois grupos
+      </figcaption>
+      <p class="halteres-legenda" aria-hidden="true">
+        <span class="hleg hleg--t">transformadas em ULS ({reforma.n_transformadas})</span>
+        <span class="hleg hleg--c">já eram ULS — controlo ({reforma.n_controlo})</span>
+      </p>
+      <ul class="halteres" aria-label="Variação por indicador, transformadas contra controlo">
+        {halteres.map((x) => (
+          <li class="haltere">
+            <span class="haltere__nome">{x.titulo}</span>
+            <span class="sr">
+              transformadas {sinalR(x.variacao_transformadas)}, controlo{" "}
+              {sinalR(x.variacao_controlo)}
+            </span>
+            <span class="haltere__pista" aria-hidden="true">
+              <span class="haltere__eixo" />
+              <span class="haltere__zero" style={`left:${posR(0).toFixed(2)}%`} />
+              <span
+                class="haltere__liga"
+                style={`left:${Math.min(posR(x.variacao_transformadas), posR(x.variacao_controlo)).toFixed(2)}%;width:${Math.abs(posR(x.variacao_transformadas) - posR(x.variacao_controlo)).toFixed(2)}%`}
+              />
+              <span
+                class="haltere__ponto haltere__ponto--t"
+                style={`left:${posR(x.variacao_transformadas).toFixed(2)}%`}
+                title={`Transformadas: ${sinalR(x.variacao_transformadas)}`}
+              />
+              <span
+                class="haltere__ponto haltere__ponto--c"
+                style={`left:${posR(x.variacao_controlo).toFixed(2)}%`}
+                title={`Controlo: ${sinalR(x.variacao_controlo)}`}
+              />
+            </span>
+            <span class="haltere__dif num">
+              <strong>{sinalPp(x.diferenca)}</strong>
+            </span>
+          </li>
         ))}
-      </tbody>
-    </table>
-    </div>
+      </ul>
+      <p class="halteres-eixo-rot" aria-hidden="true">
+        <span>← caiu</span><span>sem variação</span><span>subiu →</span>
+      </p>
+    </figure>
+
+    <details class="detalhe-reforma">
+      <summary>Ver os valores das {taxasReforma.length} taxas, em tabela</summary>
+      {/* Conteúdo largo rola dentro do seu próprio contentor: a página nunca
+          rola na horizontal, e a 390 px esta tabela transbordava 85 px. */}
+      <div
+        class="reforma-caixa"
+        tabindex="0"
+        role="region"
+        aria-label="Variação de cada taxa: entidades transformadas e grupo de controlo"
+      >
+      <table class="reforma">
+        <caption>
+          Variação de cada taxa, doze meses antes e depois de janeiro de 2024
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Indicador</th>
+            <th scope="col" class="num">Transformadas</th>
+            <th scope="col" class="num">Controlo</th>
+            <th scope="col" class="num">Diferença</th>
+          </tr>
+        </thead>
+        <tbody>
+          {taxasReforma.map((x) => (
+            <tr>
+              <td>{x.titulo}</td>
+              <td class="num">{sinalR(x.variacao_transformadas)}</td>
+              <td class="num">{sinalR(x.variacao_controlo)}</td>
+              <td class="num"><strong>{sinalPp(x.diferenca)}</strong></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+    </details>
     <p class="ressalva">
       <strong>Isto não prova que a reforma correu bem ou mal.</strong> São sete
       unidades de controlo, não houve aleatorização, e as que já eram ULS antes
@@ -451,9 +523,10 @@ const SECCOES = [
       fonte que se corrigiu, se fomos nós, ou se está a olhar para outra coisa.
     </p>
     <p>
-      O <a href={`${REPOSITORIO}/blob/main/CHANGELOG.md`}>registo de
-      alterações</a> guarda isso, incluindo as correções a números que chegaram
-      a estar publicados e o tempo em que estiveram.
+      O <a href={ligacao("/alteracoes/")}>registo de alterações</a> guarda
+      isso, incluindo as correções a números que chegaram a estar publicados e
+      o tempo em que estiveram — e tem <a href={ligacao("/alteracoes.xml")}>um
+      feed</a>, para quem citou um número ser avisado se ele mudar.
     </p>
 
     <h2 id="erros"><Icone nome="aviso" tamanho={21} />Erros</h2>
@@ -545,6 +618,65 @@ const SECCOES = [
      destaque porque é a coluna que responde à pergunta. */
   /* Focável pelo teclado porque rola: quem navega sem rato tem de conseguir
      chegar ao conteúdo que está fora do ecrã. */
+  /* ── o dumbbell da reforma ─────────────────────────────────────────────
+     Dois pontos por taxa no mesmo eixo, ligados por um traço. A cor diz quem
+     é quem (transformadas vs controlo), nunca melhor ou pior — a polaridade
+     varia de indicador para indicador e o texto ao lado é que julga. */
+  .halteres-fig { margin: 18px 0 8px; }
+  .halteres-cap { font-size: var(--t-2xs); color: var(--muted); margin-bottom: 10px; }
+  .halteres-legenda { display: flex; gap: 18px; flex-wrap: wrap; margin: 0 0 6px; font-size: var(--t-3xs); color: var(--muted); }
+  .hleg { display: inline-flex; align-items: center; gap: 6px; }
+  .hleg::before { content: ""; width: 9px; height: 9px; border-radius: 50%; }
+  .hleg--t::before { background: var(--accent); }
+  .hleg--c::before { background: var(--cat3); }
+  .halteres { list-style: none; margin: 0; padding: 0; }
+  .haltere {
+    display: grid; grid-template-columns: minmax(11rem, 16rem) 1fr 5.5rem;
+    gap: 14px; align-items: center; padding: 8px 0;
+    border-bottom: 1px solid var(--grid);
+  }
+  .haltere__nome { font-size: var(--t-xs); line-height: 1.3; }
+  .haltere__pista { position: relative; height: 18px; }
+  .haltere__eixo {
+    position: absolute; inset-inline: 0; top: 50%; height: 1px;
+    background: var(--grid);
+  }
+  .haltere__zero {
+    position: absolute; top: 1px; bottom: 1px; width: 1px;
+    background: var(--baseline);
+  }
+  .haltere__liga {
+    position: absolute; top: 50%; height: 3px; margin-top: -1.5px;
+    background: var(--ink-2); opacity: 0.45; border-radius: 2px;
+  }
+  .haltere__ponto {
+    position: absolute; top: 50%; width: 10px; height: 10px;
+    margin: -5px 0 0 -5px; border-radius: 50%;
+    /* Anel da cor da página: onde os dois pontos se pisam, continua a ver-se
+       que são dois. */
+    box-shadow: 0 0 0 2px var(--page);
+  }
+  .haltere__ponto--t { background: var(--accent); }
+  .haltere__ponto--c { background: var(--cat3); }
+  .haltere__dif { text-align: right; font-size: var(--t-xs); }
+  .halteres-eixo-rot {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin: 6px 0 0; font-size: var(--t-3xs); color: var(--muted);
+  }
+  @media (max-width: 34rem) {
+    .haltere { grid-template-columns: 1fr 4.5rem; }
+    .haltere__pista { grid-column: 1 / -1; grid-row: 2; }
+  }
+
+  .detalhe-reforma { margin: 14px 0 16px; }
+  /* Sem display:flex: o flex remove o triângulo do <summary>, e sem ele isto
+     lê-se como uma linha de texto morta, não como algo que abre. */
+  .detalhe-reforma summary {
+    cursor: pointer; font-size: var(--t-xs); color: var(--ink-2);
+    padding: 4px 0; min-height: 24px;
+  }
+  .detalhe-reforma summary:hover { color: var(--ink); }
+
   .reforma-caixa { overflow-x: auto; margin: 16px 0; }
   .reforma-caixa:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .reforma { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: var(--t-xs); }

@@ -24,6 +24,9 @@ const PAGINAS = [
   "/metodologia/",
   "/instituicao/uls-sao-joao/",
   "/grupo/c/",
+  "/grupo/",
+  "/comparar/",
+  "/alteracoes/",
 ];
 
 /* A goteira come ~6 % a 1600 px (3vw de cada lado). Abaixo de 90 % há mais do

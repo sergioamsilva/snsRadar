@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sergioamsilva.github.io/snsRadar/sitemap-index.xml

@@ -200,10 +200,12 @@ const totalComPop = pontos.filter((p) => p.pop !== null).length;
           href={ligacao(`/instituicao/${p.id}/`)}
           class={`mapa__ponto${aceso && !aceso.has(p.id) ? " mapa__ponto--apagado" : ""}`}
           data-ponto
-          data-busca={`${p.nome_curto} ${p.distrito} ${p.regiao}`.toLowerCase()}
+          data-busca={`${p.nome_curto} ${p.distrito} ${p.regiao} ${p.grupo_acss ?? ""}`.toLowerCase()}
           data-nome={p.nome_curto}
           data-distrito={p.distrito}
           data-regiao={p.regiao}
+          data-tipo={p.tipo}
+          data-grupo={p.grupo_acss ?? ""}
           data-pop={p.pop ?? ""}
           data-sem-medico={inscritos[p.id]?.percentagem_sem_medico ?? ""}
           data-indicadores={p.n_indicadores}
