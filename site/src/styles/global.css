@@ -400,7 +400,12 @@ input[type="search"] {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-2);
-  white-space: nowrap;
+  /* Pode quebrar quando não cabe: com `nowrap`, um título longo como «Onde
+     este grupo se afasta do país», em maiúsculas e com fonte larga (o DejaVu
+     do runner de CI), empurrava a página 21px para fora do ecrã a 390px. O
+     `min-width: 0` deixa o item de flex encolher abaixo do seu conteúdo. */
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 .sec-band .ln {
   flex: 1;
