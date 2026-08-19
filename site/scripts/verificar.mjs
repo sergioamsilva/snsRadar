@@ -8,7 +8,10 @@ import { chromium } from "playwright";
 import { AxeBuilder } from "@axe-core/playwright";
 
 const porta = process.argv[2] ?? "4321";
-const base = `http://localhost:${porta}`;
+// 127.0.0.1 e não localhost: no runner de CI, `localhost` resolve para IPv6
+// (::1) e o `verificar_larguras.mjs` pede IPv4 — ligar-se ao mesmo host nos
+// dois evita o ERR_CONNECTION_REFUSED que dependia da ordem de resolução.
+const base = `http://127.0.0.1:${porta}`;
 // Prefixo do portal — o mesmo `base` de astro.config.mjs. A raiz não entra
 // nesta lista: é o painel, um ficheiro estático fora do Astro, verificado por
 // `verificar_dashboard.mjs`.

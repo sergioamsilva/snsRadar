@@ -75,16 +75,20 @@ jobs:
       - name: Verificar acessibilidade, larguras e coerência
         working-directory: site
         run: |
-          npx astro preview --port 4321 &
+          # Ligar-se explicitamente a 127.0.0.1 (IPv4): por omissão o preview
+          # liga-se a `localhost`, que no runner resolve para IPv6 (::1), e os
+          # verificadores pedem 127.0.0.1 — sem isto, ERR_CONNECTION_REFUSED.
+          npx astro preview --port 4321 --host 127.0.0.1 &
+          servidor=$!
           for i in $(seq 1 30); do
-            curl -sf http://localhost:4321/snsRadar/instituicoes/ >/dev/null && break
+            curl -sf http://127.0.0.1:4321/snsRadar/instituicoes/ >/dev/null && break
             sleep 1
           done
           node scripts/verificar.mjs 4321
           node scripts/verificar_larguras.mjs 4321
           node scripts/verificar_coerencia.mjs
           node scripts/verificar_dashboard.mjs ../index.html
-          kill %1 || true
+          kill "$servidor" || true
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
