@@ -14,6 +14,7 @@ O raciocínio por trás de cada âncora está em reference/VALIDACAO-EXTERNA.md.
 from __future__ import annotations
 
 import collections
+import json
 import pathlib
 import sys
 
@@ -190,6 +191,123 @@ def teste_hospital_extremo(por_inst, cw) -> list[str]:
     return erros
 
 
+def teste_despesa_vs_conta() -> list[str]:
+    """Os gastos operacionais das entidades têm de caber na Conta do SNS.
+
+    Duas fontes que ninguém obriga a bater certo: os agregados
+    económico-financeiros somam a despesa operacional das entidades EPE; a
+    Conta do SNS publica a despesa corrente executada do sistema inteiro, em
+    milhões de euros. As entidades são a quase totalidade do sistema, mas não
+    o sistema todo (convenções, serviços centrais): o rácio observado é ~0,91,
+    e os limites apanham um erro de escala ou de des-acumulação sem falharem a
+    cada revisão da fonte.
+    """
+    con = duckdb.connect()
+    rel_a = (
+        f"read_csv('{DIR_BRUTO / 'agregados-economico-financeiros.csv.gz'}', "
+        "delim=';', header=true, quote='\"', escape='\"', sample_size=-1)"
+    )
+    rel_c = (
+        f"read_csv('{DIR_BRUTO / 'conta-do-servico-nacional-de-saude.csv.gz'}', "
+        "delim=';', header=true, quote='\"', escape='\"', sample_size=-1)"
+    )
+    erros = []
+    # Só de 2024 em diante: antes da reforma, os cuidados de saúde primários
+    # eram despesa das ARS e não apareciam nos agregados por entidade — em
+    # 2023 o rácio é 0,67, não por erro de tratamento mas por perímetro. A
+    # própria diferença 2023→2024 (+4,8 mil M€ nas entidades) é a reforma a
+    # aparecer nas contas.
+    for ano in ("2024",):
+        # Acumulados no ano: o valor de dezembro é o total anual.
+        gastos = con.execute(
+            f"select sum(gastos_operacionais) from {rel_a} where tempo = '{ano}-12'"
+        ).fetchone()[0]
+        conta = con.execute(
+            f"select execucao_acumulada_despesa_corrente from {rel_c} "
+            f"where tempo = '{ano}-12'"
+        ).fetchone()
+        if not gastos or not conta or not conta[0]:
+            erros.append(f"{ano}: sem dados numa das fontes")
+            continue
+        despesa_conta = conta[0] * 1e6  # a Conta publica em milhões
+        racio = gastos / despesa_conta
+        print(f"    {ano}: entidades {gastos / 1e9:.2f} mil M€ vs Conta "
+              f"{despesa_conta / 1e9:.2f} mil M€ de despesa corrente — {racio:.2f}")
+        if not 0.75 <= racio <= 1.00:
+            erros.append(
+                f"{ano}: os gastos das entidades são {racio:.2f} da despesa corrente "
+                "da Conta — fora do intervalo plausível de 0,75 a 1,00"
+            )
+    return erros
+
+
+def teste_certificados_de_obito(cw) -> list[str]:
+    """Os óbitos do internamento têm de caber nos certificados de óbito.
+
+    O SICO certifica todos os óbitos ocorridos em cada instituição; a
+    morbilidade hospitalar regista os do internamento. O rácio nacional
+    observado é ~0,65 — o resto morre na urgência ou fora do internamento.
+    E a comparação por entidade sustenta, com fonte independente, o que a
+    exclusão do SMR afirma: as unidades excluídas por registo de óbitos não
+    fiável na morbilidade continuam a certificar óbitos às centenas no SICO —
+    os óbitos existem; é o registo da morbilidade que falha.
+    """
+    con = duckdb.connect()
+    ano = "2025"
+    rel_m = (
+        f"read_csv('{DIR_BRUTO / 'morbilidade_mortalidade_hospit.csv.gz'}', "
+        "delim=';', header=true, quote='\"', escape='\"', sample_size=-1)"
+    )
+    rel_c = (
+        f"read_csv('{DIR_BRUTO / 'certificados-de-obito-por-instituicao-de-saude.csv.gz'}', "
+        "delim=';', header=true, quote='\"', escape='\"', sample_size=-1)"
+    )
+    obitos = con.execute(
+        f"select sum(obitos) from {rel_m} where cast(periodo as varchar) like '{ano}%'"
+    ).fetchone()[0]
+
+    linhas = con.execute(
+        f"select instituicao_de_saude, "
+        f"sum(mortalidade_mensal_por_instituicao_quantidade_1) from {rel_c} "
+        f"where cast(data_certificacao as varchar) like '{ano}%' group by 1"
+    ).fetchall()
+    por_ent: collections.Counter = collections.Counter()
+    for nome, n in linhas:
+        # O nome inteiro primeiro: nos IPO, o « - Cidade» é parte do nome e
+        # não o sufixo de subunidade que é em «ULS X, E.P.E. - Hospital Y».
+        inst = cw.resolver(nome) or cw.resolver(nome.split(" - ")[0].strip())
+        if inst:
+            por_ent[inst.id] += int(n)
+    certificados = sum(por_ent.values())
+
+    erros = []
+    racio = obitos / certificados if certificados else 0
+    print(f"    {ano}: {obitos:,} óbitos no internamento (morbilidade) vs "
+          f"{certificados:,} certificados de óbito (SICO) — {racio:.2f}")
+    if not 0.45 <= racio <= 0.90:
+        erros.append(
+            f"{ano}: o internamento daria {racio:.2f} dos certificados — fora do "
+            "intervalo plausível de 0,45 a 0,90"
+        )
+
+    sem_smr = json.loads(
+        (DIR_BRUTO.parent / "out" / "mortalidade-ajustada.json").read_text(encoding="utf-8")
+    ).get("instituicoes_sem_smr", {})
+    for inst_id in sem_smr:
+        certs = por_ent.get(inst_id, 0)
+        print(f"    sem SMR por registo não fiável: {inst_id} — "
+              f"{certs:,} certificados no SICO em {ano}")
+        # Os IPO certificam menos (os seus doentes morrem frequentemente
+        # noutras unidades ou em casa); a trava é para as ULS excluídas, cujo
+        # registo de morbilidade não pode alegar que não há óbitos.
+        if inst_id.startswith("uls-") and certs < 100:
+            erros.append(
+                f"{inst_id}: excluída do SMR por registo não fiável, mas o SICO "
+                f"só tem {certs} certificados — a exclusão pode estar errada"
+            )
+    return erros
+
+
 def main() -> int:
     cw = carregar()
     por_inst = _serie_partos(cw)
@@ -200,6 +318,9 @@ def main() -> int:
         ("partos e cesarianas vs ACSS e INE/ERS", lambda: teste_partos_nacionais(por_inst)),
         ("quota do SNS nos nascimentos do país", lambda: teste_quota_do_sns(por_inst)),
         ("hospital com a taxa mais alta vs ACSS", lambda: teste_hospital_extremo(por_inst, cw)),
+        ("despesa das entidades vs Conta do SNS", teste_despesa_vs_conta),
+        ("óbitos do internamento vs certificados SICO",
+         lambda: teste_certificados_de_obito(cw)),
     ]:
         erros = funcao()
         if erros:

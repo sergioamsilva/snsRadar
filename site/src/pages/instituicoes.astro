@@ -4,6 +4,7 @@ import { indice, enriquecimento, formatar, formatarMesPorExtenso, ligacao } from
 import Abertura from "../components/Abertura.astro";
 import Triagem from "../components/Triagem.astro";
 import Europa from "../components/Europa.astro";
+import EuropaMini from "../components/EuropaMini.astro";
 import Movimento from "../components/Movimento.astro";
 import Tese from "../components/Tese.astro";
 
@@ -56,6 +57,14 @@ const tipos = [...new Set(lista.map((i) => i.tipo))].sort();
   <Tese />
 
   <Europa />
+
+  {/* As outras réguas europeias, na forma neutra: distribuição e posição,
+      sem faixa nem juízo — a polaridade destas é discutível, e quem a tem é
+      a nota de cada uma. */}
+  <section class="eu-mais" aria-label="Outras comparações europeias">
+    <EuropaMini chave="mortalidade-evitavel" />
+    <EuropaMini chave="camas" />
+  </section>
 
   <section class="lista" id="achar">
     <div>
@@ -336,6 +345,12 @@ const tipos = [...new Set(lista.map((i) => i.tipo))].sort();
 </script>
 
 <style>
+  .eu-mais {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr));
+    gap: 20px clamp(28px, 4vw, 64px);
+    margin: 26px 0 8px; padding-top: 20px; border-top: 1px solid var(--grid);
+  }
+
   .lista { padding-top: 6px; scroll-margin-top: 62px; }
   .lista__intro {
     margin: 14px 0 22px;

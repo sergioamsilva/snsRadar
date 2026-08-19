@@ -160,26 +160,114 @@ def cesarianas(ano: str) -> dict | None:
     }
 
 
+def _indicador_simples(dataset: str, fatia: dict, meta: dict, ano: str) -> dict | None:
+    """Um indicador de tabela única: pede, fatia e devolve na forma comum."""
+    try:
+        resposta = _pedir(dataset, time=ano, geo=PAISES,
+                          **{k: v for k, v in fatia.items()})
+    except (urllib.error.URLError, TimeoutError, KeyError):
+        return None
+    valores = {p: v for p, v in _por_pais(resposta, fatia).items() if v is not None}
+    if "PT" not in valores or len(valores) < MINIMO_PAISES:
+        return None
+    nomes = resposta["dimension"]["geo"]["category"]["label"]
+    ordenado = sorted(valores.items(), key=lambda kv: -kv[1])
+    return {
+        **meta,
+        "ano": ano,
+        "paises": [
+            {"codigo": p, "nome": nomes.get(p, p), "valor": round(v, 1)}
+            for p, v in ordenado
+        ],
+    }
+
+
+def mortalidade_evitavel(ano: str) -> dict | None:
+    """Mortes evitáveis — tratáveis e preveníveis — padronizadas, por 100 mil.
+
+    É o indicador-resumo com que a OCDE e a Comissão comparam sistemas de
+    saúde: mortes antes dos 75 anos que cuidados atempados (tratáveis) ou
+    políticas de prevenção (preveníveis) teriam evitado. Padronizado por
+    idade — a única forma de comparar países que envelhecem a ritmos
+    diferentes.
+    """
+    return _indicador_simples(
+        "hlth_cd_apr",
+        {"mortalit": "TOTAL", "sex": "T", "icd10": "TOTAL", "unit": "RT"},
+        {
+            "indicador": "mortalidade-evitavel",
+            "unidade": "por_100000",
+            "titulo": "Mortalidade evitável, padronizada, por 100 mil habitantes",
+            "fonte": "Eurostat · hlth_cd_apr",
+            "url": "https://ec.europa.eu/eurostat/databrowser/view/hlth_cd_apr",
+            "nota": (
+                "Mortes antes dos 75 anos que cuidados atempados ou prevenção "
+                "teriam evitado, padronizadas por idade. É um retrato do país "
+                "inteiro — sistema de saúde, mas também tabaco, álcool, "
+                "estradas —, não dos hospitais do SNS isoladamente."
+            ),
+        },
+        ano,
+    )
+
+
+def camas(ano: str) -> dict | None:
+    """Camas de hospital por 100 mil habitantes."""
+    return _indicador_simples(
+        "hlth_rs_bds1",
+        {"facility": "HBEDT", "hlthcare": "TOTAL", "unit": "P_HTHAB"},
+        {
+            "indicador": "camas",
+            "unidade": "por_100000",
+            "titulo": "Camas de hospital por 100 mil habitantes",
+            "fonte": "Eurostat · hlth_rs_bds1",
+            "url": "https://ec.europa.eu/eurostat/databrowser/view/hlth_rs_bds1",
+            "nota": (
+                "Todas as camas hospitalares, públicas e privadas. Mais camas "
+                "não é, por si, melhor: países com cuidados domiciliários e "
+                "ambulatório fortes vivem com menos. É capacidade instalada, "
+                "não desempenho."
+            ),
+        },
+        ano,
+    )
+
+
 def main() -> int:
+    saida_json: dict[str, dict] = {}
+
     for ano in ANOS:
         resultado = cesarianas(ano)
         if resultado:
+            saida_json["cesarianas"] = resultado
             break
     else:
         print("Eurostat: sem ano com dados suficientes; contexto europeu não escrito")
         return 0
 
+    # Os restantes toleram falhar um a um: cada dot plot vive sem os outros.
+    for nome, funcao in (("mortalidade-evitavel", mortalidade_evitavel), ("camas", camas)):
+        for ano in ANOS:
+            resultado = funcao(ano)
+            if resultado:
+                saida_json[nome] = resultado
+                break
+        else:
+            print(f"Eurostat: {nome} sem ano com dados suficientes; fica de fora")
+
     saida = DIR_SAIDA / "europa.json"
     saida.write_text(
-        json.dumps({"cesarianas": resultado}, ensure_ascii=False, indent=2),
+        json.dumps(saida_json, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    pt = next(p for p in resultado["paises"] if p["codigo"] == "PT")
-    posicao = resultado["paises"].index(pt) + 1
-    print(
-        f"contexto europeu ({resultado['ano']}): {len(resultado['paises'])} países · "
-        f"Portugal {pt['valor']:.1f} %, {posicao}.º mais alto"
-    )
+    for chave, resultado in saida_json.items():
+        pt = next(p for p in resultado["paises"] if p["codigo"] == "PT")
+        posicao = resultado["paises"].index(pt) + 1
+        print(
+            f"contexto europeu · {chave} ({resultado['ano']}): "
+            f"{len(resultado['paises'])} países · Portugal {pt['valor']}, "
+            f"{posicao}.º mais alto"
+        )
     print(f"escrito em {saida.relative_to(DIR_SAIDA.parent.parent)}")
     return 0
 

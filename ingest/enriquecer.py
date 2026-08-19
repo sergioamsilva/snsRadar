@@ -202,6 +202,44 @@ def triagem_nacional(con, cw, meses: int = 12) -> dict:
     }
 
 
+def rncci_nacional(con) -> dict:
+    """Utentes a aguardar vaga na Rede de Cuidados Continuados, no último dia.
+
+    O dataset é diário, por região e tipologia de resposta. Não é um indicador
+    de instituição — a vaga é da Rede, não do hospital — e por isso entra como
+    contexto nacional: é a resposta à pergunta «e depois do hospital?», que
+    nenhuma ficha responde. Guarda-se o retrato do último dia publicado, não
+    uma média: quem espera, espera hoje.
+    """
+    caminho = DIR_BRUTO / "rncci-episodios.csv.gz"
+    if not caminho.exists():
+        return {}
+    rel = (
+        f"read_csv('{caminho}', delim=';', header=true, quote='\"', "
+        "escape='\"', sample_size=-1)"
+    )
+    ultimo = con.execute(f"select max(data) from {rel}").fetchone()[0]
+    linhas = con.execute(
+        f"select regiao, tipologia, sum(episodios) from {rel} "
+        f"where data = '{ultimo}' group by regiao, tipologia"
+    ).fetchall()
+    por_regiao: dict[str, int] = {}
+    por_tipologia: dict[str, int] = {}
+    for regiao, tipologia, n in linhas:
+        # A fonte grita os nomes das regiões; o resto do portal não.
+        r = str(regiao).title().replace(" E ", " e ").replace(" Do ", " do ")
+        por_regiao[r] = por_regiao.get(r, 0) + int(n)
+        por_tipologia[tipologia] = por_tipologia.get(tipologia, 0) + int(n)
+    return {
+        "data": str(ultimo)[:10],
+        "total": sum(por_regiao.values()),
+        "por_regiao": dict(sorted(por_regiao.items(), key=lambda x: -x[1])),
+        # Siglas da fonte (ULDM, UMDR, UC, ECCI…), tal como publicadas — o
+        # portal não lhes inventa nomes por extenso.
+        "por_tipologia": dict(sorted(por_tipologia.items(), key=lambda x: -x[1])),
+    }
+
+
 def doente_padrao_por_instituicao(cw, anos: int = 3) -> dict[str, dict]:
     """Produção ajustada à complexidade, por unidade, nos últimos anos.
 
@@ -471,6 +509,7 @@ def main() -> int:
     doente_padrao = doente_padrao_por_instituicao(cw)
     poupancas = poupancas_estimadas(cw)
     compras = compras_por_doente_padrao(contratos, doente_padrao)
+    rncci = rncci_nacional(con)
 
     # Taxas por mil habitantes, a partir das fichas já construídas.
     dir_inst = DIR_SAIDA / "instituicao"
@@ -508,6 +547,7 @@ def main() -> int:
                 "indice_seguranca": seguranca,
                 "poupancas_estimadas": poupancas,
                 "triagem_nacional": triagem,
+                "rncci": rncci,
             },
             ensure_ascii=False,
             indent=2,
@@ -520,6 +560,9 @@ def main() -> int:
     print(f"população: {len(inscritos)} unidades, "
           f"{sum(v['inscritos'] for v in inscritos.values()):,} utentes inscritos")
     print(f"taxas per capita: {len(per_capita)} unidades")
+    if rncci:
+        print(f"RNCCI em {rncci['data']}: {rncci['total']:,} utentes a aguardar "
+              f"vaga de cuidados continuados")
     if poupancas:
         tot = sum(v["poupanca_estimada"] for v in poupancas.values())
         ano = next(iter(poupancas.values()))["ano"]

@@ -97,13 +97,41 @@ cautela correspondente na ficha.
 
 ---
 
+## Despesa das entidades vs Conta do SNS (agosto de 2026)
+
+Duas fontes que ninguém obriga a bater certo: os agregados
+económico-financeiros somam a despesa operacional das entidades EPE; a Conta
+do SNS publica a despesa corrente executada do sistema inteiro, em milhões de
+euros. **Em 2024: 14,11 mil M€ nas entidades contra 15,47 mil M€ na Conta —
+rácio 0,91**, com a diferença a ser o que o SNS paga fora das EPE (convenções,
+serviços centrais). O teste `teste_despesa_vs_conta` trava o rácio entre 0,75
+e 1,00, só de 2024 em diante: em 2023 os cuidados primários eram despesa das
+ARS e o rácio é 0,67 por perímetro, não por erro (ver `reference/NOTAS.md`,
+§25 e §26).
+
+## Óbitos do internamento vs certificados SICO (agosto de 2026)
+
+O SICO certifica todos os óbitos ocorridos em cada instituição; a morbilidade
+regista os do internamento. **Em 2025: 46 216 óbitos no internamento contra
+73 010 certificados — rácio 0,63**, com o resto a morrer na urgência ou fora
+do internamento. E a comparação por entidade dá fonte independente à exclusão
+do SMR: as três ULS excluídas por registo de óbitos não fiável certificam
+998 a 2 609 óbitos no SICO em 2025 — os óbitos existem; é o registo da
+morbilidade que falha (`reference/NOTAS.md`, §27).
+
+---
+
 ## O que continua por validar
 
 - **Urgências e consultas hospitalares.** Não encontrámos série independente
   com o mesmo perímetro para confrontar os 5,68 milhões de atendimentos e os
   14,4 milhões de consultas.
-- **Dívida a fornecedores.** A Conta do Serviço Nacional de Saúde publica
-  agregados próximos e devia ser usada como âncora; ainda não foi feito.
+- **Dívida a fornecedores.** A fonte que parecia próxima não serve: a Conta do
+  SNS publica despesa e receita, **não publica dívida nem pagamentos em
+  atraso**. Confirmado nos 67 campos do dataset em agosto de 2026. A âncora
+  independente da dívida vencida continua por encontrar — os candidatos que
+  restam são os relatórios da DGO e o boletim da execução orçamental, ambos
+  PDF.
 - **Mortalidade por AVC e fraturas da anca.** São indicadores de qualidade sem
   ajuste ao risco; existem séries da OCDE (*Health at a Glance*) com
   metodologia diferente, que serviriam de ordem de grandeza mas não de

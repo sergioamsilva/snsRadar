@@ -189,7 +189,9 @@ def _dias_do_mes(mes: str) -> int:
     return calendar.monthrange(ano, m)[1]
 
 
-def desacumular(valores_por_mes: dict[str, float]) -> dict[str, float | None]:
+def desacumular(
+    valores_por_mes: dict[str, float], permite_negativo: bool = False
+) -> dict[str, float | None]:
     """Converte uma série acumulada no ano em fluxos mensais.
 
     A maioria dos datasets do portal publica o acumulado desde janeiro, não o
@@ -200,6 +202,12 @@ def desacumular(valores_por_mes: dict[str, float]) -> dict[str, float | None]:
     Devolve None no mês em que a diferença não é fiável — quando falta o mês
     anterior, ou quando a fonte reviu o acumulado em baixa e a diferença sairia
     negativa. Um valor em falta é preferível a um valor inventado.
+
+    `permite_negativo` existe para as grandezas contabilísticas: o EBITDA
+    acumulado desce legitimamente de um mês para o outro, e aí a diferença
+    negativa É o fluxo do mês, não uma revisão da fonte. Só o declara quem o é
+    (`pode_ser_negativa` no YAML); numa contagem, um delta negativo continua a
+    ser sinal de revisão e continua a sair None.
     """
     saida: dict[str, float | None] = {}
     por_ano: dict[str, list[str]] = defaultdict(list)
@@ -215,13 +223,59 @@ def desacumular(valores_por_mes: dict[str, float]) -> dict[str, float | None]:
                 saida[mes] = valores_por_mes[mes]
             elif anterior_mes is not None and int(anterior_mes[5:7]) == m - 1:
                 delta = valores_por_mes[mes] - valores_por_mes[anterior_mes]
-                saida[mes] = delta if delta >= 0 else None
+                saida[mes] = delta if (delta >= 0 or permite_negativo) else None
             else:
                 # Sem o mês imediatamente anterior não há forma honesta de
                 # isolar o fluxo deste mês a partir do acumulado.
                 saida[mes] = None
             anterior_mes = mes
     return saida
+
+
+def _ecos_pos_fusao(cw, bruto: dict[str, dict[str, float]]) -> set[tuple[str, str]]:
+    """Resíduos contabilísticos nos nomes antigos, depois da fusão.
+
+    Nos agregados económico-financeiros, a fonte lançou o fecho de contas de
+    2023 nos nomes antecessores — o CHU do Porto tem onze meses a zero e
+    36 M€ em dezembro — ao lado da série que já corria no nome novo. Depois
+    da última fusão a entidade é uma só: somar o resíduo ao sucessor
+    arriscaria dupla contagem, e descartá-lo é a opção conservadora. Só cai
+    o mês em que os dois rótulos têm atividade ao mesmo tempo, e fica
+    impresso.
+
+    Devolve os pares (nome, mês) a descartar. O rótulo que sobrevive é o de
+    série pós-fusão mais longa — o sucessor —, não o de valor maior.
+    """
+    por_ent: dict[str, list[str]] = defaultdict(list)
+    for nome in bruto:
+        inst = cw.resolver(nome)
+        if inst is not None and inst.data_ultima_fusao:
+            por_ent[inst.id].append(nome)
+
+    fora: set[tuple[str, str]] = set()
+    for inst_id, nomes in por_ent.items():
+        if len(nomes) < 2:
+            continue
+        fusao = cw.por_id(inst_id).data_ultima_fusao[:7]
+        pos = {
+            n: {m for m, v in bruto[n].items() if m >= fusao and v}
+            for n in nomes
+        }
+        # A decisão é mês a mês, entre os rótulos ativos NESSE mês: a entidade
+        # pode ter mudado de nome outra vez entretanto (CHU do Porto → CHU de
+        # Santo António → ULS), e um dominante global nunca se sobreporia ao
+        # eco de uma transição anterior.
+        meses_conflito = {
+            m for n in nomes for m in pos[n]
+            if sum(1 for outro in nomes if m in pos[outro]) >= 2
+        }
+        for mes in sorted(meses_conflito):
+            ativos = [n for n in nomes if mes in pos[n]]
+            fica = max(ativos, key=lambda n: len(pos[n]))
+            for n in ativos:
+                if n != fica:
+                    fora.add((n, mes))
+    return fora
 
 
 def _rotulos_duplicados(cw, bruto: dict[str, dict[str, float]]) -> set[str]:
@@ -369,6 +423,18 @@ def extrair_series(con, cw, indicadores, catalogo) -> dict:
             bruto_num.pop(nome, None)
             bruto_den.pop(nome, None)
 
+        ecos = _ecos_pos_fusao(cw, bruto_num)
+        for nome, mes in ecos:
+            bruto_num[nome].pop(mes, None)
+            bruto_den.get(nome, {}).pop(mes, None)
+        if ecos:
+            por_nome: dict[str, list[str]] = defaultdict(list)
+            for nome, mes in sorted(ecos):
+                por_nome[nome].append(mes)
+            for nome, meses_eco in por_nome.items():
+                print(f"  eco pós-fusão descartado: {ind['id']} · {nome} · "
+                      f"{', '.join(meses_eco)}")
+
         if ind.get("exigir_mes_completo"):
             for mes in _meses_incompletos(bruto_num, bruto_den if den_col else None):
                 for nome in bruto_num:
@@ -382,7 +448,7 @@ def extrair_series(con, cw, indicadores, catalogo) -> dict:
             nomes_fonte[(ind["id"], inst.id)].add(nome)
 
             vals_num = (
-                desacumular(bruto_num[nome])
+                desacumular(bruto_num[nome], ind.get("pode_ser_negativa", False))
                 if ind.get("acumulado_no_ano")
                 else bruto_num[nome]
             )
@@ -897,7 +963,8 @@ def escrever(cw, fichas, nacional, por_indicador, grupos):
                     k: por_indicador[iid].get(k)
                     for k in ("titulo", "grupo", "unidade", "polaridade",
                               "descricao", "cautela", "referencia", "evidencia",
-                              "pode_exceder_100", "maximo_plausivel")
+                              "pode_exceder_100", "pode_ser_negativa",
+                              "maximo_plausivel")
                 }}
                 for iid, dados in indicadores_inst.items()
             },

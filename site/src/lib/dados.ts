@@ -29,6 +29,8 @@ export type Indicador = {
   evidencia?: { citacao: string; url: string; nota?: string }[] | null;
   /** Percentagem que pode legitimamente passar dos 100 %. */
   pode_exceder_100?: boolean;
+  /** Grandeza contabilística cujo fluxo mensal desce legitimamente (EBITDA). */
+  pode_ser_negativa?: boolean;
   valor: number | null;
   numerador: number;
   denominador: number | null;
@@ -270,6 +272,13 @@ export const enriquecimento = (): {
         percentagem_sem_medico: number | null;
       }
     >;
+  };
+  /** Utentes a aguardar vaga na Rede de Cuidados Continuados, no último dia. */
+  rncci?: {
+    data: string;
+    total: number;
+    por_regiao: Record<string, number>;
+    por_tipologia: Record<string, number>;
   };
 } => ler("enriquecimento.json");
 

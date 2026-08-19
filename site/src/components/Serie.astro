@@ -70,12 +70,16 @@ if (pontos.length >= 2) {
   ];
   let min = Math.min(...candidatos);
   let max = Math.max(...candidatos);
+  const minDados = min;
   if (max === min) max = min + 1;
   const folga = (max - min) * 0.12;
   min -= folga;
   max += folga;
   if (unidade === "percentagem") {
-    min = Math.max(0, min);
+    // O recorte apara a folga, que anunciaria extremos impossíveis como
+    // −2 % — mas só quando os dados não têm negativos: a margem EBITDA
+    // vive abaixo de zero, e prendê-la a 0 escondia a série inteira.
+    if (minDados >= 0) min = Math.max(0, min);
     if (!podeExceder100) max = Math.min(100, max);
   }
   // Contagens e saldos leem-se a partir do zero: uma coluna cortada na base

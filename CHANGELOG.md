@@ -18,6 +18,51 @@ código que não mexem em valores ficam no histórico de commits, que neste proj
 
 ## 19 de agosto de 2026
 
+### Fontes novas
+
+Quatro datasets do Portal da Transparência entram no núcleo — **agregados
+económico-financeiros** (EBITDA, rendimentos e resultados por entidade),
+**Conta do SNS**, **certificados de óbito por instituição** (SICO) e **RNCCI**
+(utentes a aguardar vaga de cuidados continuados, diário).
+
+### Indicador novo: margem EBITDA
+
+O 53.º indicador, e o primeiro cujo fluxo mensal é legitimamente negativo — a
+des-acumulação e as escalas do portal tiveram de aprender a aceitá-lo. Diz se
+o que a instituição recebe para funcionar cobre o funcionamento; no SNS a
+margem negativa é a regra (mediana nacional ≈ −18 %), e a cautela manda
+comparar com os pares, não com o zero. O perímetro muda em 2024 com a reforma:
+comparações com anos anteriores comparam perímetros diferentes.
+
+### Verificações novas
+
+- **Despesa das entidades vs Conta do SNS**: em 2024, os gastos operacionais
+  das entidades EPE são 0,91 da despesa corrente da Conta — duas fontes que
+  ninguém obriga a bater certo, a baterem. Só de 2024 em diante: em 2023 os
+  cuidados primários eram despesa das ARS, e o rácio de 0,67 é perímetro, não
+  erro.
+- **Óbitos do internamento vs certificados SICO**: 0,63 a nível nacional em
+  2025 — e a prova independente de que as três ULS excluídas da mortalidade
+  ajustada por registo não fiável certificam 998 a 2 609 óbitos no SICO. Os
+  óbitos existem; é o registo da morbilidade que falha.
+- A Conta do SNS **não publica dívida**: a âncora independente da dívida
+  vencida continua por encontrar, e o
+  [`reference/VALIDACAO-EXTERNA.md`](reference/VALIDACAO-EXTERNA.md) passa a
+  dizer porquê.
+
+### Contexto europeu alargado
+
+Duas réguas novas ao lado das cesarianas, na forma neutra (distribuição e
+posição, sem faixa nem juízo): **mortalidade evitável** padronizada por
+100 mil (Portugal 17.º mais alto de 29, em 2023) e **camas de hospital** por
+100 mil habitantes (19.º de 28, em 2024).
+
+### Perguntas: e depois do hospital?
+
+Secção nova na página de perguntas com os utentes a aguardar vaga na Rede de
+Cuidados Continuados, por região, no último dia publicado — a vaga é da Rede,
+não do hospital, e por isso a resposta não é por unidade.
+
 ### Comparação direta entre duas unidades
 
 Página nova, `/comparar/`: duas unidades à escolha, lado a lado, indicador a
@@ -61,6 +106,14 @@ permanente em cada cartão de indicador.
 
 ### Correções
 
+- **Ecos pós-fusão deixam de contar.** Quando a fonte lança valores residuais
+  nos nomes antigos depois de uma fusão — o fecho de contas de 2023 do CHU do
+  Porto ao lado da série da ULS de Santo António —, o mês em conflito passa a
+  ficar só com o rótulo sucessor, com aviso impresso no pipeline. Muda dois
+  números publicados da ULS de Santo António: o prazo médio de pagamento de
+  março de 2023 (era a média com dois resíduos, 193 e 8 dias) e a margem
+  EBITDA de dezembro de 2023, que sem o eco não soma 39,6 M€ de rendimentos
+  duplicados.
 - **População e mortalidade ajustada voltaram a acompanhar o pipeline.** Os
   ficheiros `populacao.json` e `mortalidade-ajustada.json` só eram reescritos
   quando corridos à mão, e estavam parados desde 2 de agosto enquanto o resto

@@ -18,6 +18,11 @@
 #   referencia   valor externo de comparação, com fonte
 #   cautela      texto obrigatório sempre que a comparação entre instituições
 #                puder induzir em erro. Aparece junto ao número no site.
+#   pode_ser_negativa
+#                grandezas contabilísticas cujo fluxo mensal desce
+#                legitimamente (EBITDA): a des-acumulação aceita deltas
+#                negativos em vez de os tratar como revisão da fonte, e as
+#                réguas do site deixam de prender a escala a zero.
 
 - id: lic-dentro-tmrg
   titulo: Doentes em lista de espera cirúrgica dentro do tempo máximo garantido
@@ -1085,3 +1090,39 @@
     clássico dos programas de uso responsável de antibióticos.
   cautela: >-
     Ver o consumo total de antibióticos.
+
+# ---------------------------------------------------------------------------
+# Margem EBITDA — o único indicador em que o «zero» é uma fronteira com
+# significado: acima, os rendimentos operacionais cobrem o funcionamento;
+# abaixo, não cobrem. Vem dos agregados económico-financeiros da ACSS
+# (acumulados no ano, como quase tudo no portal), e é o primeiro indicador
+# do snsRadar cujo fluxo mensal pode ser legitimamente negativo.
+
+- id: margem-ebitda
+  titulo: Margem EBITDA
+  grupo: dinheiro
+  dataset: agregados-economico-financeiros
+  coluna_entidade: entidade
+  numerador: ebitda
+  denominador: rendimentos_operacionais
+  acumulado_no_ano: true
+  denominador_acumulado_no_ano: true
+  pode_ser_negativa: true
+  unidade: percentagem
+  polaridade: subir_e_bom
+  referencia:
+    valor: 0
+    marca: zero
+    rotulo: equilíbrio operacional
+    fonte: fronteira contabilística, não uma meta
+  descricao: >-
+    O resultado antes de juros, impostos, depreciações e amortizações, em
+    percentagem dos rendimentos operacionais. Diz se o que a instituição
+    recebe para funcionar — sobretudo o contrato-programa — chega para pagar
+    o funcionamento. Abaixo de zero, cada mês de atividade aumenta o défice.
+  cautela: >-
+    Compara financiamento com custos, não cuidado com cuidado. Uma margem
+    pior pode ser subfinanciamento do contrato-programa, doentes mais
+    complexos do que o contratado, ou ineficiência — e estas contas não
+    distinguem os três. No SNS a margem negativa é a regra, não a exceção:
+    a comparação útil é com os pares, não com o zero.

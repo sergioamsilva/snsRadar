@@ -218,10 +218,16 @@ const svgEl = (t, a = {}) => {
 
 function escala(vals, unidade, folgaBaixo = true) {
   let lo = Math.min(...vals), hi = Math.max(...vals);
+  const loDados = lo;
   if (hi === lo) { hi = lo + Math.abs(lo || 1) * 0.1; }
   const f = (hi - lo) * 0.1;
   lo = folgaBaixo ? lo - f : lo; hi += f;
-  if (unidade === "percentagem") { lo = Math.max(0, lo); hi = Math.min(100, hi); }
+  // O recorte apara a folga; com dados negativos (margem EBITDA) não se
+  // aplica, senão a escala escondia a série. Igual a Serie.astro.
+  if (unidade === "percentagem") {
+    if (loDados >= 0) lo = Math.max(0, lo);
+    hi = Math.min(100, hi);
+  }
   return [lo, hi];
 }
 

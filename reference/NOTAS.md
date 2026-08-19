@@ -544,3 +544,71 @@ várias vezes. Fica só a dos gastos operacionais, que é o total.
 poupanças. O doente padrão mensal continua a ser publicado para as 43 unidades
 em 2024, 2025 e 2026 — é por isso que os contratos por doente padrão cobrem o
 sistema inteiro e as poupanças estimadas não.
+
+## 25. Os agregados económico-financeiros e a margem EBITDA
+
+O dataset `agregados-economico-financeiros` publica EBITDA, gastos,
+rendimentos e resultados por entidade, mensais e **acumulados no ano** — como
+quase tudo no portal, e igualmente sem o dizer nos metadados. Confirmado na
+ULS de Coimbra em 2025: os rendimentos crescem de 76 M€ em janeiro para
+896 M€ em dezembro, linearmente.
+
+Três coisas que o tratamento teve de aprender:
+
+- **O fluxo mensal de EBITDA pode ser negativo**, e é-o na maior parte dos
+  meses da maior parte das ULS. A regra geral da des-acumulação — delta
+  negativo é revisão da fonte, sai `None` — destruiria a série. O campo
+  `pode_ser_negativa` do YAML existe por isto, e só o EBITDA o usa.
+- **O perímetro muda em 2024.** Antes da reforma, os cuidados de saúde
+  primários eram despesa das ARS e não apareciam nos agregados por entidade;
+  a soma das entidades salta 4,8 mil M€ de 2023 para 2024, e não é despesa
+  nova — é a reforma a aparecer nas contas. Comparações com anos anteriores
+  a 2024 comparam perímetros diferentes.
+- **Publica-se a margem (EBITDA ÷ rendimentos), não o valor absoluto**: em
+  euros, o indicador diria sobretudo a dimensão da unidade. No SNS a margem
+  negativa é a regra — a mediana nacional ronda os −18 % — e por isso a
+  comparação útil é com os pares, não com o zero.
+
+Três rótulos do dataset são organismos sem atividade assistencial (ICAD,
+INEM, DE-SNS) e ficam fora pela via normal das entidades não prestadoras.
+
+## 26. A Conta do SNS ancora a despesa — e não publica a dívida
+
+A `conta-do-servico-nacional-de-saude` publica 67 séries mensais de orçamento
+e execução, **em milhões de euros** (também sem o declarar: 15 468 no campo da
+despesa corrente de 2024 só faz sentido como 15,5 mil M€). Serve de âncora
+externa aos agregados por entidade: em 2024, os gastos operacionais das
+entidades são 0,91 da despesa corrente da Conta — o resto é o que o SNS paga
+fora das EPE (convenções, serviços centrais). O teste de validação externa
+trava este rácio entre 0,75 e 1,00, só de 2024 em diante (ver §25).
+
+O que a Conta **não** tem: dívida, pagamentos em atraso ou qualquer outro
+stock de passivo. A pendência antiga de ancorar a dívida vencida a uma fonte
+independente continua por resolver — e fica agora escrito porquê: a fonte que
+parecia próxima não publica o número.
+
+## 27. Certificados de óbito: a prova independente das exclusões do SMR
+
+O SICO certifica todos os óbitos ocorridos em cada instituição; a morbilidade
+hospitalar regista os do internamento. Em 2025, o internamento é 0,63 dos
+certificados a nível nacional — o resto morre na urgência ou fora do
+internamento. O dataset vem por subunidade («ULS X, E.P.E. - Hospital Y»),
+agregável à entidade-mãe pelo prefixo — exceto nos IPO, onde o « - Cidade» é
+parte do nome e o rótulo inteiro resolve diretamente no crosswalk.
+
+O que isto compra: as três ULS excluídas do SMR por registo de óbitos não
+fiável na morbilidade (Baixo Alentejo, Loures-Odivelas, São José) certificam
+998, 1 317 e 2 609 óbitos no SICO em 2025. **Os óbitos existem; é o registo
+da morbilidade que falha.** A exclusão deixou de ser uma inferência interna e
+passou a ter fonte independente. O IPO de Coimbra certifica menos (336) — os
+seus doentes morrem frequentemente noutras unidades ou em casa —, pelo que a
+trava do teste aplica-se só às ULS.
+
+## 28. O RNCCI é diário, e a fila começa depois da alta
+
+`rncci-episodios` publica, dia a dia, os utentes a aguardar vaga na Rede de
+Cuidados Continuados, por região e tipologia (ULDM, UMDR, UC, ECCI…, siglas
+da fonte que o portal não expande por conta própria). Não é indicador de
+instituição — a vaga é da Rede — e entra como contexto nacional na página de
+perguntas. Quem aguarda já foi referenciado pela equipa de gestão de altas:
+a fila mede-se depois de o hospital dizer que a pessoa precisa.

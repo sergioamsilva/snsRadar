@@ -1,0 +1,169 @@
+---
+/**
+ * Um dot plot europeu compacto: um eixo, um ponto por país, Portugal marcado.
+ *
+ * O irmão pequeno do Europa.astro. Aquele é uma peça editorial sobre as
+ * cesarianas e a faixa da OMS; este é a forma neutra, para os indicadores em
+ * que o que há para dizer é só «eis a distribuição, e Portugal está aqui».
+ * Sem juízo de melhor ou pior no desenho: a polaridade destes indicadores é
+ * discutível (mais camas não é melhor nem pior por si), e quem a tem é o
+ * texto da nota, não a cor.
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props {
+  /** Chave em data/out/europa.json (ex.: «mortalidade-evitavel»). */
+  chave: string;
+}
+const { chave } = Astro.props;
+
+const CAMINHO = path.resolve(process.cwd(), "..", "data", "out", "europa.json");
+const dados = fs.existsSync(CAMINHO)
+  ? JSON.parse(fs.readFileSync(CAMINHO, "utf-8"))[chave]
+  : null;
+
+const paises: { codigo: string; nome: string; valor: number }[] = dados?.paises ?? [];
+const valores = paises.map((p) => p.valor);
+const amplitude = Math.max(...valores) - Math.min(...valores) || 1;
+const lo = Math.min(...valores) - amplitude * 0.04;
+const hi = Math.max(...valores) + amplitude * 0.04;
+const x = (v: number) => ((v - lo) / (hi - lo)) * 100;
+
+const pt = paises.find((p) => p.codigo === "PT");
+const posicao = pt ? paises.indexOf(pt) + 1 : null;
+const maior = paises[0];
+const menor = paises[paises.length - 1];
+
+const PT_NOME: Record<string, string> = {
+  Germany: "Alemanha",
+  Bulgaria: "Bulgária",
+  Latvia: "Letónia",
+  Lithuania: "Lituânia",
+  Romania: "Roménia",
+  Hungary: "Hungria",
+  Iceland: "Islândia",
+  Ireland: "Irlanda",
+  Norway: "Noruega",
+  Sweden: "Suécia",
+  Switzerland: "Suíça",
+  Netherlands: "Países Baixos",
+  Luxembourg: "Luxemburgo",
+  Denmark: "Dinamarca",
+  Finland: "Finlândia",
+  Greece: "Grécia",
+  Cyprus: "Chipre",
+  Portugal: "Portugal",
+};
+const nomePt = (n: string) => PT_NOME[n] ?? n;
+
+const nf = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 1 });
+const valorTexto = (v: number) =>
+  dados?.unidade === "por_100000" ? `${nf.format(v)}` : nf.format(v);
+---
+
+{
+  dados && pt && (
+    <figure class="eum">
+      <figcaption class="eum__titulo">
+        {dados.titulo} <span class="eum__ano num">({dados.ano})</span>
+      </figcaption>
+      <div class="eum__fig">
+        <svg
+          viewBox="0 0 100 12"
+          preserveAspectRatio="none"
+          class="eum__svg"
+          role="img"
+          aria-label={
+            `${dados.titulo}, ${paises.length} países europeus em ${dados.ano}: ` +
+            `de ${valorTexto(menor.valor)} (${nomePt(menor.nome)}) a ` +
+            `${valorTexto(maior.valor)} (${nomePt(maior.nome)}). ` +
+            `Portugal: ${valorTexto(pt.valor)}, o ${posicao}.º mais alto.`
+          }
+        >
+          <line x1="0" x2="100" y1="6" y2="6" class="eum__eixo" vector-effect="non-scaling-stroke" />
+          {paises.map((p) => (
+            <circle
+              cx={x(p.valor)}
+              cy="6"
+              r={p.codigo === "PT" ? 1.15 : 0.62}
+              class={p.codigo === "PT" ? "eum__pt" : "eum__pais"}
+            />
+          ))}
+        </svg>
+        <div class="eum__rotulos" aria-hidden="true">
+          <span class="eum__rot eum__rot--menor" style={`left:${x(menor.valor)}%`}>
+            {nomePt(menor.nome)} <span class="num">{valorTexto(menor.valor)}</span>
+          </span>
+          <span class="eum__rot eum__rot--pt" style={`left:${x(pt.valor)}%`}>
+            Portugal <span class="num">{valorTexto(pt.valor)}</span>
+          </span>
+          <span class="eum__rot eum__rot--maior" style={`left:${x(maior.valor)}%`}>
+            {nomePt(maior.nome)} <span class="num">{valorTexto(maior.valor)}</span>
+          </span>
+        </div>
+      </div>
+      <p class="eum__leitura">
+        Portugal é o <strong class="num">{posicao}.º mais alto</strong> de{" "}
+        {paises.length} países. {dados.nota}
+      </p>
+      <details class="eum__lista">
+        <summary>Os {paises.length} países</summary>
+        <table>
+          <thead>
+            <tr><th>País</th><th class="dir">Valor</th></tr>
+          </thead>
+          <tbody>
+            {paises.map((p) => (
+              <tr class={p.codigo === "PT" ? "eum__linha-pt" : undefined}>
+                <td>{nomePt(p.nome)}</td>
+                <td class="dir num">{valorTexto(p.valor)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="eum__fonte">
+          Fonte: <a href={dados.url} target="_blank" rel="noopener">{dados.fonte}</a>.
+        </p>
+      </details>
+    </figure>
+  )
+}
+
+<style>
+  .eum { margin: 0; min-width: 0; }
+  .eum__titulo {
+    font-size: var(--t-xs); font-weight: 700; color: var(--ink);
+  }
+  .eum__ano { font-weight: 400; color: var(--muted); }
+  .eum__fig { position: relative; margin-top: 12px; }
+  .eum__svg { width: 100%; height: 34px; display: block; overflow: visible; }
+  .eum__eixo { stroke: var(--baseline); stroke-width: 1; }
+  .eum__pais {
+    fill: var(--ink-2); fill-opacity: 0.55;
+    stroke: var(--page); stroke-width: 0.6;
+  }
+  .eum__pt { fill: var(--accent); stroke: var(--page); stroke-width: 0.8; }
+  .eum__rotulos { position: relative; height: 34px; }
+  .eum__rot {
+    position: absolute; top: 2px;
+    font-size: var(--t-3xs); color: var(--muted); white-space: nowrap;
+  }
+  .eum__rot .num { font-weight: 650; }
+  .eum__rot--menor { transform: none; }
+  .eum__rot--maior { right: 0; left: auto !important; }
+  .eum__rot--pt {
+    top: 18px; transform: translateX(-50%);
+    color: var(--ink); font-weight: 700;
+  }
+  .eum__leitura {
+    margin: 4px 0 0; font-size: var(--t-2xs); color: var(--muted);
+  }
+  .eum__leitura strong { color: var(--ink); }
+  .eum__lista { margin: 8px 0 0; font-size: var(--t-2xs); }
+  .eum__lista summary { cursor: pointer; color: var(--ink-2); padding: 4px 0; min-height: 24px; }
+  .eum__lista table { margin-top: 6px; max-width: 26rem; }
+  .eum__lista .dir { text-align: right; }
+  .eum__linha-pt { font-weight: 700; }
+  .eum__fonte { margin: 8px 0 0; color: var(--muted); }
+</style>

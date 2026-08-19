@@ -106,6 +106,7 @@ const candidatos = [
 ];
 let lo = Math.min(...candidatos);
 let hi = Math.max(...candidatos);
+const loDados = lo;
 if (hi === lo) hi = lo + 1;
 const folga = (hi - lo) * 0.08;
 lo -= folga;
@@ -113,8 +114,10 @@ hi += folga;
 if (dados.unidade === "percentagem") {
   // A folga tem de ser aparada depois de aplicada: caso contrário a régua
   // anuncia extremos impossíveis, como 103 %. A ocupação é a exceção — pode
-  // passar dos 100 % com camas abertas além da lotação.
-  lo = Math.max(0, lo);
+  // passar dos 100 % com camas abertas além da lotação. E a margem EBITDA é
+  // a exceção do outro lado: vive abaixo de zero, e o recorte só se aplica
+  // quando os dados não têm negativos.
+  if (loDados >= 0) lo = Math.max(0, lo);
   if (!dados.pode_exceder_100) hi = Math.min(100, hi);
 }
 /* Preso ao intervalo: um marcador fora da régua empurraria a página para fora
@@ -254,7 +257,10 @@ const dataFonte = dados.fonte.atualizado
         )}
         {dados.referencia && (
           <div class="escala__ref" style={`left:${pos(dados.referencia.valor)}%`}>
-            <span class="escala__rotulo">OMS</span>
+            {/* O rótulo curto vem da referência quando ela o traz («zero», na
+                margem EBITDA); «OMS» era a única referência que existia
+                quando isto se escreveu, e fica como o valor por omissão. */}
+            <span class="escala__rotulo">{(dados.referencia as any).marca ?? "OMS"}</span>
           </div>
         )}
         {/* A posição vai numa variável, não em `left` direto: assim o CSS pode

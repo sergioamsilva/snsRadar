@@ -61,8 +61,17 @@ NUCLEO = [
     "tempo-medio-de-pagamento-das-instituicoes-do-sns-a-fornecedores",
     "percentagem-de-gastos-com-te-e-suplementos-no-total-gastos-com-pessoal",
     "portal-base",
+    # EBITDA, rendimentos e resultados por entidade, mensais e acumulados no
+    # ano — alimenta a margem EBITDA e a verificação contra a Conta do SNS.
+    "agregados-economico-financeiros",
     # Contexto nacional (não é ao nível da instituição, mas é a manchete cívica)
     "utentes-inscritos-em-cuidados-de-saude-primarios",
+    # Âncoras e contexto: a Conta valida a despesa do sistema; os certificados
+    # de óbito validam a completude dos óbitos da morbilidade; o RNCCI diz
+    # quantos aguardam vaga de cuidados continuados, dia a dia.
+    "conta-do-servico-nacional-de-saude",
+    "certificados-de-obito-por-instituicao-de-saude",
+    "rncci-episodios",
 ]
 
 

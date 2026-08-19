@@ -16,6 +16,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "ingest"
 import duckdb  # noqa: E402
 import yaml  # noqa: E402
 
+from build import _ecos_pos_fusao  # noqa: E402
 from common import DIR_BRUTO, DIR_REFERENCIA  # noqa: E402
 from instituicoes import carregar  # noqa: E402
 
@@ -145,8 +146,37 @@ def teste_sem_sobreposicao(con, cw) -> list[str]:
                 # O build descarta o duplicado (ver build.py::_rotulos_duplicados);
                 # aqui basta reconhecer que não há dupla contagem por resolver.
                 continue
+            if _eco_resolvido(con, dataset_id, col, tempo, metricas, cw, nomes, periodo):
+                # Resíduo contabilístico num nome antigo depois da fusão — o
+                # fecho de contas de 2023 do CHU do Porto ao lado da série da
+                # ULS de Santo António. O build descarta o mês do eco
+                # (build.py::_ecos_pos_fusao); chama-se aqui a MESMA função,
+                # e não uma reimplementação, para que o teste não possa
+                # concordar com uma regra que o build não aplica.
+                continue
             erros.append(f"{dataset_id} | {inst_id} | {periodo}: {sorted(nomes)}")
     return erros
+
+
+def _eco_resolvido(con, dataset_id, col, tempo, metricas, cw, nomes, periodo) -> bool:
+    """True se build._ecos_pos_fusao descarta este conflito por inteiro."""
+    if not metricas:
+        return False
+    bruto: dict[str, dict[str, float]] = {}
+    for nome in nomes:
+        soma = " + ".join(f"coalesce(try_cast({m} as double), 0)" for m in metricas)
+        bruto[nome] = {
+            str(p)[:7]: v or 0
+            for p, v in con.execute(
+                f"select {tempo}, sum({soma}) from {_rel(dataset_id)} "
+                f"where {col} = ? group by 1", [nome]
+            ).fetchall()
+        }
+    ecos = _ecos_pos_fusao(cw, bruto)
+    mes = periodo[:7]
+    com_atividade = [n for n in nomes if bruto[n].get(mes)]
+    resolvidos = {n for n, m in ecos if m == mes}
+    return len(com_atividade) - len(resolvidos & set(com_atividade)) <= 1
 
 
 def _valores_identicos(con, dataset_id, col, tempo, metricas, nomes, periodo) -> bool:

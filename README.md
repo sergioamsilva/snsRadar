@@ -23,8 +23,8 @@ pensam **por instituição**.
 Ninguém quer o dataset `partos-e-cesarianas`. As pessoas querem saber se a
 maternidade onde vão ter um filho tem uma taxa de cesarianas de 22% ou de 45%.
 
-O snsRadar constrói **uma página por instituição**, reunindo 52 indicadores hoje
-dispersos por 22 conjuntos de dados e por um painel da ACSS sem API, cada número
+O snsRadar constrói **uma página por instituição**, reunindo 53 indicadores hoje
+dispersos por 23 conjuntos de dados e por um painel da ACSS sem API, cada número
 com o seu denominador, a sua data, a sua fonte, e a sua comparação com o país e
 com as unidades que lhe são semelhantes.
 
@@ -36,7 +36,7 @@ públicos.
 Fases 0 e 1 concluídas e verificadas.
 
 - 44 entidades canónicas, 122 chaves de nome resolvidas
-- 43 fichas de instituição, 52 indicadores, 55 páginas estáticas + dados de cada ficha em JSON e CSV
+- 43 fichas de instituição, 53 indicadores, 55 páginas estáticas + dados de cada ficha em JSON e CSV
 - as 43 instituições com série contínua de 2013 a 2026 **atravessando a reforma
   ULS de 2024**, que parte todas as séries na fonte
 - 16 verificações de integridade, todas a passar — incluindo o confronto do

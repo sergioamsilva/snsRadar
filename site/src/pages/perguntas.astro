@@ -11,7 +11,7 @@
  * lhe ficam perto.
  */
 import Base from "../layouts/Base.astro";
-import { indice, ficha, nacional, formatar, ligacao } from "../lib/dados";
+import { indice, ficha, nacional, enriquecimento, formatar, formatarData, ligacao } from "../lib/dados";
 import Movimento from "../components/Movimento.astro";
 import Icone from "../components/Icone.astro";
 
@@ -121,6 +121,11 @@ const polaridades = Object.fromEntries(
   PERGUNTAS.map((q) => [q.id, nac[q.indicador]?.polaridade ?? "neutro"]),
 );
 
+/* Cuidados continuados: outra pergunta que não é de nenhum hospital — a vaga
+   é da Rede, não da unidade — e por isso responde-se por região, com o
+   retrato do último dia publicado. */
+const rncci = enriquecimento().rncci ?? null;
+
 /* Sem médico de família: a pergunta que não depende de escolher hospital. */
 const semMdfNacional = todas.reduce(
   (acc, f) => {
@@ -162,6 +167,7 @@ const semMdfNacional = todas.reduce(
       <ul>
         {PERGUNTAS.map((q) => <li><a href={`#${q.id}`}>{q.atalho}</a></li>)}
         <li><a href="#medico-de-familia">Médico de família</a></li>
+        {rncci && <li><a href="#cuidados-continuados">Cuidados continuados</a></li>}
       </ul>
     </nav>
 
@@ -286,6 +292,39 @@ const semMdfNacional = todas.reduce(
         atribuído, e o SNS 24 continua disponível.
       </p>
     </section>
+
+    {rncci && (
+      <section class="q" id="cuidados-continuados">
+        <h2><Icone nome="pessoa" tamanho={22} />E depois do hospital? Cuidados continuados.</h2>
+        <p class="q__explica">
+          Em <span class="num">{formatarData(rncci.data)}</span>,{" "}
+          <strong class="num">{new Intl.NumberFormat("pt-PT").format(rncci.total)}</strong>{" "}
+          pessoas aguardavam vaga na Rede Nacional de Cuidados Continuados
+          Integrados — internamento de convalescença ou de longa duração, e
+          equipas domiciliárias, para quem tem alta do hospital mas ainda
+          precisa de cuidados. A vaga é da Rede, não do hospital: por isso esta
+          resposta é por região, não por unidade.
+        </p>
+        <div class="q__resposta">
+          <ul class="rs">
+            {Object.entries(rncci.por_regiao).map(([regiao, n]) => (
+              <li class="r">
+                <span class="r__nome">{regiao}</span>
+                <span class="r__valor num">{new Intl.NumberFormat("pt-PT").format(n)}</span>
+                <span class="r__nota">a aguardar vaga</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p class="q__cautela">
+          É o retrato de um dia, atualizado diariamente pela fonte — não uma
+          média. Quem aguarda já foi referenciado pela equipa de gestão de
+          altas: a fila começa depois de o hospital dizer que a pessoa precisa.
+          As tipologias (convalescença, média e longa duração, equipas
+          domiciliárias) têm filas muito diferentes entre si.
+        </p>
+      </section>
+    )}
   </div>
 
   <script>
